@@ -172,22 +172,23 @@
   letter-spacing: 8px; /* Reduced letter spacing */
   margin: 0;
   text-transform: uppercase;
-  text-align: left; /* Left aligned to match subtitleBottomLeft */
+  text-align: left; /* Left aligned to match subtitleBottomLeft */  /* Fallback color using design tokens */
+  color: var(--colors-primary-600); /* Purple accent from tokens - stronger color */
   
-  /* Fallback color using design tokens */
-  color: var(--colors-primary-500); /* Purple accent from tokens */
-  
-  /* Improved gradient to match website's lavender theme */
+  /* Improved gradient text effect with proper fallback */
   background: linear-gradient(135deg, 
-    rgba(147, 51, 234, 0.3) 0%,      /* Soft purple start */
-    rgba(126, 34, 206, 0.4) 25%,     /* Medium purple */
-    rgba(107, 33, 168, 0.5) 50%,     /* Deeper purple */
-    rgba(88, 28, 135, 0.6) 75%,      /* Dark purple */
-    rgba(59, 7, 100, 0.7) 100%       /* Deep purple end */
+    #9333ea 0%,      /* Solid purple start */
+    #7e22ce 25%,     /* Deep purple */
+    #6b21a8 50%,     /* Deeper purple */
+    #581c87 75%,     /* Dark purple */
+    #3b0764 100%     /* Ultra dark purple end */
   );
-  background-clip: text;
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  
+  /* Fallback for browsers that don't support background-clip: text */
+  color: var(--colors-primary-600);
   
   /* Ensure text is always visible */
   visibility: visible;
@@ -205,17 +206,19 @@
   transform: translate(-50%, -50%); /* Perfect centering */
   font-size: clamp(1.8rem, 4vw, 2.5rem); /* Proportionally smaller on mobile */
   letter-spacing: 4px; /* Slightly less spacing on mobile */
-  text-align: center; /* Center the text */
-  
-  /* Improved mobile gradient to match website design */
+  text-align: center; /* Center the text */  /* Improved mobile gradient to match website design */
   background: linear-gradient(135deg, 
-    rgba(147, 51, 234, 0.35) 0%,     /* Slightly stronger purple for mobile */
-    rgba(126, 34, 206, 0.45) 30%,    /* Medium purple */
-    rgba(107, 33, 168, 0.55) 60%,    /* Deeper purple */
-    rgba(88, 28, 135, 0.65) 100%     /* Dark purple end */
-  );  background-clip: text;
+    #9333ea 0%,      /* Solid purple start */
+    #7e22ce 30%,     /* Deep purple */
+    #6b21a8 60%,     /* Deeper purple */
+    #581c87 100%     /* Dark purple end */
+  );
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  
+  /* Fallback for browsers that don't support background-clip: text */
+  color: var(--colors-primary-600);
 }
 
 /* Subtitle below ROOT title - aligned with bottom-left subtitle */
