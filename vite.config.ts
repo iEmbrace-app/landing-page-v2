@@ -2,11 +2,16 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
+  // GitHub Pages sub-path
+  base: '/landing-page-v2/',
+
   plugins: [react()],
+
   server: {
     host: true,
-    port: 5173
+    port: 5173,
   },
+
   build: {
     outDir: 'dist',
     sourcemap: true,
@@ -15,25 +20,31 @@ export default defineConfig({
       output: {
         manualChunks: {
           // Split Three.js into its own chunk
-          'three': ['three'],          // Split React Three Fiber ecosystem
+          three: ['three'],
+
+          // Split React-Three-Fiber ecosystem
           'react-three': ['@react-three/fiber', '@react-three/drei'],
+
           // Split optimization utilities
-          'utils': [
+          utils: [
             './src/utils/AnimationScheduler',
             './src/utils/LRUCache',
             './src/utils/SpatialHashGrid',
             './src/utils/FrustumCuller',
-            './src/utils/PerformanceMonitor'
-          ],          // Split 3D components
+            './src/utils/PerformanceMonitor',
+          ],
+
+          // Split 3D components
           'three-components': [
             './src/components/three-d/ProceduralPebble',
-            './src/components/three-d/SceneManager'
-          ]
-        }
-      }
-    }
+            './src/components/three-d/SceneManager',
+          ],
+        },
+      },
+    },
   },
-  // Service Worker configuration
+
+  // Static assets & service-worker files
   publicDir: 'public',
-  assetsInclude: ['**/*.svg', '**/*.woff', '**/*.woff2']
+  assetsInclude: ['**/*.svg', '**/*.woff', '**/*.woff2'],
 })
