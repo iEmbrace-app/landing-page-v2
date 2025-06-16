@@ -12,6 +12,7 @@ export const SceneManager = lazy(() => import('./three-d/SceneManager').then(mod
 // Section Components - Can be loaded after critical path
 export const TabSection = lazy(() => import('./sections/TabSection').then(module => ({ default: module.TabSection })))
 export const HoldMeditateSection = lazy(() => import('./sections/HoldMeditateSection').then(module => ({ default: module.HoldMeditateSection })))
+export const ImmerseSection = lazy(() => import('./sections/ImmerseSection').then(module => ({ default: module.ImmerseSection })))
 
 /**
  * Loading fallback component for Suspense boundaries

@@ -11,7 +11,6 @@ interface VideoConfig {
   poster: string
   alt: string
   priority: number
-  duration?: number // Custom duration for each video
 }
 
 interface UseVideoBackgroundOptions {
@@ -46,50 +45,18 @@ export function useVideoBackground(
       },
       onVideoLoaded: (index) => {
         setLoadedVideos(prev => new Set([...prev, index]))
-      },
-      onVideoError: (index, error) => {
-        console.warn(`Video ${index} load error:`, error)
+      },      onVideoError: (index, error) => {
+        if (import.meta.env.DEV) {
+          console.warn(`Video ${index} load error:`, error)
+        }
       }
     })
 
     return () => {
       unsubscribe()
       videoManager.cleanup()
-    }  }, [videoManager])
-  // Effect to handle video switching and playing
-  useEffect(() => {
-    const allVideos = document.querySelectorAll('.heroVideo') as NodeListOf<HTMLVideoElement>
-    
-    // Pause all videos and reset their positions
-    allVideos.forEach((video, index) => {
-      video.pause()
-      if (index === currentIndex) {
-        video.classList.add('active')
-        video.classList.remove('inactive')
-      } else {
-        video.classList.remove('active')
-        video.classList.add('inactive')
-      }
-    })
-    
-    // Play the current active video after a short delay
-    const timer = setTimeout(() => {
-      const activeVideo = allVideos[currentIndex]
-      if (activeVideo) {
-        activeVideo.currentTime = 0
-        const playPromise = activeVideo.play()
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            console.log('Video play failed:', error)
-            // Fallback: try to play without resetting currentTime
-            activeVideo.play().catch(err => console.log('Second play attempt failed:', err))
-          })
-        }
-      }
-    }, 100)
-    
-    return () => clearTimeout(timer)
-  }, [currentIndex])
+    }
+  }, [videoManager])
 
   // Optimized video switching with debouncing
   const switchToVideo = useCallback((index: number) => {
@@ -108,23 +75,24 @@ export function useVideoBackground(
       })
     }
   }, [currentIndex, isTransitioning, videoManager])
-  // Smart auto-advance with configurable timing like Nike
+
+  // Smart auto-advance with visibility optimization
   useEffect(() => {
     if (!autoAdvance || !isVisibleRef.current) return
 
-    // Use custom duration from video config or default
-    const currentVideo = configs[currentIndex]
-    const duration = currentVideo?.duration || 8000 // Default 8 seconds
-    
+    // Variable intervals for better UX
+    const intervals = [8000, 6000, 10000]
+    const currentInterval = intervals[currentIndex % intervals.length]
+
     timerRef.current = window.setTimeout(() => {
       const nextIndex = (currentIndex + 1) % configs.length
       switchToVideo(nextIndex)
-    }, duration)
+    }, currentInterval)
 
     return () => {
       if (timerRef.current) window.clearTimeout(timerRef.current)
     }
-  }, [currentIndex, autoAdvance, configs, switchToVideo])
+  }, [currentIndex, autoAdvance, configs.length, switchToVideo])
 
   // Visibility optimization
   useEffect(() => {
@@ -150,24 +118,6 @@ export function useVideoBackground(
       if (timerRef.current) window.clearTimeout(timerRef.current)
     }
   }, [])
-
-  // Effect to handle video switching and playing
-  useEffect(() => {
-    // Pause all videos first
-    const allVideos = document.querySelectorAll('.heroVideo') as NodeListOf<HTMLVideoElement>
-    allVideos.forEach(video => {
-      video.pause()
-    })
-    
-    // Play the current active video
-    setTimeout(() => {
-      const activeVideo = document.querySelector('.heroVideo.active') as HTMLVideoElement
-      if (activeVideo) {
-        activeVideo.currentTime = 0
-        activeVideo.play().catch(console.error)
-      }
-    }, 100)
-  }, [currentIndex])
 
   return {
     currentIndex,

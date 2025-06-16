@@ -19,11 +19,12 @@ export function SceneManager() {
   useEffect(() => {
     // Initialize frustum culler (no camera needed in constructor)
     frustumCullerRef.current = new FrustumCuller()
-    
-    // Initialize spatial hash grid with reasonable cell size for the scene
+      // Initialize spatial hash grid with reasonable cell size for the scene
     spatialGridRef.current = new SpatialHashGrid(50) // 50 unit cells
     
-    console.log('🎯 Scene Manager: Spatial systems initialized')
+    if (import.meta.env.DEV) {
+      console.log('🎯 Scene Manager: Spatial systems initialized')
+    }
     
     return () => {
       frustumCullerRef.current = undefined
@@ -91,19 +92,21 @@ export function SceneManager() {
     }
   }, [scene, camera])  // Performance monitoring for development
   useEffect(() => {
-    const interval = setInterval(() => {
-      const performanceLevel = globalPerformanceMonitor.getPerformanceLevel()
-      const schedulerStats = globalAnimationScheduler.getFrameStats()
-      
-      console.log('🔧 Performance Metrics:', {
-        'Performance Level': performanceLevel,
-        'Animation Efficiency': Math.round(schedulerStats.efficiency * 100) + '%',
-        'Scheduler Tasks': globalAnimationScheduler.getTaskCount(),
-        'Spatial Objects': spatialGridRef.current?.getStats().totalObjects || 0
-      })
-    }, 5000) // Log every 5 seconds
+    if (import.meta.env.DEV) {
+      const interval = setInterval(() => {
+        const performanceLevel = globalPerformanceMonitor.getPerformanceLevel()
+        const schedulerStats = globalAnimationScheduler.getFrameStats()
+        
+        console.log('🔧 Performance Metrics:', {
+          'Performance Level': performanceLevel,
+          'Animation Efficiency': Math.round(schedulerStats.efficiency * 100) + '%',
+          'Scheduler Tasks': globalAnimationScheduler.getTaskCount(),
+          'Spatial Objects': spatialGridRef.current?.getStats().totalObjects || 0
+        })
+      }, 5000) // Log every 5 seconds
 
-    return () => clearInterval(interval)
+      return () => clearInterval(interval)
+    }
   }, [])
 
   // Expose utilities to global window for debugging

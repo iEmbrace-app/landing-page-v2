@@ -24,10 +24,12 @@ class ThreeDErrorBoundary extends Component<Props, State> {
   static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI
     return { hasError: true, error }
-  }
-  componentDidCatch(_error: Error, errorInfo: ErrorInfo) {
-    // Log the error for monitoring    console.error(`3D Component Error in ${this.props.componentName || 'Unknown'}:`, _error)
-    console.error('Error Info:', errorInfo)
+  }  componentDidCatch(_error: Error, errorInfo: ErrorInfo) {
+    // Log the error for monitoring in development
+    if (import.meta.env.DEV) {
+      console.error(`3D Component Error in ${this.props.componentName || 'Unknown'}:`, _error)
+      console.error('Error Info:', errorInfo)
+    }
     
     // TODO: Report to error tracking service in production
     // Example: Sentry, LogRocket, etc.

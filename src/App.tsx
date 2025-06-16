@@ -3,8 +3,7 @@ import { Suspense, useEffect } from 'react'
 import { Navigation } from './components/layout/Navigation'
 import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
-import { VideoSection } from './components/sections/VideoSection'
-import { TabSection, HoldMeditateSection, ComponentLoadingFallback } from './components/LazyComponents'
+import { TabSection, HoldMeditateSection, ImmerseSection, ComponentLoadingFallback } from './components/LazyComponents'
 import { ParticleBackground } from './components/ui/ParticleBackground'
 import { useScreenSize } from './hooks/useScreenSize'
 import { 
@@ -24,8 +23,6 @@ function App() {
   useScreenReaderSimulator(import.meta.env.DEV)  // Initialize comprehensive testing suite in development
   useEffect(() => {
     if (import.meta.env.DEV) {
-      console.log('🧪 Wellness App Testing Suite initialized')
-      console.log('Use window.runTests() to manually run the full test suite')
         // Initialize testing suite globally for manual testing
       import('./utils/TestSuite').then(({ testSuite }) => {
         (window as any).runTests = () => testSuite.runFullSuite()
@@ -59,15 +56,15 @@ function App() {
         Skip to main content
       </a>
       
-      <Navigation />      <main id="main-content" role="main" tabIndex={-1}>
-        {/* Hero Section - Soft Purple with Nature Shadows */}
+      <Navigation />      <main id="main-content" role="main" tabIndex={-1}>        {/* Hero Section - Soft Purple with Nature Shadows */}
         <section id="home" aria-label="Home">
           <HeroSection isMobile={isMobile} />
         </section>
-        
-        {/* Video Section - Immersive Experience */}
-        <section id="experience" aria-label="Immersive meditation experience">
-          <VideoSection isMobile={isMobile} />
+          {/* Immerse Section - Tranquil Environments */}
+        <section id="immerse" aria-label="Immerse yourself in tranquil environments">
+          <Suspense fallback={<ComponentLoadingFallback />}>
+            <ImmerseSection isMobile={isMobile} />
+          </Suspense>
         </section>
         
         {/* Lazy load remaining sections */}
