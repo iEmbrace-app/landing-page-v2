@@ -21,14 +21,14 @@
   font-family: var(--typography-fontFamily-primary);
   font-size: var(--typography-fontSize-xl);
   font-weight: var(--typography-fontWeight-bold);
-  color: rgba(255, 255, 255, 0.95); /* White text for better contrast */
+  color: #4A148C; /* Dark purple color */
   text-decoration: none;
   letter-spacing: var(--typography-letterSpacing-tight);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .logo:hover {
-  color: rgba(255, 255, 255, 1); /* Pure white on hover */
+  color: #6A1B9A; /* Slightly lighter purple on hover */
   text-shadow: 0 2px 6px rgba(147, 112, 219, 0.4);
 }
 
@@ -44,30 +44,30 @@
 
 .navLink {
   font-family: var(--typography-fontFamily-primary);
-  color: rgba(255, 255, 255, 0.8); /* White text for contrast */
+  color: #4A148C; /* Dark purple text */
   text-decoration: none;
   font-weight: var(--typography-fontWeight-medium);
   font-size: var(--typography-fontSize-sm);
   letter-spacing: var(--typography-letterSpacing-wide);
   transition: all var(--animation-duration-normal) var(--animation-easing-ease);
   padding: var(--spacing-2) 0;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   border-bottom: 2px solid transparent;
 }
 
 .navLink:hover,
 .navLink:focus {
-  color: rgba(255, 255, 255, 1); /* Pure white on hover */
-  border-bottom-color: rgba(255, 255, 255, 0.6); /* White underline */
+  color: #6A1B9A; /* Lighter purple on hover */
+  border-bottom-color: #7B1FA2; /* Purple underline */
   outline: none;
-  text-shadow: 0 2px 4px rgba(147, 112, 219, 0.4);
+  text-shadow: 0 2px 4px rgba(74, 20, 140, 0.3);
 }
 
 .navLink.active {
-  color: rgba(255, 255, 255, 1); /* Pure white for active */
-  border-bottom-color: rgba(255, 255, 255, 0.8); /* White underline */
+  color: #4A148C; /* Dark purple for active */
+  border-bottom-color: #6A1B9A; /* Purple underline */
   font-weight: var(--typography-fontWeight-semibold);
-  text-shadow: 0 2px 4px rgba(147, 112, 219, 0.4);
+  text-shadow: 0 2px 4px rgba(74, 20, 140, 0.3);
 }
 
 .navLink:focus-visible {
