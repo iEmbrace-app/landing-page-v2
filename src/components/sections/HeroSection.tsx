@@ -84,22 +84,68 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
             <h2 className={styles.playerTitle}>Evening Calm</h2>
             <p className={styles.playerSubtitle}>Gentle Breathing & Relaxation</p>
             <p className={styles.sessionDuration}>12 minutes</p>
-          </div>
-
-          {/* Meditation Visual */}
+          </div>          {/* Meditation Visual */}
           <div className={styles.meditationVisual}>
-            <div className={styles.breathingCircle}></div>
-          </div>
-
-          {/* Sound Waves */}
-          <div className={styles.soundWaves}>
-            <div className={styles.wave}></div>
-            <div className={styles.wave}></div>
-            <div className={styles.wave}></div>
-            <div className={styles.wave}></div>
-            <div className={styles.wave}></div>
-            <div className={styles.wave}></div>
-            <div className={styles.wave}></div>
+            <div className={styles.breathingCircle}>
+              {/* Layered Aura System - Multiple breathing layers */}
+              <div className={styles.auraLayer} data-layer="1"></div>
+              <div className={styles.auraLayer} data-layer="2"></div>
+              <div className={styles.auraLayer} data-layer="3"></div>
+              <div className={styles.auraLayer} data-layer="4"></div>
+              <div className={styles.auraLayer} data-layer="5"></div>
+                {/* Advanced Floating Particle System */}
+              <div className={styles.particleContainer}>
+                {Array.from({ length: 18 }, (_, i) => (
+                  <div 
+                    key={`particle-${i}`}
+                    className={styles.floatingParticle}
+                    style={{
+                      '--delay': `${i * 0.618}s`, // Golden ratio spacing
+                      '--x-offset': `${(i * 137.5) % 360}deg`, // Golden angle distribution
+                      '--size': `${2 + (i % 4)}px`,
+                      '--z-depth': `${(i % 5) * 20}px` // 3D depth layers
+                    } as React.CSSProperties}
+                  ></div>
+                ))}
+              </div>
+              
+              {/* Sacred Geometry - Subtle mandala */}
+              <div className={styles.sacredGeometry}>
+                <div className={styles.mandalaRing} data-ring="outer"></div>
+                <div className={styles.mandalaRing} data-ring="middle"></div>
+                <div className={styles.mandalaRing} data-ring="inner"></div>
+              </div>
+              
+              {/* Central Focus Point */}
+              <div className={styles.centerPoint}>
+                <div className={styles.innerGlow}></div>
+                <div className={styles.pulsingCore}></div>
+              </div>
+              
+              {/* Ripple Effects */}
+              <div className={styles.rippleContainer}>
+                <div className={styles.ripple} style={{'--delay': '0s'} as React.CSSProperties}></div>
+                <div className={styles.ripple} style={{'--delay': '2s'} as React.CSSProperties}></div>
+                <div className={styles.ripple} style={{'--delay': '4s'} as React.CSSProperties}></div>
+              </div>
+              
+              {/* Aurora Color Flows */}
+              <div className={styles.auroraFlow}></div>
+              
+              {/* Gentle Sparkles */}
+              <div className={styles.sparkleContainer}>
+                {Array.from({ length: 6 }, (_, i) => (
+                  <div 
+                    key={`sparkle-${i}`}
+                    className={styles.sparkle}
+                    style={{
+                      '--angle': `${i * 60}deg`,
+                      '--delay': `${i * 1.5}s`
+                    } as React.CSSProperties}
+                  ></div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Player Controls */}

@@ -923,39 +923,986 @@
   margin: 0rem 0; /* Removed all margins to minimize space */
 }
 
-/* Breathing Circle Animation */
+/* Advanced Physics-Based ASMR Breathing Circle */
 .breathingCircle {
-  width: 180px; /* Reduced from 200px */
-  height: 180px; /* Reduced from 200px */
-  border: 2px solid rgba(106, 76, 147, 0.3);
-  border-radius: 50%;
+  width: 200px;
+  height: 200px;
   position: relative;
-  animation: breathe 4s ease-in-out infinite;
-}
-
-.breathingCircle::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 130px; /* Reduced from 150px */
-  height: 130px; /* Reduced from 150px */
-  background: radial-gradient(circle, rgba(106, 76, 147, 0.2) 0%, transparent 70%);
+    /* Advanced liquid glass morphing background - Simplified */
+  background: 
+    radial-gradient(circle at 35% 25%, 
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(186, 148, 255, 0.08) 35%,
+      rgba(106, 76, 147, 0.03) 70%,
+      transparent 100%
+    );
+  
+  /* Organic liquid border with physics-based morphing */
+  border: 2px solid rgba(186, 148, 255, 0.4);
   border-radius: 50%;
-  animation: pulse 4s ease-in-out infinite;
+    /* Advanced animation stack using harmonic frequencies - Simplified */
+  animation: 
+    liquidBreatheAdvanced 7.236s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite,
+    organicMorph 11.618s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite,
+    gentleVibration 0.618s ease-in-out infinite alternate;
+    
+  /* Realistic physics-based shadows with inverse square law */
+  box-shadow: 
+    /* Contact shadow */
+    0 0 1px rgba(0, 0, 0, 0.1),
+    /* Primary diffuse shadow */
+    0 8px 32px rgba(106, 76, 147, 0.15),
+    /* Secondary atmospheric shadow */
+    0 16px 64px rgba(186, 148, 255, 0.08),
+    /* Tertiary distance shadow */
+    0 32px 128px rgba(106, 76, 147, 0.04),
+    /* Inner glow for depth */
+    inset 0 2px 8px rgba(255, 255, 255, 0.1),
+    /* Atmospheric perspective */
+    0 0 256px rgba(186, 148, 255, 0.02);  /* Hardware acceleration */
+  will-change: transform, border-radius, box-shadow;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  
+  /* Ensure visibility */
+  z-index: 10;
+  min-height: 200px;
+  min-width: 200px;
 }
 
-.breathingCircle::after {
-  content: '';
+/* Fallback for older browsers */
+@supports not (animation: liquidBreatheAdvanced 7s infinite) {
+  .breathingCircle {
+    animation: simpleBreathe 6s ease-in-out infinite !important;
+  }
+}
+
+@keyframes simpleBreathe {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.8;
+    border-radius: 50%;
+  }
+  50% { 
+    transform: scale(1.1);
+    opacity: 1;
+    border-radius: 50%;
+  }
+}
+
+/* Physics-Based Layered Aura System */
+.auraLayer {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 80px; /* Reduced from 100px */
-  height: 80px; /* Reduced from 100px */
-  background: rgba(106, 76, 147, 0.1);
-  border-radius: 50%;  animation: innerPulse 4s ease-in-out infinite;
+  border-radius: 50%;
+  pointer-events: none;
+  
+  /* Gaussian blur for realistic depth of field */
+  filter: blur(0.5px);
+  
+  /* Subtle gradient border using golden ratio proportions */
+  background: 
+    radial-gradient(circle, 
+      transparent 60%,
+      rgba(186, 148, 255, 0.06) 65%,
+      rgba(106, 76, 147, 0.04) 85%,
+      transparent 100%
+    );
+  
+  /* Border with varying opacity based on distance */
+  border: 1px solid rgba(186, 148, 255, 0.08);
+  
+  /* Individual layer transforms for 3D depth */
+  transform-style: preserve-3d;
+}
+
+/* Golden ratio and fibonacci-based harmonic breathing */
+.auraLayer[data-layer="1"] {
+  width: 123.6%; /* φ × 100% + 23.6% */
+  height: 123.6%;
+  animation: auralBreatheHarmonic 5.854s cubic-bezier(0.4, 0.0, 0.58, 1.0) infinite;
+  filter: blur(0.3px);
+  z-index: 5;
+}
+
+.auraLayer[data-layer="2"] {
+  width: 147.2%; /* φ² × 100% + 47.2% */
+  height: 147.2%;
+  animation: auralBreatheHarmonic 8.472s cubic-bezier(0.42, 0.0, 0.58, 1.0) infinite 1.236s;
+  filter: blur(0.6px);
+  z-index: 4;
+}
+
+.auraLayer[data-layer="3"] {
+  width: 171.8%; /* φ³ × 100% + 71.8% */
+  height: 171.8%;
+  animation: auralBreatheHarmonic 12.326s cubic-bezier(0.44, 0.0, 0.56, 1.0) infinite 2.472s;
+  filter: blur(0.9px);
+  z-index: 3;
+}
+
+.auraLayer[data-layer="4"] {
+  width: 195.4%; /* φ⁴ × 100% + 95.4% */
+  height: 195.4%;
+  animation: auralBreatheHarmonic 17.18s cubic-bezier(0.46, 0.0, 0.54, 1.0) infinite 3.708s;
+  filter: blur(1.2px);
+  z-index: 2;
+}
+
+.auraLayer[data-layer="5"] {
+  width: 219%; /* φ⁵ × 100% + 119% */
+  height: 219%;
+  animation: auralBreatheHarmonic 22.916s cubic-bezier(0.48, 0.0, 0.52, 1.0) infinite 4.944s;
+  filter: blur(1.5px);
+  z-index: 1;
+}
+
+/* Advanced Physics-Based Floating Particle System */
+.particleContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.floatingParticle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--size);
+  height: var(--size);
+  
+  /* Advanced particle physics with realistic light scattering */
+  background: 
+    radial-gradient(circle at 25% 25%, 
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.6) 30%,
+      rgba(186, 148, 255, 0.4) 60%,
+      transparent 100%
+    );
+  
+  border-radius: 50%;
+    /* Realistic 3D transform with perspective - Fixed */
+  transform: 
+    translate(-50%, -50%) 
+    rotate(var(--x-offset)) 
+    translateY(-120px);
+    /* Advanced multi-stage animation with realistic physics - Fixed */
+  animation: 
+    floatUpwardAdvanced 15.708s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite var(--delay),
+    particleShimmerAdvanced 3.142s ease-in-out infinite var(--delay),
+    particleBreathe 4.236s ease-in-out infinite var(--delay);
+  
+  /* Realistic light and shadow effects */
+  box-shadow: 
+    0 0 8px rgba(186, 148, 255, 0.4),
+    0 0 16px rgba(255, 255, 255, 0.2),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.6);
+    /* Atmospheric perspective based on distance - Fixed */
+  filter: blur(0.5px) brightness(1);
+  opacity: 0.8;
+}
+
+/* Enhanced Sacred Geometry with Mathematical Precision */
+.sacredGeometry {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  opacity: 0.12;
+  transform-style: preserve-3d;
+}
+
+.mandalaRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  
+  /* Fix: Use simple border instead of border-image for compatibility */
+  border: 1px dashed rgba(186, 148, 255, 0.25);
+}
+
+.mandalaRing[data-ring="outer"] {
+  width: 92.7%; /* Based on golden ratio */
+  height: 92.7%;
+  animation: 
+    sacredRotate 89.442s linear infinite,
+    mandalaPulse 13.764s ease-in-out infinite;
+  border-width: 1.5px;
+}
+
+.mandalaRing[data-ring="middle"] {
+  width: 70.7%; /* √2 / 2 ratio */
+  height: 70.7%;
+  animation: 
+    sacredRotate 55.279s linear infinite reverse,
+    mandalaPulse 8.472s ease-in-out infinite 2.236s;
+  border-width: 1px;
+}
+
+.mandalaRing[data-ring="inner"] {
+  width: 52.3%; /* Golden ratio inverse */
+  height: 52.3%;
+  animation: 
+    sacredRotate 34.164s linear infinite,
+    mandalaPulse 5.236s ease-in-out infinite 4.472s;
+  border-width: 0.8px;
+}
+
+/* Enhanced Central Focus Point with Quantum-Like Effects */
+.centerPoint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  z-index: 15;
+  perspective: 500px;
+  transform-style: preserve-3d;
+}
+
+.innerGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  background: 
+    /* Core white light */
+    radial-gradient(circle at 40% 40%, 
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.7) 25%,
+      rgba(186, 148, 255, 0.5) 50%,
+      rgba(186, 148, 255, 0.2) 75%,
+      transparent 100%
+    ),
+    /* Secondary aurora glow */
+    radial-gradient(circle at 60% 60%, 
+      rgba(220, 180, 255, 0.3) 0%,
+      rgba(240, 200, 255, 0.1) 50%,
+      transparent 100%
+    );
+  border-radius: 50%;
+  animation: 
+    centerGlowAdvanced 5.854s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite,
+    centerRotate 13.764s linear infinite;
+  
+  /* Advanced light emission with realistic physics */
+  box-shadow: 
+    0 0 20px rgba(255, 255, 255, 0.8),
+    0 0 40px rgba(186, 148, 255, 0.5),
+    0 0 80px rgba(186, 148, 255, 0.2),
+    inset 0 0 8px rgba(255, 255, 255, 0.9);
+}
+
+.pulsingCore {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background: 
+    radial-gradient(circle, 
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0.9) 40%,
+      rgba(186, 148, 255, 0.6) 80%,
+      transparent 100%
+    );
+  border-radius: 50%;
+  
+  /* Quantum-like pulsing with harmonic frequencies */
+  animation: 
+    corePulseAdvanced 3.236s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite,
+    coreVibration 0.236s ease-in-out infinite alternate;
+  
+  /* Realistic light source with chromatic aberration */
+  box-shadow: 
+    /* Core light */
+    0 0 15px rgba(255, 255, 255, 0.9),
+    0 0 30px rgba(255, 255, 255, 0.6),
+    /* Chromatic dispersal - red */
+    0 0 45px rgba(255, 200, 255, 0.3),
+    /* Chromatic dispersal - blue */
+    0 0 60px rgba(180, 150, 255, 0.2),
+    /* Atmospheric glow */
+    0 0 120px rgba(186, 148, 255, 0.1);
+}
+
+/* Physics-Based Ripple Effects with Wave Interference */
+.rippleContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  perspective: 1000px;
+}
+
+.ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  
+  /* Advanced wave physics with interference patterns */
+  border: 1px solid rgba(186, 148, 255, 0.4);
+  background: radial-gradient(circle, 
+    transparent 60%,
+    rgba(186, 148, 255, 0.05) 70%,
+    rgba(255, 255, 255, 0.02) 85%,
+    transparent 100%
+  );
+  
+  /* Realistic wave expansion with damping */
+  animation: 
+    rippleExpandAdvanced 8.472s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite var(--delay),
+    rippleInterference 2.118s ease-in-out infinite calc(var(--delay) + 1s);
+}
+
+/* Advanced Aurora Color Flow with Plasma Physics */
+.auroraFlow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  
+  /* Advanced plasma-like color gradients */
+  background: 
+    conic-gradient(
+      from 0deg,
+      rgba(186, 148, 255, 0.08) 0%,
+      rgba(220, 180, 255, 0.12) 15%,
+      rgba(240, 200, 255, 0.1) 30%,
+      rgba(255, 220, 255, 0.08) 45%,
+      rgba(200, 160, 255, 0.1) 60%,
+      rgba(180, 140, 255, 0.09) 75%,
+      rgba(186, 148, 255, 0.08) 90%,
+      rgba(186, 148, 255, 0.08) 100%
+    );
+  
+  /* Complex multi-layer rotation with plasma turbulence */
+  animation: 
+    auroraRotateAdvanced 28.318s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite,
+    auroraTurbulence 7.236s ease-in-out infinite,
+    auroraColorShift 15.708s ease-in-out infinite;
+  
+  /* Advanced blending for realistic plasma effect */
+  mix-blend-mode: soft-light;
+  opacity: 0.8;
+  filter: blur(0.5px);
+}
+
+/* Gentle Sparkles - Fixed positioning */
+.sparkleContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 8;
+}
+
+.sparkle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  transform: rotate(var(--angle)) translateX(80px) translate(-50%, -50%);
+  animation: sparkleGlow 8s ease-in-out infinite var(--delay);
+  box-shadow: 
+    0 0 6px rgba(255, 255, 255, 0.8),
+    0 0 12px rgba(186, 148, 255, 0.4);
+}
+
+/* Advanced Physics-Based Animation Keyframes */
+
+/* Organic Liquid Breathing with Fourier Transform-based morphing */
+@keyframes liquidBreatheAdvanced {
+  0%, 100% { 
+    transform: scale(1);
+    border-radius: 50%;
+    filter: 
+      brightness(1) 
+      contrast(1)
+      hue-rotate(0deg);
+    box-shadow: 
+      0 0 30px rgba(106, 76, 147, 0.15),
+      0 0 60px rgba(186, 148, 255, 0.1),
+      inset 0 0 30px rgba(255, 255, 255, 0.05);
+  }
+  14.286% { /* π/4 phase */
+    border-radius: 52.5% 47.5% 50% 50%;
+    filter: 
+      brightness(1.02) 
+      contrast(1.01)
+      hue-rotate(3deg);
+  }
+  28.571% { /* π/2 phase */
+    border-radius: 48% 52% 51% 49%;
+    filter: 
+      brightness(1.05) 
+      contrast(1.03)
+      hue-rotate(6deg);
+  }
+  42.857% { /* 3π/4 phase */
+    border-radius: 49% 51% 53% 47%;
+    filter: 
+      brightness(1.08) 
+      contrast(1.05)
+      hue-rotate(9deg);
+  }
+  50% { /* Peak breathing expansion */
+    transform: scale(1.12);
+    border-radius: 47% 53% 52% 48%;
+    filter: 
+      brightness(1.1) 
+      contrast(1.08)
+      hue-rotate(12deg);
+    box-shadow: 
+      0 0 40px rgba(106, 76, 147, 0.25),
+      0 0 80px rgba(186, 148, 255, 0.15),
+      inset 0 0 40px rgba(255, 255, 255, 0.08);
+  }
+  57.143% { /* 5π/4 phase */
+    border-radius: 51% 49% 48% 52%;
+    filter: 
+      brightness(1.08) 
+      contrast(1.05)
+      hue-rotate(9deg);
+  }
+  71.429% { /* 3π/2 phase */
+    border-radius: 52% 48% 49% 51%;
+    filter: 
+      brightness(1.05) 
+      contrast(1.03)
+      hue-rotate(6deg);
+  }
+  85.714% { /* 7π/4 phase */
+    border-radius: 50.5% 49.5% 51.5% 48.5%;
+    filter: 
+      brightness(1.02) 
+      contrast(1.01)
+      hue-rotate(3deg);
+  }
+}
+
+/* Organic Morphing with Perlin Noise-like patterns */
+@keyframes organicMorph {
+  0% { 
+    border-radius: 50% 50% 50% 50%;
+    transform: rotate(0deg);
+  }
+  16.667% { 
+    border-radius: 53% 47% 52% 48%;
+    transform: rotate(0.5deg);
+  }
+  33.333% { 
+    border-radius: 48% 52% 49% 51%;
+    transform: rotate(-0.3deg);
+  }
+  50% { 
+    border-radius: 51% 49% 53% 47%;
+    transform: rotate(0.8deg);
+  }
+  66.667% { 
+    border-radius: 49% 51% 48% 52%;
+    transform: rotate(-0.2deg);
+  }
+  83.333% { 
+    border-radius: 52% 48% 50% 50%;
+    transform: rotate(0.4deg);
+  }
+  100% { 
+    border-radius: 50% 50% 50% 50%;
+    transform: rotate(0deg);
+  }
+}
+
+/* Enhanced Micro-vibrations using Fibonacci sequence */
+@keyframes gentleVibration {
+  0% { transform: translateX(0) translateY(0); }
+  23.6% { transform: translateX(0.618px) translateY(0.382px); } /* φ ratio */
+  38.2% { transform: translateX(-0.382px) translateY(0.618px); }
+  61.8% { transform: translateX(0.382px) translateY(-0.618px); }
+  76.4% { transform: translateX(-0.618px) translateY(-0.382px); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
+/* Color Shifting Aurora with HSL interpolation */
+@keyframes colorShiftAura {
+  0%, 100% { 
+    filter: hue-rotate(0deg) saturate(1) brightness(1); 
+  }
+  25% { 
+    filter: hue-rotate(8deg) saturate(1.05) brightness(1.03); 
+  }
+  50% { 
+    filter: hue-rotate(-5deg) saturate(0.95) brightness(0.97); 
+  }
+  75% { 
+    filter: hue-rotate(12deg) saturate(1.08) brightness(1.05); 
+  }
+}
+
+/* Harmonic Aural Breathing using golden ratio frequencies */
+@keyframes auralBreatheHarmonic {
+  0%, 100% { 
+    opacity: 0.25;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(0.5px);
+  }
+  38.2% { /* Golden ratio phase 1 */
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: blur(0.8px);
+  }
+  50% { /* Peak expansion */
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.12);
+    filter: blur(1px);
+  }
+  61.8% { /* Golden ratio phase 2 */
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: blur(0.8px);
+  }
+}
+
+/* Advanced Particle Physics Simulation - Fixed */
+@keyframes floatUpwardAdvanced {
+  0% { 
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--x-offset)) 
+      translateY(-100px);
+    opacity: 0;
+    filter: brightness(0.8) blur(0px);
+  }
+  8% {
+    opacity: 0.4;
+    filter: brightness(1) blur(0px);
+  }
+  15% {
+    opacity: 0.8;
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--x-offset)) 
+      translateY(-140px);
+    filter: brightness(1.1) blur(0.2px);
+  }
+  50% {
+    opacity: 1;
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--x-offset)) 
+      translateY(-200px);
+    filter: brightness(1.2) blur(0.5px);
+  }
+  85% {
+    opacity: 0.3;
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--x-offset)) 
+      translateY(-260px);
+    filter: brightness(0.9) blur(1px);
+  }
+  100% { 
+    opacity: 0;
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--x-offset)) 
+      translateY(-320px);
+    filter: brightness(0.7) blur(2px);
+  }
+}
+
+/* Advanced Particle Shimmer with Rayleigh scattering */
+@keyframes particleShimmerAdvanced {
+  0%, 100% { 
+    box-shadow: 
+      0 0 8px rgba(186, 148, 255, 0.4),
+      0 0 16px rgba(255, 255, 255, 0.2);
+    filter: brightness(1) saturate(1);
+  }
+  25% {
+    box-shadow: 
+      0 0 12px rgba(186, 148, 255, 0.6),
+      0 0 24px rgba(255, 255, 255, 0.4),
+      0 0 36px rgba(220, 180, 255, 0.2);
+    filter: brightness(1.2) saturate(1.1);
+  }
+  50% { 
+    box-shadow: 
+      0 0 16px rgba(186, 148, 255, 0.8),
+      0 0 32px rgba(255, 255, 255, 0.6),
+      0 0 48px rgba(240, 200, 255, 0.3);
+    filter: brightness(1.4) saturate(1.2);
+  }
+  75% {
+    box-shadow: 
+      0 0 12px rgba(186, 148, 255, 0.6),
+      0 0 24px rgba(255, 255, 255, 0.4),
+      0 0 36px rgba(220, 180, 255, 0.2);
+    filter: brightness(1.2) saturate(1.1);
+  }
+}
+
+/* 3D Particle Rotation - Fixed */
+@keyframes particleRotate {
+  0% { 
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--x-offset)) 
+      translateY(-120px)
+      rotateZ(0deg); 
+  }
+  100% { 
+    transform: 
+      translate(-50%, -50%) 
+      rotate(var(--x-offset)) 
+      translateY(-120px)
+      rotateZ(360deg); 
+  }
+}
+
+/* Particle Breathing Sync */
+@keyframes particleBreathe {
+  0%, 100% { 
+    transform: scale(1);
+  }
+  50% { 
+    transform: scale(1.15);
+  }
+}
+
+/* Sacred Geometry Rotation with Divine Proportions */
+@keyframes sacredRotate {
+  0% { 
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 0.12;
+  }
+  25% {
+    opacity: 0.18;
+  }
+  50% {
+    opacity: 0.15;
+  }
+  75% {
+    opacity: 0.2;
+  }
+  100% { 
+    transform: translate(-50%, -50%) rotate(360deg);
+    opacity: 0.12;
+  }
+}
+
+/* Mandala Pulse with Breathing Harmony */
+@keyframes mandalaPulse {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.12;
+    filter: blur(0px);
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.03);
+    opacity: 0.25;
+    filter: blur(0.3px);
+  }
+}
+
+/* Enhanced Center Point Glow */
+@keyframes centerGlowAdvanced {
+  0%, 100% { 
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1);
+    filter: brightness(1) saturate(1);
+  }
+  25% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.08);
+    filter: brightness(1.1) saturate(1.05);
+  }
+  50% { 
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+    filter: brightness(1.2) saturate(1.1);
+  }
+  75% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.08);
+    filter: brightness(1.1) saturate(1.05);
+  }
+}
+
+/* Center Rotation with Golden Ratio */
+@keyframes centerRotate {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Advanced Core Pulse with Harmonic Overtones */
+@keyframes corePulseAdvanced {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+    filter: brightness(1) saturate(1);
+    box-shadow: 
+      0 0 15px rgba(255, 255, 255, 0.9),
+      0 0 30px rgba(255, 255, 255, 0.6),
+      0 0 45px rgba(255, 200, 255, 0.3),
+      0 0 60px rgba(180, 150, 255, 0.2);
+  }
+  25% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.95;
+    filter: brightness(1.1) saturate(1.05);
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.25);
+    opacity: 1;
+    filter: brightness(1.3) saturate(1.15);
+    box-shadow: 
+      0 0 20px rgba(255, 255, 255, 1),
+      0 0 40px rgba(255, 255, 255, 0.8),
+      0 0 60px rgba(255, 200, 255, 0.5),
+      0 0 80px rgba(180, 150, 255, 0.3),
+      0 0 120px rgba(186, 148, 255, 0.15);
+  }
+  75% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.95;
+    filter: brightness(1.1) saturate(1.05);
+  }
+}
+
+/* Core Micro-vibration */
+@keyframes coreVibration {
+  0% { transform: translate(-50%, -50%) translateX(0) translateY(0); }
+  100% { transform: translate(-50%, -50%) translateX(0.2px) translateY(0.1px); }
+}
+
+/* Advanced Ripple Expansion with Damping */
+@keyframes rippleExpandAdvanced {
+  0% { 
+    width: 0;
+    height: 0;
+    opacity: 0.8;
+    border-width: 2px;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  15% {
+    width: 50px;
+    height: 50px;
+    opacity: 0.6;
+    border-width: 1.5px;
+  }
+  35% {
+    width: 120px;
+    height: 120px;
+    opacity: 0.4;
+    border-width: 1px;
+  }
+  60% {
+    width: 200px;
+    height: 200px;
+    opacity: 0.2;
+    border-width: 0.8px;
+  }
+  85% {
+    width: 280px;
+    height: 280px;
+    opacity: 0.05;
+    border-width: 0.4px;
+  }
+  100% { 
+    width: 350px;
+    height: 350px;
+    opacity: 0;
+    border-width: 0px;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/* Ripple Interference Patterns */
+@keyframes rippleInterference {
+  0%, 100% { 
+    filter: brightness(1);
+    border-color: rgba(186, 148, 255, 0.4);
+  }
+  25% {
+    filter: brightness(1.1);
+    border-color: rgba(220, 180, 255, 0.5);
+  }
+  50% { 
+    filter: brightness(1.2);
+    border-color: rgba(255, 220, 255, 0.6);
+  }
+  75% {
+    filter: brightness(1.1);
+    border-color: rgba(220, 180, 255, 0.5);
+  }
+}
+
+/* Advanced Aurora Rotation with Plasma Dynamics */
+@keyframes auroraRotateAdvanced {
+  0% { 
+    transform: rotate(0deg) scale(1);
+    filter: hue-rotate(0deg) saturate(1);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.02);
+    filter: hue-rotate(5deg) saturate(1.05);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.04);
+    filter: hue-rotate(10deg) saturate(1.1);
+  }
+  75% {
+    transform: rotate(270deg) scale(1.02);
+    filter: hue-rotate(5deg) saturate(1.05);
+  }
+  100% { 
+    transform: rotate(360deg) scale(1);
+    filter: hue-rotate(0deg) saturate(1);
+  }
+}
+
+/* Aurora Turbulence */
+@keyframes auroraTurbulence {
+  0%, 100% { 
+    filter: blur(0.5px) brightness(1);
+    opacity: 0.8;
+  }
+  33% {
+    filter: blur(0.3px) brightness(1.05);
+    opacity: 0.85;
+  }
+  66% {
+    filter: blur(0.7px) brightness(0.95);
+    opacity: 0.75;
+  }
+}
+
+/* Aurora Color Shifting */
+@keyframes auroraColorShift {
+  0%, 100% { 
+    filter: hue-rotate(0deg) saturate(1) brightness(1);
+  }
+  20% {
+    filter: hue-rotate(8deg) saturate(1.08) brightness(1.03);
+  }
+  40% {
+    filter: hue-rotate(-5deg) saturate(0.95) brightness(0.98);
+  }
+  60% {
+    filter: hue-rotate(12deg) saturate(1.12) brightness(1.05);
+  }
+  80% {
+    filter: hue-rotate(-3deg) saturate(0.92) brightness(0.97);
+  }
+}
+
+/* Sparkle Effects with Quantum-like Behavior */
+@keyframes sparkleGlow {
+  0%, 85%, 100% { 
+    opacity: 0;
+    transform: rotate(var(--angle)) translateX(80px) translate(-50%, -50%) scale(0.3);
+    filter: brightness(0.8);
+  }
+  5% {
+    opacity: 0.3;
+    transform: rotate(var(--angle)) translateX(80px) translate(-50%, -50%) scale(0.8);
+    filter: brightness(1.2);
+  }
+  15% { 
+    opacity: 1;
+    transform: rotate(var(--angle)) translateX(82px) translate(-50%, -50%) scale(1);
+    filter: brightness(1.8);
+  }
+  35% {
+    opacity: 0.9;
+    transform: rotate(var(--angle)) translateX(85px) translate(-50%, -50%) scale(1.2);
+    filter: brightness(2);
+  }
+  65% {
+    opacity: 0.6;
+    transform: rotate(var(--angle)) translateX(83px) translate(-50%, -50%) scale(0.9);
+    filter: brightness(1.5);
+  }
+}
+
+/* Legacy animations - keeping for compatibility */
+@keyframes rotateClockwise {
+  from { 
+    transform: translate(-50%, -50%) rotate(0deg); 
+  }
+  to { 
+    transform: translate(-50%, -50%) rotate(360deg); 
+  }
+}
+
+@keyframes rotateCounterClockwise {
+  from { 
+    transform: translate(-50%, -50%) rotate(0deg); 
+  }
+  to { 
+    transform: translate(-50%, -50%) rotate(-360deg); 
+  }
+}
+
+@keyframes dotGlow {
+  0%, 100% { 
+    opacity: 0.4; 
+    transform: rotate(var(--angle)) translateX(var(--radius)) translate(-50%, -50%) scale(0.8);
+    box-shadow: 
+      0 0 8px rgba(186, 148, 255, 0.3),
+      0 0 16px rgba(186, 148, 255, 0.1);
+  }
+  50% { 
+    opacity: 1; 
+    transform: rotate(var(--angle)) translateX(var(--radius)) translate(-50%, -50%) scale(1.2);
+    box-shadow: 
+      0 0 16px rgba(186, 148, 255, 0.7),
+      0 0 32px rgba(186, 148, 255, 0.3),
+      0 0 48px rgba(186, 148, 255, 0.1);
+  }
+}
+
+@keyframes dotPulse {
+  0%, 100% { 
+    opacity: 0.6; 
+    transform: rotate(var(--angle)) translateX(50px) translate(-50%, -50%) scale(1);
+  }
+  50% { 
+    opacity: 1; 
+    transform: rotate(var(--angle)) translateX(50px) translate(-50%, -50%) scale(1.5);
+  }
 }
 
 /* Sound Waves Visualization - Moved Up */
@@ -1102,22 +2049,6 @@
 .wave:nth-child(6) { height: 45px; animation: wave6 1.5s ease-in-out infinite 0.5s; }
 .wave:nth-child(7) { height: 25px; animation: wave7 1.5s ease-in-out infinite 0.6s; }
 
-/* Animation Keyframes */
-@keyframes breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.2); }
-}
-
-@keyframes innerPulse {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.5; }
-}
-
 @keyframes phoneFloat {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   33% { transform: translateY(-5px) rotate(0.5deg); }
@@ -1214,20 +2145,42 @@
     padding: 1rem;
     margin: 2rem auto; /* Comfortable margins without cutoff */
   }
-  
-  .breathingCircle {
-    width: 130px; /* Reduced from 150px */
-    height: 130px; /* Reduced from 150px */
+    .breathingCircle {
+    width: 150px; /* Reduced from 200px */
+    height: 150px; /* Reduced from 200px */
   }
   
-  .breathingCircle::before {
-    width: 90px; /* Reduced from 100px */
-    height: 90px; /* Reduced from 100px */
+  .auraLayer[data-layer="1"] {
+    width: 115%;
+    height: 115%;
   }
   
-  .breathingCircle::after {
-    width: 60px; /* Reduced from 70px */
-    height: 60px; /* Reduced from 70px */
+  .auraLayer[data-layer="2"] {
+    width: 130%;
+    height: 130%;
+  }
+  
+  .auraLayer[data-layer="3"] {
+    width: 145%;
+    height: 145%;
+  }
+  
+  .auraLayer[data-layer="4"] {
+    width: 160%;
+    height: 160%;
+  }
+  
+  .auraLayer[data-layer="5"] {
+    width: 175%;
+    height: 175%;
+  }
+  
+  .floatingParticle {
+    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-100px);
+  }
+  
+  .sparkle {
+    transform: rotate(var(--angle)) translateX(60px) translate(-50%, -50%);
   }
   
   .playerControls {
@@ -1329,20 +2282,57 @@
   .sessionDuration {
     font-size: 0.75rem;
   }
-  
-  .breathingCircle {
-    width: 110px;
-    height: 110px;
+    .breathingCircle {
+    width: 120px;
+    height: 120px;
   }
   
-  .breathingCircle::before {
-    width: 75px;
-    height: 75px;
+  .auraLayer[data-layer="1"] {
+    width: 110%;
+    height: 110%;
   }
   
-  .breathingCircle::after {
-    width: 50px;
-    height: 50px;
+  .auraLayer[data-layer="2"] {
+    width: 120%;
+    height: 120%;
+  }
+  
+  .auraLayer[data-layer="3"] {
+    width: 135%;
+    height: 135%;
+  }
+  
+  .auraLayer[data-layer="4"] {
+    width: 150%;
+    height: 150%;
+  }
+  
+  .auraLayer[data-layer="5"] {
+    width: 165%;
+    height: 165%;
+  }
+  
+  .floatingParticle {
+    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-80px);
+  }
+  
+  .sparkle {
+    transform: rotate(var(--angle)) translateX(50px) translate(-50%, -50%);
+  }
+  
+  .centerPoint {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .innerGlow {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .pulsingCore {
+    width: 5px;
+    height: 5px;
   }
   
   .playButton {
