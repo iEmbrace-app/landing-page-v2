@@ -1,4 +1,4 @@
-/* Navigation CSS Module - Bright Lilac Theme */
+/* Navigation CSS Module - Enhanced Purple Glassmorphism */
 .nav {
   font-family: var(--typography-fontFamily-primary);
   position: sticky;
@@ -6,9 +6,10 @@
   left: 0;
   right: 0;
   z-index: var(--z-sticky);
-  background: rgba(250, 248, 255, 0.8); /* Bright lilac glassmorphism */
-  backdrop-filter: blur(40px) saturate(180%);
-  border-bottom: 1px solid rgba(186, 148, 255, 0.2); /* Bright lilac border */
+  background: rgba(147, 112, 219, 0.1); /* Purple glassmorphism */
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(147, 112, 219, 0.2); /* Purple border */
+  box-shadow: 0 4px 32px rgba(147, 112, 219, 0.1);
   padding: var(--spacing-4) var(--spacing-8);
   display: flex;
   justify-content: space-between;
@@ -20,13 +21,15 @@
   font-family: var(--typography-fontFamily-primary);
   font-size: var(--typography-fontSize-xl);
   font-weight: var(--typography-fontWeight-bold);
-  color: rgba(74, 58, 90, 0.9); /* Dark purple-gray to match hero */
+  color: rgba(255, 255, 255, 0.95); /* White text for better contrast */
   text-decoration: none;
   letter-spacing: var(--typography-letterSpacing-tight);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .logo:hover {
-  color: rgba(58, 42, 74, 1); /* Darker purple on hover */
+  color: rgba(255, 255, 255, 1); /* Pure white on hover */
+  text-shadow: 0 2px 6px rgba(147, 112, 219, 0.4);
 }
 
 .links {
@@ -41,27 +44,30 @@
 
 .navLink {
   font-family: var(--typography-fontFamily-primary);
-  color: rgba(74, 58, 90, 0.8); /* Soft purple-gray to match hero */
+  color: rgba(255, 255, 255, 0.8); /* White text for contrast */
   text-decoration: none;
   font-weight: var(--typography-fontWeight-medium);
   font-size: var(--typography-fontSize-sm);
   letter-spacing: var(--typography-letterSpacing-wide);
   transition: all var(--animation-duration-normal) var(--animation-easing-ease);
   padding: var(--spacing-2) 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   border-bottom: 2px solid transparent;
 }
 
 .navLink:hover,
 .navLink:focus {
-  color: rgba(58, 42, 74, 1); /* Dark purple on hover */
-  border-bottom-color: rgba(186, 148, 255, 0.8); /* Bright lilac underline */
+  color: rgba(255, 255, 255, 1); /* Pure white on hover */
+  border-bottom-color: rgba(255, 255, 255, 0.6); /* White underline */
   outline: none;
+  text-shadow: 0 2px 4px rgba(147, 112, 219, 0.4);
 }
 
 .navLink.active {
-  color: rgba(58, 42, 74, 1); /* Dark purple for active */
-  border-bottom-color: rgba(186, 148, 255, 0.8); /* Bright lilac underline */
+  color: rgba(255, 255, 255, 1); /* Pure white for active */
+  border-bottom-color: rgba(255, 255, 255, 0.8); /* White underline */
   font-weight: var(--typography-fontWeight-semibold);
+  text-shadow: 0 2px 4px rgba(147, 112, 219, 0.4);
 }
 
 .navLink:focus-visible {

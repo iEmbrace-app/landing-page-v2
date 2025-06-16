@@ -3,6 +3,7 @@ import { Suspense, useEffect } from 'react'
 import { Navigation } from './components/layout/Navigation'
 import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
+import { VideoSection } from './components/sections/VideoSection'
 import { TabSection, HoldMeditateSection, ComponentLoadingFallback } from './components/LazyComponents'
 import { ParticleBackground } from './components/ui/ParticleBackground'
 import { useScreenSize } from './hooks/useScreenSize'
@@ -59,11 +60,17 @@ function App() {
       </a>
       
       <Navigation />      <main id="main-content" role="main" tabIndex={-1}>
+        {/* Hero Section - Soft Purple with Nature Shadows */}
         <section id="home" aria-label="Home">
           <HeroSection isMobile={isMobile} />
         </section>
         
-        {/* Lazy load non-critical sections */}
+        {/* Video Section - Immersive Experience */}
+        <section id="experience" aria-label="Immersive meditation experience">
+          <VideoSection isMobile={isMobile} />
+        </section>
+        
+        {/* Lazy load remaining sections */}
         <section id="about" aria-label="About - Meditation techniques">
           <Suspense fallback={<ComponentLoadingFallback />}>
             <TabSection isMobile={isMobile} tabContent={tabContent} />

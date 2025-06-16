@@ -1,1206 +1,1052 @@
-/* HeroSection CSS Module with Glassmorphism & ASMR Effects */
+/* HeroSection - Soft Purple with Nature Shadows */
 .heroWrapper {
   position: relative;
   width: 100%;
   height: 100vh;
   height: 100dvh;
   min-height: 100vh;
-  max-height: 100vh; /* Ensure no overflow beyond viewport */
-  overflow: visible; /* Changed from hidden to allow button shadow to display */
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 1fr;
-  align-items: center;
-  /* Apple-inspired minimal background - 95% white space with breathing animation */
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%,           /* Pure white */
-    #fdfcff 25%,          /* Barely perceptible purple tint */
-    #fbfaff 50%,          /* Ultra light lavender */
-    #f9f7ff 75%,          /* Soft lavender white */
-    #f7f4ff 100%          /* Light lavender */
-  );
-  
-  /* Breathing color animation */
-  animation: breatheBackground 19s ease-in-out infinite;
-  
-  /* Subtle overlay for depth - ultra minimal */
-  background-image: 
-    radial-gradient(
-      ellipse at top,
-      rgba(249, 247, 255, 0.5) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at center,
-      rgba(247, 244, 255, 0.3) 0%,
-      transparent 60%
-    );  
-  /* Remove floating particle animations for minimal design */
-  background-size: 100% 100%;
-  
-  /* Remove floating animation for cleaner look */
-  animation: none;
-}
-
-.heroCanvas {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 10; /* Higher z-index so pebble appears above ROOT text but below CTA button */
-  
-  /* Performance optimizations for 3D canvas */
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  will-change: transform;
-  contain: layout style paint;
-  
-  /* Ensure proper grid positioning for pebble centering */
-  grid-column: 1 / -1;
-  grid-row: 1;
-}
-
-/* ROOT text moved back to center-top position above the pebble */
-.rootTextBackground {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, calc(-50% - 160px));
-  text-align: center;
-  z-index: 5; /* Lower z-index so ROOT text appears behind pebble */
-  width: 100%;
-  pointer-events: auto; /* Allow text selection */
-  overflow: hidden; /* Hide the sliding text that goes outside the container */
-}
-
-/* Sliding container for ROOT text with icons */
-.slidingRootContainer {
-  width: 100%;
-  height: auto;
-  position: relative;
   overflow: hidden;
-  mask: linear-gradient(90deg, transparent 0%, white 10%, white 90%, transparent 100%);
-  -webkit-mask: linear-gradient(90deg, transparent 0%, white 10%, white 90%, transparent 100%);
-}
-
-.slidingRootTrack {
   display: flex;
-  align-items: center;
-  white-space: nowrap;
-  animation: slideRoot 20s linear infinite;
-  width: fit-content;
-}
-
-.rootWithIcon {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  gap: 6rem;
-  margin-left: 6rem; /* Increased spacing between ROOT+icon pairs */
-}
-
-/* Sliding animation */
-@keyframes slideRoot {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%); /* Move exactly half the width (6 items) */
-  }
-}
-
-.rootText {
-  font-family: var(--typography-fontFamily-primary);
-  font-size: clamp(1.5rem, 6vw, 2.5rem); /* Reduced from clamp(2rem, 8vw, 4rem) */
-  font-weight: 100;
-  margin: 0;
-  line-height: var(--typography-lineHeight-tight);
-  color: #1d1d1f; /* Apple-style charcoal gray */
-  text-transform: uppercase;
-  cursor: text; /* Allow text selection */
-  user-select: text; /* Explicitly allow text selection */
-  
-  /* Simplified styling for sliding text */
-  background: transparent;
-  border: none;
-  padding: 0.5rem 1rem;
-  
-  /* Remove text shadow for clean minimal look */
-  text-shadow: none;
-  
-  /* Remove individual animations since we're sliding the container */
-  transition: all 0.3s ease;
-}
-
-/* Pause animation on hover for better interaction */
-.slidingRootContainer:hover .slidingRootTrack {
-  animation-play-state: paused;
-}
-
-/* Main Content Container - Transparent, no glass effect */
-.mainContent {
-  position: absolute;
-  top: 50%; /* Moved closer to pebble - up from 60% to 50% */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 10;
-  width: 100%;
-  max-width: 600px;
-  padding: 2rem; /* Reduced padding */
-  
-  /* Completely transparent background - no glass effect */
-  background: transparent;
-  border: none;
-  border-radius: 32px;
-    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-/* ROOT Title - Positioned to align with bottom-left subtitle */
-.rootTitleCenter {
-  position: absolute;
-  top: 20%; /* Moved further up from 35% to 25% */
-  left: 3.5rem; /* Account for subtitleBottomLeft padding (2rem + 1.5rem padding) */
-  transform: translateY(-50%); /* Only vertical centering */
-  z-index: 15; /* Higher z-index to ensure it appears above all elements */
-  
-  /* Thin Typography with reduced letter spacing */
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(2.8rem, 5vw, 5.6rem); /* Smaller size */
-  font-weight: 100; /* Thin weight */
-  line-height: 1;
-  letter-spacing: 8px; /* Reduced letter spacing */
-  margin: 0;
-  text-transform: uppercase;
-  text-align: left; /* Left aligned to match subtitleBottomLeft */  /* Fallback color using design tokens */
-  color: var(--colors-primary-600); /* Purple accent from tokens - stronger color */
-  
-  /* Improved gradient text effect with proper fallback */
-  background: linear-gradient(135deg, 
-    #9333ea 0%,      /* Solid purple start */
-    #7e22ce 25%,     /* Deep purple */
-    #6b21a8 50%,     /* Deeper purple */
-    #581c87 75%,     /* Dark purple */
-    #3b0764 100%     /* Ultra dark purple end */
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  
-  /* Fallback for browsers that don't support background-clip: text */
-  color: var(--colors-primary-600);
-  
-  /* Ensure text is always visible */
-  visibility: visible;
-  
-  /* Subtle text shadow for depth using design token colors */
-  filter: drop-shadow(0 2px 8px rgba(147, 51, 234, 0.2));
-  
-  /* Smooth transitions */
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.rootTitleCenter.mobile {
-  top: 25%; /* Positioned above the pebble */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Perfect centering */
-  font-size: clamp(1.8rem, 4vw, 2.5rem); /* Proportionally smaller on mobile */
-  letter-spacing: 4px; /* Slightly less spacing on mobile */
-  text-align: center; /* Center the text */  /* Improved mobile gradient to match website design */
-  background: linear-gradient(135deg, 
-    #9333ea 0%,      /* Solid purple start */
-    #7e22ce 30%,     /* Deep purple */
-    #6b21a8 60%,     /* Deeper purple */
-    #581c87 100%     /* Dark purple end */
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  
-  /* Fallback for browsers that don't support background-clip: text */
-  color: var(--colors-primary-600);
-}
-
-/* Subtitle below ROOT title - aligned with bottom-left subtitle */
-.rootSubtitle {
-  position: absolute;
-  top: 28%; /* Positioned below ROOT title */
-  left: 3.5rem; /* Account for subtitleBottomLeft padding (2rem + 1.5rem padding) */
-  z-index: 15;
-  
-  /* Smaller typography */
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(0.6rem, 1.5vw, 1.1rem);
-  font-weight: 300;
-  line-height: 1.3;
-  letter-spacing: 0.5px;
-  margin: 0;
-  text-transform: none;
-  text-align: left; /* Match subtitleBottomLeft alignment */
-  
-  /* Subtle color */
-  color: rgba(74, 58, 90, 0.8);
-  opacity: 0.8;
-  
-  /* Smooth transitions */
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.rootSubtitle.mobile {
-  top: 32%; /* Positioned below the ROOT title */
-  left: 50%; /* Center horizontally */
-  transform: translateX(-50%); /* Center the text */
-  font-size: clamp(0.8rem, 2vw, 1rem);
-  text-align: center; /* Center the text */
-  max-width: 80%; /* Allow more width on mobile */
-}
-
-.mainContent:hover {
-  transform: translate(-50%, -50%);
-}
-
-.heroTitle {
-  color: rgba(42, 42, 42, 0.95);
-  font-size: clamp(3rem, 8vw, 6rem);
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin: 0 0 1.5rem 0;
-  text-align: left;
-  text-transform: uppercase;
-  background: linear-gradient(135deg, rgba(42, 42, 42, 0.95) 0%, rgba(74, 58, 90, 0.9) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.heroTitle.mobile {
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  margin: 0 0 1rem 0;
-  letter-spacing: -0.02em;
-}
-
-
-
-/* Bottom-left subtitle - positioned in columns 1-4, bottom corner */
-.subtitleBottomLeft {
-  position: absolute;
-  bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem)); /* Ensure visibility above safe area */
-  left: 2rem;
-  z-index: 15;
-  color: rgba(74, 58, 90, 0.9);
-  font-size: clamp(2.8rem, 3vw, 3.2rem); /* Increased from clamp(0.8rem, 2vw, 1.2rem) */
-  font-weight: 400; /* Increased from 400 to be between ROOT (900) and Stone Elf (100) */
-  text-transform: none;
-  letter-spacing: -0.02em;
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, sans-serif;
-  background: transparent;
-  margin: 0;
-  padding: 4rem 1.5rem; /* Added padding for better visual presence */
-  max-width: calc(33.33% - 2rem); /* Roughly columns 1-4 width */
-  line-height: 1.1;
-  text-align: left;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  cursor: text; /* Allow text selection */
-  user-select: text; /* Explicitly allow text selection */
-  
-  /* Remove text shadow for clean minimal look */
-  text-shadow: none;
-}
-
-/* Right side subtitle - for the longer descriptive text */
-.subtitleRightSide {
-  position: absolute;
-  top: 50%;
-  right: 3rem;
-  transform: translateY(-50%);
-  z-index: 15;
-  color: rgba(74, 58, 90, 0.8);
-  font-size: clamp(0.75rem, 2vw, 1.1rem); /* Reduced from clamp(0.9rem, 2.5vw, 1.4rem) */
-  font-weight: 300;
-  text-transform: none;
-  letter-spacing: -0.02em;
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, sans-serif;
-  background: transparent;
-  margin: 0;
-  padding: 0;
-  max-width: 320px;
-  line-height: 1.1;
-  text-align: left;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  cursor: text; /* Allow text selection */
-  user-select: text; /* Explicitly allow text selection */
-  
-  /* Remove text shadow for clean minimal look */
-  text-shadow: none;
-}
-
-/* Removed hover effect as subtitle should be static */
-
-.subtitle.mobile {
-  font-size: 0.75rem;
-  padding: 0.8rem 1.5rem;
-}
-
-/* Mobile styles for bottom-left subtitle */
-.subtitleBottomLeft.mobile {
-  font-size: clamp(1rem, 4vw, 1.4rem); /* Increased proportionally from clamp(0.7rem, 3vw, 1rem) */
-  font-weight: 600; /* Maintain increased font weight on mobile */
-  bottom: max(1rem, env(safe-area-inset-bottom, 1rem)); /* Ensure visibility above safe area on mobile */
-  left: 1.5rem;
-  padding: 0.8rem 1.2rem; /* Adjusted padding for mobile */
-  max-width: calc(60% - 1.5rem);
-  line-height: 1.2;
-}
-
-/* Mobile styles for right side subtitle */
-.subtitleRightSide.mobile {
-  font-size: clamp(0.65rem, 3vw, 0.9rem); /* Smaller to match the reduced desktop size */
-  top: 60%;
-  right: 2rem;
-  max-width: calc(50% - 2rem);
-  text-align: left;
-  line-height: 1.1;
-}
-
-/* New CTA Button with Glass Morphism and Apple-style Purple Accent */
-.ctaButton {
-  position: relative;
-  z-index: 25; /* Highest z-index to appear above everything including canvas and pebble */
-  margin-top: 8rem;
-  padding: 1rem 3rem;
-  
-  /* Glass morphism with minimal purple accent */
-  background: rgba(255, 255, 255, 1);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 4px solid rgba(147, 51, 234, 0.15); /* Subtle purple border */
-  
-  border-radius: 40px;
-  color: #3b0764; /* Apple-style primary text */
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, sans-serif;
-  letter-spacing: 0.025em;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
-  
-  /* Minimal Apple-style shadows */
-  box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.12),
-    0 1px 2px rgba(0, 0, 0, 0.24);
-    
-  /* Smooth transitions */
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transform: translateY(0) scale(1);
 }
 
-
-/* Futuristic hover microinteractions */
-.ctaButton::after {
-  content: '';
+/* Soft Purple Gradient Background */
+.gradientBackground {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0.2) 30%,
-    transparent 70%
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    #fefbff 0%,      /* Almost white with hint of purple */
+    #fdf7ff 15%,     /* Very light lavender */
+    #f9f3ff 30%,     /* Soft light purple */
+    #f5efff 50%,     /* Light purple */
+    #f1ebff 70%,     /* Slightly deeper purple */
+    #ede7ff 85%,     /* Soft purple */
+    #e9e3ff 100%     /* Light purple end */
   );
-  border-radius: 50%;
-  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform: translate(-50%, -50%);
-  opacity: 0;
   z-index: 1;
+}
+
+/* Nature Shadows Container */
+.natureShadows {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
   pointer-events: none;
+  overflow: hidden;
 }
 
-/* Hover state with subtle purple accent */
-.ctaButton:hover {
-  transform: translateY(-2px) scale(1.01);
-  
-  /* Subtle purple accent on hover */
-  background: rgba(147, 51, 234, 0.04);
-  border-color: rgba(147, 51, 234, 0.25);
-  color: #3b0764; /* Keep Apple-style text */
-  letter-spacing: 0.064em;
-  
-  /* Enhanced minimal shadows */
-  box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.15),
-    0 2px 4px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(147, 51, 234, 0.1);
+/* Enhanced Moving Leaf Shadows with Complex Gradient Loops */
+.leafShadow1 {
+  position: absolute;
+  top: 12%;
+  left: 8%;
+  width: 140px;
+  height: 70px;
+  background: 
+    radial-gradient(
+      ellipse 70px 35px at 30% 50%,
+      rgba(34, 139, 34, 0.15) 0%,
+      rgba(85, 107, 47, 0.12) 20%,
+      rgba(107, 142, 35, 0.08) 40%,
+      rgba(154, 205, 50, 0.05) 65%,
+      rgba(173, 255, 47, 0.03) 85%,
+      transparent 100%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(46, 125, 50, 0.08) 0%,
+      transparent 30%,
+      rgba(34, 139, 34, 0.06) 70%,
+      transparent 100%
+    );
+  border-radius: 60% 40% 55% 45%;
+  transform: rotate(-12deg);
+  filter: blur(1.5px);
+  animation: 
+    leafDance1 8s ease-in-out infinite, 
+    leafGradientShift1 12s ease-in-out infinite,
+    leafColorCycle1 20s ease-in-out infinite;
 }
 
-/* Focus state for accessibility */
-.ctaButton:focus {
-  outline: none;
-  transform: translateY(-1px) scale(1.005);
-  
-  /* Accessible focus ring with purple accent */
-  box-shadow: 
-    0 3px 6px rgba(0, 0, 0, 0.12),
-    0 2px 4px rgba(0, 0, 0, 0.16),
-    0 0 0 3px rgba(147, 51, 234, 0.2);
+.leafShadow2 {
+  position: absolute;
+  top: 18%;
+  right: 15%;
+  width: 100px;
+  height: 50px;
+  background: 
+    radial-gradient(
+      ellipse 50px 25px at 70% 30%,
+      rgba(139, 69, 19, 0.13) 0%,
+      rgba(160, 82, 45, 0.10) 25%,
+      rgba(205, 133, 63, 0.07) 50%,
+      rgba(222, 184, 135, 0.05) 75%,
+      rgba(245, 222, 179, 0.03) 90%,
+      transparent 100%
+    ),
+    linear-gradient(
+      85deg,
+      rgba(160, 82, 45, 0.06) 0%,
+      transparent 40%,
+      rgba(139, 69, 19, 0.04) 80%,
+      transparent 100%
+    );
+  border-radius: 45% 55% 40% 60%;
+  transform: rotate(18deg);
+  filter: blur(1.2px);
+  animation: 
+    leafDance2 10s ease-in-out infinite reverse, 
+    leafGradientShift2 15s ease-in-out infinite,
+    leafColorCycle2 18s ease-in-out infinite;
 }
 
-/* Active/pressed state */
-.ctaButton:active {
-  transform: translateY(0) scale(0.98);
-  transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  
-  /* Minimal pressed effect */
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.2),
-    inset 0 1px 2px rgba(147, 51, 234, 0.1);
+.leafShadow3 {
+  position: absolute;
+  top: 35%;
+  left: 25%;
+  width: 90px;
+  height: 45px;
+  background: 
+    radial-gradient(
+      ellipse 45px 22px at 40% 60%,
+      rgba(72, 61, 139, 0.11) 0%,
+      rgba(123, 104, 238, 0.09) 30%,
+      rgba(147, 112, 219, 0.06) 60%,
+      rgba(186, 85, 211, 0.04) 80%,
+      rgba(221, 160, 221, 0.02) 95%,
+      transparent 100%
+    ),
+    linear-gradient(
+      170deg,
+      rgba(123, 104, 238, 0.07) 0%,
+      transparent 35%,
+      rgba(72, 61, 139, 0.05) 65%,
+      transparent 100%
+    );
+  border-radius: 50% 50% 60% 40%;
+  transform: rotate(-8deg);
+  filter: blur(1px);
+  animation: 
+    leafDance3 12s ease-in-out infinite, 
+    leafGradientShift3 18s ease-in-out infinite,
+    leafColorCycle3 22s ease-in-out infinite;
 }
 
-.ctaButton:active::before {
-  opacity: 0.8;
+.leafShadow4 {
+  position: absolute;
+  bottom: 28%;
+  right: 12%;
+  width: 110px;
+  height: 55px;
+  background: 
+    radial-gradient(
+      ellipse 55px 27px at 60% 40%,
+      rgba(46, 125, 50, 0.14) 0%,
+      rgba(76, 175, 80, 0.11) 20%,
+      rgba(129, 199, 132, 0.08) 45%,
+      rgba(165, 214, 167, 0.05) 70%,
+      rgba(200, 230, 201, 0.03) 90%,
+      transparent 100%
+    ),
+    linear-gradient(
+      45deg,
+      rgba(76, 175, 80, 0.06) 0%,
+      transparent 30%,
+      rgba(46, 125, 50, 0.04) 70%,
+      transparent 100%
+    );
+  border-radius: 40% 60% 50% 50%;
+  transform: rotate(25deg);
+  filter: blur(1.3px);
+  animation: 
+    leafDance4 9s ease-in-out infinite reverse, 
+    leafGradientShift4 14s ease-in-out infinite,
+    leafColorCycle4 16s ease-in-out infinite;
 }
 
-/* Subtle idle animation */
-@keyframes buttonBreath {
+/* Additional Detailed Leaf Shadows */
+.leafShadow5 {
+  position: absolute;
+  top: 8%;
+  left: 45%;
+  width: 75px;
+  height: 38px;
+  background: 
+    radial-gradient(
+      ellipse 37px 19px at 50% 40%,
+      rgba(34, 139, 34, 0.10) 0%,
+      rgba(107, 142, 35, 0.08) 35%,
+      rgba(154, 205, 50, 0.05) 70%,
+      transparent 100%
+    );
+  border-radius: 55% 45% 50% 50%;
+  transform: rotate(-25deg);
+  filter: blur(0.8px);
+  animation: 
+    leafDance5 14s ease-in-out infinite, 
+    leafGradientShift5 19s ease-in-out infinite;
+}
+
+.leafShadow6 {
+  position: absolute;
+  bottom: 15%;
+  left: 18%;
+  width: 95px;
+  height: 48px;
+  background: 
+    radial-gradient(
+      ellipse 47px 24px at 35% 55%,
+      rgba(139, 69, 19, 0.09) 0%,
+      rgba(205, 133, 63, 0.07) 40%,
+      rgba(222, 184, 135, 0.04) 75%,
+      transparent 100%
+    );
+  border-radius: 48% 52% 45% 55%;
+  transform: rotate(32deg);
+  filter: blur(1.1px);
+  animation: 
+    leafDance6 11s ease-in-out infinite reverse, 
+    leafGradientShift6 17s ease-in-out infinite;
+}
+
+/* Moving Branch Shadows */
+.branchShadow1 {
+  position: absolute;
+  top: 5%;
+  left: 2%;
+  width: 280px;
+  height: 12px;
+  background: linear-gradient(
+    85deg,
+    transparent 0%,
+    rgba(101, 67, 33, 0.08) 15%,
+    rgba(139, 69, 19, 0.12) 35%,
+    rgba(160, 82, 45, 0.10) 55%,
+    rgba(205, 133, 63, 0.08) 75%,
+    rgba(222, 184, 135, 0.05) 90%,
+    transparent 100%
+  );
+  border-radius: 6px;
+  transform: rotate(-22deg);
+  filter: blur(2px);
+  animation: branchSway1 15s ease-in-out infinite, branchGradientFlow1 20s linear infinite;
+}
+
+.branchShadow2 {
+  position: absolute;
+  bottom: 12%;
+  right: 5%;
+  width: 220px;
+  height: 10px;
+  background: linear-gradient(
+    75deg,
+    transparent 0%,
+    rgba(85, 107, 47, 0.07) 20%,
+    rgba(107, 142, 35, 0.10) 40%,
+    rgba(154, 205, 50, 0.08) 60%,
+    rgba(173, 255, 47, 0.06) 80%,
+    transparent 100%
+  );
+  border-radius: 5px;
+  transform: rotate(32deg);
+  filter: blur(1.8px);
+  animation: branchSway2 18s ease-in-out infinite reverse, branchGradientFlow2 25s linear infinite;
+}
+
+/* Foliage Cluster Shadows */
+.foliageShadow1 {
+  position: absolute;
+  top: 25%;
+  left: 5%;
+  width: 200px;
+  height: 140px;
+  background: radial-gradient(
+    ellipse 100px 70px at 45% 55%,
+    rgba(34, 139, 34, 0.08) 0%,
+    rgba(85, 107, 47, 0.10) 20%,
+    rgba(107, 142, 35, 0.08) 40%,
+    rgba(154, 205, 50, 0.06) 65%,
+    rgba(173, 255, 47, 0.04) 85%,
+    transparent 100%
+  );
+  border-radius: 45% 55% 60% 40%;
+  transform: rotate(-5deg);
+  filter: blur(2.5px);
+  animation: foliageWave1 20s ease-in-out infinite, foliageGradientPulse1 16s ease-in-out infinite;
+}
+
+.foliageShadow2 {
+  position: absolute;
+  bottom: 20%;
+  left: 30%;
+  width: 160px;
+  height: 100px;
+  background: radial-gradient(
+    ellipse 80px 50px at 60% 40%,
+    rgba(72, 61, 139, 0.07) 0%,
+    rgba(123, 104, 238, 0.09) 25%,
+    rgba(147, 112, 219, 0.07) 50%,
+    rgba(186, 85, 211, 0.05) 75%,
+    rgba(221, 160, 221, 0.03) 90%,
+    transparent 100%
+  );
+  border-radius: 55% 45% 50% 50%;
+  transform: rotate(15deg);
+  filter: blur(2.2px);
+  animation: foliageWave2 22s ease-in-out infinite reverse, foliageGradientPulse2 19s ease-in-out infinite;
+}
+
+/* Grass/Plant Shadows */
+.plantShadow1 {
+  position: absolute;
+  top: 45%;
+  right: 8%;
+  width: 80px;
+  height: 240px;
+  background: linear-gradient(
+    175deg,
+    transparent 0%,
+    rgba(46, 125, 50, 0.06) 15%,
+    rgba(76, 175, 80, 0.08) 30%,
+    rgba(129, 199, 132, 0.10) 50%,
+    rgba(165, 214, 167, 0.08) 70%,
+    rgba(200, 230, 201, 0.05) 85%,
+    transparent 100%
+  );
+  border-radius: 40px;
+  transform: rotate(12deg);
+  filter: blur(3px);
+  animation: grassSway1 25s ease-in-out infinite, grassGradientFlow1 30s linear infinite;
+}
+
+.plantShadow2 {
+  position: absolute;
+  bottom: 8%;
+  right: 25%;
+  width: 60px;
+  height: 180px;
+  background: linear-gradient(
+    170deg,
+    transparent 0%,
+    rgba(72, 61, 139, 0.05) 20%,
+    rgba(123, 104, 238, 0.07) 40%,
+    rgba(147, 112, 219, 0.09) 60%,
+    rgba(186, 85, 211, 0.06) 80%,
+    transparent 100%
+  );
+  border-radius: 30px;
+  transform: rotate(-8deg);
+  filter: blur(2.8px);
+  animation: grassSway2 28s ease-in-out infinite reverse, grassGradientFlow2 35s linear infinite;
+}
+
+/* Enhanced Leaf Dance Animations with Natural Movement */
+@keyframes leafDance1 {
   0%, 100% { 
-    transform: translateY(0) scale(1);
-    box-shadow: 
-      0 1px 3px rgba(0, 0, 0, 0.12),
-      0 1px 2px rgba(0, 0, 0, 0.24);
+    transform: rotate(-12deg) translateX(0) translateY(0) scale(1); 
+    opacity: 0.8;
+  }
+  15% { 
+    transform: rotate(-8deg) translateX(4px) translateY(-3px) scale(1.03); 
+    opacity: 0.9;
+  }
+  35% { 
+    transform: rotate(-15deg) translateX(-2px) translateY(2px) scale(0.97); 
+    opacity: 0.85;
+  }
+  55% { 
+    transform: rotate(-10deg) translateX(5px) translateY(-1px) scale(1.02); 
+    opacity: 0.95;
+  }
+  75% { 
+    transform: rotate(-14deg) translateX(-3px) translateY(3px) scale(0.98); 
+    opacity: 0.87;
+  }
+  90% { 
+    transform: rotate(-9deg) translateX(2px) translateY(-2px) scale(1.01); 
+    opacity: 0.92;
+  }
+}
+
+@keyframes leafDance2 {
+  0%, 100% { 
+    transform: rotate(18deg) translateX(0) translateY(0) scale(1); 
+    opacity: 0.75;
+  }
+  20% { 
+    transform: rotate(23deg) translateX(-4px) translateY(3px) scale(1.04); 
+    opacity: 0.88;
+  }
+  40% { 
+    transform: rotate(15deg) translateX(3px) translateY(-4px) scale(0.96); 
+    opacity: 0.82;
+  }
+  60% { 
+    transform: rotate(21deg) translateX(-2px) translateY(2px) scale(1.03); 
+    opacity: 0.91;
+  }
+  80% { 
+    transform: rotate(16deg) translateX(4px) translateY(-1px) scale(0.99); 
+    opacity: 0.86;
+  }
+}
+
+@keyframes leafDance3 {
+  0%, 100% { 
+    transform: rotate(-8deg) translateX(0) translateY(0) scale(1); 
+    opacity: 0.85;
+  }
+  25% { 
+    transform: rotate(-4deg) translateX(3px) translateY(-2px) scale(1.02); 
+    opacity: 0.92;
   }
   50% { 
-    transform: translateY(-1px) scale(1.001);
-    box-shadow: 
-      0 2px 4px rgba(0, 0, 0, 0.15),
-      0 1px 3px rgba(0, 0, 0, 0.25);
+    transform: rotate(-13deg) translateX(-4px) translateY(3px) scale(0.98); 
+    opacity: 0.88;
+  }
+  75% { 
+    transform: rotate(-6deg) translateX(2px) translateY(-3px) scale(1.01); 
+    opacity: 0.94;
   }
 }
 
-.ctaButton {
-  animation: buttonBreath 4s ease-in-out infinite;
-}
-
-/* Enhanced Scroll Cue with Apple-inspired Minimal Design */
-.scrollCue {
-  position: absolute;
-  bottom: max(3rem, env(safe-area-inset-bottom, 3rem));
-  left: 50%;
-  transform: translateX(-50%);
-  width: 32px;
-  height: 56px;
-  opacity: 0.6;
-  z-index: 15;
-  stroke: #86868b; /* Apple secondary gray */
-  stroke-width: 1.5;
-  fill: none;
-  border: 1px solid rgba(186, 148, 255, 0.25);
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(24px);
-  border-radius: 16px;
-  padding: 6px;
-  box-shadow: 0 4px 20px rgba(200, 170, 255, 0.15);
-  
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  animation: scrollBounce 4s infinite ease-in-out;
-}
-
-.scrollCue:hover {
-  stroke: rgba(180, 150, 220, 1);
-  background: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 6px 25px rgba(200, 170, 255, 0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(24px);
-}
-
-@keyframes scrollBounce {
+@keyframes leafDance4 {
   0%, 100% { 
-    transform: translateX(-50%) translateY(0);
+    transform: rotate(25deg) translateX(0) translateY(0) scale(1); 
+    opacity: 0.8;
+  }
+  30% { 
+    transform: rotate(29deg) translateX(-3px) translateY(-3px) scale(1.03); 
+    opacity: 0.9;
+  }
+  60% { 
+    transform: rotate(21deg) translateX(4px) translateY(2px) scale(0.97); 
+    opacity: 0.85;
+  }
+  85% { 
+    transform: rotate(27deg) translateX(-1px) translateY(-1px) scale(1.01); 
+    opacity: 0.88;
+  }
+}
+
+@keyframes leafDance5 {
+  0%, 100% { 
+    transform: rotate(-25deg) translateX(0) translateY(0) scale(1); 
     opacity: 0.7;
   }
+  40% { 
+    transform: rotate(-20deg) translateX(2px) translateY(-2px) scale(1.02); 
+    opacity: 0.83;
+  }
+  70% { 
+    transform: rotate(-28deg) translateX(-3px) translateY(1px) scale(0.98); 
+    opacity: 0.78;
+  }
+}
+
+@keyframes leafDance6 {
+  0%, 100% { 
+    transform: rotate(32deg) translateX(0) translateY(0) scale(1); 
+    opacity: 0.73;
+  }
+  35% { 
+    transform: rotate(36deg) translateX(-2px) translateY(-2px) scale(1.03); 
+    opacity: 0.87;
+  }
+  65% { 
+    transform: rotate(28deg) translateX(3px) translateY(2px) scale(0.97); 
+    opacity: 0.81;
+  }
+}
+
+/* Enhanced Gradient Shift and Color Cycle Animations */
+@keyframes leafGradientShift1 {
+  0%, 100% { 
+    filter: blur(1.5px) hue-rotate(0deg) saturate(1) brightness(1); 
+  }
+  20% { 
+    filter: blur(1.2px) hue-rotate(8deg) saturate(1.15) brightness(1.05); 
+  }
+  40% { 
+    filter: blur(1.8px) hue-rotate(-5deg) saturate(0.9) brightness(0.98); 
+  }
+  60% { 
+    filter: blur(1.4px) hue-rotate(12deg) saturate(1.08) brightness(1.02); 
+  }
+  80% { 
+    filter: blur(1.6px) hue-rotate(-3deg) saturate(0.95) brightness(1.01); 
+  }
+}
+
+@keyframes leafGradientShift2 {
+  0%, 100% { 
+    filter: blur(1.2px) hue-rotate(0deg) saturate(1) brightness(1); 
+  }
+  25% { 
+    filter: blur(0.9px) hue-rotate(-8deg) saturate(1.2) brightness(1.08); 
+  }
   50% { 
-    transform: translateX(-50%) translateY(-12px);
-    opacity: 1;
+    filter: blur(1.5px) hue-rotate(15deg) saturate(0.85) brightness(0.96); 
+  }
+  75% { 
+    filter: blur(1.1px) hue-rotate(6deg) saturate(1.1) brightness(1.04); 
   }
 }
 
-/* Floating Elements Animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-/* Subtitle and CTA button are now static, removed animations */
-
-/* Enhanced Typography inspired by provided code */
-.heroTitle {
-  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: rgba(58, 42, 74, 0.9); /* Dark purple-gray for contrast */
-  margin-bottom: 1.5rem;
-  margin: 0;
-}
-
-.heroSubtitle {
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
-  font-size: 1.125rem;
-  font-weight: 400;
-  color: rgba(106, 90, 122, 0.8); /* Softer purple-gray */
-  line-height: 1.6;
-  margin-bottom: 2.5rem;
-  opacity: 0.9;
-  margin: 0;
-}
-
-/* Loading state animations */
-.heroWrapper[data-loading="true"] .mainContent {
-  opacity: 0;
-  transform: translate(-50%, -45%);
-}
-
-.heroWrapper[data-loading="false"] .mainContent {
-  opacity: 1;
-  transform: translate(-50%, -50%);
-  transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
-}
-
-/* Reduced motion support with bright lilac fallback */
-@media (prefers-reduced-motion: reduce) {
-  .heroWrapper {
-    animation: none;
-    background: linear-gradient(
-      170deg,
-      #f8f5ff 0%,    /* Very light lilac */
-      #f2ecff 50%,   /* Light lilac */
-      #ede6ff 100%   /* Soft lilac */
-    );
+@keyframes leafGradientShift3 {
+  0%, 100% { 
+    filter: blur(1px) hue-rotate(0deg) saturate(1) brightness(1); 
   }
-  
-  .heroWrapper::before,
-  .heroWrapper::after {
-    animation: none;
+  33% { 
+    filter: blur(1.4px) hue-rotate(-12deg) saturate(1.25) brightness(1.06); 
   }
-  
-  .rootText {
-    animation: none;
-  }
-  
-  .scrollCue {
-    animation: none;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(24px);
-  }
-    .ctaButton {
-    animation: none;
-  }
-  
-  .ctaButton:hover {
-    transform: none;
-  }
-  
-  .mainContent {
-    backdrop-filter: blur(15px) brightness(1.05);
-    -webkit-backdrop-filter: blur(15px) brightness(1.05);
+  66% { 
+    filter: blur(0.8px) hue-rotate(10deg) saturate(0.9) brightness(0.97); 
   }
 }
 
-/* High contrast mode adjustments for bright lilac theme */
-@media (prefers-contrast: high) {
-  .ctaButton {
-    background: rgba(147, 51, 234, 0.25);
-    /* border: 2px solid rgba(147, 51, 234, 0.6); */
-    color: rgba(74, 58, 90, 0.9);
-    backdrop-filter: blur(15px);
-    box-shadow: 
-      0 4px 15px rgba(147, 51, 234, 0.2),
-      0 2px 8px rgba(0, 0, 0, 0.3);
+@keyframes leafGradientShift4 {
+  0%, 100% { 
+    filter: blur(1.3px) hue-rotate(0deg) saturate(1) brightness(1); 
   }
-  
-  .ctaButton:hover {
-    background: rgba(147, 51, 234, 0.4);
-    color: rgba(74, 58, 90, 0.9);
-    color: rgba(255, 255, 255, 1);
+  30% { 
+    filter: blur(1px) hue-rotate(9deg) saturate(1.12) brightness(1.03); 
   }
-  
-  .rootText {
-    opacity: 0.6;
-    color: rgba(58, 42, 74, 0.9);
-    border: 2px solid rgba(58, 42, 74, 0.3);
+  70% { 
+    filter: blur(1.6px) hue-rotate(-6deg) saturate(0.93) brightness(0.99); 
   }
-  
-  .subtitleBottomLeft,
-  .subtitle,
-  .heroTitle,
-  .heroSubtitle {
-    color: rgba(58, 42, 74, 1);
-    text-shadow: none;
+}
+
+@keyframes leafGradientShift5 {
+  0%, 100% { 
+    filter: blur(0.8px) hue-rotate(0deg) saturate(1) brightness(1); 
   }
-  
-  .scrollCue {
-    stroke: rgba(58, 42, 74, 0.8);
+  50% { 
+    filter: blur(1.2px) hue-rotate(7deg) saturate(1.08) brightness(1.02); 
+  }
+}
+
+@keyframes leafGradientShift6 {
+  0%, 100% { 
+    filter: blur(1.1px) hue-rotate(0deg) saturate(1) brightness(1); 
+  }
+  40% { 
+    filter: blur(0.9px) hue-rotate(-4deg) saturate(1.15) brightness(1.04); 
+  }
+  80% { 
+    filter: blur(1.4px) hue-rotate(11deg) saturate(0.88) brightness(0.98); 
+  }
+}
+
+/* New Color Cycle Animations for Enhanced Realism */
+@keyframes leafColorCycle1 {
+  0%, 100% { 
+    background-position: 0% 50%, 0% 50%; 
+    opacity: 0.8;
+  }
+  25% { 
+    background-position: 25% 25%, 30% 70%; 
     opacity: 0.9;
-    border: 2px solid rgba(58, 42, 74, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(24px);
+  }
+  50% { 
+    background-position: 50% 75%, 60% 30%; 
+    opacity: 0.85;
+  }
+  75% { 
+    background-position: 75% 40%, 80% 60%; 
+    opacity: 0.95;
   }
 }
 
-/* Responsive adjustments for enhanced typography */
-@media (max-width: 768px) {
-  .heroTitle {
-    font-size: clamp(2rem, 8vw, 3rem);
+@keyframes leafColorCycle2 {
+  0%, 100% { 
+    background-position: 100% 0%, 50% 50%; 
+    opacity: 0.75;
   }
+  30% { 
+    background-position: 70% 80%, 20% 30%; 
+    opacity: 0.88;
+  }
+  60% { 
+    background-position: 40% 20%, 80% 70%; 
+    opacity: 0.82;
+  }
+  90% { 
+    background-position: 10% 60%, 60% 10%; 
+    opacity: 0.91;
+  }
+}
+
+@keyframes leafColorCycle3 {
+  0%, 100% { 
+    background-position: 50% 50%, 0% 100%; 
+    opacity: 0.85;
+  }
+  40% { 
+    background-position: 80% 20%, 70% 30%; 
+    opacity: 0.92;
+  }
+  80% { 
+    background-position: 20% 80%, 40% 60%; 
+    opacity: 0.88;
+  }
+}
+
+@keyframes leafColorCycle4 {
+  0%, 100% { 
+    background-position: 0% 0%, 100% 100%; 
+    opacity: 0.8;
+  }
+  35% { 
+    background-position: 65% 35%, 35% 65%; 
+    opacity: 0.9;
+  }
+  70% { 
+    background-position: 30% 70%, 70% 30%; 
+    opacity: 0.85;
+  }
+}
+
+/* Branch Sway Animations */
+@keyframes branchSway1 {
+  0%, 100% { transform: rotate(-22deg) translateY(0) scaleX(1); }
+  50% { transform: rotate(-25deg) translateY(-1px) scaleX(1.02); }
+}
+
+@keyframes branchSway2 {
+  0%, 100% { transform: rotate(32deg) translateY(0) scaleX(1); }
+  50% { transform: rotate(35deg) translateY(1px) scaleX(0.98); }
+}
+
+@keyframes branchGradientFlow1 {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes branchGradientFlow2 {
+  0% { background-position: 100% 50%; }
+  100% { background-position: -100% 50%; }
+}
+
+/* Foliage Wave Animations */
+@keyframes foliageWave1 {
+  0%, 100% { transform: rotate(-5deg) scale(1) translateY(0); }
+  25% { transform: rotate(-3deg) scale(1.01) translateY(-1px); }
+  50% { transform: rotate(-7deg) scale(0.99) translateY(1px); }
+  75% { transform: rotate(-4deg) scale(1.005) translateY(-0.5px); }
+}
+
+@keyframes foliageWave2 {
+  0%, 100% { transform: rotate(15deg) scale(1) translateY(0); }
+  40% { transform: rotate(17deg) scale(1.02) translateY(-2px); }
+  80% { transform: rotate(13deg) scale(0.98) translateY(1px); }
+}
+
+@keyframes foliageGradientPulse1 {
+  0%, 100% { filter: blur(2.5px) brightness(1) saturate(1); }
+  50% { filter: blur(2.2px) brightness(1.1) saturate(1.15); }
+}
+
+@keyframes foliageGradientPulse2 {
+  0%, 100% { filter: blur(2.2px) brightness(1) saturate(1); }
+  50% { filter: blur(2.5px) brightness(0.95) saturate(1.1); }
+}
+
+/* Grass Sway Animations */
+@keyframes grassSway1 {
+  0%, 100% { transform: rotate(12deg) translateX(0) scaleY(1); }
+  25% { transform: rotate(15deg) translateX(-1px) scaleY(1.01); }
+  50% { transform: rotate(9deg) translateX(2px) scaleY(0.99); }
+  75% { transform: rotate(13deg) translateX(-0.5px) scaleY(1.005); }
+}
+
+@keyframes grassSway2 {
+  0%, 100% { transform: rotate(-8deg) translateX(0) scaleY(1); }
+  30% { transform: rotate(-5deg) translateX(1px) scaleY(1.02); }
+  70% { transform: rotate(-11deg) translateX(-2px) scaleY(0.98); }
+}
+
+@keyframes grassGradientFlow1 {
+  0% { background-position: 50% 0%; }
+  100% { background-position: 50% 200%; }
+}
+
+@keyframes grassGradientFlow2 {
+  0% { background-position: 50% 100%; }
+  100% { background-position: 50% -100%; }
+}
+
+/* Hero Content */
+.heroContent {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 900px;
+  padding: 2rem;
+}
+
+/* ROOT Title */
+.rootTitle {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 100;
+  line-height: 1;
+  letter-spacing: 16px;
+  margin: 0 0 1rem 0;
+  text-transform: uppercase;
   
-  .heroSubtitle {
-    font-size: 1rem;
-  }
+  /* Soft purple gradient text */
+  background: linear-gradient(
+    135deg,
+    #8b5fbf 0%,
+    #6a4c93 30%,
+    #9d4edd 60%,
+    #7209b7 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  /* Subtle text shadow for depth */
+  filter: drop-shadow(0 2px 4px rgba(139, 95, 191, 0.1));
+  animation: fadeInUp 1.2s ease-out;
 }
 
-/* App Store Buttons Container */
-.appButtons {
-  position: absolute;
-  top: calc(50% + 40px); /* Position below the subtitle */
-  right: 3.8rem;
-  z-index: 25; /* Higher z-index to appear above canvas */
-  display: flex;
-  flex-direction: row;
-  gap: 0.75rem;
-  max-width: 320px;
+/* Subtitle */
+.rootSubtitle {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 300;
+  color: rgba(106, 76, 147, 0.8);
+  margin: 0 0 2.5rem 0;
+  letter-spacing: 1px;
+  animation: fadeInUp 1.2s ease-out 0.2s both;
 }
 
-/* Individual App Button */
-.appButton {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.08);
+/* Description */
+.description {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-weight: 300;
+  color: rgba(72, 61, 139, 0.7);
+  margin: 0 0 3rem 0;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeInUp 1.2s ease-out 0.4s both;
+}
+
+/* CTA Button */
+.ctaButton {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 95, 191, 0.1) 0%,
+    rgba(106, 76, 147, 0.15) 100%
+  );
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  color: rgba(74, 58, 90, 0.9);
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  cursor: pointer;
-  min-width: 140px;
-  
-  /* Subtle shadow */
+  border: 2px solid rgba(139, 95, 191, 0.3);
   box-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.05),
-    0 1px 4px rgba(0, 0, 0, 0.08);
+    0 8px 32px rgba(139, 95, 191, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #6a4c93;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  margin: 2rem 0;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 1.2s ease-out 0.6s both;
+}
+
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.ctaButton:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 95, 191, 0.2) 0%,
+    rgba(106, 76, 147, 0.25) 100%
+  );
+  border-color: rgba(139, 95, 191, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px rgba(139, 95, 191, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  color: #5a3d7a;
+}
+
+.ctaButton:hover::before {
+  left: 100%;
+}
+
+/* App Store Buttons */
+.appButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  animation: fadeInUp 1.2s ease-out 0.8s both;
+}
+
+.appButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.9rem 1.8rem;
+  border-radius: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(139, 95, 191, 0.2);
+  box-shadow: 0 4px 20px rgba(139, 95, 191, 0.1);
+  
+  position: relative;
+  overflow: hidden;
+}
+
+.appButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(139, 95, 191, 0.1),
+    transparent
+  );
+  transition: left 0.5s ease;
 }
 
 .appButton:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
-  box-shadow: 
-    0 4px 12px rgba(0, 0, 0, 0.08),
-    0 2px 6px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(139, 95, 191, 0.3);
+  box-shadow: 0 8px 30px rgba(139, 95, 191, 0.15);
 }
 
-.appButton:active {
-  transform: translateY(0);
-  transition: all 0.1s ease;
+.appButton:hover::before {
+  left: 100%;
 }
 
-/* App Button Content Layout */
 .appButtonContent {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  width: 100%;
+  gap: 0.8rem;
+  position: relative;
+  z-index: 1;
 }
 
-/* App Icons */
 .appIcon {
-  width: 20px;
-  height: 20px;
-  color: rgba(74, 58, 90, 0.8);
-  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  color: rgba(106, 76, 147, 0.8);
 }
 
-/* App Button Text */
 .appButtonText {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  line-height: 1.1;
+  color: rgba(72, 61, 139, 0.9);
 }
 
 .downloadText {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: 400;
-  color: rgba(74, 58, 90, 0.7);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  margin-bottom: -2px;
+  opacity: 0.8;
+  line-height: 1;
 }
 
 .storeText {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: rgba(74, 58, 90, 0.9);
-  text-transform: none;
-  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
-/* Mobile styles for app buttons */
-.appButtons.mobile {
+/* Scroll Indicator */
+.scrollIndicator {
   position: absolute;
-  top: auto;
-  bottom: max(8rem, env(safe-area-inset-bottom, 8rem)); /* More bottom spacing */
-  left: 50%; /* Center horizontally */
-  right: auto;
-  transform: translateX(-50%); /* Perfect horizontal centering */
-  flex-direction: column; /* Stack vertically instead of horizontal */
-  gap: 1.25rem; /* Much larger gap between buttons - increased from 0.75rem */
-  max-width: 240px; /* Slightly smaller container for cleaner look */
-  justify-content: center;
-  align-items: center; /* Center-align the buttons */
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  animation: fadeInUp 1.2s ease-out 1s both;
 }
 
-.appButtons.mobile .appButton {
-  min-width: 160px; /* Wider buttons for better mobile experience */
-  padding: 0.8rem 1rem; /* More padding for easier touch targets */
-  width: 100%; /* Full width within the container */
+.scrollIndicator svg {
+  width: 28px;
+  height: 40px;
+  stroke: rgba(139, 95, 191, 0.6);
+  stroke-width: 1.5;
+  fill: none;
+  opacity: 0.8;
+  animation: bounce 2.5s infinite;
 }
 
-.appButtons.mobile .appIcon {
-  width: 18px;
-  height: 18px;
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.appButtons.mobile .downloadText {
-  font-size: 0.6rem;
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-8px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-4px);
+  }
 }
 
-.appButtons.mobile .storeText {
-  font-size: 0.8rem;
-}
-
-/* Tablet and small desktop adjustments */
-@media (max-width: 1024px) {
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .heroContent {
+    padding: 1.5rem;
+  }
+  
+  .rootTitle {
+    font-size: clamp(2.5rem, 7vw, 4rem);
+    letter-spacing: 8px;
+  }
+  
+  .rootSubtitle {
+    font-size: clamp(1rem, 3vw, 1.3rem);
+  }
+  
+  .description {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  }
+  
+  .ctaButton {
+    font-size: 1.1rem;
+    padding: 1rem 2rem;
+  }
+  
   .appButtons {
-    right: 2rem;
-    top: calc(50% + 80px);
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
   }
   
   .appButton {
-    min-width: 130px;
-    padding: 0.65rem 0.9rem;
+    padding: 0.7rem 1.5rem;
   }
   
   .appIcon {
-    width: 19px;
-    height: 19px;
+    width: 22px;
+    height: 22px;
+  }
+    /* Adjust shadow sizes for mobile */
+  .leafShadow1,
+  .leafShadow2,
+  .leafShadow3,
+  .leafShadow4 {
+    transform: scale(0.7);
   }
   
-  .downloadText {
-    font-size: 0.62rem;
+  .leafShadow5,
+  .leafShadow6 {
+    transform: scale(0.6);
   }
   
-  .storeText {
-    font-size: 0.85rem;
+  .branchShadow1,
+  .branchShadow2 {
+    transform: scale(0.6);
+  }
+  
+  .foliageShadow1,
+  .foliageShadow2,
+  .plantShadow1,
+  .plantShadow2 {
+    transform: scale(0.5);
   }
 }
 
-/* Mobile responsive breakpoint */
-@media (max-width: 768px) {
-  /* Hero wrapper mobile improvements */
-  .heroWrapper {
-    height: 100vh;
-    height: 100dvh; /* Use dynamic viewport height on mobile */
-    padding: 0 1rem;
-  }
-    /* ROOT title mobile positioning - perfectly centered and stacked */
-  .rootTitleCenter.mobile {
-    left: 50% !important; /* Perfect horizontal center with important to override base styles */
-    top: 15% !important; /* Much higher - closer to navbar to reduce gap */
-    transform: translate(-50%, -50%) !important; /* Perfect centering with important */
-    font-size: clamp(1.8rem, 7vw, 2.8rem) !important;
-    text-align: center !important; /* Center the text */
-    width: 100% !important; /* Full width for perfect centering */
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .natureShadows > * {
+    animation: none !important;
+    transition: none;
+    opacity: 0.5;
   }
   
-  /* ROOT subtitle mobile positioning - centered and below title */
-  .rootSubtitle.mobile {
-    left: 50% !important; /* Perfect horizontal center with important to override base styles */
-    top: 22% !important; /* Positioned directly below the ROOT title - closer spacing */
-    transform: translate(-50%, -50%) !important; /* Perfect centering for both axes with important */
-    text-align: center !important; /* Center the text */
-    max-width: 90% !important; /* Allow more width on mobile */
-    width: 90% !important; /* Ensure consistent width */
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    opacity: 100%;
-    font-size: clamp(0.8rem, 2.5vw, 1.1rem) !important; /* Slightly larger for better readability */
+  .ctaButton,
+  .appButton {
+    transition: none;
   }
   
-  /* Main content mobile adjustments */
-  .mainContent {
-    top: 45%; /* Move up to accommodate mobile layout */
-    padding: 1rem;
-    max-width: calc(100% - 2rem);
+  .ctaButton::before,
+  .appButton::before {
+    animation: none !important;
   }
-  /* CTA button mobile */
+  
+  @keyframes fadeInUp {
+    from, to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes bounce {
+    from, to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  .rootTitle {
+    -webkit-text-fill-color: #6a4c93;
+    background: none;
+  }
+  
+  .rootSubtitle,
+  .description {
+    color: #483d8b;
+  }
+  
   .ctaButton {
-    margin-top: 6rem; /* Increased from 4rem to move button down */
-    padding: 1rem 2.5rem;
-    font-size: 0.9rem;
+    background: rgba(139, 95, 191, 0.3);
+    border-width: 3px;
+    color: #2d1b47;
   }
-    /* Mobile hover effects - ensuring consistency */
-  .ctaButton:hover {
-    transform: translateY(-2px) scale(1.01);
-    
-    /* Subtle purple accent on hover - same as desktop */
-    background: rgba(147, 51, 234, 0.04) !important;
-    border-color: rgba(147, 51, 234, 0.25) !important;
-    color: #3b0764 !important; /* Keep Apple-style text */
-    letter-spacing: 0.064em;
-    
-    /* Enhanced minimal shadows - same as desktop */
-    box-shadow: 
-      0 4px 8px rgba(0, 0, 0, 0.15),
-      0 2px 4px rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(147, 51, 234, 0.1) !important;
-  }
-  
-  /* Mobile focus and active states for consistency */
-  .ctaButton:focus {
-    outline: none;
-    transform: translateY(-1px) scale(1.005);
-    
-    /* Accessible focus ring with purple accent */
-    box-shadow: 
-      0 3px 6px rgba(0, 0, 0, 0.12),
-      0 2px 4px rgba(0, 0, 0, 0.16),
-      0 0 0 3px rgba(147, 51, 234, 0.2) !important;
-  }
-  
-  .ctaButton:active {
-    transform: translateY(0) scale(0.98);
-    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    /* Minimal pressed effect */
-    box-shadow: 
-      0 1px 2px rgba(0, 0, 0, 0.2),
-      inset 0 1px 2px rgba(147, 51, 234, 0.1) !important;
-  }
-  
-  /* Subtitle mobile improvements */
-  .subtitleBottomLeft {
-    bottom: max(2rem, env(safe-area-inset-bottom, 2rem));
-    left: 1rem;
-    padding: 1rem 1.5rem;
-    font-size: clamp(1.2rem, 5vw, 1.6rem);
-    max-width: calc(65% - 1rem);
-  }
-  
-  .subtitleRightSide {
-    top: 55%;
-    right: 1rem;
-    font-size: clamp(0.7rem, 3.5vw, 1rem);
-    max-width: calc(55% - 1rem);
-  }
-  
-  /* Root text mobile */
-  .rootText {
-    font-size: clamp(1.2rem, 5vw, 2rem);
-  }
-  
-  /* Scroll cue mobile */
-  .scrollCue {
-    bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem));
-    width: 28px;
-    height: 48px;
-  }
-  .appButtons:not(.mobile) {
-    display: none; /* Hide non-mobile version on mobile */
-  }
-  
-  /* Ensure mobile version is visible and properly centered */
-  .appButtons.mobile {
-    display: flex;
-    left: 50% !important; /* Override any conflicting styles */
-    transform: translateX(-50%) !important; /* Ensure perfect centering */
-    flex-direction: column !important; /* Stack vertically */
-    align-items: center !important; /* Center-align buttons */
-  }
-}
-
-/* Large mobile/small tablet adjustments */
-@media (max-width: 480px) {
-  /* Hero layout for small screens */
-  .heroWrapper {
-    padding: 0 0.5rem;
-  }
-    /* ROOT positioning for small screens - perfectly centered and stacked */
-  .rootTitleCenter.mobile {
-    left: 50% !important; /* Perfect horizontal center with important to override base styles */
-    top: 12% !important; /* Even higher on very small screens - closer to navbar */
-    transform: translate(-50%, -50%) !important; /* Perfect centering with important */
-    font-size: clamp(1.5rem, 8vw, 2.2rem) !important;
-    text-align: center !important; /* Center the text */
-    width: 100% !important; /* Full width for perfect centering */
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-  
-  .rootSubtitle.mobile {
-    left: 50% !important; /* Perfect horizontal center with important to override base styles */
-    top: 19% !important; /* Positioned directly below the ROOT title - closer spacing */
-    transform: translate(-50%, -50%) !important; /* Perfect centering for both axes with important */
-    text-align: center !important; /* Center the text */
-    max-width: 95% !important; /* Allow more width on small mobile */
-    width: 95% !important; /* Ensure consistent width */
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    font-size: clamp(0.7rem, 3vw, 1rem) !important; /* Appropriate size for small screens */
-  }
-  
-  /* Main content for small screens */
-  .mainContent {
-    top: 40%;
-    padding: 0.5rem;
-  }
-  /* CTA button for small screens */
-  .ctaButton {
-    margin-top: 5rem; /* Increased from 3rem to move button down */
-    padding: 0.8rem 2rem;
-    font-size: 0.85rem;
-  }
-    /* Small mobile hover effects - ensuring consistency */
-  .ctaButton:hover {
-    transform: translateY(-2px) scale(1.01);
-    
-    /* Subtle purple accent on hover - same as desktop */
-    background: rgba(147, 51, 234, 0.04) !important;
-    border-color: rgba(147, 51, 234, 0.25) !important;
-    color: #3b0764 !important; /* Keep Apple-style text */
-    letter-spacing: 0.064em;
-    
-    /* Enhanced minimal shadows - same as desktop */
-    box-shadow: 
-      0 4px 8px rgba(0, 0, 0, 0.15),
-      0 2px 4px rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(147, 51, 234, 0.1) !important;
-  }
-  
-  /* Small mobile focus and active states for consistency */
-  .ctaButton:focus {
-    outline: none;
-    transform: translateY(-1px) scale(1.005);
-    
-    /* Accessible focus ring with purple accent */
-    box-shadow: 
-      0 3px 6px rgba(0, 0, 0, 0.12),
-      0 2px 4px rgba(0, 0, 0, 0.16),
-      0 0 0 3px rgba(147, 51, 234, 0.2) !important;
-  }
-  
-  .ctaButton:active {
-    transform: translateY(0) scale(0.98);
-    transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    
-    /* Minimal pressed effect */
-    box-shadow: 
-      0 1px 2px rgba(0, 0, 0, 0.2),
-      inset 0 1px 2px rgba(147, 51, 234, 0.1) !important;
-  }
-  
-  /* Subtitles for small screens */
-  .subtitleBottomLeft {
-    bottom: max(1.5rem, env(safe-area-inset-bottom, 1.5rem));
-    left: 0.5rem;
-    padding: 0.8rem 1rem;
-    font-size: clamp(1rem, 6vw, 1.3rem);
-    max-width: calc(70% - 0.5rem);
-    line-height: 1.1;
-  }
-  
-  .subtitleRightSide {
-    top: 50%;
-    right: 0.5rem;
-    font-size: clamp(0.65rem, 4vw, 0.85rem);
-    max-width: calc(60% - 0.5rem);
-    line-height: 1.05;
-  }
-  
-  /* Root text for small screens */
-  .rootText {
-    font-size: clamp(1rem, 6vw, 1.8rem);
-  }
-  /* Mobile menu improvements for small screens */
-  .appButtons.mobile {
-    flex-direction: column !important;
-    gap: 1rem; /* Larger gap for better touch targets and less clutter */
-    bottom: max(6rem, env(safe-area-inset-bottom, 6rem)); /* More spacing from bottom */
-    left: 50% !important; /* Center horizontally */
-    right: auto !important;
-    transform: translateX(-50%) !important; /* Perfect horizontal centering */
-    align-items: center !important; /* Center-align buttons */
-    max-width: 220px; /* Smaller container for cleaner mobile layout */
-  }
-  
-  .appButtons.mobile .appButton {
-    min-width: 140px; /* Wider for better mobile experience */
-    padding: 0.6rem 0.8rem; /* Better touch targets */
-    width: 100%; /* Full width within container */
-  }
-  
-  .appButtons.mobile .appIcon {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .appButtons.mobile .downloadText {
-    font-size: 0.55rem;
-  }
-  
-  .appButtons.mobile .storeText {
-    font-size: 0.75rem;
-  }
-}
-
-/* Floating Lilac Particles Animation */
-@keyframes floatingLilacParticles {
-  0%, 100% {
-    background-position: 
-      0% 0%,
-      0% 0%,
-      0% 0%,
-      100% 0%,
-      0% 100%,
-      100% 100%,
-      0% 0%;
-  }
-  33% {
-    background-position: 
-      100% 100%,
-      30% 30%,
-      70% 20%,
-      20% 70%,
-      80% 80%,
-      10% 30%,
-      0% 0%;
-  }
-  66% {
-    background-position: 
-      50% 50%,
-      80% 70%,
-      20% 80%,
-      70% 30%,
-      30% 20%,
-      90% 70%,
-      0% 0%;
-  }
-}
-
-/* Icon styling for meditation icons */
-.rootWithIcon svg {
-  width: 1.8rem; /* Increased icon size to better match smaller text */
-  height: 1.8rem;
-  color: rgba(74, 58, 90, 0.6);
-  opacity: 0.7;
-  transition: all 0.3s ease;
-  filter: drop-shadow(0 1px 3px rgba(74, 58, 90, 0.1));
-  margin: 0 2rem; /* Increased margin around icons for better spacing */
-  flex-shrink: 0;
-}
-
-.rootWithIcon:hover svg {
-  opacity: 1;
-  color: rgba(74, 58, 90, 0.8);
-  transform: scale(1.1);
-}
-
-/* Pause animation on hover for better interaction */
-.slidingRootContainer:hover .slidingRootTrack {
-  animation-play-state: paused;
-}
-
-/* Breathing animation keyframes for calming color transitions */
-@keyframes breatheBackground {
-  0% { 
-    background: linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #fdfcff 25%,
-      #fbfaff 50%,
-      #f9f7ff 75%,
-      #f7f4ff 100%
-    );
-  }
-  21% { 
-    background: linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #fcfaff 25%,
-      #f8f5ff 50%,
-      #f5f1ff 75%,
-      #f2edff 100%
-    );
-  }
-  58% { 
-    background: linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #fcfaff 25%,
-      #f8f5ff 50%,
-      #f5f1ff 75%,
-      #f2edff 100%
-    );
-  }
-  100% { 
-    background: linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #fdfcff 25%,
-      #fbfaff 50%,
-      #f9f7ff 75%,
-      #f7f4ff 100%
-    );
-  }
-}
-
-/* Enhance the subtle glow with breathing */
-.heroWrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    ellipse at top center,
-    rgba(147, 51, 234, var(--breath-glow, 0.03)) 0%,
-    transparent 70%
-  );
-  animation: breatheGlow 19s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 1;
-}
-
-@keyframes breatheGlow {
-  0% { --breath-glow: 0.03; }
-  21% { --breath-glow: 0.06; }
-  58% { --breath-glow: 0.06; }
-  100% { --breath-glow: 0.03; }
 }
