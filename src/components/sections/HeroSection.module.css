@@ -164,7 +164,8 @@
   font-weight: 600;
   padding: 1.2rem 2.4rem;
   border-radius: 50px;
-  cursor: pointer;  letter-spacing: 0px;
+  cursor: pointer;
+  letter-spacing: 0px;
   transition: letter-spacing 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
               border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -209,7 +210,7 @@
   left: 100%;
 }
 
-/* Video indicators and scroll elements removed as unused */
+/* Video indicators and scroll elements removed */
 
 /* App Store Buttons with Glassmorphism - positioned within left content */
 .appButtons {
@@ -318,6 +319,15 @@
   padding-right: 2rem;
 }
 
+/* Title Group - Grouping title and subtitle for mobile ordering */
+.titleGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: inherit;
+  text-align: inherit;
+  margin-bottom: 1.5rem;
+}
+
 /* Right Side - iPhone-Sized Meditation Player */
 .meditationPlayer {
   width: 350px;
@@ -343,7 +353,7 @@
     0 8px 25px rgba(147, 112, 219, 0.1),
     inset 0 2px 0 rgba(255, 255, 255, 0.4),
     inset 0 -1px 0 rgba(106, 76, 147, 0.1);
-    animation: phoneFloat 12s ease-in-out infinite;
+  animation: phoneFloat 12s ease-in-out infinite;
   
   /* Improve touch interaction */
   touch-action: manipulation;
@@ -1084,89 +1094,234 @@
   50% { height: 35px; }
 }
 
+/* Mobile-specific class modifiers for better control */
+.mobileContent {
+  padding: 1rem !important;
+  gap: 1.5rem !important;
+}
+
+.mobileText {
+  text-align: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.mobileDescription {
+  font-size: 0.9rem !important;
+  line-height: 1.5 !important;
+  max-width: 90% !important;
+  margin: 0 auto 1.5rem auto !important;
+}
+
+.mobileCta {
+  margin: 1.2rem auto 2rem auto !important;
+  font-size: 1rem !important;
+  padding: 0.8rem 1.8rem !important;
+}
+
+.mobileAppButtons {
+  flex-direction: column !important;
+  gap: 0.8rem !important;
+  width: 100% !important;
+  align-items: center !important;
+}
+
+.mobilePlayer {
+  /* Remove phone-like styling for mobile */
+  width: clamp(300px, 90vw, 400px) !important;
+  height: auto !important; /* Let content determine height */
+  min-height: clamp(400px, 50vh, 500px) !important;
+  margin: 1rem auto !important;
+  border-radius: 20px !important; /* Less phone-like, more modern */
+  border: 1px solid rgba(255, 255, 255, 0.2) !important; /* Subtle border */
+  padding: 1.5rem !important;
+  box-shadow: 
+    0 10px 30px rgba(106, 76, 147, 0.1),
+    0 4px 15px rgba(147, 112, 219, 0.05) !important; /* Lighter shadow */
+  animation: none !important; /* Remove floating animation on mobile */
+}
+
+.mobilePlayerHeader {
+  text-align: center !important;
+  margin-bottom: 1rem !important;
+}
+
+.mobilePlayerTitle {
+  font-size: 1.2rem !important;
+}
+
+.mobilePlayerSubtitle {
+  font-size: 0.9rem !important;
+}
+
+.mobileSessionDuration {
+  font-size: 0.8rem !important;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .heroWrapper {
-    height: auto; /* Allow natural height */
-    min-height: 120vh; /* Taller to accommodate content */
-    padding: 2rem 0; /* Proper padding */
-    overflow: visible; /* Show all content */
+    height: auto;
+    min-height: 100vh; /* Fit to viewport */
+    padding: 1.5rem 0;
+    overflow: visible;
   }
-    .heroContent {
-    grid-template-columns: 1fr;
-    gap: 2rem; /* Closer spacing for tablet */
+  .heroContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
     text-align: center;
     max-width: 100%;
-    padding: 2rem;
-    align-items: center; /* Center alignment for tablet */
+    padding: 1.5rem;
+    align-items: center;
   }
-  
   .heroTextContent {
     align-items: center;
     text-align: center;
     padding-right: 0;
-    order: 1; /* Text content first */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
-    .meditationPlayerContainer {
-    order: 2; /* Player second */
-    justify-content: center; /* Center on tablet */
+
+  /* Mobile order: title group first */
+  .titleGroup {
+    order: 1;
     align-items: center;
+    text-align: center;
+    margin-bottom: 2rem;
   }
-  
+  /* Mobile order: meditation player second */
   .meditationPlayer {
-    width: clamp(320px, 55vw, 400px); /* Better tablet proportions */
-    height: clamp(500px, 60vh, 650px); /* Proper height without cutoff */
-    margin: 0; /* Container handles positioning */
-    padding: clamp(1.5rem, 3vw, 2rem); /* Consistent padding */
-    /* Reset transform for tablet */
-    transform: none;
-    /* Ensure full visibility */
+    order: 2;
+    width: clamp(350px, 60vw, 450px); /* Better tablet proportions */
+    height: auto !important;
+    min-height: clamp(500px, 60vh, 600px) !important;
+    margin: 2rem auto;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border-radius: 25px !important; /* Less phone-like for tablet */
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    transform: none; /* Reset transform for tablet */
     position: relative;
     z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    animation: none !important; /* Remove floating animation */
+    box-shadow: 
+      0 15px 40px rgba(106, 76, 147, 0.12),
+      0 6px 20px rgba(147, 112, 219, 0.08) !important;
+  }
+
+  /* Mobile order: CTA button third */
+  .ctaButton {
+    order: 3;
+    margin: 1.5rem 0;
+  }
+
+  /* Mobile order: description fourth */
+  .description {
+    order: 4;
+    margin: 1rem 0;
+  }
+
+  /* Mobile order: app buttons last */
+  .appButtons {
+    order: 5;
+    margin-top: 2rem;
   }
   
   /* Scale player content proportionally */
   .playerHeader {
-    margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+    margin-bottom: clamp(1rem, 2vh, 1.5rem);
     position: relative;
     z-index: 20;
     flex-shrink: 0;
+    text-align: center;
   }
   
   .playerTitle {
-    font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+    font-size: clamp(1.3rem, 3.2vw, 1.6rem);
   }
   
   .playerSubtitle {
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    font-size: clamp(1rem, 2.3vw, 1.2rem);
   }
   
   .sessionDuration {
-    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-size: clamp(0.85rem, 1.8vw, 1rem);
   }
   
   /* Better tablet typography */
   .rootTitle {
-    font-size: clamp(3.5rem, 7vw, 5rem);
-    letter-spacing: clamp(8px, 2vw, 12px);
-    margin-bottom: 1.5rem;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    letter-spacing: clamp(6px, 1.3vw, 10px);
+    margin-bottom: 1rem;
   }
   
   .rootSubtitle {
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
-    margin-bottom: 2rem;
+    font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+    margin-bottom: 1.5rem;
   }
   
   .description {
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    max-width: 90%;
-    margin: 0 auto 2.5rem auto;
+    font-size: clamp(1rem, 2.8vw, 1.3rem);
+    max-width: 64%;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .ctaButton {
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    padding: clamp(1rem, 2.5vw, 1.5rem) clamp(2rem, 5vw, 3rem);
-    margin: 2rem auto 3rem auto;
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    padding: clamp(1rem, 2.5vw, 1.3rem) clamp(2rem, 4vw, 2.8rem);
+    margin: 2rem auto;
+  }
+  
+  /* Tablet app store buttons */
+  .appButtons {
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .appButton {
+    width: clamp(160px, 35vw, 200px);
+    font-size: clamp(0.8rem, 1.8vw, 1rem);
+  }
+  
+  /* Tablet breathing circle */
+  .breathingCircle {
+    width: clamp(160px, 28vw, 200px);
+    height: clamp(160px, 28vw, 200px);
+  }
+  
+  /* Tablet meditation visual */
+  .meditationVisual {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    max-height: 300px;
+    padding: 1rem;
+  }
+  
+  /* Tablet controls */
+  .playerControls {
+    margin-top: 1.2rem;
+    padding: 1rem;
+    gap: 1.2rem;
+  }
+  
+  .controlButton {
+    width: clamp(40px, 7vw, 50px);
+    height: clamp(40px, 7vw, 50px);
+  }
+  
+  .playButton {
+    width: clamp(50px, 9vw, 60px);
+    height: clamp(50px, 9vw, 60px);
   }
   
   /* App buttons layout for tablet */
@@ -1201,402 +1356,124 @@
 
 @media (max-width: 768px) {
   .heroWrapper {
-    height: auto; /* Allow natural height */
-    min-height: 130vh; /* Taller for mobile content */
-    padding: 1.5rem 0; /* Better padding */
-    overflow: visible; /* Show all content */
-  }
-    .heroContent {
-    gap: 3rem; /* Better spacing */
-    padding: clamp(1rem, 4vw, 2rem);
-    align-items: center; /* Center alignment for mobile */
-  }
-  .meditationPlayerContainer {
-    order: 2; /* Player second on mobile */
-    justify-content: center; /* Center on mobile */
+    height: auto;
+    min-height: 100vh; /* More conservative height */
+    padding: 1rem 0;
+    overflow: visible;
+  } 
+  .heroContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Reduced gap for better spacing */
+    padding: 1rem;
     align-items: center;
+    text-align: center;
   }
-    .meditationPlayer {
-    width: clamp(280px, 80vw, 360px);
-    height: clamp(500px, 70vh, 600px); /* Increase height to prevent cutoff */
-    padding: 1.5rem; /* Even padding all around */
-    margin: 0;
+  .heroTextContent {
+    align-items: center;
+    text-align: center;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Mobile order: title group first */
+  .titleGroup {
+    order: 1;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  /* Mobile order: meditation player second */
+  .meditationPlayer {
+    order: 2;
+    width: clamp(300px, 90vw, 400px) !important;
+    height: auto !important;
+    min-height: clamp(400px, 50vh, 500px) !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem auto !important;
     max-width: calc(100vw - 2rem);
-    transform: none; /* Reset transform for mobile */
-    touch-action: manipulation;
+    border-radius: 20px !important; /* Less phone-like */
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    transform: none;
     position: relative;
     z-index: 5;
-    gap: 1rem; /* Consistent spacing */
-    justify-content: space-between; /* Distribute content evenly */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    animation: none !important; /* Remove floating animation */
+    box-shadow: 
+      0 10px 30px rgba(106, 76, 147, 0.1),
+      0 4px 15px rgba(147, 112, 219, 0.05) !important;
   }
-    /* Improve breathing circle responsiveness */
+
+  /* Mobile order: CTA button third */
+  .ctaButton {
+    order: 3;
+    margin: 1.5rem 0;
+  }
+
+  /* Mobile order: description fourth */
+  .description {
+    order: 4;
+    margin: 1rem 0;
+  }
+
+  /* Mobile order: app buttons last */
+  .appButtons {
+    order: 5;
+    margin-top: 1.5rem;
+  }
+
+  /* Improve breathing circle responsiveness */
   .breathingCircle {
-    width: clamp(140px, 28vw, 180px);
-    height: clamp(140px, 28vw, 180px);
-    animation: breathe 6s ease-in-out infinite; /* Use simplified animation */
+    width: clamp(120px, 25vw, 160px);
+    height: clamp(120px, 25vw, 160px);
+    margin: 0 auto;
   }
-    /* Scale meditation visual area */
+
+  /* Scale meditation visual area */
   .meditationVisual {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 200px; /* Fixed minimum height */
-    max-height: 280px; /* Prevent too large */
-    padding: 1rem; /* Even padding */
-    margin: 0; /* No margin for even spacing */
+    min-height: 180px;
+    max-height: 240px;
+    padding: 0.8rem;
+    margin: 0;
   }
-  
-  /* Mobile typography improvements */
-  .rootTitle {
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    letter-spacing: clamp(4px, 1.5vw, 8px);
-    margin-bottom: 1rem;
+}
+
+/* Desktop Layout - Keep original two-column layout */
+@media (min-width: 1025px) {
+  .heroContent {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: center;
+    padding: 3rem 2rem;
   }
-  
-  .rootSubtitle {
-    font-size: clamp(1rem, 4vw, 1.5rem);
+
+  .heroTextContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding-right: 2rem;
+  }
+
+  .titleGroup {
+    align-items: flex-start;
+    text-align: left;
     margin-bottom: 1.5rem;
   }
-  
-  .description {
-    font-size: clamp(0.9rem, 3.5vw, 1.2rem);
-    margin-bottom: 2rem;
-    max-width: 95%;
-  }
-  
-  .ctaButton {
-    font-size: clamp(1rem, 4vw, 1.3rem);
-    padding: clamp(0.8rem, 3vw, 1.2rem) clamp(1.8rem, 6vw, 2.5rem);
-    margin: 1.5rem auto 2.5rem auto;
-  }
-  
-  /* Responsive aura layers */
-  .auraLayer[data-layer="1"] {
-    width: 115%;
-    height: 115%;
-  }
-  
-  .auraLayer[data-layer="2"] {
-    width: 130%;
-    height: 130%;
-  }
-  
-  .auraLayer[data-layer="3"] {
-    width: 145%;
-    height: 145%;
-  }
-  
-  .auraLayer[data-layer="4"] {
-    width: 160%;
-    height: 160%;
-  }
-  
-  .auraLayer[data-layer="5"] {
-    width: 175%;
-    height: 175%;
-  }
-  
-  /* Scale floating particles for mobile */
-  .floatingParticle {
-    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(clamp(-60px, -15vw, -100px));
-  }
-  
-  .sparkle {
-    transform: rotate(var(--angle)) translateX(clamp(40px, 12vw, 60px)) translate(-50%, -50%);
-  }
-    /* Improve player controls for touch */
-  .playerControls {
-    gap: 1.5rem; /* Fixed gap for consistency */
-    padding: 0; /* No padding for even spacing */
-    margin: 0; /* No margin */
-  }
-  
-  .controlButton {
-    width: clamp(35px, 8vw, 45px);
-    height: clamp(35px, 8vw, 45px);
-    background: rgba(106, 76, 147, 0.08);
-    /* Improve touch targets */
-    min-width: 44px;
-    min-height: 44px;
-  }
-  
-  .playButton {
-    width: clamp(50px, 12vw, 65px);
-    height: clamp(50px, 12vw, 65px);
-    background: linear-gradient(135deg, 
-      rgba(106, 76, 147, 0.7) 0%, 
-      rgba(142, 107, 184, 0.6) 100%
-    );
-    /* Improve touch targets */
-    min-width: 56px;
-    min-height: 56px;
-  }
-    /* Progress container improvements */
-  .progressContainer {
-    padding: 0; /* No padding for even spacing */
-    margin: 0; /* No margin */
-  }
-    .progressBar {
-    height: 6px; /* Fixed height */
-    margin-bottom: 0.5rem; /* Small margin for time display */
-  }
-  
-  .timeDisplay {
-    font-size: clamp(0.7rem, 2vw, 0.85rem);
-  }
-  
-  /* Responsive text sizing */
-  .playerTitle {
-    font-size: clamp(1rem, 4vw, 1.2rem);
-  }
-  
-  .playerSubtitle {
-    font-size: clamp(0.8rem, 3vw, 0.95rem);
-  }
-  
-  .sessionDuration {
-    font-size: clamp(0.7rem, 2.5vw, 0.85rem);
-  }
-  
-  /* Sound waves responsiveness */
-  .wave {
-    width: clamp(2px, 1vw, 4px);
-    opacity: 0.5;
-  }
-  
-  .progressFill {
-    background: linear-gradient(90deg, 
-      rgba(106, 76, 147, 0.4) 0%, 
-      rgba(142, 107, 184, 0.3) 100%
-    );
-  }
-  
-  /* App buttons improvements */
-  .appButtons {
-    align-items: center;
-    width: 100%;
-    gap: clamp(0.8rem, 3vw, 1.2rem);
-    flex-direction: column;
-    margin-top: 2rem;
-  }
-  
-  .appButton {
-    padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1rem, 4vw, 1.5rem);
-    max-width: min(280px, 90vw);
-    width: 100%;
-    min-height: 48px; /* Touch-friendly minimum */
-  }
-  
-  .appIcon {
-    width: clamp(20px, 4vw, 24px);
-    height: clamp(20px, 4vw, 24px);
-  }
-  
-  .appButtonText {
-    font-size: clamp(0.8rem, 2.5vw, 1rem);
-  }
-  
-  .downloadText {
-    font-size: clamp(0.7rem, 2vw, 0.85rem);
-  }
-  
-  .storeText {
-    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
-  }
-    /* Video indicators positioning for mobile */
-  .videoIndicators {
-    bottom: clamp(4rem, 8vh, 8rem);
-    right: clamp(1.5rem, 4vw, 3rem);
-    padding: clamp(0.8rem, 2vw, 1.2rem) clamp(0.6rem, 1.5vw, 0.8rem);
-  }
-}
 
-/* Extra small screens - prevent cutoff */
-@media (max-width: 480px) {
-  .heroWrapper {
-    height: auto;
-    min-height: 150vh; /* Taller for small screens */
-    padding: clamp(3rem, 8vh, 6rem) 0;
-    overflow: visible;
-  }
-  
-  .heroContent {
-    padding: clamp(0.5rem, 3vw, 1.5rem);
-    gap: clamp(1.5rem, 5vh, 3rem);
-  }
-    .meditationPlayer {
-    width: clamp(240px, 95vw, 280px); /* Almost full width on tiny screens */
-    height: clamp(380px, 65vh, 440px); /* Better proportional height */
-    padding: clamp(0.75rem, 2.5vw, 1rem);
-    /* Ensure it fits even on very small screens */
-    max-width: calc(100vw - 0.5rem);
-    max-height: calc(100vh - 3rem); /* Less aggressive constraint */
-  }
-  
-  /* Compact breathing circle */
-  .breathingCircle {
-    width: clamp(100px, 20vw, 130px);
-    height: clamp(100px, 20vw, 130px);
-  }
-  
-  /* Adjust meditation visual space */
-  .meditationVisual {
-    min-height: clamp(120px, 25vh, 160px);
-    padding: clamp(0.25rem, 1vh, 0.75rem);
-  }
-  
-  /* Compact aura layers */
-  .auraLayer[data-layer="1"] {
-    width: 110%;
-    height: 110%;
-  }
-  
-  .auraLayer[data-layer="2"] {
-    width: 120%;
-    height: 120%;
-  }
-  
-  .auraLayer[data-layer="3"] {
-    width: 135%;
-    height: 135%;
-  }
-  
-  .auraLayer[data-layer="4"] {
-    width: 150%;
-    height: 150%;
-  }
-  
-  .auraLayer[data-layer="5"] {
-    width: 165%;
-    height: 165%;
-  }
-  
-  /* Smaller particle effects */
-  .floatingParticle {
-    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(clamp(-50px, -12vw, -80px));
-  }
-  
-  .sparkle {
-    transform: rotate(var(--angle)) translateX(clamp(30px, 8vw, 50px)) translate(-50%, -50%);
-  }
-  
-  /* Compact center elements */
-  .centerPoint {
-    width: clamp(8px, 2vw, 12px);
-    height: clamp(8px, 2vw, 12px);
-  }
-  
-  .innerGlow {
-    width: clamp(12px, 3vw, 18px);
-    height: clamp(12px, 3vw, 18px);
-  }
-  
-  .pulsingCore {
-    width: clamp(4px, 1vw, 6px);
-    height: clamp(4px, 1vw, 6px);
-  }
-  
-  /* Compact controls */
-  .playerControls {
-    gap: clamp(0.5rem, 3vw, 1rem);
-    padding: clamp(0.25rem, 1.5vh, 0.75rem) 0;
-  }
-  
-  .controlButton {
-    width: clamp(32px, 7vw, 40px);
-    height: clamp(32px, 7vw, 40px);
-    /* Ensure minimum touch target */
-    min-width: 44px;
-    min-height: 44px;
-  }
-  
-  .playButton {
-    width: clamp(36px, 8vw, 48px);
-    height: clamp(36px, 8vw, 48px);
-    /* Ensure minimum touch target */
-    min-width: 56px;
-    min-height: 56px;
-  }
-}
-
-/* Landscape orientation fix for mobile */
-@media (max-height: 600px) and (orientation: landscape) {
-  .heroWrapper {
-    min-height: 100vh;
-    padding: clamp(1rem, 3vh, 2rem) 0;
-  }
-  
-  .heroContent {
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(1rem, 3vw, 2rem);
-    align-items: center;
-    max-height: 90vh;
-  }
-    .meditationPlayer {
-    width: clamp(200px, 40vw, 280px);
-    height: clamp(280px, 70vh, 380px);
-    margin: clamp(0.5rem, 2vh, 1rem) auto;
-    padding: clamp(0.5rem, 2vw, 1rem);
-  }
-  
-  .breathingCircle {
-    width: clamp(80px, 18vw, 120px);
-    height: clamp(80px, 18vw, 120px);
-  }
-  
-  .meditationVisual {
-    min-height: clamp(90px, 20vh, 140px);
-  }
-  
-  .playerControls {
-    gap: clamp(0.5rem, 2vw, 1rem);
-  }
-  
-  .controlButton {
-    width: clamp(28px, 6vw, 36px);
-    height: clamp(28px, 6vw, 36px);
-    min-width: 36px;
-    min-height: 36px;
-  }
-  
-  .playButton {
-    width: clamp(36px, 8vw, 48px);
-    height: clamp(36px, 8vw, 48px);
-    min-width: 44px;
-    min-height: 44px;
-  }
-}
-
-/* High DPI displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .meditationPlayer {
-    border-width: 1px; /* Crisp borders on retina */
-  }
-  
-  .progressBar {
-    border-radius: 1px; /* Crisp rounded corners */
-  }
-  
-  .controlButton,
-  .playButton {
-    border-width: 1px;
-  }
-}
-
-/* Reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  .breathingCircle,
-  .auraLayer,
-  .floatingParticle,
-  .sparkle,
-  .ripple,
-  .pulsingCore {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-  
-  .meditationPlayer {
-    animation: none;
+    width: 350px;
+    height: 650px;
+    margin: 0;
+    transform: none;
   }
 }

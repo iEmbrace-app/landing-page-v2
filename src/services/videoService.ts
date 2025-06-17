@@ -1,10 +1,8 @@
-import { supabase, Video } from '../lib/supabase'
+import { getPublicUrl, Video } from './r2Service'
 import { OptimizedVideoCache } from '../utils/OptimizedVideoCache'
 import { PerformanceMonitor } from '../utils/PerformanceMonitor'
 
-const VIDEO_BUCKET = 'videos'
-
-// Known video files in the private storage bucket - Order: zen, forest, lake, campfire
+// Known video files in the R2 bucket - Order: zen, forest, lake, campfire
 const knownVideoFiles = [
   { file_path: 'zen.mp4', title: 'Garden', order_index: 1 },
   { file_path: 'forest.mp4', title: 'Forest', order_index: 2 },
@@ -56,55 +54,48 @@ class VideoServiceState {
     this.notify(videos)
     this.loadingPromise = null
     return videos
-  }
-  private async loadVideosFromSource(): Promise<Video[]> {
+  }  private async loadVideosFromSource(): Promise<Video[]> {
     try {
-      console.log('🎥 Loading videos with optimization patterns...')
+      console.log('🎥 Loading videos from Cloudflare R2...')
       
       const perfMonitor = PerformanceMonitor.getInstance()
       const endTimer = perfMonitor.startVideoLoadTimer('batch')
       
       const videoCache = OptimizedVideoCache.getInstance(6) // Cache up to 6 videos
-      const videos: Video[] = []
-        // Parallel loading with Promise.allSettled for better performance
+      const videos: Video[] = []      // Parallel loading with Promise.allSettled for better performance
       const videoPromises = knownVideoFiles.map(async (video) => {
         try {
-          // Create signed URL for private bucket
-          const { data: signedUrlData, error: urlError } = await supabase.storage
-            .from(VIDEO_BUCKET)
-            .createSignedUrl(video.file_path, 3600)
-          
-          let videoUrl: string
-          
-          if (urlError) {
-            console.warn(`⚠️ Using local fallback for ${video.file_path}:`, urlError.message)
-            videoUrl = `/videos/${video.file_path}`
-          } else {
-            videoUrl = signedUrlData.signedUrl
-            console.log(`✅ Loaded ${video.file_path} from Supabase`)
-          }
+          // Use R2.dev public URL since it's working
+          const publicUrl = getPublicUrl(video.file_path)
+          console.log(`✅ Using R2.dev public URL for ${video.file_path}`)
 
           const optimizedVideo: Video = {
             id: video.file_path,
             title: video.title,
             filename: video.file_path,
-            url: videoUrl
-          }          // Pre-cache first video immediately, others progressively
+            url: publicUrl
+          }
+
+          // Pre-cache first video immediately, others progressively
           if (video.file_path === 'zen.mp4') {
-            await videoCache.preloadVideo(video.file_path, videoUrl)
+            await videoCache.preloadVideo(video.file_path, publicUrl)
           } else {
             // Progressive preloading for others
-            videoCache.preloadVideo(video.file_path, videoUrl).catch(console.warn)
+            videoCache.preloadVideo(video.file_path, publicUrl).catch(console.warn)
           }
 
           return optimizedVideo
         } catch (err) {
           console.error(`❌ Error processing ${video.file_path}:`, err)
+          // Fall back to local videos
+          const localUrl = `/videos/${video.file_path}`
+          console.log(`🔄 Using local fallback for ${video.file_path}`)
+          
           return {
             id: video.file_path,
             title: video.title,
             filename: video.file_path,
-            url: `/videos/${video.file_path}`
+            url: localUrl
           }
         }
       })
@@ -125,6 +116,7 @@ class VideoServiceState {
           })
         }
       })
+
       console.log('🎬 Optimized videos loaded:', videos.length)
       console.log('📊 Cache stats:', videoCache.getCacheStats())
       
@@ -134,7 +126,7 @@ class VideoServiceState {
       perfMonitor.logPerformanceSummary()
       
       return videos
-        } catch (error) {
+    } catch (error) {
       console.error('❌ Error in loadVideosFromSource:', error)
       // Complete fallback to local videos
       console.log('🔄 Falling back to local videos')
@@ -150,9 +142,9 @@ class VideoServiceState {
 
 export class VideoService {
   private static state = VideoServiceState.getInstance()
+
   static async fetchVideos(): Promise<Video[]> {
-    // Always use Supabase video service for the private bucket
-    console.log('🎥 Using Supabase video service...')
+    console.log('🎥 Using Cloudflare R2 video service...')
     return this.state.getVideos()
   }
 
@@ -189,38 +181,29 @@ export class VideoService {
       const videoFile = knownVideoFiles.find(v => v.file_path === filename)
       if (!videoFile) return null
       
-      const { data: signedUrlData, error: urlError } = await supabase.storage
-        .from(VIDEO_BUCKET)
-        .createSignedUrl(filename, 3600)
-      
-      if (urlError) {
-        console.error(`❌ Error creating signed URL for ${filename}:`, urlError.message)
-        return null
-      }
+      const videoUrl = getPublicUrl(filename)
       
       return {
         id: filename,
         title: videoFile.title,
         filename: filename,
-        url: signedUrlData.signedUrl
+        url: videoUrl
       }
     } catch (error) {
       console.error('❌ Error in getVideoByFilename:', error)
-      return null    }
-  }
-
-  // Method to test Supabase storage connectivity
+      return null
+    }
+  }  // Method to test R2 storage connectivity
   static async testStorageConnection(): Promise<boolean> {
     try {
-      const { data, error } = await supabase.storage.listBuckets()
-      if (error) {
-        console.error('❌ Storage connection test failed:', error)
-        return false
-      }
-      return data.some(bucket => bucket.name === VIDEO_BUCKET)
+      // Test by trying to access a public URL
+      const testUrl = getPublicUrl('zen.mp4')
+      const response = await fetch(testUrl, { method: 'HEAD' })
+      return response.ok
     } catch (error) {
-      console.error('❌ Storage connection test failed:', error)
-      return false    }
+      console.error('❌ R2 connection test failed:', error)
+      return false
+    }
   }
 }
 
@@ -228,23 +211,18 @@ export class VideoService {
 export const VideoServiceDebug = {
   async testVideoAccess(filename: string): Promise<{ success: boolean, url?: string, error?: string }> {
     try {
-      const { data: signedUrlData, error: urlError } = await supabase.storage
-        .from(VIDEO_BUCKET)
-        .createSignedUrl(filename, 3600)
-      
-      if (urlError) {
-        return { success: false, error: urlError.message }
-      }
+      const publicUrl = getPublicUrl(filename)
       
       // Test if URL is accessible
       try {
-        const response = await fetch(signedUrlData.signedUrl, { method: 'HEAD' })
+        const response = await fetch(publicUrl, { method: 'HEAD' })
         return { 
           success: response.ok, 
-          url: signedUrlData.signedUrl,
+          url: publicUrl,
           error: response.ok ? undefined : `HTTP ${response.status}`
-        }      } catch (fetchError) {
-        return { success: false, url: signedUrlData.signedUrl, error: String(fetchError) }
+        }
+      } catch (fetchError) {
+        return { success: false, url: publicUrl, error: String(fetchError) }
       }
       
     } catch (error) {
@@ -252,21 +230,7 @@ export const VideoServiceDebug = {
     }
   },
 
-  async listAllFiles(): Promise<any[]> {
-    try {
-      const { data, error } = await supabase.storage
-        .from(VIDEO_BUCKET)
-        .list('', { limit: 100 })
-      
-      if (error) {
-        console.error('❌ Error listing files:', error)
-        return []
-      }
-      
-      return data || []
-    } catch (error) {
-      console.error('❌ Error listing files:', error)
-      return []
-    }
+  getPublicVideoUrl(filename: string): string {
+    return getPublicUrl(filename)
   }
 }

@@ -32,7 +32,6 @@ body {
   height: 100vh;
   margin: 0 auto;
   text-align: center;
-  background: var(--colors-background-gradient);
 }
 
 * {

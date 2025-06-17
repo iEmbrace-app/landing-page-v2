@@ -2,15 +2,16 @@
   "name": "wellness-meditation-app",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
-  "scripts": {
+  "type": "module",  "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "upload-videos": "node scripts/uploadVideos.js",
+    "upload-videos": "node scripts/uploadVideosR2.js",
+    "upload-videos-legacy": "node scripts/uploadVideos.js",
     "setup-s3": "node scripts/s3Setup.js",
-    "test-s3": "node scripts/testS3Integration.js"
+    "test-s3": "node scripts/testS3Integration.js",
+    "test-r2": "node scripts/testR2Integration.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.828.0",

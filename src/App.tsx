@@ -43,9 +43,7 @@ function App() {
         {/* Hero Section */}
         <section id="home" aria-label="Home">
           <HeroSection isMobile={isMobile} />
-        </section>
-
-        {/* Immerse Section */}
+        </section>        {/* Immerse Section */}
         <section id="immerse" aria-label="Immerse yourself in tranquil environments">
           <Suspense fallback={<ComponentLoadingFallback />}>
             <ImmerseSection isMobile={isMobile} />

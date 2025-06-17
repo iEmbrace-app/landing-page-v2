@@ -2,15 +2,15 @@ import { S3Client, ListObjectsV2Command, HeadBucketCommand, PutObjectCommand, De
 import { getSignedUrl as awsGetSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { GetObjectCommand } from '@aws-sdk/client-s3';
 
-// Configure AWS SDK v3 with Supabase S3-compatible storage
+// Configure AWS SDK v3 with Cloudflare R2 storage
 const s3Client = new S3Client({
   credentials: {
-    accessKeyId: import.meta.env.AWS_ACCESS_KEY_ID || '7eedddc9af481fd24aaaa560ab53f8db',
-    secretAccessKey: import.meta.env.AWS_SECRET_ACCESS_KEY || '2d5c8b93c5abc04c96286022603aba191793698e8bafc29ce09ff6146fe5aa8e',
+    accessKeyId: import.meta.env.VITE_R2_ACCESS_KEY_ID || '549942c61d1d4035883345ae137d7166',
+    secretAccessKey: import.meta.env.VITE_R2_SECRET_ACCESS_KEY || 'e73563bcf0ae7a7de66a902ea33be963ae8734291ea98ec42ec9f128b1b17c34',
   },
-  region: import.meta.env.AWS_REGION || 'us-east-1',
-  endpoint: import.meta.env.AWS_S3_ENDPOINT || 'https://jehmrevswtimvaqgcwas.supabase.co/storage/v1/s3',
-  forcePathStyle: true, // Required for Supabase S3-compatible storage
+  region: 'auto', // Cloudflare R2 uses 'auto' region
+  endpoint: import.meta.env.VITE_R2_ENDPOINT || 'https://0e625ae2cb4c0b6007d1b8a2921c9b40.r2.cloudflarestorage.com',
+  forcePathStyle: true, // Required for Cloudflare R2
 });
 
 const BUCKET_NAME = import.meta.env.VITE_VIDEO_BUCKET || 'videos';

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import styles from './ImmerseSection.module.css'
 import { VideoService } from '../../services/videoService'
-import { Video } from '../../lib/supabase'
+import { Video } from '../../services/r2Service'
 import { CgTrees } from "react-icons/cg"
 import { SlFire } from "react-icons/sl"
 import { PiPlantFill } from "react-icons/pi"
@@ -37,8 +37,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
       return (VIDEO_DURATIONS[videos[currentIndex].filename] || 14) * 1000 // Convert to milliseconds
     }
     return 14000 // Default 14 seconds
-  }, [videos, currentIndex])
-  // Load videos - simple and clean
+  }, [videos, currentIndex])  // Load videos - simple and clean
   useEffect(() => {
     VideoService.fetchVideos()
       .then((loadedVideos) => {
@@ -206,8 +205,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
       if (autoSwitchRef.current) clearInterval(autoSwitchRef.current)
       if (progressRef.current) cancelAnimationFrame(progressRef.current)
     }
-  }, [])
-  // Icon mapping - Order: zen, forest, lake, campfire  
+  }, [])  // Icon mapping - Order: zen, forest, lake, campfire  
   const getIcon = (index: number) => {
     const icons = [<PiPlantFill />, <CgTrees />, <BiWater />, <SlFire />]
     return icons[index % icons.length]
@@ -232,8 +230,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
         </div>
       </section>
     )
-  }
-  return (
+  }  return (
     <section className={styles.immerseSection}>
       <div className={styles.videoContainer}>
         {/* Two video elements for seamless cross-fading */}        <video
@@ -244,12 +241,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
           loop
           muted
           playsInline
-          preload="metadata"
-          crossOrigin="anonymous"
-          style={{ opacity: activeVideoRef === 'video1' ? 1 : 0 }}
-          onLoadStart={() => {
-            console.log('Video 1 loading started...')
-          }}
+          preload="metadata"          style={{ opacity: activeVideoRef === 'video1' ? 1 : 0 }}
           onCanPlay={() => {
             // Play as soon as basic playback is possible
             if (video1Ref.current && video1Ref.current.paused && activeVideoRef === 'video1') {
@@ -261,24 +253,17 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
             if (activeVideoRef === 'video1') {
               startProgressTracking()
             }
-          }}
-          onError={(e) => {
+          }}          onError={(e) => {
             console.error(`Video 1 ${videos[currentIndex]?.filename} failed to load:`, e)
           }}
-        />
-        
-        <video
+        />        <video
           ref={video2Ref}
           className={styles.backgroundVideo}
           loop
           muted
           playsInline
           preload="metadata"
-          crossOrigin="anonymous"
           style={{ opacity: activeVideoRef === 'video2' ? 1 : 0 }}
-          onLoadStart={() => {
-            console.log('Video 2 loading started...')
-          }}
           onCanPlay={() => {
             // This will be handled by the switchToVideo function
           }}
@@ -287,8 +272,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
             if (activeVideoRef === 'video2') {
               startProgressTracking()
             }
-          }}
-          onError={(e) => {
+          }}          onError={(e) => {
             console.error(`Video 2 failed to load:`, e)
           }}
         />
