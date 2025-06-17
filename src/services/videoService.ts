@@ -1,13 +1,15 @@
-import { supabase, Video, VIDEO_BUCKET } from '../lib/supabase'
+import { supabase, Video } from '../lib/supabase'
 import { OptimizedVideoCache } from '../utils/OptimizedVideoCache'
 import { PerformanceMonitor } from '../utils/PerformanceMonitor'
 
-// Known video files in the storage bucket
+const VIDEO_BUCKET = 'videos'
+
+// Known video files in the private storage bucket
 const knownVideoFiles = [
-  { filename: 'lake.mp4', title: 'LAKE' },
-  { filename: 'forest.mp4', title: 'FOREST' },
-  { filename: 'zen.mp4', title: 'ZEN GARDEN' },
-  { filename: 'campfire.mp4', title: 'CAMPFIRE' }
+  { file_path: 'campfire.mp4', title: 'Campfire', order_index: 1 },
+  { file_path: 'forest.mp4', title: 'Forest', order_index: 2 },
+  { file_path: 'lake.mp4', title: 'Lake', order_index: 3 },
+  { file_path: 'zen.mp4', title: 'Zen Garden', order_index: 4 }
 ]
 
 // Singleton pattern for video service with observer pattern for state management
@@ -64,48 +66,47 @@ class VideoServiceState {
       
       const videoCache = OptimizedVideoCache.getInstance(6) // Cache up to 6 videos
       const videos: Video[] = []
-      
-      // Parallel loading with Promise.allSettled for better performance
+        // Parallel loading with Promise.allSettled for better performance
       const videoPromises = knownVideoFiles.map(async (video) => {
         try {
           // Create signed URL for private bucket
           const { data: signedUrlData, error: urlError } = await supabase.storage
             .from(VIDEO_BUCKET)
-            .createSignedUrl(video.filename, 3600)
+            .createSignedUrl(video.file_path, 3600)
           
           let videoUrl: string
           
           if (urlError) {
-            console.warn(`⚠️ Using local fallback for ${video.filename}:`, urlError.message)
-            videoUrl = `/videos/${video.filename}`
+            console.warn(`⚠️ Using local fallback for ${video.file_path}:`, urlError.message)
+            videoUrl = `/videos/${video.file_path}`
           } else {
             videoUrl = signedUrlData.signedUrl
-            console.log(`✅ Loaded ${video.filename} from Supabase`)
+            console.log(`✅ Loaded ${video.file_path} from Supabase`)
           }
 
           const optimizedVideo: Video = {
-            id: video.filename,
+            id: video.file_path,
             title: video.title,
-            filename: video.filename,
+            filename: video.file_path,
             url: videoUrl
           }
 
           // Pre-cache first video immediately, others progressively
-          if (video.filename === 'lake.mp4') {
-            await videoCache.preloadVideo(video.filename, videoUrl)
+          if (video.file_path === 'lake.mp4') {
+            await videoCache.preloadVideo(video.file_path, videoUrl)
           } else {
             // Progressive preloading for others
-            videoCache.preloadVideo(video.filename, videoUrl).catch(console.warn)
+            videoCache.preloadVideo(video.file_path, videoUrl).catch(console.warn)
           }
 
           return optimizedVideo
         } catch (err) {
-          console.error(`❌ Error processing ${video.filename}:`, err)
+          console.error(`❌ Error processing ${video.file_path}:`, err)
           return {
-            id: video.filename,
+            id: video.file_path,
             title: video.title,
-            filename: video.filename,
-            url: `/videos/${video.filename}`
+            filename: video.file_path,
+            url: `/videos/${video.file_path}`
           }
         }
       })
@@ -116,16 +117,16 @@ class VideoServiceState {
         if (result.status === 'fulfilled') {
           videos.push(result.value)
         } else {
-          console.error(`Failed to load video ${knownVideoFiles[index].filename}:`, result.reason)
+          console.error(`Failed to load video ${knownVideoFiles[index].file_path}:`, result.reason)
           // Add fallback
           videos.push({
-            id: knownVideoFiles[index].filename,
+            id: knownVideoFiles[index].file_path,
             title: knownVideoFiles[index].title,
-            filename: knownVideoFiles[index].filename,
-            url: `/videos/${knownVideoFiles[index].filename}`
+            filename: knownVideoFiles[index].file_path,
+            url: `/videos/${knownVideoFiles[index].file_path}`
           })
         }
-      })      
+      })
       console.log('🎬 Optimized videos loaded:', videos.length)
       console.log('📊 Cache stats:', videoCache.getCacheStats())
       
@@ -135,16 +136,15 @@ class VideoServiceState {
       perfMonitor.logPerformanceSummary()
       
       return videos
-      
-    } catch (error) {
+        } catch (error) {
       console.error('❌ Error in loadVideosFromSource:', error)
       // Complete fallback to local videos
       console.log('🔄 Falling back to local videos')
       return knownVideoFiles.map(video => ({
-        id: video.filename,
+        id: video.file_path,
         title: video.title,
-        filename: video.filename,
-        url: `/videos/${video.filename}`
+        filename: video.file_path,
+        url: `/videos/${video.file_path}`
       }))
     }
   }
@@ -152,8 +152,9 @@ class VideoServiceState {
 
 export class VideoService {
   private static state = VideoServiceState.getInstance()
-
   static async fetchVideos(): Promise<Video[]> {
+    // Always use Supabase video service for the private bucket
+    console.log('🎥 Using Supabase video service...')
     return this.state.getVideos()
   }
 
@@ -185,11 +186,9 @@ export class VideoService {
         cache.preloadVideo(videoId, video.url).catch(console.warn)
       }
     })
-  }
-
-  static async getVideoByFilename(filename: string): Promise<Video | null> {
+  }  static async getVideoByFilename(filename: string): Promise<Video | null> {
     try {
-      const videoFile = knownVideoFiles.find(v => v.filename === filename)
+      const videoFile = knownVideoFiles.find(v => v.file_path === filename)
       if (!videoFile) return null
       
       const { data: signedUrlData, error: urlError } = await supabase.storage
@@ -209,7 +208,68 @@ export class VideoService {
       }
     } catch (error) {
       console.error('❌ Error in getVideoByFilename:', error)
-      return null
+      return null    }
+  }
+
+  // Method to test Supabase storage connectivity
+  static async testStorageConnection(): Promise<boolean> {
+    try {
+      const { data, error } = await supabase.storage.listBuckets()
+      if (error) {
+        console.error('❌ Storage connection test failed:', error)
+        return false
+      }
+      return data.some(bucket => bucket.name === VIDEO_BUCKET)
+    } catch (error) {
+      console.error('❌ Storage connection test failed:', error)
+      return false
+    }
+  }
+}
+
+// Debug helper functions
+export const VideoServiceDebug = {
+  async testVideoAccess(filename: string): Promise<{ success: boolean, url?: string, error?: string }> {
+    try {
+      const { data: signedUrlData, error: urlError } = await supabase.storage
+        .from(VIDEO_BUCKET)
+        .createSignedUrl(filename, 3600)
+      
+      if (urlError) {
+        return { success: false, error: urlError.message }
+      }
+      
+      // Test if URL is accessible
+      try {
+        const response = await fetch(signedUrlData.signedUrl, { method: 'HEAD' })
+        return { 
+          success: response.ok, 
+          url: signedUrlData.signedUrl,
+          error: response.ok ? undefined : `HTTP ${response.status}`
+        }      } catch (fetchError) {
+        return { success: false, url: signedUrlData.signedUrl, error: String(fetchError) }
+      }
+      
+    } catch (error) {
+      return { success: false, error: String(error) }
+    }
+  },
+
+  async listAllFiles(): Promise<any[]> {
+    try {
+      const { data, error } = await supabase.storage
+        .from(VIDEO_BUCKET)
+        .list('', { limit: 100 })
+      
+      if (error) {
+        console.error('❌ Error listing files:', error)
+        return []
+      }
+      
+      return data || []
+    } catch (error) {
+      console.error('❌ Error listing files:', error)
+      return []
     }
   }
 }

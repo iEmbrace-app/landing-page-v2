@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Debug Console</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0d1117;
+            color: #c9d1d9;
+            padding: 20px;
+            margin: 0;
+        }
+        .debug-section {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .success { color: #56d364; }
+        .error { color: #f85149; }
+        .warning { color: #d29922; }
+        .info { color: #58a6ff; }
+        .log-entry {
+            margin: 8px 0;
+            padding: 8px;
+            background: #0d1117;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        button {
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 4px;
+        }
+        button:hover { background: #2ea043; }
+        .video-preview {
+            max-width: 200px;
+            height: auto;
+            border: 1px solid #30363d;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎥 Video Debug Console</h1>
+    <div id="debug-output"></div>
+
+    <script type="module">
+        const debugOutput = document.getElementById('debug-output');
+        
+        function log(message, type = 'info') {
+            const colors = {
+                success: '#56d364',
+                error: '#f85149',
+                warning: '#d29922',
+                info: '#58a6ff'
+            };
+            
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.innerHTML = `<span style="color: ${colors[type]}">[${new Date().toLocaleTimeString()}] ${message}</span>`;
+            debugOutput.appendChild(logEntry);
+            debugOutput.scrollTop = debugOutput.scrollHeight;
+        }
+
+        function createSection(title, content) {
+            const section = document.createElement('div');
+            section.className = 'debug-section';
+            section.innerHTML = `<h3>${title}</h3>${content}`;
+            debugOutput.appendChild(section);
+            return section;
+        }
+
+        async function debugVideoFlow() {
+            log('🚀 Starting Video Debug Analysis...', 'info');
+            
+            // 1. Environment Check
+            const envSection = createSection('1. Environment Variables', '');
+            const envVars = {
+                'VITE_SUPABASE_URL': import.meta.env.VITE_SUPABASE_URL,
+                'VITE_SUPABASE_ANON_KEY': import.meta.env.VITE_SUPABASE_ANON_KEY ? 'SET' : 'NOT SET',
+                'VITE_VIDEO_SERVICE': import.meta.env.VITE_VIDEO_SERVICE,
+                'VITE_VIDEO_BUCKET': import.meta.env.VITE_VIDEO_BUCKET,
+                'AWS_ACCESS_KEY_ID': import.meta.env.AWS_ACCESS_KEY_ID ? 'SET' : 'NOT SET'
+            };
+            
+            envSection.innerHTML += '<pre>' + JSON.stringify(envVars, null, 2) + '</pre>';
+            log('✅ Environment variables checked', 'success');
+
+            // 2. Test Supabase Connection
+            try {
+                log('🔌 Testing Supabase connection...', 'info');
+                const { supabase } = await import('./src/lib/supabase.ts');
+                
+                // Test basic connection
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                if (sessionError) {
+                    log(`⚠️ Auth session error: ${sessionError.message}`, 'warning');
+                } else {
+                    log('✅ Supabase connection successful', 'success');
+                }
+
+                // Test storage bucket access
+                log('📁 Testing storage bucket access...', 'info');
+                const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
+                
+                if (bucketsError) {
+                    log(`❌ Bucket list error: ${bucketsError.message}`, 'error');
+                } else {
+                    log(`✅ Found ${buckets.length} buckets: ${buckets.map(b => b.name).join(', ')}`, 'success');
+                    
+                    // Check if videos bucket exists
+                    const videosBucket = buckets.find(b => b.name === 'videos');
+                    if (videosBucket) {
+                        log('✅ Videos bucket found', 'success');
+                        
+                        // List files in videos bucket
+                        log('📂 Listing files in videos bucket...', 'info');
+                        const { data: files, error: filesError } = await supabase.storage
+                            .from('videos')
+                            .list();
+                        
+                        if (filesError) {
+                            log(`❌ Files list error: ${filesError.message}`, 'error');
+                        } else {
+                            log(`✅ Found ${files.length} files in videos bucket`, 'success');
+                            
+                            const filesSection = createSection('2. Files in Videos Bucket', '');
+                            files.forEach((file, index) => {
+                                filesSection.innerHTML += `
+                                    <div style="margin: 8px 0; padding: 8px; background: #0d1117; border-radius: 3px;">
+                                        <strong>${index + 1}. ${file.name}</strong><br>
+                                        Size: ${file.metadata?.size || 'Unknown'} bytes<br>
+                                        Modified: ${file.updated_at}<br>
+                                        Type: ${file.metadata?.mimetype || 'Unknown'}
+                                    </div>
+                                `;
+                            });
+                        }
+                    } else {
+                        log('❌ Videos bucket not found', 'error');
+                    }
+                }
+
+            } catch (error) {
+                log(`❌ Supabase connection failed: ${error.message}`, 'error');
+            }
+
+            // 3. Test Video Service
+            try {
+                log('🎬 Testing Video Service...', 'info');
+                const { VideoService } = await import('./src/services/videoService.ts');
+                
+                const videos = await VideoService.fetchVideos();
+                log(`✅ VideoService returned ${videos.length} videos`, 'success');
+                
+                const videoSection = createSection('3. Video Service Results', '');
+                videos.forEach((video, index) => {
+                    videoSection.innerHTML += `
+                        <div style="margin: 8px 0; padding: 8px; background: #0d1117; border-radius: 3px;">
+                            <strong>${index + 1}. ${video.title}</strong><br>
+                            ID: ${video.id}<br>
+                            Filename: ${video.filename}<br>
+                            URL: <a href="${video.url}" target="_blank" style="color: #58a6ff; word-break: break-all;">${video.url.substring(0, 80)}...</a><br>
+                            <button onclick="testVideoUrl('${video.url}', '${video.title}')">Test Video URL</button>
+                        </div>
+                    `;
+                });
+
+                // Test S3 service if available
+                try {
+                    log('🌐 Testing S3 Service...', 'info');
+                    const s3Connected = await VideoService.testS3Connection();
+                    if (s3Connected) {
+                        log('✅ S3 connection successful', 'success');
+                        
+                        const s3Videos = await VideoService.fetchVideosFromS3();
+                        log(`✅ S3 Service returned ${s3Videos.length} videos`, 'success');
+                        
+                        const s3Section = createSection('4. S3 Service Results', '');
+                        s3Videos.forEach((video, index) => {
+                            s3Section.innerHTML += `
+                                <div style="margin: 8px 0; padding: 8px; background: #0d1117; border-radius: 3px;">
+                                    <strong>${index + 1}. ${video.title}</strong><br>
+                                    URL: <a href="${video.url}" target="_blank" style="color: #58a6ff; word-break: break-all;">${video.url.substring(0, 80)}...</a><br>
+                                    <button onclick="testVideoUrl('${video.url}', '${video.title}')">Test S3 Video URL</button>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        log('❌ S3 connection failed', 'error');
+                    }
+                } catch (s3Error) {
+                    log(`❌ S3 service error: ${s3Error.message}`, 'error');
+                }
+
+            } catch (error) {
+                log(`❌ Video Service failed: ${error.message}`, 'error');
+            }
+
+            // 4. Test signed URLs manually
+            try {
+                log('🔗 Testing signed URL generation...', 'info');
+                const { supabase } = await import('./src/lib/supabase.ts');
+                
+                const testFiles = ['lake.mp4', 'forest.mp4', 'zen.mp4', 'campfire.mp4'];
+                const urlSection = createSection('5. Signed URL Tests', '');
+                
+                for (const filename of testFiles) {
+                    const { data: signedData, error: signedError } = await supabase.storage
+                        .from('videos')
+                        .createSignedUrl(filename, 3600);
+                    
+                    if (signedError) {
+                        log(`❌ Signed URL error for ${filename}: ${signedError.message}`, 'error');
+                        urlSection.innerHTML += `
+                            <div style="margin: 8px 0; padding: 8px; background: #0d1117; border-radius: 3px;">
+                                <strong>❌ ${filename}</strong><br>
+                                Error: ${signedError.message}
+                            </div>
+                        `;
+                    } else {
+                        log(`✅ Signed URL generated for ${filename}`, 'success');
+                        urlSection.innerHTML += `
+                            <div style="margin: 8px 0; padding: 8px; background: #0d1117; border-radius: 3px;">
+                                <strong>✅ ${filename}</strong><br>
+                                URL: <a href="${signedData.signedUrl}" target="_blank" style="color: #58a6ff; word-break: break-all;">${signedData.signedUrl.substring(0, 80)}...</a><br>
+                                <button onclick="testVideoUrl('${signedData.signedUrl}', '${filename}')">Test Signed URL</button>
+                            </div>
+                        `;
+                    }
+                }
+                
+            } catch (error) {
+                log(`❌ Signed URL test failed: ${error.message}`, 'error');
+            }
+
+            log('🎉 Debug analysis complete!', 'success');
+        }
+
+        // Make testVideoUrl globally available
+        window.testVideoUrl = function(url, title) {
+            log(`🧪 Testing video URL for ${title}...`, 'info');
+            
+            const video = document.createElement('video');
+            video.controls = true;
+            video.className = 'video-preview';
+            video.style.margin = '10px 0';
+            
+            video.onloadstart = () => log(`📡 Started loading ${title}`, 'info');
+            video.onloadedmetadata = () => log(`✅ Metadata loaded for ${title} (${video.videoWidth}x${video.videoHeight})`, 'success');
+            video.onloadeddata = () => log(`✅ Data loaded for ${title}`, 'success');
+            video.onerror = (e) => log(`❌ Video error for ${title}: ${e.message || 'Unknown error'}`, 'error');
+            video.onabort = () => log(`⚠️ Video loading aborted for ${title}`, 'warning');
+            
+            video.src = url;
+            
+            const testSection = createSection(`Video Test: ${title}`, '');
+            testSection.appendChild(video);
+        };
+
+        // Start debugging
+        debugVideoFlow();
+    </script>
+</body>
+</html>

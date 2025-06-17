@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug - Meditation App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #1a1a1a;
+        color: white;
+      }
+      .debug-info {
+        background: #2a2a2a;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+      }
+      .error {
+        background: #ff4444;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Debug Information</h1>
+    <div id="debug-container">
+      <div class="debug-info">Loading debug information...</div>
+    </div>
+
+    <script type="module">
+      const debugContainer = document.getElementById('debug-container');
+      
+      function addDebugInfo(title, content, isError = false) {
+        const div = document.createElement('div');
+        div.className = isError ? 'error' : 'debug-info';
+        div.innerHTML = `<h3>${title}</h3><pre>${content}</pre>`;
+        debugContainer.appendChild(div);
+      }
+
+      try {
+        // Check environment variables
+        addDebugInfo('Environment Variables', JSON.stringify({
+          VITE_SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
+          VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY ? 'SET' : 'NOT SET',
+          VITE_VIDEO_SERVICE: import.meta.env.VITE_VIDEO_SERVICE,
+          AWS_ACCESS_KEY_ID: import.meta.env.AWS_ACCESS_KEY_ID ? 'SET' : 'NOT SET'
+        }, null, 2));        // Test Supabase import
+        import('./src/lib/supabase.ts').then(({ supabase }) => {
+          addDebugInfo('Supabase Client', 'Successfully imported Supabase client');
+          
+          // Test basic connection
+          return supabase.auth.getSession();
+        }).then(({ data, error }) => {
+          if (error) {
+            addDebugInfo('Supabase Connection', `Error: ${error.message}`, true);
+          } else {
+            addDebugInfo('Supabase Connection', 'Successfully connected to Supabase');
+          }
+        }).catch(err => {
+          addDebugInfo('Supabase Import Error', err.toString(), true);
+        });
+
+        // Test Video Service
+        import('./src/services/videoService.ts').then(({ VideoService }) => {
+          addDebugInfo('Video Service', 'Successfully imported VideoService');
+          
+          return VideoService.fetchVideos();
+        }).then(videos => {
+          addDebugInfo('Video Loading', `Successfully loaded ${videos.length} videos:\n${videos.map(v => `- ${v.title}`).join('\n')}`);
+        }).catch(err => {
+          addDebugInfo('Video Service Error', err.toString(), true);
+        });
+
+        // Test App Component
+        import('./src/App.tsx').then(({ default: App }) => {
+          addDebugInfo('App Component', 'Successfully imported App component');
+        }).catch(err => {
+          addDebugInfo('App Component Error', err.toString(), true);
+        });
+
+      } catch (error) {
+        addDebugInfo('General Error', error.toString(), true);
+      }
+
+      // Listen for any unhandled errors
+      window.addEventListener('error', (event) => {
+        addDebugInfo('Runtime Error', `${event.error.toString()}\n\nStack: ${event.error.stack}`, true);
+      });
+
+      window.addEventListener('unhandledrejection', (event) => {
+        addDebugInfo('Unhandled Promise Rejection', event.reason.toString(), true);
+      });
+    </script>
+  </body>
+</html>

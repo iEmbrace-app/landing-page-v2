@@ -11,9 +11,9 @@ interface VideoState {
   error: boolean
 }
 
-export class SimpleVideoManager {
-  private static instance: SimpleVideoManager
+export class SimpleVideoManager {  private static instance: SimpleVideoManager
   private videos = new Map<string, VideoState>()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private currentVideoId: string | null = null
   private preloadPromises = new Map<string, Promise<void>>()
 

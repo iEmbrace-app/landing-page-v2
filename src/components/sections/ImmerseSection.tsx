@@ -18,26 +18,49 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [isTransitioning, setIsTransitioning] = useState(false)  
-  // Initialize videos - simple fetch without complex manager
+  const [isTransitioning, setIsTransitioning] = useState(false)    // Initialize videos - simple fetch without complex manager
   useEffect(() => {
     const initializeVideos = async () => {
       try {
         setLoading(true)
         setError(null)
         
+        console.log('🎬 ImmerseSection: Starting video initialization...')
+        
         // Load videos from service
         const videoData = await VideoService.fetchVideos()
-        setVideos(videoData)
+        console.log('🎬 ImmerseSection: VideoService returned:', videoData)
+          // Add temporary fallback to test videos for placeholder files
+        const processedVideos = videoData.map(video => {
+          // If the video URL looks like a placeholder (very small file), add a fallback
+          console.log(`🔍 Processing video: ${video.title}, URL: ${video.url}`)
+          
+          // For demonstration, use a colored gradient background if videos are too small
+          // This helps us see if the video container is working
+          return {
+            ...video,
+            // Add a data attribute to identify placeholder videos
+            isPlaceholder: true
+          }
+        })
+        
+        setVideos(processedVideos)
         
         // Initialize video refs array
-        videoRefs.current = new Array(videoData.length).fill(null)
+        videoRefs.current = new Array(processedVideos.length).fill(null)
         
-        console.log(`📹 Loaded ${videoData.length} videos`)
+        console.log(`📹 ImmerseSection: Loaded ${processedVideos.length} videos successfully`)
+        
+        // Log each video for debugging
+        processedVideos.forEach((video, index) => {
+          console.log(`  ${index + 1}. ${video.title} - ${video.filename}`)
+          console.log(`     URL: ${video.url.substring(0, 100)}...`)
+        })
+        
       } catch (err) {
         const errorMsg = err instanceof Error ? err.message : 'Failed to load videos'
         setError(errorMsg)
-        console.error('Video loading error:', err)
+        console.error('🚨 ImmerseSection: Video loading error:', err)
       } finally {
         setLoading(false)
       }
@@ -268,8 +291,7 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
                 }
               } else {
                 videoClasses += ` ${styles.inactive}`
-              }              return (
-                <video
+              }              return (                <video
                   key={index}
                   ref={(el) => setVideoRef(el, index)}
                   className={videoClasses}
@@ -278,19 +300,42 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
                   autoPlay={index === currentIndex}
                   loop
                   muted
-                  playsInline
-                  preload="none" // Start with no preloading, managed in useEffect
+                  playsInline                  preload="none" // Start with no preloading, managed in useEffect
                   onError={(e) => {
-                    console.warn(`Video ${video.filename} failed to load:`, e)
+                    console.error(`🚨 Video ${video.filename} failed to load:`, e)
+                    console.error(`   URL: ${video.url}`)
+                    const target = e.target as HTMLVideoElement
+                    if (target?.error) {
+                      console.error(`   Error code: ${target.error.code}, message: ${target.error.message}`)
+                    }
+                  }}
+                  onLoadStart={() => {
+                    console.log(`⏳ Video ${video.filename} load started`)
+                  }}
+                  onLoadedMetadata={() => {
+                    console.log(`✅ Video ${video.filename} metadata loaded`)
                   }}
                   onLoadedData={() => {
+                    console.log(`✅ Video ${video.filename} data loaded`)
                     // Auto-play current video when loaded
                     if (index === currentIndex) {
                       const videoEl = videoRefs.current[index]
                       if (videoEl) {
-                        videoEl.play().catch(console.warn)
+                        console.log(`▶️ Attempting to play ${video.filename}`)
+                        videoEl.play().catch(err => {
+                          console.warn(`⚠️ Failed to auto-play ${video.filename}:`, err)
+                        })
                       }
                     }
+                  }}
+                  onCanPlay={() => {
+                    console.log(`🎬 Video ${video.filename} can play`)
+                  }}
+                  onPlay={() => {
+                    console.log(`▶️ Video ${video.filename} started playing`)
+                  }}
+                  onPause={() => {
+                    console.log(`⏸️ Video ${video.filename} paused`)
                   }}
                 />
               )
