@@ -30,38 +30,47 @@
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  opacity: 1;
+  opacity: 0;
   transform: translateX(100%);
-  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   z-index: 1;
-  will-change: transform;
+  will-change: transform, opacity;
   /* Subtle purple tint for theme consistency */
   filter: contrast(1.05) saturate(1.1) hue-rotate(5deg) sepia(0.1);
 }
 
 .backgroundVideo:first-child {
+  opacity: 1;
   transform: translateX(0%);
 }
 
 .backgroundVideo.active {
-  z-index: 2;
+  opacity: 1;
   transform: translateX(0%);
+  z-index: 2;
 }
 
 .backgroundVideo.inactive {
-  z-index: 1;
-}
-
-.backgroundVideo.inactive[data-video-index="0"] {
-  transform: translateX(-100%);
-}
-
-.backgroundVideo.inactive[data-video-index="1"] {
+  opacity: 0;
   transform: translateX(100%);
+  z-index: 1;
 }
 
 .backgroundVideo.transitioning {
   transition-duration: 1.5s;
+}
+
+/* Smooth slide transition for all videos */
+.backgroundVideo.entering {
+  opacity: 1;
+  transform: translateX(0%);
+  z-index: 3;
+}
+
+.backgroundVideo.exiting {
+  opacity: 1;
+  transform: translateX(-100%);
+  z-index: 2;
 }
 
 /* Video Filter Overlay for Better Text Readability */
@@ -96,20 +105,58 @@
 .content {
   position: relative;
   z-index: 10;
-  text-align: center;
   color: white;
-  max-width: 800px;
-  padding: 2rem;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
   animation: fadeInUp 1s ease-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Video Title Container - Top positioned */
+.videoTitleContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 2rem 0 2rem;
+}
+
+/* Text Content Container */
+.textContent {
+  text-align: center;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex: 1;
+}
+
+/* Video Title - Top positioned */
+.videoTitle {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 300;
+  line-height: 1.2;
+  letter-spacing: 3px;
+  margin: 0;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.3s ease;
 }
 
 /* Title with Capital Letters and Character Spacing */
 .title {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 300;
+  font-size: clamp(1.5rem, 8vw, 2.5rem);
+  font-weight: 100;
   line-height: 1.1;
-  letter-spacing: 8px; /* Character spacing as requested */
+  letter-spacing: 16px; /* Character spacing as requested */
   margin: 0 0 1.5rem 0;
   text-transform: uppercase; /* Capital letters as requested */
   color: #ffffff;
@@ -122,50 +169,69 @@
 /* Subtitle */
 .subtitle {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-  font-weight: 300;
-  line-height: 1.5;
-  margin: 0 0 3rem 0;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-weight: 100;
+  line-height: 1.2;
+  margin: 0;
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: none;
+  max-width: 100%;
 }
 
 /* Video Navigation Container */
 .videoNavigation {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  margin-top: 2rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
-/* Navigation Arrows - Shared Base Styles */
+/* Navigation Arrows - Positioned at viewport edges */
 .navArrow {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 60px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
   color: rgba(255, 255, 255, 0.9);
+  pointer-events: auto;
   
   /* Glassmorphism effect */
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0.1) 100%
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.08) 100%
   );
-  backdrop-filter: blur(15px) saturate(1.5);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(24px) saturate(1.5);
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.leftArrow {
+  left: 0;
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.rightArrow {
+  right: 0;
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .navArrow:hover {
@@ -174,15 +240,15 @@
     rgba(255, 255, 255, 0.25) 0%,
     rgba(255, 255, 255, 0.15) 100%
   );
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-50%) scale(1.05);
   box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.15),
+    0 12px 48px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .navArrow:active {
-  transform: scale(0.98);
+  transform: translateY(-50%) scale(0.95);
 }
 
 .navArrow:disabled {
@@ -190,70 +256,52 @@
   cursor: not-allowed;
 }
 
-/* Video Indicators Container */
+/* Video Indicators Container - Positioned below text content */
 .videoIndicators {
+  position: relative;
+  margin-top: 2rem;
   display: flex;
   gap: 1rem;
   align-items: center;
+  justify-content: center;
+  pointer-events: auto;
 }
 
-/* Individual Indicators - Circular with Glassmorphism */
+/* Individual Indicators - Clean Glassmorphism */
 .indicator {
   width: 16px;
   height: 16px;
-  border-radius: 50%; /* Perfectly circular as requested */
+  border-radius: 50%;
   border: none;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s ease;
   position: relative;
   
-  /* Glassmorphism effect for indicators */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.08) 100%
-  );
-  backdrop-filter: blur(10px) saturate(1.3);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 
-    0 4px 16px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  /* Clean glassmorphism without gradients */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .indicator:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.2) 0%,
-    rgba(255, 255, 255, 0.12) 100%
-  );
-  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   transform: scale(1.1);
-  box-shadow: 
-    0 6px 20px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Active Indicator - Purple theme but subtle */
+/* Active Indicator */
 .indicator.active {
-  background: linear-gradient(
-    135deg,
-    rgba(147, 112, 219, 0.7) 0%,
-    rgba(106, 76, 147, 0.8) 100%
-  );
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   transform: scale(1.2);
-  box-shadow: 
-    0 8px 24px rgba(106, 76, 147, 0.3),
-    0 4px 12px rgba(147, 112, 219, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .indicator.active:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(147, 112, 219, 0.8) 0%,
-    rgba(106, 76, 147, 0.9) 100%
-  );
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   transform: scale(1.25);
 }
 
@@ -279,39 +327,46 @@
 }
 
 /* Responsive Design - Consolidated Breakpoints */
-@media (max-width: 1024px) {
-  .immerseWrapper {
+@media (max-width: 1024px) {  .immerseWrapper {
     height: 80vh;
     min-height: 500px;
   }
   
-  .content {
-    padding: 1.5rem;
+  .videoTitleContainer {
+    padding: 2.5rem 1.5rem 0 1.5rem;
+  }
+  
+  .videoTitle {
+    font-size: clamp(0.9rem, 2.2vw, 1.2rem);
+    letter-spacing: 2.5px;
   }
   
   .title {
     font-size: clamp(2rem, 5vw, 3.5rem);
     letter-spacing: 6px;
   }
-  
-  .videoNavigation {
-    gap: 1.5rem;
+    .navArrow {
+    width: 45px;
+    height: 75px;
   }
   
-  .navArrow {
-    width: 45px;
-    height: 45px;
+  .videoIndicators {
+    bottom: 2.5rem;
   }
 }
 
-@media (max-width: 768px) {
-  .immerseWrapper {
+@media (max-width: 768px) {  .immerseWrapper {
     height: 70vh;
     min-height: 450px;
   }
   
-  .content {
-    padding: 1rem;
+  .videoTitleContainer {
+    padding: 2rem 1rem 0 1rem;
+  }
+  
+  .videoTitle {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    letter-spacing: 2px;
   }
   
   .title {
@@ -321,22 +376,20 @@
   }
   
   .subtitle {
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    margin-bottom: 2rem;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   }
-  
-  .videoNavigation {
-    gap: 1rem;
-  }
-  
-  .navArrow {
-    width: 40px;
-    height: 40px;
+    .navArrow {
+    width: 38px;
+    height: 60px;
   }
   
   .indicator {
     width: 14px;
     height: 14px;
+  }
+  
+  .videoIndicators {
+    bottom: 2rem;
   }
 }
 
@@ -346,17 +399,25 @@
     min-height: 400px;
   }
   
+  .videoTitleContainer {
+    padding: 1.5rem 1rem 0 1rem;
+  }
+  
+  .videoTitle {
+    font-size: clamp(0.7rem, 1.8vw, 0.9rem);
+    letter-spacing: 1.5px;
+  }
+  
   .title {
     letter-spacing: 3px;
   }
   
-  .videoNavigation {
-    gap: 0.8rem;
+  .subtitle {
+    font-size: clamp(0.8rem, 2vw, 1rem);
   }
-  
-  .navArrow {
-    width: 36px;
-    height: 36px;
+    .navArrow {
+    width: 30px;
+    height: 45px;
   }
   
   .indicator {
@@ -366,5 +427,6 @@
   
   .videoIndicators {
     gap: 0.8rem;
+    bottom: 1.5rem;
   }
 }
