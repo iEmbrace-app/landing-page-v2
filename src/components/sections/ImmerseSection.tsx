@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import styles from './ImmerseSection.module.css'
 
 interface ImmerseSectionProps {
@@ -9,32 +9,35 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
 
-  // Video sources - you can adjust these paths
+  // Video sources
   const videos = [
     '/videos/field.mp4',
     '/videos/cloud.mp4'
   ]
 
-  const nextVideo = () => {
+  const TRANSITION_DURATION = 1200
+
+  const handleTransition = useCallback((newIndex: number) => {
     if (isTransitioning) return
     setIsTransitioning(true)
-    setCurrentVideoIndex((prev) => (prev + 1) % videos.length)
-    setTimeout(() => setIsTransitioning(false), 1200)
-  }
+    setCurrentVideoIndex(newIndex)
+    setTimeout(() => setIsTransitioning(false), TRANSITION_DURATION)
+  }, [isTransitioning])
 
-  const prevVideo = () => {
-    if (isTransitioning) return
-    setIsTransitioning(true)
-    setCurrentVideoIndex((prev) => (prev - 1 + videos.length) % videos.length)
-    setTimeout(() => setIsTransitioning(false), 1200)
-  }
+  const nextVideo = useCallback(() => {
+    const newIndex = (currentVideoIndex + 1) % videos.length
+    handleTransition(newIndex)
+  }, [currentVideoIndex, videos.length, handleTransition])
 
-  const goToVideo = (index: number) => {
-    if (isTransitioning || index === currentVideoIndex) return
-    setIsTransitioning(true)
-    setCurrentVideoIndex(index)
-    setTimeout(() => setIsTransitioning(false), 1200)
-  }
+  const prevVideo = useCallback(() => {
+    const newIndex = (currentVideoIndex - 1 + videos.length) % videos.length
+    handleTransition(newIndex)
+  }, [currentVideoIndex, videos.length, handleTransition])
+
+  const goToVideo = useCallback((index: number) => {
+    if (index === currentVideoIndex) return
+    handleTransition(index)
+  }, [currentVideoIndex, handleTransition])
 
   return (
     <section 
