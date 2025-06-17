@@ -16,8 +16,7 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: true,
     chunkSizeWarningLimit: 300,
-    rollupOptions: {
-      output: {
+    rollupOptions: {      output: {
         manualChunks: {
           // Split Three.js into its own chunk
           three: ['three'],
@@ -25,13 +24,9 @@ export default defineConfig({
           // Split React-Three-Fiber ecosystem
           'react-three': ['@react-three/fiber', '@react-three/drei'],
 
-          // Split optimization utilities
+          // Split remaining utilities
           utils: [
-            './src/utils/AnimationScheduler',
-            './src/utils/LRUCache',
-            './src/utils/SpatialHashGrid',
-            './src/utils/FrustumCuller',
-            './src/utils/PerformanceMonitor',
+            './src/utils/VideoManager',
           ],
 
           // Split 3D components

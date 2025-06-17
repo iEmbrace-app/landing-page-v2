@@ -1,179 +1,284 @@
 /**
- * Performance monitoring utility for tracking app performance metrics
- * Provides FPS tracking, memory usage, and performance insights
+ * Performance Monitoring Utility for Video Optimization
+ * Tracks metrics and provides insights for optimization decisions
  */
-export class PerformanceMonitor {
-  private frameCount = 0
-  private lastTime = performance.now()
-  private fps = 60
-  private fpsHistory: number[] = []
-  private maxHistoryLength = 60 // Track last 60 FPS samples
 
-  // Memory tracking (when available)
-  private memoryInfo = {
-    usedJSHeapSize: 0,
-    totalJSHeapSize: 0,
-    jsHeapSizeLimit: 0
-  }
-
-  // Performance thresholds
-  private readonly LOW_FPS_THRESHOLD = 45
-  private readonly HIGH_FPS_THRESHOLD = 55
-  private readonly MEMORY_WARNING_THRESHOLD = 0.8 // 80% of heap limit
-
-  update(): void {
-    this.frameCount++
-    const currentTime = performance.now()
-    const deltaTime = currentTime - this.lastTime
-
-    if (deltaTime >= 1000) { // Update every second
-      this.fps = (this.frameCount * 1000) / deltaTime
-      this.fpsHistory.push(this.fps)
-      
-      if (this.fpsHistory.length > this.maxHistoryLength) {
-        this.fpsHistory.shift()
-      }
-
-      this.frameCount = 0
-      this.lastTime = currentTime
-
-      // Update memory info if available
-      this.updateMemoryInfo()
-    }
-  }
-
-  private updateMemoryInfo(): void {
-    if ('memory' in performance) {
-      const memory = (performance as any).memory
-      this.memoryInfo = {
-        usedJSHeapSize: memory.usedJSHeapSize,
-        totalJSHeapSize: memory.totalJSHeapSize,
-        jsHeapSizeLimit: memory.jsHeapSizeLimit
-      }
-    }
-  }
-
-  getFPS(): number {
-    return Math.round(this.fps)
-  }
-
-  getAverageFPS(): number {
-    if (this.fpsHistory.length === 0) return this.fps
-    const sum = this.fpsHistory.reduce((a, b) => a + b, 0)
-    return Math.round(sum / this.fpsHistory.length)
-  }
-
-  getMinFPS(): number {
-    if (this.fpsHistory.length === 0) return this.fps
-    return Math.round(Math.min(...this.fpsHistory))
-  }
-
-  getMaxFPS(): number {
-    if (this.fpsHistory.length === 0) return this.fps
-    return Math.round(Math.max(...this.fpsHistory))
-  }
-
-  getPerformanceLevel(): 'low' | 'medium' | 'high' {
-    const avgFPS = this.getAverageFPS()
-    if (avgFPS < this.LOW_FPS_THRESHOLD) return 'low'
-    if (avgFPS > this.HIGH_FPS_THRESHOLD) return 'high'
-    return 'medium'
-  }
-
-  getMemoryUsage(): {
-    used: number // MB
-    total: number // MB
-    limit: number // MB
-    percentage: number // 0-1
-    isWarning: boolean
-  } {
-    const bytesToMB = (bytes: number) => Math.round(bytes / 1024 / 1024)
-    
-    const used = bytesToMB(this.memoryInfo.usedJSHeapSize)
-    const total = bytesToMB(this.memoryInfo.totalJSHeapSize)
-    const limit = bytesToMB(this.memoryInfo.jsHeapSizeLimit)
-    
-    const percentage = limit > 0 ? used / limit : 0
-    const isWarning = percentage > this.MEMORY_WARNING_THRESHOLD
-
-    return { used, total, limit, percentage, isWarning }
-  }
-
-  getStabilityScore(): number {
-    if (this.fpsHistory.length < 10) return 1 // Not enough data
-
-    const avg = this.getAverageFPS()
-    const variance = this.fpsHistory.reduce((sum, fps) => {
-      return sum + Math.pow(fps - avg, 2)
-    }, 0) / this.fpsHistory.length
-
-    const standardDeviation = Math.sqrt(variance)
-    
-    // Stability score: lower deviation = higher stability
-    // Score from 0 (very unstable) to 1 (very stable)
-    const maxAcceptableDeviation = 10
-    return Math.max(0, 1 - (standardDeviation / maxAcceptableDeviation))
-  }
-
-  getRecommendations(): string[] {
-    const recommendations: string[] = []
-    const perfLevel = this.getPerformanceLevel()
-    const memory = this.getMemoryUsage()
-    const stability = this.getStabilityScore()
-
-    if (perfLevel === 'low') {
-      recommendations.push('Consider reducing particle count or 3D quality settings')
-      recommendations.push('Check for memory leaks or excessive object creation')
-    }
-
-    if (memory.isWarning) {
-      recommendations.push('Memory usage is high - consider enabling object pooling')
-      recommendations.push('Clear unused cached geometries or textures')
-    }
-
-    if (stability < 0.7) {
-      recommendations.push('Frame rate is unstable - check for blocking operations')
-      recommendations.push('Consider using animation scheduler frame budgeting')
-    }
-
-    if (recommendations.length === 0) {
-      recommendations.push('Performance is optimal!')
-    }
-
-    return recommendations
-  }
-  getFullReport(): {
-    fps: { current: number; average: number; min: number; max: number }
-    memory: { used: number; total: number; limit: number }
-    performance: {
-      level: 'low' | 'medium' | 'high'
-      stability: number
-    }
-    recommendations: string[]
-  } {
-    return {
-      fps: {
-        current: this.getFPS(),
-        average: this.getAverageFPS(),
-        min: this.getMinFPS(),
-        max: this.getMaxFPS()
-      },
-      memory: this.getMemoryUsage(),
-      performance: {
-        level: this.getPerformanceLevel(),
-        stability: this.getStabilityScore()
-      },
-      recommendations: this.getRecommendations()
-    }
-  }
-
-  reset(): void {
-    this.frameCount = 0
-    this.lastTime = performance.now()
-    this.fps = 60
-    this.fpsHistory = []
-  }
+interface PerformanceMetrics {
+  videoLoadTime: number
+  cacheHitRate: number
+  memoryUsage: number
+  networkRequests: number
+  renderTime: number
+  transitionTime: number
+  userInteractionDelay: number
 }
 
-// Global performance monitor instance
-export const globalPerformanceMonitor = new PerformanceMonitor()
+interface PerformanceThresholds {
+  maxVideoLoadTime: number
+  minCacheHitRate: number
+  maxMemoryUsageMB: number
+  maxRenderTime: number
+  maxTransitionTime: number
+}
+
+export class PerformanceMonitor {
+  private static instance: PerformanceMonitor
+  private metrics: PerformanceMetrics[] = []
+  private thresholds: PerformanceThresholds
+  private observers: Array<(metrics: PerformanceMetrics) => void> = []
+
+  private constructor() {
+    this.thresholds = {
+      maxVideoLoadTime: 3000, // 3 seconds
+      minCacheHitRate: 0.8, // 80%
+      maxMemoryUsageMB: 100, // 100MB
+      maxRenderTime: 16.67, // 60fps = 16.67ms per frame
+      maxTransitionTime: 1200 // 1.2 seconds
+    }
+  }
+
+  static getInstance(): PerformanceMonitor {
+    if (!PerformanceMonitor.instance) {
+      PerformanceMonitor.instance = new PerformanceMonitor()
+    }
+    return PerformanceMonitor.instance
+  }
+
+  startVideoLoadTimer(videoId: string): () => number {
+    const startTime = performance.now()
+    
+    return () => {
+      const loadTime = performance.now() - startTime
+      this.recordMetric('videoLoadTime', loadTime)
+      
+      if (loadTime > this.thresholds.maxVideoLoadTime) {
+        console.warn(`⚠️ Video ${videoId} took ${loadTime.toFixed(2)}ms to load (threshold: ${this.thresholds.maxVideoLoadTime}ms)`)
+      } else {
+        console.log(`✅ Video ${videoId} loaded in ${loadTime.toFixed(2)}ms`)
+      }
+      
+      return loadTime
+    }
+  }
+
+  measureRenderTime(renderFunction: () => void): number {
+    const startTime = performance.now()
+    renderFunction()
+    const renderTime = performance.now() - startTime
+    
+    this.recordMetric('renderTime', renderTime)
+    
+    if (renderTime > this.thresholds.maxRenderTime) {
+      console.warn(`⚠️ Slow render detected: ${renderTime.toFixed(2)}ms (target: ${this.thresholds.maxRenderTime}ms)`)
+    }
+    
+    return renderTime
+  }
+
+  measureTransitionTime(transitionFunction: () => Promise<void>): Promise<number> {
+    return new Promise(async (resolve) => {
+      const startTime = performance.now()
+      await transitionFunction()
+      const transitionTime = performance.now() - startTime
+      
+      this.recordMetric('transitionTime', transitionTime)
+      
+      if (transitionTime > this.thresholds.maxTransitionTime) {
+        console.warn(`⚠️ Slow transition: ${transitionTime.toFixed(2)}ms (target: ${this.thresholds.maxTransitionTime}ms)`)
+      }
+      
+      resolve(transitionTime)
+    })
+  }
+
+  recordCacheHit(_hit: boolean, totalRequests: number, hitCount: number) {
+    const hitRate = hitCount / totalRequests
+    this.recordMetric('cacheHitRate', hitRate)
+    
+    if (hitRate < this.thresholds.minCacheHitRate) {
+      console.warn(`⚠️ Low cache hit rate: ${(hitRate * 100).toFixed(1)}% (target: ${(this.thresholds.minCacheHitRate * 100)}%)`)
+    }
+  }
+
+  recordNetworkRequest() {
+    this.recordMetric('networkRequests', 1)
+  }
+
+  measureMemoryUsage(): number {
+    if ('memory' in performance) {
+      const memInfo = (performance as any).memory
+      const usedMB = memInfo.usedJSHeapSize / 1024 / 1024
+      
+      this.recordMetric('memoryUsage', usedMB)
+      
+      if (usedMB > this.thresholds.maxMemoryUsageMB) {
+        console.warn(`⚠️ High memory usage: ${usedMB.toFixed(2)}MB (threshold: ${this.thresholds.maxMemoryUsageMB}MB)`)
+      }
+      
+      return usedMB
+    }
+    return 0
+  }
+
+  measureUserInteractionDelay(interactionFunction: () => void): number {
+    const startTime = performance.now()
+    
+    // Schedule the function to run after current execution stack
+    requestAnimationFrame(() => {
+      interactionFunction()
+      const delay = performance.now() - startTime
+      this.recordMetric('userInteractionDelay', delay)
+      
+      if (delay > 100) { // 100ms is generally considered the threshold for "instant" response
+        console.warn(`⚠️ User interaction delay: ${delay.toFixed(2)}ms`)
+      }
+    })
+    
+    return performance.now() - startTime
+  }
+
+  private recordMetric(key: keyof PerformanceMetrics, value: number) {
+    const currentMetrics = this.getCurrentMetrics()
+    currentMetrics[key] = value
+    
+    // Keep only last 50 metric snapshots
+    if (this.metrics.length > 50) {
+      this.metrics = this.metrics.slice(-50)
+    }
+    
+    this.notifyObservers(currentMetrics)
+  }
+
+  private getCurrentMetrics(): PerformanceMetrics {
+    const latest = this.metrics[this.metrics.length - 1]
+    if (latest) {
+      return { ...latest }
+    }
+    
+    const newMetrics: PerformanceMetrics = {
+      videoLoadTime: 0,
+      cacheHitRate: 0,
+      memoryUsage: 0,
+      networkRequests: 0,
+      renderTime: 0,
+      transitionTime: 0,
+      userInteractionDelay: 0
+    }
+    
+    this.metrics.push(newMetrics)
+    return newMetrics
+  }
+
+  subscribe(observer: (metrics: PerformanceMetrics) => void) {
+    this.observers.push(observer)
+  }
+
+  unsubscribe(observer: (metrics: PerformanceMetrics) => void) {
+    this.observers = this.observers.filter(obs => obs !== observer)
+  }
+
+  private notifyObservers(metrics: PerformanceMetrics) {
+    this.observers.forEach(observer => observer(metrics))
+  }
+
+  getAverageMetrics(): PerformanceMetrics {
+    if (this.metrics.length === 0) {
+      return this.getCurrentMetrics()
+    }
+
+    const sums = this.metrics.reduce((acc, metrics) => {
+      Object.keys(acc).forEach(key => {
+        acc[key as keyof PerformanceMetrics] += metrics[key as keyof PerformanceMetrics]
+      })
+      return acc
+    }, {
+      videoLoadTime: 0,
+      cacheHitRate: 0,
+      memoryUsage: 0,
+      networkRequests: 0,
+      renderTime: 0,
+      transitionTime: 0,
+      userInteractionDelay: 0
+    })
+
+    const averages: PerformanceMetrics = {
+      videoLoadTime: sums.videoLoadTime / this.metrics.length,
+      cacheHitRate: sums.cacheHitRate / this.metrics.length,
+      memoryUsage: sums.memoryUsage / this.metrics.length,
+      networkRequests: sums.networkRequests / this.metrics.length,
+      renderTime: sums.renderTime / this.metrics.length,
+      transitionTime: sums.transitionTime / this.metrics.length,
+      userInteractionDelay: sums.userInteractionDelay / this.metrics.length
+    }
+
+    return averages
+  }
+
+  generatePerformanceReport(): string {
+    const averages = this.getAverageMetrics()
+    const latest = this.metrics[this.metrics.length - 1] || averages
+
+    return `
+📊 PERFORMANCE REPORT
+====================
+Latest Metrics:
+- Video Load Time: ${latest.videoLoadTime.toFixed(2)}ms
+- Cache Hit Rate: ${(latest.cacheHitRate * 100).toFixed(1)}%
+- Memory Usage: ${latest.memoryUsage.toFixed(2)}MB
+- Network Requests: ${latest.networkRequests}
+- Render Time: ${latest.renderTime.toFixed(2)}ms
+- Transition Time: ${latest.transitionTime.toFixed(2)}ms
+- User Interaction Delay: ${latest.userInteractionDelay.toFixed(2)}ms
+
+Average Metrics (last ${this.metrics.length} snapshots):
+- Avg Video Load Time: ${averages.videoLoadTime.toFixed(2)}ms
+- Avg Cache Hit Rate: ${(averages.cacheHitRate * 100).toFixed(1)}%
+- Avg Memory Usage: ${averages.memoryUsage.toFixed(2)}MB
+- Avg Render Time: ${averages.renderTime.toFixed(2)}ms
+- Avg Transition Time: ${averages.transitionTime.toFixed(2)}ms
+
+Performance Status:
+${this.getPerformanceStatus(latest)}
+    `.trim()
+  }
+
+  private getPerformanceStatus(metrics: PerformanceMetrics): string {
+    const issues: string[] = []
+    
+    if (metrics.videoLoadTime > this.thresholds.maxVideoLoadTime) {
+      issues.push(`❌ Video loading too slow (${metrics.videoLoadTime.toFixed(2)}ms > ${this.thresholds.maxVideoLoadTime}ms)`)
+    }
+    
+    if (metrics.cacheHitRate < this.thresholds.minCacheHitRate) {
+      issues.push(`❌ Cache hit rate too low (${(metrics.cacheHitRate * 100).toFixed(1)}% < ${(this.thresholds.minCacheHitRate * 100)}%)`)
+    }
+    
+    if (metrics.memoryUsage > this.thresholds.maxMemoryUsageMB) {
+      issues.push(`❌ Memory usage too high (${metrics.memoryUsage.toFixed(2)}MB > ${this.thresholds.maxMemoryUsageMB}MB)`)
+    }
+    
+    if (metrics.renderTime > this.thresholds.maxRenderTime) {
+      issues.push(`❌ Render time too slow (${metrics.renderTime.toFixed(2)}ms > ${this.thresholds.maxRenderTime}ms)`)
+    }
+    
+    if (metrics.transitionTime > this.thresholds.maxTransitionTime) {
+      issues.push(`❌ Transition time too slow (${metrics.transitionTime.toFixed(2)}ms > ${this.thresholds.maxTransitionTime}ms)`)
+    }
+
+    if (issues.length === 0) {
+      return "✅ All performance metrics within acceptable thresholds"
+    }
+    
+    return issues.join('\n')
+  }
+
+  // Method to be called periodically to log performance summary
+  logPerformanceSummary() {
+    console.log(this.generatePerformanceReport())
+  }
+
+  // Clear metrics for fresh start
+  clearMetrics() {
+    this.metrics = []
+  }
+}

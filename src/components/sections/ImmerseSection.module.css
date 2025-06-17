@@ -8,9 +8,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  /* Fallback gradient background when videos aren't loaded */
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 25%,
+    #f093fb 50%,
+    #f5576c 75%,
+    #4facfe 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease-in-out infinite;
 }
 
-/* Video Background Container */
+/* Video Background Container - Optimized for performance */
 .videoContainer {
   position: absolute;
   top: 0;
@@ -19,9 +31,13 @@
   height: 100%;
   z-index: 1;
   overflow: hidden;
+  contain: layout style paint;
+  /* Performance optimizations */
+  transform: translateZ(0);
+  will-change: auto;
 }
 
-/* Background Video Styles */
+/* Background Video Styles - Optimized for smooth transitions */
 .backgroundVideo {
   position: absolute;
   top: 0;
@@ -31,45 +47,42 @@
   object-fit: cover;
   object-position: center center;
   opacity: 0;
-  transform: translateX(100%);
-  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
   z-index: 1;
-  will-change: transform, opacity;
+  /* GPU acceleration for smooth transitions */
+  transform: translateZ(0);
+  will-change: opacity;
+  backface-visibility: hidden;
   /* Subtle purple tint for theme consistency */
   filter: contrast(1.05) saturate(1.1) hue-rotate(5deg) sepia(0.1);
 }
 
 .backgroundVideo:first-child {
   opacity: 1;
-  transform: translateX(0%);
 }
 
 .backgroundVideo.active {
   opacity: 1;
-  transform: translateX(0%);
   z-index: 2;
 }
 
 .backgroundVideo.inactive {
   opacity: 0;
-  transform: translateX(100%);
   z-index: 1;
 }
 
 .backgroundVideo.transitioning {
-  transition-duration: 1.5s;
+  transition-duration: 0.8s;
 }
 
-/* Smooth slide transition for all videos */
+/* Smooth fade transition for all videos */
 .backgroundVideo.entering {
   opacity: 1;
-  transform: translateX(0%);
   z-index: 3;
 }
 
 .backgroundVideo.exiting {
-  opacity: 1;
-  transform: translateX(-100%);
+  opacity: 0;
   z-index: 2;
 }
 
@@ -305,6 +318,71 @@
   transform: scale(1.25);
 }
 
+/* Enhanced video indicators with loading states */
+.indicator.loaded {
+  /* Keep the original glassmorphism design but add subtle loading indicator */
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 16px rgba(147, 51, 234, 0.2), 0 0 8px rgba(147, 51, 234, 0.1);
+  border: 1px solid rgba(147, 51, 234, 0.3);
+}
+
+.indicator.loaded::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: rgba(147, 51, 234, 0.8);
+  border-radius: 50%;
+  opacity: 0.9;
+}
+
+/* Performance optimizations for video elements */
+.transitioning {
+  will-change: opacity;
+}
+
+/* Loading performance enhancements */
+.videoContainer {
+  contain: layout style paint;
+}
+
+/* Preloader hints */
+.indicator:hover::before {
+  content: attr(aria-label);
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  z-index: 10;
+  opacity: 0;
+  animation: fadeIn 0.2s ease-in-out forwards;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.errorContainer p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
 /* Animations */
 @keyframes fadeInUp {
   from {
@@ -326,8 +404,15 @@
   }
 }
 
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 /* Responsive Design - Consolidated Breakpoints */
-@media (max-width: 1024px) {  .immerseWrapper {
+@media (max-width: 1024px) {
+  .immerseWrapper {
     height: 80vh;
     min-height: 500px;
   }
@@ -345,7 +430,8 @@
     font-size: clamp(2rem, 5vw, 3.5rem);
     letter-spacing: 6px;
   }
-    .navArrow {
+  
+  .navArrow {
     width: 45px;
     height: 75px;
   }
@@ -355,7 +441,8 @@
   }
 }
 
-@media (max-width: 768px) {  .immerseWrapper {
+@media (max-width: 768px) {
+  .immerseWrapper {
     height: 70vh;
     min-height: 450px;
   }
@@ -370,15 +457,15 @@
   }
   
   .title {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    letter-spacing: 4px;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);    letter-spacing: 4px;
     margin-bottom: 1rem;
   }
   
   .subtitle {
     font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   }
-    .navArrow {
+  
+  .navArrow {
     width: 38px;
     height: 60px;
   }
@@ -415,7 +502,8 @@
   .subtitle {
     font-size: clamp(0.8rem, 2vw, 1rem);
   }
-    .navArrow {
+  
+  .navArrow {
     width: 30px;
     height: 45px;
   }
@@ -424,9 +512,7 @@
     width: 12px;
     height: 12px;
   }
-  
-  .videoIndicators {
-    gap: 0.8rem;
-    bottom: 1.5rem;
+    .videoIndicators {
+    gap: 0.8rem;    bottom: 1.5rem;
   }
 }

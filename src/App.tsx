@@ -1,34 +1,16 @@
-// src/App.tsx
-import { Suspense, useEffect } from 'react'
+import { Suspense } from 'react'
 import { Navigation } from './components/layout/Navigation'
 import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
 import { TabSection, HoldMeditateSection, ImmerseSection, ComponentLoadingFallback } from './components/LazyComponents'
 import { ParticleBackground } from './components/ui/ParticleBackground'
 import { useScreenSize } from './hooks/useScreenSize'
-import { 
-  useAccessibilityMonitor, 
-  useKeyboardNavigationTracker, 
-  useScreenReaderSimulator 
-} from './hooks/useAccessibilityAudit'
 import { tabContent } from './data/tabContent'
 import './App.css'
 
 function App() {
   const { isMobile } = useScreenSize()
-  
-  // Accessibility testing hooks (development only)
-  useAccessibilityMonitor(import.meta.env.DEV)
-  useKeyboardNavigationTracker(import.meta.env.DEV)
-  useScreenReaderSimulator(import.meta.env.DEV)  // Initialize comprehensive testing suite in development
-  useEffect(() => {
-    if (import.meta.env.DEV) {
-        // Initialize testing suite globally for manual testing
-      import('./utils/TestSuite').then(({ testSuite }) => {
-        (window as any).runTests = () => testSuite.runFullSuite()
-      })
-    }
-  }, [])
+
   return (
     <>
       {/* Ambient particle background */}
@@ -55,25 +37,30 @@ function App() {
       >
         Skip to main content
       </a>
+        <Navigation />
       
-      <Navigation />      <main id="main-content" role="main" tabIndex={-1}>        {/* Hero Section - Soft Purple with Nature Shadows */}
+      <main id="main-content" role="main" tabIndex={-1}>
+        {/* Hero Section */}
         <section id="home" aria-label="Home">
           <HeroSection isMobile={isMobile} />
         </section>
-          {/* Immerse Section - Tranquil Environments */}
+
+        {/* Immerse Section */}
         <section id="immerse" aria-label="Immerse yourself in tranquil environments">
           <Suspense fallback={<ComponentLoadingFallback />}>
             <ImmerseSection isMobile={isMobile} />
           </Suspense>
         </section>
         
-        {/* Lazy load remaining sections */}
+        {/* About Section */}
         <section id="about" aria-label="About - Meditation techniques">
           <Suspense fallback={<ComponentLoadingFallback />}>
             <TabSection isMobile={isMobile} tabContent={tabContent} />
           </Suspense>
         </section>
-          <section id="how-it-works" aria-label="How it works - Hold and meditate practice">
+
+        {/* How It Works Section */}
+        <section id="how-it-works" aria-label="How it works - Hold and meditate practice">
           <Suspense fallback={<ComponentLoadingFallback />}>
             <HoldMeditateSection isMobile={isMobile} />
           </Suspense>

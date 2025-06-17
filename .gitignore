@@ -16,6 +16,7 @@ node_modules/
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -29,6 +30,11 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env.development
+.env.production
+
+# Supabase secrets
+.env.supabase
 
 # vercel
 .vercel

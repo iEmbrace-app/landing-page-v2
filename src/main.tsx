@@ -25,8 +25,7 @@ async function registerServiceWorker() {
           })
         }
       })
-      
-      // Pre-cache critical 3D assets after app loads
+        // Pre-cache critical 3D assets after app loads
       if (registration.active) {
         setTimeout(() => {
           registration.active?.postMessage({
@@ -34,8 +33,7 @@ async function registerServiceWorker() {
               assets: [
                 '/src/components/three-d/ProceduralPebble.tsx',
                 '/src/components/three-d/SceneManager.tsx',
-                '/src/utils/AnimationScheduler.ts',
-                '/src/utils/LRUCache.ts'
+                '/src/utils/VideoManager.ts'
               ]
             }
           })

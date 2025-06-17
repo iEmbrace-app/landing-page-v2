@@ -11,13 +11,12 @@ import {
   RepeatWrapping
 } from 'three'
 import { SimplexNoise } from 'three/examples/jsm/math/SimplexNoise.js'
-import { LRUCache } from '../../utils/LRUCache'
 
 // Cache noise instance globally to avoid recreation
 const globalSimplex = new SimplexNoise()
 
-// Replace Map with LRU Cache for better memory management
-const geometryCache = new LRUCache<string, BufferGeometry>(50)
+// Simple geometry cache
+const geometryCache = new Map<string, BufferGeometry>()
 
 // Create optimized textures once and cache them
 const createOptimizedTextures = () => {

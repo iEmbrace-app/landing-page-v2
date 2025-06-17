@@ -344,6 +344,30 @@ button:focus,
 }
 
 /* ====================  LOADING ANIMATIONS  ==================== */
+/* ====================  COMPONENT LOADING  ==================== */
+.component-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  color: var(--colors-text-primary);
+  font-family: var(--typography-fontFamily-primary);
+  font-size: var(--typography-fontSize-sm);
+  opacity: 0.7;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.loading-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--colors-primary-200);
+  border-top: 2px solid var(--colors-primary-600);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
