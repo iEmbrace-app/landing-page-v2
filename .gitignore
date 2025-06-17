@@ -18,6 +18,12 @@ node_modules/
 /build
 /dist
 
+# Large files (videos should be hosted externally)
+public/videos/
+*.mp4
+*.mov
+*.avi
+
 # misc
 .DS_Store
 *.pem
