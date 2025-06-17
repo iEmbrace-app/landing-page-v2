@@ -222,8 +222,7 @@ export class VideoService {
       return data.some(bucket => bucket.name === VIDEO_BUCKET)
     } catch (error) {
       console.error('❌ Storage connection test failed:', error)
-      return false
-    }
+      return false    }
   }
 }
 

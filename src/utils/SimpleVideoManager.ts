@@ -13,8 +13,6 @@ interface VideoState {
 
 export class SimpleVideoManager {  private static instance: SimpleVideoManager
   private videos = new Map<string, VideoState>()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private currentVideoId: string | null = null
   private preloadPromises = new Map<string, Promise<void>>()
 
   private constructor() {}
@@ -119,11 +117,8 @@ export class SimpleVideoManager {  private static instance: SimpleVideoManager
       video.load()
     })
   }
-
   // Switch to a video efficiently
   async switchToVideo(id: string, videoIds: string[]): Promise<void> {
-    this.currentVideoId = id
-    
     // Ensure current video is preloaded
     await this.preloadVideo(id)
     
@@ -201,11 +196,9 @@ export class SimpleVideoManager {  private static instance: SimpleVideoManager
       }
     }
   }
-
   // Clear all video data
   clear(): void {
     this.videos.clear()
     this.preloadPromises.clear()
-    this.currentVideoId = null
   }
 }

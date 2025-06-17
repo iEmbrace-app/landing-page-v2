@@ -2,6 +2,10 @@ import { useEffect, useRef, useCallback, useState } from 'react'
 import styles from './ImmerseSection.module.css'
 import { VideoService } from '../../services/videoService'
 import { Video } from '../../lib/supabase'
+import { CgTrees } from "react-icons/cg"
+import { SlFire } from "react-icons/sl"
+import { PiPlantFill } from "react-icons/pi"
+import { BiWater } from "react-icons/bi"
 
 interface ImmerseSectionProps {
   isMobile?: boolean
@@ -10,6 +14,7 @@ interface ImmerseSectionProps {
 export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
   const autoSwitchIntervalRef = useRef<NodeJS.Timeout>()
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
+  const progressRef = useRef<NodeJS.Timeout>()
   
   const AUTO_SWITCH_INTERVAL = 8000 // 8 seconds
   
@@ -18,7 +23,17 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [isTransitioning, setIsTransitioning] = useState(false)    // Initialize videos - simple fetch without complex manager
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [progress, setProgress] = useState(0)
+
+  // Simple video ref registration
+  const setVideoRef = useCallback((element: HTMLVideoElement | null, index: number) => {
+    if (videoRefs.current) {
+      videoRefs.current[index] = element
+    }
+  }, [])
+
+  // Initialize videos
   useEffect(() => {
     const initializeVideos = async () => {
       try {
@@ -27,35 +42,13 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
         
         console.log('🎬 ImmerseSection: Starting video initialization...')
         
-        // Load videos from service
         const videoData = await VideoService.fetchVideos()
         console.log('🎬 ImmerseSection: VideoService returned:', videoData)
-          // Add temporary fallback to test videos for placeholder files
-        const processedVideos = videoData.map(video => {
-          // If the video URL looks like a placeholder (very small file), add a fallback
-          console.log(`🔍 Processing video: ${video.title}, URL: ${video.url}`)
-          
-          // For demonstration, use a colored gradient background if videos are too small
-          // This helps us see if the video container is working
-          return {
-            ...video,
-            // Add a data attribute to identify placeholder videos
-            isPlaceholder: true
-          }
-        })
         
-        setVideos(processedVideos)
+        setVideos(videoData)
+        videoRefs.current = new Array(videoData.length).fill(null)
         
-        // Initialize video refs array
-        videoRefs.current = new Array(processedVideos.length).fill(null)
-        
-        console.log(`📹 ImmerseSection: Loaded ${processedVideos.length} videos successfully`)
-        
-        // Log each video for debugging
-        processedVideos.forEach((video, index) => {
-          console.log(`  ${index + 1}. ${video.title} - ${video.filename}`)
-          console.log(`     URL: ${video.url.substring(0, 100)}...`)
-        })
+        console.log(`📹 ImmerseSection: Loaded ${videoData.length} videos successfully`)
         
       } catch (err) {
         const errorMsg = err instanceof Error ? err.message : 'Failed to load videos'
@@ -69,45 +62,6 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
     initializeVideos()
   }, [])
 
-  // Simple video ref registration
-  const setVideoRef = useCallback((element: HTMLVideoElement | null, index: number) => {
-    if (videoRefs.current) {
-      videoRefs.current[index] = element
-    }
-  }, [])
-
-  // Preload videos efficiently - only current and next
-  useEffect(() => {
-    if (!videos.length || loading) return
-
-    const preloadVideos = () => {
-      const currentVideo = videoRefs.current[currentIndex]
-      const nextIndex = (currentIndex + 1) % videos.length
-      const nextVideo = videoRefs.current[nextIndex]
-
-      // Ensure current video is loaded and ready
-      if (currentVideo && currentVideo.readyState < 3) {
-        currentVideo.preload = 'auto'
-        currentVideo.load()
-      }
-
-      // Preload next video
-      if (nextVideo && nextVideo.readyState < 2) {
-        nextVideo.preload = 'metadata'
-        nextVideo.load()
-      }
-
-      // Unload distant videos to save memory
-      videoRefs.current.forEach((video, index) => {
-        if (video && index !== currentIndex && index !== nextIndex) {
-          video.preload = 'none'
-          // Don't fully unload to avoid re-download, just stop preloading
-        }
-      })
-    }
-
-    preloadVideos()
-  }, [currentIndex, videos.length, loading])
   // Navigation functions
   const goToNext = useCallback(() => {
     if (isTransitioning || videos.length === 0) return
@@ -115,18 +69,12 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
     switchToVideo(nextIndex)
   }, [currentIndex, videos.length, isTransitioning])
 
-  const goToPrev = useCallback(() => {
-    if (isTransitioning || videos.length === 0) return
-    const prevIndex = (currentIndex - 1 + videos.length) % videos.length
-    switchToVideo(prevIndex)
-  }, [currentIndex, videos.length, isTransitioning])
-
   const goToIndex = useCallback((index: number) => {
     if (isTransitioning || index === currentIndex || index >= videos.length) return
     switchToVideo(index)
   }, [currentIndex, videos.length, isTransitioning])
 
-  // Simple video switching - no complex manager
+  // Simple video switching
   const switchToVideo = useCallback(async (newIndex: number) => {
     if (newIndex === currentIndex || isTransitioning) return
 
@@ -141,13 +89,11 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
       // Play the new video
       const targetVideo = videoRefs.current[newIndex]
       if (targetVideo) {
-        // Ensure it's loaded
         if (targetVideo.readyState < 3) {
           targetVideo.preload = 'auto'
           targetVideo.load()
         }
         
-        // Play the video
         try {
           await targetVideo.play()
         } catch (playError) {
@@ -155,28 +101,53 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
         }
       }
       
-      // Update current index
       setCurrentIndex(newIndex)
       
-      console.log(`🎬 Switched to video ${newIndex}: ${videos[newIndex]?.title}`)
-      
-      // End transition after a shorter delay for better responsiveness
       setTimeout(() => {
         setIsTransitioning(false)
-      }, 800)
+      }, 1200)
       
     } catch (error) {
       console.warn('Error switching video:', error)
       setIsTransitioning(false)
     }
-  }, [currentIndex, isTransitioning, videos])
+  }, [currentIndex, isTransitioning])
 
-  // Auto-switch videos with pause on user interaction
+  // Progress tracking
+  const startProgressTimer = useCallback(() => {
+    setProgress(0)
+    
+    if (progressRef.current) {
+      clearInterval(progressRef.current)
+    }
+    
+    const startTime = Date.now()
+    progressRef.current = setInterval(() => {
+      const elapsed = Date.now() - startTime
+      const progressPercent = Math.min((elapsed / AUTO_SWITCH_INTERVAL) * 100, 100)
+      setProgress(progressPercent)
+      
+      if (progressPercent >= 100) {
+        clearInterval(progressRef.current!)
+      }
+    }, 50)
+  }, [AUTO_SWITCH_INTERVAL])
+
+  const stopProgressTimer = useCallback(() => {
+    if (progressRef.current) {
+      clearInterval(progressRef.current)
+    }
+    setProgress(0)
+  }, [])
+
+  // Auto-switch videos
   useEffect(() => {
     const startAutoSwitch = () => {
       if (autoSwitchIntervalRef.current) {
         clearInterval(autoSwitchIntervalRef.current)
       }
+      
+      startProgressTimer()
       
       autoSwitchIntervalRef.current = setInterval(() => {
         if (!isTransitioning && videos.length > 0) {
@@ -193,8 +164,9 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
       if (autoSwitchIntervalRef.current) {
         clearInterval(autoSwitchIntervalRef.current)
       }
+      stopProgressTimer()
     }
-  }, [videos.length, isTransitioning, loading, goToNext])
+  }, [videos.length, isTransitioning, loading, goToNext, startProgressTimer, stopProgressTimer])
 
   // Pause auto-switch on user interaction
   const pauseAutoSwitch = useCallback(() => {
@@ -202,59 +174,29 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
       clearInterval(autoSwitchIntervalRef.current)
     }
     
+    stopProgressTimer()
+    
     // Resume after 10 seconds of inactivity
     setTimeout(() => {
       if (autoSwitchIntervalRef.current) {
         clearInterval(autoSwitchIntervalRef.current)
       }
+      
+      startProgressTimer()
+      
       autoSwitchIntervalRef.current = setInterval(() => {
         if (!isTransitioning && videos.length > 0) {
           goToNext()
         }
       }, AUTO_SWITCH_INTERVAL)
     }, 10000)
-  }, [isTransitioning, videos.length, goToNext])
-  const nextVideo = useCallback(() => {
-    pauseAutoSwitch()
-    goToNext()
-  }, [goToNext, pauseAutoSwitch])
+  }, [isTransitioning, videos.length, goToNext, stopProgressTimer, startProgressTimer])
 
-  const prevVideo = useCallback(() => {
-    pauseAutoSwitch()
-    goToPrev()
-  }, [goToPrev, pauseAutoSwitch])
-  
   const goToVideo = useCallback((index: number) => {
     if (index === currentIndex) return
     pauseAutoSwitch()
     goToIndex(index)
-  }, [currentIndex, goToIndex, pauseAutoSwitch])  // Debug: Add performance monitoring (throttled)
-  const lastLogRef = useRef(0)
-  useEffect(() => {
-    if (videos.length > 0 && !loading) {
-      const now = Date.now()
-      // Only log every 10 seconds to prevent spam
-      if (now - lastLogRef.current > 10000) {
-        console.log('🎬 ImmerseSection: Video state:', {
-          currentIndex,
-          isTransitioning,
-          totalVideos: videos.length,
-          loadedVideos: videoRefs.current.filter(v => v && v.readyState >= 3).length
-        })
-        lastLogRef.current = now
-      }
-    }
-  }, [videos.length, loading, currentIndex, isTransitioning])
-
-  // Auto-play current video when videos load
-  useEffect(() => {
-    if (videos.length > 0 && !loading && !isTransitioning) {
-      const currentVideo = videoRefs.current[currentIndex]
-      if (currentVideo && currentVideo.paused) {
-        currentVideo.play().catch(console.warn)
-      }
-    }
-  }, [currentIndex, videos.length, loading, isTransitioning])
+  }, [currentIndex, goToIndex, pauseAutoSwitch])
 
   return (
     <section 
@@ -267,7 +209,9 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
           <div className={styles.spinner}></div>
           <p>Loading meditation videos...</p>
         </div>
-      )}      {/* Error State */}
+      )}
+
+      {/* Error State */}
       {error && !loading && (
         <div className={styles.errorContainer}>
           <p>⚠️ {error}</p>
@@ -277,9 +221,11 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
           </p>
         </div>
       )}
-        {/* Main Content - Only show when not loading */}
-      {!loading && (
-        <>          {/* Video Background Container */}
+
+      {/* Main Content */}
+      {!loading && !error && (
+        <>
+          {/* Video Background Container */}
           <div className={styles.videoContainer}>
             {videos.map((video, index) => {
               let videoClasses = styles.backgroundVideo
@@ -291,7 +237,10 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
                 }
               } else {
                 videoClasses += ` ${styles.inactive}`
-              }              return (                <video
+              }
+
+              return (
+                <video
                   key={index}
                   ref={(el) => setVideoRef(el, index)}
                   className={videoClasses}
@@ -300,104 +249,68 @@ export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
                   autoPlay={index === currentIndex}
                   loop
                   muted
-                  playsInline                  preload="none" // Start with no preloading, managed in useEffect
+                  playsInline
+                  preload="none"
                   onError={(e) => {
-                    console.error(`🚨 Video ${video.filename} failed to load:`, e)
-                    console.error(`   URL: ${video.url}`)
-                    const target = e.target as HTMLVideoElement
-                    if (target?.error) {
-                      console.error(`   Error code: ${target.error.code}, message: ${target.error.message}`)
-                    }
-                  }}
-                  onLoadStart={() => {
-                    console.log(`⏳ Video ${video.filename} load started`)
-                  }}
-                  onLoadedMetadata={() => {
-                    console.log(`✅ Video ${video.filename} metadata loaded`)
+                    console.error(`Video ${video.filename} failed to load:`, e)
                   }}
                   onLoadedData={() => {
-                    console.log(`✅ Video ${video.filename} data loaded`)
-                    // Auto-play current video when loaded
                     if (index === currentIndex) {
                       const videoEl = videoRefs.current[index]
                       if (videoEl) {
-                        console.log(`▶️ Attempting to play ${video.filename}`)
-                        videoEl.play().catch(err => {
-                          console.warn(`⚠️ Failed to auto-play ${video.filename}:`, err)
-                        })
+                        videoEl.play().catch(console.warn)
                       }
                     }
-                  }}
-                  onCanPlay={() => {
-                    console.log(`🎬 Video ${video.filename} can play`)
-                  }}
-                  onPlay={() => {
-                    console.log(`▶️ Video ${video.filename} started playing`)
-                  }}
-                  onPause={() => {
-                    console.log(`⏸️ Video ${video.filename} paused`)
                   }}
                 />
               )
             })}
             
-            {/* Video Filter Overlay for Better Text Readability */}
             <div className={styles.videoFilter} />
-          </div>{/* Content */}
-      <div className={styles.content}>
-        {/* Video Title - Top positioned */}
-        <div className={styles.videoTitleContainer}>
-          <h3 className={styles.videoTitle}>{videos[currentIndex]?.title || 'Loading...'}</h3>
-        </div>
-        
-        {/* Text Content - Centered */}
-        <div className={styles.textContent}>
-          <h2 className={styles.title}>IMMERSE YOURSELF</h2>
-          <p className={styles.subtitle}>
-            Experience tranquil environments designed to deepen your meditation practice
-          </p>
-          
-          {/* Video Indicators - Centered with text */}
-          <div className={styles.videoIndicators}>
-            {videos.map((_, index) => (
-              <button
-                key={index}                    className={`${styles.indicator} ${
-                      index === currentIndex ? styles.active : ''
-                    }`}
-                    onClick={() => goToVideo(index)}
-                    aria-label={`Switch to video ${index + 1}`}
-                disabled={isTransitioning}
-              />
-            ))}
           </div>
-        </div>
 
-        {/* Video Navigation - Arrows only */}
-        <div className={styles.videoNavigation}>
-          {/* Left Arrow */}
-          <button 
-            className={`${styles.navArrow} ${styles.leftArrow}`}
-            onClick={prevVideo}
-            aria-label="Previous video"
-            disabled={isTransitioning}
-          >
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="15,18 9,12 15,6"></polyline>
-            </svg>
-          </button>
+          {/* Content */}
+          <div className={styles.content}>
+            {/* Video Title */}
+            <div className={styles.videoTitleContainer}>
+              <h3 className={styles.videoTitle}>{videos[currentIndex]?.title || 'Loading...'}</h3>
+            </div>
 
-          {/* Right Arrow */}
-          <button 
-            className={`${styles.navArrow} ${styles.rightArrow}`}
-            onClick={nextVideo}
-            aria-label="Next video"
-            disabled={isTransitioning}
-          >
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="9,18 15,12 9,6"></polyline>
-            </svg>
-          </button>        </div>
-      </div>
+            {/* Text Content */}
+            <div className={styles.textContent}>
+              <h2 className={styles.title}>IMMERSE YOURSELF</h2>
+              <p className={styles.subtitle}>
+                Experience tranquil environments designed to deepen your meditation practice
+              </p>
+            </div>
+            
+            {/* Video Navigation Boxes */}
+            <div className={styles.videoNavigationBoxes}>
+              {videos.map((video, index) => (
+                <button
+                  key={index}
+                  className={`${styles.navigationBox} ${
+                    index === currentIndex ? styles.active : ''
+                  }`}
+                  onClick={() => goToVideo(index)}
+                  aria-label={`Switch to ${video.title}`}
+                  disabled={isTransitioning}
+                  style={index === currentIndex ? { '--progress': `${(progress / 100) * 360}deg` } as React.CSSProperties : undefined}
+                >
+                  <div className={styles.iconContainer}>
+                    {video.title === 'Lake' && <BiWater size={24} />}
+                    {video.title === 'Forest' && <CgTrees size={24} />}
+                    {video.title === 'Zen Garden' && <PiPlantFill size={24} />}
+                    {video.title === 'Campfire' && <SlFire size={24} />}
+                  </div>
+                  
+                  <div className={styles.titleTooltip}>
+                    {video.title}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
         </>
       )}
     </section>
