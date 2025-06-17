@@ -4,12 +4,12 @@ import { PerformanceMonitor } from '../utils/PerformanceMonitor'
 
 const VIDEO_BUCKET = 'videos'
 
-// Known video files in the private storage bucket
+// Known video files in the private storage bucket - Order: zen, forest, lake, campfire
 const knownVideoFiles = [
-  { file_path: 'campfire.mp4', title: 'Campfire', order_index: 1 },
+  { file_path: 'zen.mp4', title: 'Garden', order_index: 1 },
   { file_path: 'forest.mp4', title: 'Forest', order_index: 2 },
   { file_path: 'lake.mp4', title: 'Lake', order_index: 3 },
-  { file_path: 'zen.mp4', title: 'Zen Garden', order_index: 4 }
+  { file_path: 'campfire.mp4', title: 'Campfire', order_index: 4 }
 ]
 
 // Singleton pattern for video service with observer pattern for state management
@@ -89,10 +89,8 @@ class VideoServiceState {
             title: video.title,
             filename: video.file_path,
             url: videoUrl
-          }
-
-          // Pre-cache first video immediately, others progressively
-          if (video.file_path === 'lake.mp4') {
+          }          // Pre-cache first video immediately, others progressively
+          if (video.file_path === 'zen.mp4') {
             await videoCache.preloadVideo(video.file_path, videoUrl)
           } else {
             // Progressive preloading for others

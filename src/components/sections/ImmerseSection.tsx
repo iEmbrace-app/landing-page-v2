@@ -11,308 +11,318 @@ interface ImmerseSectionProps {
   isMobile?: boolean
 }
 
-export function ImmerseSection({ isMobile = false }: ImmerseSectionProps) {
-  const autoSwitchIntervalRef = useRef<NodeJS.Timeout>()
-  const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
-  const progressRef = useRef<NodeJS.Timeout>()
-  
-  const AUTO_SWITCH_INTERVAL = 8000 // 8 seconds
-  
-  // Simple state management
+// Video duration mapping (in seconds) - Order: zen, forest, lake, campfire
+const VIDEO_DURATIONS: Record<string, number> = {
+  'zen.mp4': 11,
+  'forest.mp4': 14,
+  'lake.mp4': 12,
+  'campfire.mp4': 14
+}
+
+export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
+  // Simple state - no over-engineering
   const [videos, setVideos] = useState<Video[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [isTransitioning, setIsTransitioning] = useState(false)
-  const [progress, setProgress] = useState(0)
-
-  // Simple video ref registration
-  const setVideoRef = useCallback((element: HTMLVideoElement | null, index: number) => {
-    if (videoRefs.current) {
-      videoRefs.current[index] = element
+  const [activeVideoRef, setActiveVideoRef] = useState<'video1' | 'video2'>('video1')
+    const video1Ref = useRef<HTMLVideoElement>(null)
+  const video2Ref = useRef<HTMLVideoElement>(null)
+  const progressRef = useRef<number>()
+  const autoSwitchRef = useRef<NodeJS.Timeout>()
+  
+  // Get the duration of the current video for auto-switch timing
+  const getCurrentVideoDuration = useCallback(() => {
+    if (videos[currentIndex]) {
+      return (VIDEO_DURATIONS[videos[currentIndex].filename] || 14) * 1000 // Convert to milliseconds
     }
-  }, [])
-
-  // Initialize videos
+    return 14000 // Default 14 seconds
+  }, [videos, currentIndex])
+  // Load videos - simple and clean
   useEffect(() => {
-    const initializeVideos = async () => {
-      try {
-        setLoading(true)
-        setError(null)
-        
-        console.log('🎬 ImmerseSection: Starting video initialization...')
-        
-        const videoData = await VideoService.fetchVideos()
-        console.log('🎬 ImmerseSection: VideoService returned:', videoData)
-        
-        setVideos(videoData)
-        videoRefs.current = new Array(videoData.length).fill(null)
-        
-        console.log(`📹 ImmerseSection: Loaded ${videoData.length} videos successfully`)
-        
-      } catch (err) {
-        const errorMsg = err instanceof Error ? err.message : 'Failed to load videos'
-        setError(errorMsg)
-        console.error('🚨 ImmerseSection: Video loading error:', err)
-      } finally {
-        setLoading(false)
+    VideoService.fetchVideos()
+      .then((loadedVideos) => {
+        setVideos(loadedVideos)
+        // Preload first video immediately
+        if (loadedVideos.length > 0) {
+          const link = document.createElement('link')
+          link.rel = 'preload'
+          link.href = loadedVideos[0].url
+          link.as = 'video'
+          document.head.appendChild(link)
+        }
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false))
+  }, [])  // Cross-fade video switching - no gradient background visible
+  const switchToVideo = useCallback((index: number) => {
+    if (index === currentIndex || index < 0 || index >= videos.length || isTransitioning) return
+    
+    setIsTransitioning(true)
+    
+    // Determine which video element to use for the new video
+    const currentVideoRef = activeVideoRef === 'video1' ? video1Ref : video2Ref
+    const nextVideoRef = activeVideoRef === 'video1' ? video2Ref : video1Ref
+    const nextActiveRef = activeVideoRef === 'video1' ? 'video2' : 'video1'
+    
+    // Load the new video in the background video element
+    if (nextVideoRef.current) {
+      nextVideoRef.current.src = videos[index].url
+      nextVideoRef.current.load()
+      
+      // Wait for the video to be ready, then cross-fade
+      const handleCanPlay = () => {
+        if (nextVideoRef.current) {
+          nextVideoRef.current.play().catch(console.warn)
+          
+          // Start the cross-fade
+          nextVideoRef.current.style.opacity = '1'
+          if (currentVideoRef.current) {
+            currentVideoRef.current.style.opacity = '0'
+          }
+          
+          // Switch the active reference and update state smoothly after a brief delay
+          setTimeout(() => {
+            setActiveVideoRef(nextActiveRef)
+            
+            // Update current index with a slight delay for smooth transition
+            setTimeout(() => {
+              setCurrentIndex(index)
+              setIsTransitioning(false)
+              
+              // Reset progress for the new video
+              const newActiveNavBox = document.querySelector(`.${styles.navigationBox}.${styles.active}`) as HTMLElement
+              if (newActiveNavBox) {
+                newActiveNavBox.style.setProperty('--progress', '0deg')
+              }
+              
+              // Hide the old video completely
+              if (currentVideoRef.current) {
+                currentVideoRef.current.style.opacity = '0'
+                currentVideoRef.current.pause()
+              }
+            }, 100) // Small delay for smooth button transition
+          }, 400) // Slightly earlier than video transition completion
+        }
+        nextVideoRef.current?.removeEventListener('canplay', handleCanPlay)
+      }
+      
+      nextVideoRef.current.addEventListener('canplay', handleCanPlay)
+    }
+    
+    // Preload next video for faster switching
+    const nextIndex = (index + 1) % videos.length
+    if (videos[nextIndex]) {
+      const link = document.createElement('link')
+      link.rel = 'preload'
+      link.href = videos[nextIndex].url
+      link.as = 'video'
+      // Remove any existing preload link for this video
+      const existingLink = document.querySelector(`link[href="${videos[nextIndex].url}"]`)
+      if (!existingLink) {
+        document.head.appendChild(link)
       }
     }
-
-    initializeVideos()
-  }, [])
+  }, [currentIndex, videos, isTransitioning, activeVideoRef])
 
   // Navigation functions
   const goToNext = useCallback(() => {
-    if (isTransitioning || videos.length === 0) return
     const nextIndex = (currentIndex + 1) % videos.length
     switchToVideo(nextIndex)
-  }, [currentIndex, videos.length, isTransitioning])
+  }, [currentIndex, videos.length, switchToVideo])
 
   const goToIndex = useCallback((index: number) => {
-    if (isTransitioning || index === currentIndex || index >= videos.length) return
     switchToVideo(index)
-  }, [currentIndex, videos.length, isTransitioning])
-
-  // Simple video switching
-  const switchToVideo = useCallback(async (newIndex: number) => {
-    if (newIndex === currentIndex || isTransitioning) return
-
-    setIsTransitioning(true)
+  }, [switchToVideo])  // Progress tracking based on actual video playback
+  const updateVideoProgress = useCallback(() => {
+    const currentVideo = activeVideoRef === 'video1' ? video1Ref.current : video2Ref.current
     
-    try {
-      // Pause all videos first
-      videoRefs.current.forEach(video => {
-        if (video) video.pause()
-      })
-
-      // Play the new video
-      const targetVideo = videoRefs.current[newIndex]
-      if (targetVideo) {
-        if (targetVideo.readyState < 3) {
-          targetVideo.preload = 'auto'
-          targetVideo.load()
-        }
-        
-        try {
-          await targetVideo.play()
-        } catch (playError) {
-          console.warn('Video play error (possibly muted):', playError)
-        }
+    if (currentVideo && videos[currentIndex]) {
+      const currentTime = currentVideo.currentTime
+      // Try to get actual video duration first, fallback to our mapping
+      const actualDuration = currentVideo.duration && !isNaN(currentVideo.duration) ? currentVideo.duration : null
+      const videoDuration = actualDuration || VIDEO_DURATIONS[videos[currentIndex].filename] || 14
+      const progressPercent = Math.min((currentTime / videoDuration) * 100, 100)
+      
+      // Update CSS custom property for the active navigation box
+      const activeNavBox = document.querySelector(`.${styles.navigationBox}.${styles.active}`) as HTMLElement
+      if (activeNavBox) {
+        const progressDegrees = (progressPercent / 100) * 360
+        activeNavBox.style.setProperty('--progress', `${progressDegrees}deg`)
       }
-      
-      setCurrentIndex(newIndex)
-      
-      setTimeout(() => {
-        setIsTransitioning(false)
-      }, 1200)
-      
-    } catch (error) {
-      console.warn('Error switching video:', error)
-      setIsTransitioning(false)
     }
-  }, [currentIndex, isTransitioning])
+  }, [activeVideoRef, videos, currentIndex])
 
-  // Progress tracking
-  const startProgressTimer = useCallback(() => {
-    setProgress(0)
-    
+  // Start progress tracking when video plays
+  const startProgressTracking = useCallback(() => {
     if (progressRef.current) {
-      clearInterval(progressRef.current)
+      cancelAnimationFrame(progressRef.current)
     }
     
-    const startTime = Date.now()
-    progressRef.current = setInterval(() => {
-      const elapsed = Date.now() - startTime
-      const progressPercent = Math.min((elapsed / AUTO_SWITCH_INTERVAL) * 100, 100)
-      setProgress(progressPercent)
-      
-      if (progressPercent >= 100) {
-        clearInterval(progressRef.current!)
-      }
-    }, 50)
-  }, [AUTO_SWITCH_INTERVAL])
-
-  const stopProgressTimer = useCallback(() => {
-    if (progressRef.current) {
-      clearInterval(progressRef.current)
+    const trackProgress = () => {
+      updateVideoProgress()
+      progressRef.current = requestAnimationFrame(trackProgress)
     }
-    setProgress(0)
-  }, [])
-
+    
+    trackProgress()  }, [updateVideoProgress])
   // Auto-switch videos
   useEffect(() => {
-    const startAutoSwitch = () => {
-      if (autoSwitchIntervalRef.current) {
-        clearInterval(autoSwitchIntervalRef.current)
-      }
-      
-      startProgressTimer()
-      
-      autoSwitchIntervalRef.current = setInterval(() => {
-        if (!isTransitioning && videos.length > 0) {
-          goToNext()
-        }
-      }, AUTO_SWITCH_INTERVAL)
-    }
-
     if (videos.length > 0 && !loading) {
-      startAutoSwitch()
+      // Clear existing timers
+      if (autoSwitchRef.current) clearInterval(autoSwitchRef.current)
+      if (progressRef.current) cancelAnimationFrame(progressRef.current)
+      
+      // Start progress tracking
+      startProgressTracking()
+      
+      // Start auto-switch timer with dynamic duration
+      const switchInterval = getCurrentVideoDuration()
+      autoSwitchRef.current = setInterval(() => {
+        goToNext()
+      }, switchInterval)
     }
 
     return () => {
-      if (autoSwitchIntervalRef.current) {
-        clearInterval(autoSwitchIntervalRef.current)
-      }
-      stopProgressTimer()
+      if (autoSwitchRef.current) clearInterval(autoSwitchRef.current)
+      if (progressRef.current) cancelAnimationFrame(progressRef.current)
     }
-  }, [videos.length, isTransitioning, loading, goToNext, startProgressTimer, stopProgressTimer])
-
-  // Pause auto-switch on user interaction
-  const pauseAutoSwitch = useCallback(() => {
-    if (autoSwitchIntervalRef.current) {
-      clearInterval(autoSwitchIntervalRef.current)
+  }, [videos.length, loading, goToNext, startProgressTracking, getCurrentVideoDuration])
+  // Restart timers when manually switching
+  useEffect(() => {
+    if (videos.length > 0) {
+      startProgressTracking()
+      
+      // Restart auto-switch timer with correct duration for new video
+      if (autoSwitchRef.current) clearInterval(autoSwitchRef.current)
+      const switchInterval = getCurrentVideoDuration()
+      autoSwitchRef.current = setInterval(() => {
+        goToNext()
+      }, switchInterval)
     }
-    
-    stopProgressTimer()
-    
-    // Resume after 10 seconds of inactivity
-    setTimeout(() => {
-      if (autoSwitchIntervalRef.current) {
-        clearInterval(autoSwitchIntervalRef.current)
-      }
-      
-      startProgressTimer()
-      
-      autoSwitchIntervalRef.current = setInterval(() => {
-        if (!isTransitioning && videos.length > 0) {
-          goToNext()
-        }
-      }, AUTO_SWITCH_INTERVAL)
-    }, 10000)
-  }, [isTransitioning, videos.length, goToNext, stopProgressTimer, startProgressTimer])
+  }, [currentIndex, startProgressTracking, videos.length, getCurrentVideoDuration, goToNext])
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (autoSwitchRef.current) clearInterval(autoSwitchRef.current)
+      if (progressRef.current) cancelAnimationFrame(progressRef.current)
+    }
+  }, [])
+  // Icon mapping - Order: zen, forest, lake, campfire  
+  const getIcon = (index: number) => {
+    const icons = [<PiPlantFill />, <CgTrees />, <BiWater />, <SlFire />]
+    return icons[index % icons.length]
+  }
 
-  const goToVideo = useCallback((index: number) => {
-    if (index === currentIndex) return
-    pauseAutoSwitch()
-    goToIndex(index)
-  }, [currentIndex, goToIndex, pauseAutoSwitch])
-
-  return (
-    <section 
-      className={`${styles.immerseWrapper} ${isMobile ? styles.mobile : ''}`}
-      aria-label="Immerse Yourself - Tranquil Environments"
-    >
-      {/* Loading State */}
-      {loading && (
+  if (loading) {
+    return (
+      <section className={styles.immerseSection}>
         <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
-          <p>Loading meditation videos...</p>
+          <div className={styles.loadingSpinner} />
+          <p>Loading meditation environments...</p>
         </div>
-      )}
+      </section>
+    )
+  }
 
-      {/* Error State */}
-      {error && !loading && (
+  if (videos.length === 0) {
+    return (
+      <section className={styles.immerseSection}>
         <div className={styles.errorContainer}>
-          <p>⚠️ {error}</p>
-          <p>Videos are not available. Please check the browser console for setup instructions.</p>
-          <p style={{ fontSize: '0.8rem', opacity: 0.8, marginTop: '1rem' }}>
-            The videos need to be uploaded to Supabase storage. Run "node scripts/uploadVideos.js" after placing video files in a "videos" folder.
-          </p>
+          <p>No videos available</p>
         </div>
-      )}
-
-      {/* Main Content */}
-      {!loading && !error && (
-        <>
-          {/* Video Background Container */}
-          <div className={styles.videoContainer}>
-            {videos.map((video, index) => {
-              let videoClasses = styles.backgroundVideo
-              
-              if (index === currentIndex) {
-                videoClasses += ` ${styles.active}`
-                if (isTransitioning) {
-                  videoClasses += ` ${styles.entering} ${styles.transitioning}`
-                }
-              } else {
-                videoClasses += ` ${styles.inactive}`
-              }
-
-              return (
-                <video
-                  key={index}
-                  ref={(el) => setVideoRef(el, index)}
-                  className={videoClasses}
-                  data-video-index={index}
-                  src={video.url}
-                  autoPlay={index === currentIndex}
-                  loop
-                  muted
-                  playsInline
-                  preload="none"
-                  onError={(e) => {
-                    console.error(`Video ${video.filename} failed to load:`, e)
-                  }}
-                  onLoadedData={() => {
-                    if (index === currentIndex) {
-                      const videoEl = videoRefs.current[index]
-                      if (videoEl) {
-                        videoEl.play().catch(console.warn)
-                      }
-                    }
-                  }}
-                />
-              )
-            })}
-            
-            <div className={styles.videoFilter} />
-          </div>
-
-          {/* Content */}
-          <div className={styles.content}>
-            {/* Video Title */}
-            <div className={styles.videoTitleContainer}>
-              <h3 className={styles.videoTitle}>{videos[currentIndex]?.title || 'Loading...'}</h3>
-            </div>
-
-            {/* Text Content */}
-            <div className={styles.textContent}>
-              <h2 className={styles.title}>IMMERSE YOURSELF</h2>
-              <p className={styles.subtitle}>
-                Experience tranquil environments designed to deepen your meditation practice
-              </p>
-            </div>
-            
-            {/* Video Navigation Boxes */}
-            <div className={styles.videoNavigationBoxes}>
-              {videos.map((video, index) => (
-                <button
-                  key={index}
-                  className={`${styles.navigationBox} ${
-                    index === currentIndex ? styles.active : ''
-                  }`}
-                  onClick={() => goToVideo(index)}
-                  aria-label={`Switch to ${video.title}`}
-                  disabled={isTransitioning}
-                  style={index === currentIndex ? { '--progress': `${(progress / 100) * 360}deg` } as React.CSSProperties : undefined}
-                >
-                  <div className={styles.iconContainer}>
-                    {video.title === 'Lake' && <BiWater size={24} />}
-                    {video.title === 'Forest' && <CgTrees size={24} />}
-                    {video.title === 'Zen Garden' && <PiPlantFill size={24} />}
-                    {video.title === 'Campfire' && <SlFire size={24} />}
-                  </div>
-                  
-                  <div className={styles.titleTooltip}>
-                    {video.title}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
+      </section>
+    )
+  }
+  return (
+    <section className={styles.immerseSection}>
+      <div className={styles.videoContainer}>
+        {/* Two video elements for seamless cross-fading */}        <video
+          ref={video1Ref}
+          className={styles.backgroundVideo}
+          src={videos[currentIndex]?.url}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          crossOrigin="anonymous"
+          style={{ opacity: activeVideoRef === 'video1' ? 1 : 0 }}
+          onLoadStart={() => {
+            console.log('Video 1 loading started...')
+          }}
+          onCanPlay={() => {
+            // Play as soon as basic playback is possible
+            if (video1Ref.current && video1Ref.current.paused && activeVideoRef === 'video1') {
+              video1Ref.current.play().catch(console.warn)
+            }
+          }}
+          onPlay={() => {
+            // Start progress tracking when video plays
+            if (activeVideoRef === 'video1') {
+              startProgressTracking()
+            }
+          }}
+          onError={(e) => {
+            console.error(`Video 1 ${videos[currentIndex]?.filename} failed to load:`, e)
+          }}
+        />
+        
+        <video
+          ref={video2Ref}
+          className={styles.backgroundVideo}
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          crossOrigin="anonymous"
+          style={{ opacity: activeVideoRef === 'video2' ? 1 : 0 }}
+          onLoadStart={() => {
+            console.log('Video 2 loading started...')
+          }}
+          onCanPlay={() => {
+            // This will be handled by the switchToVideo function
+          }}
+          onPlay={() => {
+            // Start progress tracking when video plays
+            if (activeVideoRef === 'video2') {
+              startProgressTracking()
+            }
+          }}
+          onError={(e) => {
+            console.error(`Video 2 failed to load:`, e)
+          }}
+        />
+        
+        <div className={styles.videoFilter} />
+      </div>      {/* Content */}
+      <div className={styles.content}>
+        {/* Text Content */}
+        <div className={styles.textContent}>
+          <h2 className={styles.title}>IMMERSE YOURSELF</h2>
+          <p className={styles.subtitle}>
+            Experience tranquil environments designed to deepen your meditation practice
+          </p>
+        </div>{/* Video Navigation Boxes - Simple and clean */}
+        <div className={styles.videoNavigationBoxes}>
+          {videos.map((video, index) => (
+            <button
+              key={index}
+              className={`${styles.navigationBox} ${
+                index === currentIndex ? styles.active : ''
+              }`}
+              onClick={() => goToIndex(index)}
+              aria-label={`Switch to ${video.title}`}
+            >
+              <div className={styles.iconContainer}>
+                {getIcon(index)}
+              </div>
+              <div className={styles.buttonTitle}>
+                {video.title}
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }
