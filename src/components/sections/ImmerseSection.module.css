@@ -134,7 +134,7 @@
 /* Title with Capital Letters and Character Spacing */
 .title {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(1rem, 8vw, 1.6rem);
+  font-size: clamp(1.2rem, 8vw, 1.8rem);
   font-weight: 100;
   line-height: 1.1;
   letter-spacing: 16px; /* Character spacing as requested */
@@ -146,6 +146,7 @@
     0 4px 16px rgba(106, 76, 147, 0.2);
   animation: gentleFloat 8s ease-in-out infinite;
   text-align: center;
+  max-width: 100%;
 }
 
 /* Subtitle */
@@ -153,16 +154,14 @@
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(1rem, 3vw, 1.2rem);
   font-weight: 100;
-  line-height: 1.2;
+  line-height: 1.3;
   letter-spacing: 2px;
   margin: 0;
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: none;
-  max-width: 100%;
   text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 /* Video Navigation Boxes - Glass morphism with icons - Positioned at bottom */
@@ -637,9 +636,9 @@
 }
 
 @media (max-width: 768px) {
-  .immerseWrapper {
-    height: 70vh;
-    min-height: 450px;
+  .immerseSection {
+    height: 85vh;
+    min-height: 500px;
   }
   
   .videoTitleContainer {
@@ -650,25 +649,55 @@
     font-size: clamp(0.65rem, 1.6vw, 0.9rem);
     letter-spacing: 2px;
   }
-  
-  .title {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);    letter-spacing: 4px;
-    margin-bottom: 1rem;
+    .title {
+    font-size: clamp(1.8rem, 6vw, 3.2rem);
+    letter-spacing: 5px;
+    margin-bottom: 1.2rem;
+    line-height: 1.1;
   }
   
   .subtitle {
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    letter-spacing: 1.5px;
+    line-height: 1.3;
+    max-width: 85%;
+    margin: 0 auto;
   }
   
-  .videoIndicators {
-    bottom: 2rem;
+  .textContent {
+    padding-bottom: 18vh;
+  }
+  
+  .videoNavigationBoxes {
+    bottom: 10vh;
+    gap: 1.2rem;
+  }
+  
+  .navigationBox {
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+  }
+  
+  .iconContainer {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .iconContainer svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .buttonTitle {
+    font-size: 7px;
   }
 }
 
 @media (max-width: 480px) {
-  .immerseWrapper {
-    height: 60vh;
-    min-height: 400px;
+  .immerseSection {
+    height: 100vh;
+    min-height: 500px;
   }
   
   .videoTitleContainer {
@@ -679,33 +708,116 @@
     font-size: clamp(0.6rem, 1.4vw, 0.8rem);
     letter-spacing: 1.5px;
   }
-  
-  .title {
+    .title {
+    font-size: clamp(2rem, 7vw, 3rem);
     letter-spacing: 3px;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-align: center;
   }
   
   .subtitle {
-    font-size: clamp(0.8rem, 2vw, 1rem);
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    letter-spacing: 1px;
+    line-height: 1.4;
+    max-width: 90%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .textContent {
+    padding-bottom: 20vh; /* More space for navigation */
+  }
+  
+  .videoNavigationBoxes {
+    gap: 1.5rem;
+    bottom: 8vh; /* Better positioning */
+    flex-wrap: wrap;
+    max-width: 90vw;
+    justify-content: center;
+  }
+  
+  .navigationBox {
+    width: 64px; /* Larger touch targets */
+    height: 64px;
+    border-radius: 16px;
+    /* Enhanced glassmorphism on mobile */
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(25px) saturate(130%);
+    -webkit-backdrop-filter: blur(25px) saturate(130%);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 4px 16px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    /* Better mobile interaction */
+    transition: all 0.3s ease;
+  }
+  
+  .iconContainer {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .iconContainer svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .navigationBox:hover .iconContainer,
+  .navigationBox:active .iconContainer {
+    transform: translateY(-3px);
+  }
+  
+  .buttonTitle {
+    font-size: 7px;
+    bottom: 5px;
+    letter-spacing: 0.5px;
+  }
+  
+  .navigationBox.active .buttonTitle {
+    opacity: 1;
+  }
+  
+  .navigationBox.active::before {
+    padding: 2px; /* Better visibility on mobile */
+  }
+  
+  /* Mobile-specific hover effects */
+  .navigationBox:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Mobile landscape and very small screens */
+@media (max-width: 360px) {
+  .title {
+    font-size: clamp(1.6rem, 8vw, 2.2rem);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+  
+  .subtitle {
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    letter-spacing: 0.8px;
+    line-height: 1.3;
+    max-width: 95%;
+  }
+  
+  .textContent {
+    padding-bottom: 18vh;
   }
   
   .videoNavigationBoxes {
     gap: 1rem;
-    bottom: 60px; /* Adjusted for mobile */
+    bottom: 6vh;
   }
   
   .navigationBox {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    /* Enhanced glassmorphism on mobile */
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px) saturate(120%);
-    -webkit-backdrop-filter: blur(20px) saturate(120%);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.4),
-      0 4px 16px rgba(0, 0, 0, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
   }
   
   .iconContainer {
@@ -718,84 +830,51 @@
     height: 20px;
   }
   
-  .navigationBox:hover .iconContainer {
-    transform: translateY(-5px);
-  }
-  
   .buttonTitle {
     font-size: 6px;
     bottom: 4px;
-  }
-  
-  .titleTooltip {
-    font-size: 0.7rem;
-    padding: 6px 10px;
-    bottom: -40px;
-  }
-  
-  .navigationBox.active::before {
-    padding: 1.5px; /* Slightly thinner border on mobile */
+    letter-spacing: 0.3px;
   }
 }
 
-@media (max-width: 480px) {
-  .immerseWrapper {
-    height: 60vh;
-    min-height: 400px;
-  }
-  
-  .videoTitleContainer {
-    padding: 1.5rem 1rem 0 1rem;
-  }
-  
-  .videoTitle {
-    font-size: clamp(0.6rem, 1.4vw, 0.8rem);
-    letter-spacing: 1.5px;
-  }
-  
-  .title {
-    letter-spacing: 3px;
-  }
-  
-  .subtitle {
-    font-size: clamp(0.8rem, 2vw, 1rem);
-  }
-  
-  .videoNavigationBoxes {
-    gap: 0.8rem;
-    bottom: 50px; /* Further reduced for small mobile */
-  }
-  
+/* Touch-friendly mobile enhancements */
+@media (hover: none) and (pointer: coarse) {
+  /* Mobile devices with touch */
   .navigationBox {
-    width: 45px;
-    height: 45px;
-    border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    /* Larger touch targets */
+    min-width: 64px;
+    min-height: 64px;
+    /* Better visual feedback for touch */
+    transition: all 0.2s ease;
+  }
+  
+  .navigationBox:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.18);
+  }
+  
+  .navigationBox.active:active {
+    transform: scale(0.95);
+  }
+  
+  /* Always show button titles on mobile */
+  .buttonTitle {
+    opacity: 1;
   }
   
   .iconContainer {
-    width: 18px;
-    height: 18px;
+    transform: translateY(-2px); /* Make space for always-visible title */
+  }
+}
+
+/* High-DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .navigationBox {
+    /* Crisper borders on retina displays */
+    border-width: 1px;
   }
   
-  .iconContainer svg {
-    width: 14px;
-    height: 14px;
-  }
-  
-  .navigationBox:hover .iconContainer {
-    transform: translateY(-4px);
-  }
-  
-  .buttonTitle {
-    font-size: 5px;
-    bottom: 3px;
-    letter-spacing: 0.3px;
-  }
-  
-  .titleTooltip {
-    font-size: 0.65rem;
-    padding: 5px 8px;
-    bottom: -35px;
+  .navigationBox.active::before {
+    padding: 1px;
   }
 }

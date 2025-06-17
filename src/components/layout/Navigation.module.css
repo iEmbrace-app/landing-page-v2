@@ -6,10 +6,10 @@
   left: 0;
   right: 0;
   z-index: var(--z-sticky);
-  background: rgba(147, 112, 219, 0.1); /* Purple glassmorphism */
-  backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid rgba(147, 112, 219, 0.2); /* Purple border */
-  box-shadow: 0 4px 32px rgba(147, 112, 219, 0.1);
+  background: var(--colors-background-glass);
+  backdrop-filter: blur(64px) saturate(80%);
+  border-bottom: 1px solid var(--colors-border-light);
+  box-shadow: 0 4px 32px rgba(147, 51, 234, 0.1);
   padding: var(--spacing-4) var(--spacing-8);
   display: flex;
   justify-content: space-between;
@@ -21,15 +21,32 @@
   font-family: var(--typography-fontFamily-primary);
   font-size: var(--typography-fontSize-xl);
   font-weight: var(--typography-fontWeight-bold);
-  color: #4A148C; /* Dark purple color */
+  color: var(--colors-text-accent);
   text-decoration: none;
   letter-spacing: var(--typography-letterSpacing-tight);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.logoImage {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.logoText {
+  color: var(--colors-text-accent);
 }
 
 .logo:hover {
-  color: #6A1B9A; /* Slightly lighter purple on hover */
-  text-shadow: 0 2px 6px rgba(147, 112, 219, 0.4);
+  color: var(--colors-text-accent);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.logo:hover .logoText {
+  color: var(--colors-text-accent);
 }
 
 .links {
@@ -44,7 +61,7 @@
 
 .navLink {
   font-family: var(--typography-fontFamily-primary);
-  color: #4A148C; /* Dark purple text */
+  color: var(--colors-text-primary);
   text-decoration: none;
   font-weight: var(--typography-fontWeight-medium);
   font-size: var(--typography-fontSize-sm);
@@ -57,21 +74,21 @@
 
 .navLink:hover,
 .navLink:focus {
-  color: #6A1B9A; /* Lighter purple on hover */
-  border-bottom-color: #7B1FA2; /* Purple underline */
+  color: var(--colors-text-accent);
+  border-bottom-color: var(--colors-primary-500);
   outline: none;
-  text-shadow: 0 2px 4px rgba(74, 20, 140, 0.3);
+  text-shadow: 0 2px 4px rgba(147, 51, 234, 0.3);
 }
 
 .navLink.active {
-  color: #4A148C; /* Dark purple for active */
-  border-bottom-color: #6A1B9A; /* Purple underline */
+  color: var(--colors-text-accent);
+  border-bottom-color: var(--colors-primary-500);
   font-weight: var(--typography-fontWeight-semibold);
-  text-shadow: 0 2px 4px rgba(74, 20, 140, 0.3);
+  text-shadow: 0 2px 4px rgba(147, 51, 234, 0.3);
 }
 
 .navLink:focus-visible {
-  outline: 2px solid rgba(186, 148, 255, 0.8); /* Bright lilac focus */
+  outline: 2px solid var(--colors-primary-500);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -81,7 +98,7 @@
   position: absolute;
   top: -40px;
   left: 6px;
-  background: #003b5e;
+  background: var(--colors-primary-600);
   color: white;
   padding: 8px;
   text-decoration: none;
@@ -119,7 +136,7 @@
 .hamburgerLine {
   width: 100%;
   height: 2px;
-  background-color: rgba(74, 58, 90, 0.8);
+  background-color: var(--colors-text-primary);
   border-radius: 2px;
   transition: all var(--animation-duration-normal) var(--animation-easing-ease);
   transform-origin: center;
@@ -162,13 +179,13 @@
   right: -100%;
   width: 280px;
   height: 100vh;
-  background: rgba(250, 248, 255, 0.95);
+  background: var(--colors-background-glass);
   backdrop-filter: blur(40px) saturate(180%);
-  border-left: 1px solid rgba(186, 148, 255, 0.2);
+  border-left: 1px solid var(--colors-border-light);
   z-index: var(--z-sticky);
   padding-top: 80px;
   transition: right var(--animation-duration-normal) var(--animation-easing-ease);
-  box-shadow: -4px 0 20px rgba(186, 148, 255, 0.1);
+  box-shadow: -4px 0 20px rgba(147, 51, 234, 0.1);
 }
 
 .mobileMenuOpen {
@@ -187,7 +204,7 @@
 
 .mobileNavLink {
   font-family: var(--typography-fontFamily-primary);
-  color: rgba(74, 58, 90, 0.8);
+  color: var(--colors-text-primary);
   text-decoration: none;
   font-weight: var(--typography-fontWeight-medium);
   font-size: var(--typography-fontSize-lg);
@@ -199,16 +216,16 @@
 
 .mobileNavLink:hover,
 .mobileNavLink:focus {
-  color: rgba(58, 42, 74, 1);
-  background: rgba(186, 148, 255, 0.1);
-  border-left-color: rgba(186, 148, 255, 0.8);
+  color: var(--colors-text-accent);
+  background: var(--colors-background-tertiary);
+  border-left-color: var(--colors-primary-500);
   outline: none;
 }
 
 .mobileNavLink.active {
-  color: rgba(58, 42, 74, 1);
-  background: rgba(186, 148, 255, 0.15);
-  border-left-color: rgba(186, 148, 255, 0.8);
+  color: var(--colors-text-accent);
+  background: var(--colors-background-tertiary);
+  border-left-color: var(--colors-primary-500);
   font-weight: var(--typography-fontWeight-semibold);
 }
 

@@ -2,10 +2,9 @@
 .heroWrapper {
   position: relative;
   width: 100%;
-  height: 100vh; /* Fixed height for desktop */
-  height: 100dvh;
-  min-height: 100vh;
-  overflow: hidden; /* Hidden overflow for desktop */
+  height: auto; /* Allow natural height */
+  min-height: 110vh; /* Taller to accommodate content properly */
+  overflow: visible; /* Show all content, no cutoff */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,100 +24,18 @@
   animation: simpleGradientFlow 15s ease-in-out infinite;
 }
 
-/* Video Background Container */
-.videoContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  overflow: hidden;
-  /* Force hardware acceleration */
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
+/* Unused video components removed */
 
-/* Global video classes for JavaScript access */
-:global(.heroVideo) {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  opacity: 1;
-  transform: translateX(100%);
-  transition: transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  z-index: 1;
-  will-change: transform;
-  /* Purple tint filter */
-  filter: contrast(1.1) saturate(1.2) hue-rotate(10deg) sepia(0.2);
-}
-
-:global(.heroVideo:first-child) {
-  transform: translateX(0%);
-}
-
-:global(.heroVideo.active) {
-  z-index: 2;
-  transform: translateX(0%);
-}
-
-:global(.heroVideo.inactive) {
-  z-index: 1;
-}
-
-:global(.heroVideo.inactive[data-video-index="0"]) {
-  transform: translateX(-100%);
-}
-
-:global(.heroVideo.inactive[data-video-index="1"]) {
-  transform: translateX(100%);
-}
-
-:global(.heroVideo.transitioning) {
-  transition-duration: 1.5s;
-}
-
-/* Video overlay with gentle flowing gradients */
-.videoOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* Soft, flowing overlay gradients */
-  background: 
-    /* Gentle vignette */
-    radial-gradient(
-      ellipse at center, 
-      transparent 20%, 
-      rgba(255, 255, 255, 0.05) 60%,
-      rgba(200, 180, 255, 0.08) 100%
-    ),
-    /* Flowing directional gradients */
-    linear-gradient(
-      calc(45deg + var(--overlay-angle, 0deg)),
-      transparent 0%,
-      rgba(255, 255, 255, 0.03) 30%,
-      transparent 60%,
-      rgba(220, 200, 255, 0.05) 100%
-    );
-  z-index: 3;
-  pointer-events: none;
-  
-  /* Gentle overlay animation */
-  animation: overlayGradientFlow 22s ease-in-out infinite;
-}
-
-@keyframes overlayGradientFlow {
-  0% { --overlay-angle: 0deg; }
-  25% { --overlay-angle: 15deg; }
-  50% { --overlay-angle: -10deg; }
-  75% { --overlay-angle: 20deg; }
-  100% { --overlay-angle: 0deg; }
+@keyframes simpleGradientFlow {
+  0% { 
+    background-position: 0% 50%;
+  }
+  50% { 
+    background-position: 100% 50%;
+  }
+  100% { 
+    background-position: 0% 50%;
+  }
 }
 
 /* Gradient background fallback - Fixed to match hero wrapper */
@@ -145,21 +62,15 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16rem;
-  align-items: center;
-  padding: 2rem;
+  grid-template-columns: 1.2fr 0.8fr; /* Left side slightly larger */
+  gap: 4rem; /* Reduced gap for tighter layout */
+  align-items: center; /* Center both halves vertically */
+  padding: 3rem 2rem;
   
-  /* Simple floating animation */
+  /* Simple floating animation */  
   animation: gentleFloat 8s ease-in-out infinite;
-}
-
-@keyframes gentleContentFloat {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-2px); }
-  100% { transform: translateY(0px); }
 }
 
 /* ROOT Title - Clean and Visible */
@@ -172,8 +83,8 @@
   margin: 0 0 1rem 0;
   text-transform: uppercase;
   position: relative;
-  /* Clean text with darker purple color - no background boxes */
-  color: #6a4c93 !important;
+  /* Light purple/lavender color matching the screenshot */
+  color: rgba(167, 139, 189, 0.9) !important;
   text-shadow: none;
   
   /* Remove background boxes */
@@ -181,7 +92,7 @@
   padding: 0;
   border-radius: 0;
   border: none;
-    /* Gentle animation */
+  /* Gentle animation */
   animation: 
     gentleFloat 8s ease-in-out infinite,
     fadeInUp 1s ease-out;
@@ -195,8 +106,8 @@
   font-size: clamp(1rem, 2vw, 1.5rem);
   font-weight: 300;
   margin: 0 0 3rem 0;
-  /* Clean subtitle with darker purple color - no background boxes */
-  color: #8e6bb8 !important;
+  /* Softer greyish-purple matching the screenshot */
+  color: rgba(140, 120, 150, 0.8) !important;
   text-shadow: none;
   
   /* Remove background boxes */
@@ -204,7 +115,7 @@
   padding: 0;
   border-radius: 0;
   border: none;
-    animation: 
+  animation: 
     gentleFloat 6s ease-in-out infinite;
 }
 
@@ -225,8 +136,8 @@
   margin: 0 0 2rem 0;
   max-width: 600px;
   line-height: 1.6;
-  /* Clean description with darker purple color - no background boxes */
-  color: #7a5a99 !important;
+  /* Muted greyish purple for body text matching the screenshot */
+  color: rgba(120, 105, 135, 0.85) !important;
   text-shadow: none;
   
   /* Remove background boxes */
@@ -240,28 +151,29 @@
 
 /* CTA Button - Clean and Accessible */
 .ctaButton {
-  background: linear-gradient(
-    135deg,
-    rgba(147, 112, 219, 0.8) 0%,
-    rgba(180, 160, 220, 0.9) 100%
-  );
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-    /* NO shadows - clean design */
+  /* Clean white background */
+  background: #ffffff;
+  /* Soft lavender purple border - 3px */
+  border: 4px solid rgba(180, 160, 220, 0.6);
+  /* NO shadows - clean design */
   box-shadow: none;
   
-  color: #ffffff !important;
-  font-size: 1.2rem;
+  /* Dark purple text matching the screenshot */
+  color: rgba(80, 60, 100, 0.8) !important;
+  font-size: 1.1rem;
   font-weight: 600;
-  padding: 1rem 2.5rem;
+  padding: 1.2rem 2.4rem;
   border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  cursor: pointer;  letter-spacing: 0px;
+  transition: letter-spacing 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   margin: 2rem 0;
   position: relative;
   overflow: hidden;
   
-  animation: gentleFloat 6s ease-in-out infinite;
+  /* Remove floating animation to prevent any size changes */
+  /* animation: gentleFloat 6s ease-in-out infinite; */
 }
 
 .ctaButton::before {
@@ -271,18 +183,23 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: transparent;
   transition: left 0.5s;
+  display: none; /* Remove shimmer effect for clean white background */
 }
 
 .ctaButton:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(147, 112, 219, 1) 0%,
-    rgba(180, 160, 220, 1) 100%
-  );
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-2px) scale(1.05);
+  /* Keep white background on hover */
+  background: #ffffff;
+  /* 16% darker purple border on hover */
+  border-color: rgba(151, 134, 185, 0.8);
+  /* No transform - button stays exactly the same size and position */
+  
+  /* Increased letter spacing on hover */
+  letter-spacing: 1.2px;
+  
+  /* Slightly darker text on hover for better contrast */
+  color: rgba(70, 50, 90, 1) !important;
   
   /* NO shadows on hover */
   box-shadow: none;
@@ -292,89 +209,7 @@
   left: 100%;
 }
 
-/* Video Indicators with Physics-based Shadows */
-.videoIndicators {
-  position: absolute;
-  bottom: 8rem;
-  right: 3rem;
-  z-index: 15;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-  padding: 1rem 0.75rem;
-  border-radius: 2rem;
-  background: rgba(147, 112, 219, 0.15);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  /* Physics-based container shadow */
-  box-shadow: 
-    /* Primary shadow */
-    -8px -8px 20px rgba(0, 0, 0, 0.25),
-    /* Falloff layers */
-    -16px -16px 40px rgba(0, 0, 0, 0.15),
-    -32px -32px 80px rgba(0, 0, 0, 0.08),
-    /* Fill light */
-    4px 4px 12px rgba(0, 0, 0, 0.12),
-    /* Contact shadow */
-    0 2px 8px rgba(0, 0, 0, 0.3),
-    /* Atmospheric glow */
-    0 0 32px rgba(147, 112, 219, 0.2),
-    /* Inner highlight for glass effect */
-    inset 0 1px 2px rgba(255, 255, 255, 0.1);
-}
-
-.indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  overflow: hidden;
-}
-
-.indicator::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.indicator:hover {
-  background: rgba(255, 255, 255, 0.6);
-  transform: scale(1.25);
-}
-
-.indicator.active {
-  background: rgba(255, 255, 255, 0.9);
-  transform: scale(1.5);
-  width: 24px;
-  border-radius: 1rem;
-}
-
-.indicator.active::before {
-  left: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: shimmer 2s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}
-
-.indicator:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-  transform: scale(0.8);
-}
+/* Video indicators and scroll elements removed as unused */
 
 /* App Store Buttons with Glassmorphism - positioned within left content */
 .appButtons {
@@ -390,7 +225,7 @@
 .appButton {
   display: inline-flex;
   align-items: center;
-  padding: 0.6rem 1.2rem;
+  padding: 1rem 1.6rem;
   border-radius: 12px;
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -405,7 +240,7 @@
     rgba(230, 220, 255, 0.12) 100%
   );
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   
   /* NO shadows - only gradients */
   box-shadow: none;
@@ -429,15 +264,9 @@
 .appButton:hover {
   /* Subtle lift effect */
   transform: translateY(-2px);
-  background: linear-gradient(
-    135deg,
-    rgba(147, 112, 219, 0.25) 0%,
-    rgba(180, 160, 220, 0.2) 50%,
-    rgba(200, 180, 240, 0.18) 100%
-  );
   border-color: rgba(255, 255, 255, 0.35);
   /* Minimal shadow - 1-2px */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .appButtonContent {
@@ -451,14 +280,16 @@
 .appIcon {
   width: 24px;
   height: 24px;
-  color: rgba(255, 255, 255, 0.9);
+  /* Matching greyish-purple icon color */
+  color: rgba(120, 105, 135, 0.85);
 }
 
 .appButtonText {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  color: rgba(255, 255, 255, 0.9);
+  /* Matching greyish-purple text color */
+  color: rgba(120, 105, 135, 0.85);
 }
 
 .downloadText {
@@ -474,361 +305,9 @@
   line-height: 1.2;
 }
 
-/* Scroll Cue - optimized for video background */
-.scrollCue {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 24px;
-  height: 36px;
-  stroke: rgba(255, 255, 255, 0.8);
-  stroke-width: 1.5;
-  fill: none;
-  opacity: 0.7;
-  animation: bounce 2s infinite;
-}
+/* Unused scroll elements removed */
 
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateX(-50%) translateY(0);
-  }
-  40% {
-    transform: translateX(-50%) translateY(-10px);
-  }
-  60% {
-    transform: translateX(-50%) translateY(-5px);
-  }
-}
-
-/* Scroll Indicator - Modern Gradient Design */
-.scrollIndicator {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 15;
-  width: 24px;
-  height: 36px;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-  animation: scrollPulse 2s ease-in-out infinite;
-}
-
-.scrollIndicator:hover {
-  opacity: 1;
-}
-
-.scrollIndicator svg {
-  width: 100%;
-  height: 100%;
-  stroke: #ffffff;
-  stroke-width: 2;
-  fill: none;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
-}
-
-@keyframes scrollPulse {
-  0%, 100% { 
-    opacity: 0.7;
-    transform: translateX(-50%) translateY(0px);
-  }
-  50% { 
-    opacity: 1;
-    transform: translateX(-50%) translateY(3px);
-  }
-}
-
-/* Enhanced Animation Keyframes for Gradient Design */
-
-/* Title gradient animation */
-@keyframes titleGradientFlow {
-  0% { 
-    background-position: 0% 50%;
-  }
-  25% { 
-    background-position: 100% 25%;
-  }
-  50% { 
-    background-position: 50% 100%;
-  }
-  75% { 
-    background-position: 25% 0%;
-  }
-  100% { 
-    background-position: 0% 50%;
-  }
-}
-
-/* Title background animation */
-@keyframes titleBackgroundFlow {
-  0% { 
-    background-position: 0% 0%;
-    opacity: 0.4;
-  }
-  33% { 
-    background-position: 100% 50%;
-    opacity: 0.6;
-  }
-  66% { 
-    background-position: 50% 100%;
-    opacity: 0.5;
-  }
-  100% { 
-    background-position: 0% 0%;
-    opacity: 0.4;
-  }
-}
-
-/* Enhanced flowing background gradient */
-@keyframes fluidGradientMotion {
-  0% { 
-    background-position: 0% 0%, 100% 100%, 50% 50%, 0% 100%;
-  }
-  25% { 
-    background-position: 25% 25%, 75% 75%, 80% 20%, 30% 70%;
-  }
-  50% { 
-    background-position: 50% 50%, 50% 50%, 20% 80%, 70% 30%;
-  }
-  75% { 
-    background-position: 75% 25%, 25% 75%, 60% 40%, 40% 60%;
-  }
-  100% { 
-    background-position: 0% 0%, 100% 100%, 50% 50%, 0% 100%;
-  }
-}
-
-/* Gentle color shifting - Fibonacci sequence timing */
-@keyframes gentleColorShift {
-  0% { filter: hue-rotate(0deg) saturate(1) brightness(1); }
-  21% { filter: hue-rotate(8deg) saturate(1.05) brightness(1.02); }
-  34% { filter: hue-rotate(-5deg) saturate(0.98) brightness(0.98); }
-  55% { filter: hue-rotate(12deg) saturate(1.08) brightness(1.03); }
-  89% { filter: hue-rotate(-3deg) saturate(0.95) brightness(0.97); }
-  100% { filter: hue-rotate(0deg) saturate(1) brightness(1); }
-}
-
-/* Organic movement - based on natural wave patterns */
-@keyframes organicMovement {
-  0% { background-position: 0% 0%, 100% 0%, 50% 100%; }
-  16.67% { background-position: 15% 10%, 85% 15%, 35% 85%; }
-  33.33% { background-position: 25% 20%, 75% 25%, 65% 75%; }
-  50% { background-position: 50% 50%, 50% 50%, 50% 50%; }
-  66.67% { background-position: 75% 25%, 25% 75%, 35% 65%; }
-  83.33% { background-position: 85% 15%, 15% 85%, 65% 35%; }
-  100% { background-position: 0% 0%, 100% 0%, 50% 100%; }
-}
-
-/* Text gradient animations */
-@keyframes textGradientFlow {
-  0% { 
-    background-position: 0% 50%;
-    --text-gradient-angle: 0deg;
-  }
-  25% { 
-    background-position: 50% 0%;
-    --text-gradient-angle: 15deg;
-  }
-  50% { 
-    background-position: 100% 50%;
-    --text-gradient-angle: 0deg;
-  }
-  75% { 
-    background-position: 50% 100%;
-    --text-gradient-angle: -15deg;
-  }
-  100% { 
-    background-position: 0% 50%;
-    --text-gradient-angle: 0deg;
-  }
-}
-
-@keyframes subtileTextShift {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-1px); }
-  100% { transform: translateY(0px); }
-}
-
-@keyframes subtitleGradientFlow {
-  0% { 
-    background-position: 0% 0%;
-    --subtitle-gradient-angle: 0deg;
-  }
-  30% { 
-    background-position: 70% 30%;
-    --subtitle-gradient-angle: 10deg;
-  }
-  60% { 
-    background-position: 30% 70%;
-    --subtitle-gradient-angle: -8deg;
-  }
-  100% { 
-    background-position: 0% 0%;
-    --subtitle-gradient-angle: 0deg;
-  }
-}
-
-@keyframes gentleFloat {
-  0%, 100% { 
-    transform: translateY(0px);
-  }
-  50% { 
-    transform: translateY(-3px);
-  }
-}
-
-@keyframes descriptionGradientFlow {
-  0% { background-position: 0% 0%; }
-  25% { background-position: 0% 50%; }
-  50% { background-position: 0% 100%; }
-  75% { background-position: 0% 50%; }
-  100% { background-position: 0% 0%; }
-}
-
-/* Button animations */
-@keyframes buttonGradientFlow {
-  0% { 
-    background-position: 0% 0%;
-    --button-gradient-angle: 0deg;
-  }
-  20% { 
-    background-position: 40% 20%;
-    --button-gradient-angle: 12deg;
-  }
-  40% { 
-    background-position: 80% 40%;
-    --button-gradient-angle: -8deg;
-  }
-  60% { 
-    background-position: 60% 80%;
-    --button-gradient-angle: 15deg;
-  }
-  80% { 
-    background-position: 20% 60%;
-    --button-gradient-angle: -5deg;
-  }
-  100% { 
-    background-position: 0% 0%;
-    --button-gradient-angle: 0deg;
-  }
-}
-
-@keyframes gentleButtonFloat {
-  0% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-1px) scale(1.005); }
-  100% { transform: translateY(0px) scale(1); }
-}
-
-@keyframes buttonColorShift {
-  0% { filter: hue-rotate(0deg) saturate(1); }
-  25% { filter: hue-rotate(5deg) saturate(1.02); }
-  50% { filter: hue-rotate(-3deg) saturate(0.98); }
-  75% { filter: hue-rotate(8deg) saturate(1.03); }
-  100% { filter: hue-rotate(0deg) saturate(1); }
-}
-
-/* Physics-based shadow calculation mixin for consistent shadows */
-.physicsBasedShadow {
-  /* Using real physics formulas for shadow calculation */
-  --shadow-base-x: calc(var(--shadow-x) * 1);
-  --shadow-base-y: calc(var(--shadow-y) * 1);
-  --shadow-base-blur: calc(var(--shadow-blur) * 1);
-  --shadow-base-opacity: var(--shadow-opacity);
-  
-  /* Layer 1: Contact shadow (object touching surface) */
-  --contact-shadow: 0 0 1px rgba(0, 0, 0, 0.9);
-  
-  /* Layer 2-6: Primary shadow with inverse square law falloff */
-  --primary-shadow-1: var(--shadow-base-x) var(--shadow-base-y) var(--shadow-base-blur) rgba(0, 0, 0, var(--shadow-base-opacity));
-  --primary-shadow-2: calc(var(--shadow-base-x) * 2) calc(var(--shadow-base-y) * 2) calc(var(--shadow-base-blur) * 2) rgba(0, 0, 0, calc(var(--shadow-base-opacity) * 0.7));
-  --primary-shadow-3: calc(var(--shadow-base-x) * 4) calc(var(--shadow-base-y) * 4) calc(var(--shadow-base-blur) * 4) rgba(0, 0, 0, calc(var(--shadow-base-opacity) * 0.4));
-  --primary-shadow-4: calc(var(--shadow-base-x) * 8) calc(var(--shadow-base-y) * 8) calc(var(--shadow-base-blur) * 8) rgba(0, 0, 0, calc(var(--shadow-base-opacity) * 0.2));
-  --primary-shadow-5: calc(var(--shadow-base-x) * 16) calc(var(--shadow-base-y) * 16) calc(var(--shadow-base-blur) * 16) rgba(0, 0, 0, calc(var(--shadow-base-opacity) * 0.1));
-  
-  /* Fill light shadows (opposite direction, 30% intensity) */
-  --fill-shadow-1: calc(var(--shadow-base-x) * -0.3) calc(var(--shadow-base-y) * -0.3) calc(var(--shadow-base-blur) * 0.8) rgba(0, 0, 0, calc(var(--shadow-base-opacity) * 0.3));
-  --fill-shadow-2: calc(var(--shadow-base-x) * -0.6) calc(var(--shadow-base-y) * -0.6) calc(var(--shadow-base-blur) * 1.5) rgba(0, 0, 0, calc(var(--shadow-base-opacity) * 0.2));
-  
-  /* Atmospheric perspective (distance-based color shift) */
-  --atmospheric-shadow: 0 0 calc(var(--shadow-base-blur) * 4) rgba(147, 112, 219, calc(var(--atmospheric-density) * 2));
-}
-
-/* Conflicting definition removed - using the main .rootTitle definition above */
-
-/* Removed conflicting orphaned CSS definitions */
-
-/* Conflicting app button definition removed - using the main definition above */
-
-.appButtonContent {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  position: relative;
-  z-index: 1;
-}
-
-.appIcon {
-  width: 24px;
-  height: 24px;
-  color: rgba(120, 100, 180, 0.8);
-}
-
-.appButtonText {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  color: rgba(120, 100, 180, 0.9);
-}
-
-.downloadText {
-  font-size: 0.75rem;
-  font-weight: 400;
-  opacity: 0.8;
-  line-height: 1;
-}
-
-.storeText {
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-@keyframes appButtonGradientFlow {
-  0% { 
-    background-position: 0% 0%;
-    --app-button-gradient-angle: 0deg;
-  }
-  25% { 
-    background-position: 50% 25%;
-    --app-button-gradient-angle: 10deg;
-  }
-  50% { 
-    background-position: 100% 50%;
-    --app-button-gradient-angle: -5deg;
-  }
-  75% { 
-    background-position: 50% 75%;
-    --app-button-gradient-angle: 15deg;
-  }
-  100% { 
-    background-position: 0% 0%;
-    --app-button-gradient-angle: 0deg;
-  }
-}
-
-/* Simple gradient animation */
-@keyframes simpleGradientFlow {
-  0% { 
-    background-position: 0% 50%;
-  }
-  50% { 
-    background-position: 100% 50%;
-  }
-  100% { 
-    background-position: 0% 50%;
-  }
-}
+/* Removed unused physics-based shadow mixin */
 
 /* Left Side - Text Content */
 .heroTextContent {
@@ -841,8 +320,8 @@
 
 /* Right Side - iPhone-Sized Meditation Player */
 .meditationPlayer {
-  width: 390px; /* iPhone 16 Pro width */
-  height: 700px; /* Increased back to original height for desktop cutoff */
+  width: 350px;
+  height: 650px;
   background: linear-gradient(145deg, 
     rgba(255, 255, 255, 0.25) 0%,
     rgba(240, 235, 255, 0.15) 50%,
@@ -851,12 +330,12 @@
   backdrop-filter: blur(25px) saturate(1.8);
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 45px;
-  padding: 2.5rem 1.75rem 4rem 1.75rem; /* Uniform padding */
-  margin-top: 6rem; /* Increased margin to push down and create bottom cutoff */
+  padding: 1.5rem 1.5rem; /* Even padding all around */
+  margin: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* FIXED: Changed from space-between to flex-start */
-  gap: 1rem; /* Consistent small gap between all elements */
+  justify-content: space-between; /* Distribute content evenly */
+  gap: 1rem; /* Consistent spacing */
   position: relative;
   overflow: hidden;
   box-shadow: 
@@ -864,8 +343,24 @@
     0 8px 25px rgba(147, 112, 219, 0.1),
     inset 0 2px 0 rgba(255, 255, 255, 0.4),
     inset 0 -1px 0 rgba(106, 76, 147, 0.1);
+    animation: phoneFloat 12s ease-in-out infinite;
   
-  animation: phoneFloat 12s ease-in-out infinite;
+  /* Improve touch interaction */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  
+  /* Ensure proper stacking and visibility */
+  z-index: 5;
+}
+
+/* Meditation Player Container - Centered positioning */
+.meditationPlayerContainer {
+  position: relative;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 100%;
+  height: 100%;
 }
 
 /* Add subtle gradient overlay */
@@ -887,110 +382,122 @@
 /* Player Header */
 .playerHeader {
   text-align: center;
-  margin-bottom: 0rem; /* Removed margin to reduce gap */
+  margin-bottom: 0; /* Remove bottom margin */
+  padding: 0; /* Clean padding */
+  overflow: hidden;
+  position: relative;
+  z-index: 15;
+  flex-shrink: 0; /* Don't let it shrink */
 }
 
 .playerTitle {
-  font-size: 1.4rem;
+  /* Responsive scaling */
+  font-size: clamp(1.1rem, 3.5vw, 1.4rem);
   font-weight: 600;
-  color: #6a4c93;
+  /* Updated to match the elegant greyish-purple palette */
+  color: rgba(120, 105, 135, 0.9);
   margin-bottom: 0.25rem;
   line-height: 1.2;
+  /* Prevent text overflow */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Ensure visibility */
+  opacity: 1;
+  display: block;
 }
 
 .playerSubtitle {
-  font-size: 0.95rem;
-  color: #8e6bb8;
+  /* Responsive scaling */
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  /* Updated to match the elegant greyish-purple palette */
+  color: rgba(140, 120, 150, 0.8);
   opacity: 0.9;
   margin-bottom: 0.1rem;
   line-height: 1.3;
+  /* Handle text wrapping */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Ensure visibility */
+  display: block;
 }
 
 .sessionDuration {
-  font-size: 0.85rem;
-  color: #8e6bb8;
+  /* Responsive scaling */
+  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  /* Updated to match the elegant greyish-purple palette */
+  color: rgba(140, 120, 150, 0.7);
   opacity: 0.7;
   font-weight: 300;
+  /* Ensure visibility */
+  display: block;
 }
 
 /* Meditation Visual */
 .meditationVisual {
-  flex: 1;
+  flex: 1; /* Take available space */
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  margin: 0rem 0; /* Removed all margins to minimize space */
+  margin: 0; /* No margin for even spacing */
+  min-height: 250px; /* Adequate minimum height */
+  max-height: 350px; /* Prevent it from being too large */
+  padding: 1rem; /* Even padding inside the visual area */
+  overflow: hidden;
+  contain: layout style paint;
 }
 
-/* Advanced Physics-Based ASMR Breathing Circle */
+/* Advanced Physics-Based ASMR Breathing Circle - Simplified */
 .breathingCircle {
-  width: 200px;
-  height: 200px;
+  /* Responsive sizing */
+  width: clamp(160px, 28vw, 240px);
+  height: clamp(160px, 28vw, 240px);
   position: relative;
-    /* Advanced liquid glass morphing background - Simplified */
-  background: 
-    radial-gradient(circle at 35% 25%, 
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(186, 148, 255, 0.08) 35%,
-      rgba(106, 76, 147, 0.03) 70%,
-      transparent 100%
-    );
   
-  /* Organic liquid border with physics-based morphing */
+  /* Simplified background */
+  background: radial-gradient(circle at 35% 25%, 
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(186, 148, 255, 0.08) 35%,
+    rgba(106, 76, 147, 0.03) 70%,
+    transparent 100%
+  );
+  
   border: 2px solid rgba(186, 148, 255, 0.4);
   border-radius: 50%;
-    /* Advanced animation stack using harmonic frequencies - Simplified */
-  animation: 
-    liquidBreatheAdvanced 7.236s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite,
-    organicMorph 11.618s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite,
-    gentleVibration 0.618s ease-in-out infinite alternate;
-    
-  /* Realistic physics-based shadows with inverse square law */
-  box-shadow: 
-    /* Contact shadow */
-    0 0 1px rgba(0, 0, 0, 0.1),
-    /* Primary diffuse shadow */
-    0 8px 32px rgba(106, 76, 147, 0.15),
-    /* Secondary atmospheric shadow */
-    0 16px 64px rgba(186, 148, 255, 0.08),
-    /* Tertiary distance shadow */
-    0 32px 128px rgba(106, 76, 147, 0.04),
-    /* Inner glow for depth */
-    inset 0 2px 8px rgba(255, 255, 255, 0.1),
-    /* Atmospheric perspective */
-    0 0 256px rgba(186, 148, 255, 0.02);  /* Hardware acceleration */
-  will-change: transform, border-radius, box-shadow;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+  border-width: clamp(1px, 0.3vw, 3px);
   
-  /* Ensure visibility */
+  /* Simplified breathing animation */
+  animation: breathe 6s ease-in-out infinite;
+    
+  /* Simplified shadows */
+  box-shadow: 
+    0 8px 32px rgba(106, 76, 147, 0.15),
+    0 16px 64px rgba(186, 148, 255, 0.08),
+    inset 0 2px 8px rgba(255, 255, 255, 0.1);
+    
+  /* Hardware acceleration */
+  will-change: transform;
+  transform: translateZ(0);
+  
+  /* Ensure circle maintains aspect ratio */
+  aspect-ratio: 1 / 1;
   z-index: 10;
-  min-height: 200px;
-  min-width: 200px;
 }
 
-/* Fallback for older browsers */
-@supports not (animation: liquidBreatheAdvanced 7s infinite) {
-  .breathingCircle {
-    animation: simpleBreathe 6s ease-in-out infinite !important;
-  }
-}
-
-@keyframes simpleBreathe {
+@keyframes breathe {
   0%, 100% { 
     transform: scale(1);
     opacity: 0.8;
-    border-radius: 50%;
   }
   50% { 
     transform: scale(1.1);
     opacity: 1;
-    border-radius: 50%;
   }
 }
 
-/* Physics-Based Layered Aura System */
+/* Simplified Aura System */
 .auraLayer {
   position: absolute;
   top: 50%;
@@ -999,67 +506,59 @@
   border-radius: 50%;
   pointer-events: none;
   
-  /* Gaussian blur for realistic depth of field */
-  filter: blur(0.5px);
+  background: radial-gradient(circle, 
+    transparent 60%,
+    rgba(186, 148, 255, 0.06) 65%,
+    rgba(106, 76, 147, 0.04) 85%,
+    transparent 100%
+  );
   
-  /* Subtle gradient border using golden ratio proportions */
-  background: 
-    radial-gradient(circle, 
-      transparent 60%,
-      rgba(186, 148, 255, 0.06) 65%,
-      rgba(106, 76, 147, 0.04) 85%,
-      transparent 100%
-    );
-  
-  /* Border with varying opacity based on distance */
   border: 1px solid rgba(186, 148, 255, 0.08);
-  
-  /* Individual layer transforms for 3D depth */
-  transform-style: preserve-3d;
+  animation: auraBreath 8s ease-in-out infinite;
 }
 
-/* Golden ratio and fibonacci-based harmonic breathing */
 .auraLayer[data-layer="1"] {
-  width: 123.6%; /* φ × 100% + 23.6% */
-  height: 123.6%;
-  animation: auralBreatheHarmonic 5.854s cubic-bezier(0.4, 0.0, 0.58, 1.0) infinite;
-  filter: blur(0.3px);
-  z-index: 5;
+  width: 124%;
+  height: 124%;
+  animation-delay: 0s;
 }
 
 .auraLayer[data-layer="2"] {
-  width: 147.2%; /* φ² × 100% + 47.2% */
-  height: 147.2%;
-  animation: auralBreatheHarmonic 8.472s cubic-bezier(0.42, 0.0, 0.58, 1.0) infinite 1.236s;
-  filter: blur(0.6px);
-  z-index: 4;
+  width: 147%;
+  height: 147%;
+  animation-delay: 1s;
 }
 
 .auraLayer[data-layer="3"] {
-  width: 171.8%; /* φ³ × 100% + 71.8% */
-  height: 171.8%;
-  animation: auralBreatheHarmonic 12.326s cubic-bezier(0.44, 0.0, 0.56, 1.0) infinite 2.472s;
-  filter: blur(0.9px);
-  z-index: 3;
+  width: 172%;
+  height: 172%;
+  animation-delay: 2s;
 }
 
 .auraLayer[data-layer="4"] {
-  width: 195.4%; /* φ⁴ × 100% + 95.4% */
-  height: 195.4%;
-  animation: auralBreatheHarmonic 17.18s cubic-bezier(0.46, 0.0, 0.54, 1.0) infinite 3.708s;
-  filter: blur(1.2px);
-  z-index: 2;
+  width: 195%;
+  height: 195%;
+  animation-delay: 3s;
 }
 
 .auraLayer[data-layer="5"] {
-  width: 219%; /* φ⁵ × 100% + 119% */
+  width: 219%;
   height: 219%;
-  animation: auralBreatheHarmonic 22.916s cubic-bezier(0.48, 0.0, 0.52, 1.0) infinite 4.944s;
-  filter: blur(1.5px);
-  z-index: 1;
+  animation-delay: 4s;
 }
 
-/* Advanced Physics-Based Floating Particle System */
+@keyframes auraBreath {
+  0%, 100% { 
+    opacity: 0.25;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% { 
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+/* Simplified Floating Particle System */
 .particleContainer {
   position: absolute;
   top: 0;
@@ -1068,8 +567,6 @@
   height: 100%;
   overflow: visible;
   pointer-events: none;
-  perspective: 1000px;
-  transform-style: preserve-3d;
 }
 
 .floatingParticle {
@@ -1079,38 +576,37 @@
   width: var(--size);
   height: var(--size);
   
-  /* Advanced particle physics with realistic light scattering */
-  background: 
-    radial-gradient(circle at 25% 25%, 
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.6) 30%,
-      rgba(186, 148, 255, 0.4) 60%,
-      transparent 100%
-    );
+  background: radial-gradient(circle at 25% 25%, 
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(186, 148, 255, 0.4) 60%,
+    transparent 100%
+  );
   
   border-radius: 50%;
-    /* Realistic 3D transform with perspective - Fixed */
-  transform: 
-    translate(-50%, -50%) 
-    rotate(var(--x-offset)) 
-    translateY(-120px);
-    /* Advanced multi-stage animation with realistic physics - Fixed */
-  animation: 
-    floatUpwardAdvanced 15.708s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite var(--delay),
-    particleShimmerAdvanced 3.142s ease-in-out infinite var(--delay),
-    particleBreathe 4.236s ease-in-out infinite var(--delay);
+  transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-120px);
+  animation: floatUp 12s ease-in-out infinite var(--delay);
   
-  /* Realistic light and shadow effects */
-  box-shadow: 
-    0 0 8px rgba(186, 148, 255, 0.4),
-    0 0 16px rgba(255, 255, 255, 0.2),
-    inset 1px 1px 2px rgba(255, 255, 255, 0.6);
-    /* Atmospheric perspective based on distance - Fixed */
-  filter: blur(0.5px) brightness(1);
+  box-shadow: 0 0 8px rgba(186, 148, 255, 0.4);
   opacity: 0.8;
 }
 
-/* Enhanced Sacred Geometry with Mathematical Precision */
+@keyframes floatUp {
+  0% { 
+    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-100px);
+    opacity: 0;
+  }
+  15% { opacity: 0.8; }
+  50% {
+    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-200px);
+    opacity: 1;
+  }
+  100% { 
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-320px);
+  }
+}
+
+/* Simplified Sacred Geometry */
 .sacredGeometry {
   position: absolute;
   top: 50%;
@@ -1119,7 +615,6 @@
   width: 100%;
   height: 100%;
   opacity: 0.12;
-  transform-style: preserve-3d;
 }
 
 .mandalaRing {
@@ -1128,39 +623,36 @@
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  
-  /* Fix: Use simple border instead of border-image for compatibility */
   border: 1px dashed rgba(186, 148, 255, 0.25);
+  animation: rotate 60s linear infinite;
 }
 
 .mandalaRing[data-ring="outer"] {
-  width: 92.7%; /* Based on golden ratio */
-  height: 92.7%;
-  animation: 
-    sacredRotate 89.442s linear infinite,
-    mandalaPulse 13.764s ease-in-out infinite;
+  width: 93%;
+  height: 93%;
   border-width: 1.5px;
 }
 
 .mandalaRing[data-ring="middle"] {
-  width: 70.7%; /* √2 / 2 ratio */
-  height: 70.7%;
-  animation: 
-    sacredRotate 55.279s linear infinite reverse,
-    mandalaPulse 8.472s ease-in-out infinite 2.236s;
-  border-width: 1px;
+  width: 71%;
+  height: 71%;
+  animation-direction: reverse;
+  animation-duration: 45s;
 }
 
 .mandalaRing[data-ring="inner"] {
-  width: 52.3%; /* Golden ratio inverse */
-  height: 52.3%;
-  animation: 
-    sacredRotate 34.164s linear infinite,
-    mandalaPulse 5.236s ease-in-out infinite 4.472s;
+  width: 52%;
+  height: 52%;
+  animation-duration: 30s;
   border-width: 0.8px;
 }
 
-/* Enhanced Central Focus Point with Quantum-Like Effects */
+@keyframes rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Simplified Center Focus Point */
 .centerPoint {
   position: absolute;
   top: 50%;
@@ -1169,8 +661,6 @@
   width: 14px;
   height: 14px;
   z-index: 15;
-  perspective: 500px;
-  transform-style: preserve-3d;
 }
 
 .innerGlow {
@@ -1180,32 +670,17 @@
   transform: translate(-50%, -50%);
   width: 28px;
   height: 28px;
-  background: 
-    /* Core white light */
-    radial-gradient(circle at 40% 40%, 
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(255, 255, 255, 0.7) 25%,
-      rgba(186, 148, 255, 0.5) 50%,
-      rgba(186, 148, 255, 0.2) 75%,
-      transparent 100%
-    ),
-    /* Secondary aurora glow */
-    radial-gradient(circle at 60% 60%, 
-      rgba(220, 180, 255, 0.3) 0%,
-      rgba(240, 200, 255, 0.1) 50%,
-      transparent 100%
-    );
+  background: radial-gradient(circle, 
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(186, 148, 255, 0.5) 50%,
+    transparent 100%
+  );
   border-radius: 50%;
-  animation: 
-    centerGlowAdvanced 5.854s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite,
-    centerRotate 13.764s linear infinite;
+  animation: glow 6s ease-in-out infinite;
   
-  /* Advanced light emission with realistic physics */
   box-shadow: 
     0 0 20px rgba(255, 255, 255, 0.8),
-    0 0 40px rgba(186, 148, 255, 0.5),
-    0 0 80px rgba(186, 148, 255, 0.2),
-    inset 0 0 8px rgba(255, 255, 255, 0.9);
+    0 0 40px rgba(186, 148, 255, 0.5);
 }
 
 .pulsingCore {
@@ -1215,34 +690,42 @@
   transform: translate(-50%, -50%);
   width: 8px;
   height: 8px;
-  background: 
-    radial-gradient(circle, 
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 0.9) 40%,
-      rgba(186, 148, 255, 0.6) 80%,
-      transparent 100%
-    );
+  background: radial-gradient(circle, 
+    rgba(255, 255, 255, 1) 0%,
+    rgba(186, 148, 255, 0.6) 80%,
+    transparent 100%
+  );
   border-radius: 50%;
+  animation: pulse 4s ease-in-out infinite;
   
-  /* Quantum-like pulsing with harmonic frequencies */
-  animation: 
-    corePulseAdvanced 3.236s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite,
-    coreVibration 0.236s ease-in-out infinite alternate;
-  
-  /* Realistic light source with chromatic aberration */
   box-shadow: 
-    /* Core light */
     0 0 15px rgba(255, 255, 255, 0.9),
-    0 0 30px rgba(255, 255, 255, 0.6),
-    /* Chromatic dispersal - red */
-    0 0 45px rgba(255, 200, 255, 0.3),
-    /* Chromatic dispersal - blue */
-    0 0 60px rgba(180, 150, 255, 0.2),
-    /* Atmospheric glow */
-    0 0 120px rgba(186, 148, 255, 0.1);
+    0 0 30px rgba(186, 148, 255, 0.3);
 }
 
-/* Physics-Based Ripple Effects with Wave Interference */
+@keyframes glow {
+  0%, 100% { 
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+  50% { 
+    transform: translate(-50%, -50%) scale(1.25);
+    opacity: 1;
+  }
+}
+
+/* Simplified Ripple Effects */
 .rippleContainer {
   position: absolute;
   top: 50%;
@@ -1251,7 +734,6 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  perspective: 1000px;
 }
 
 .ripple {
@@ -1262,23 +744,27 @@
   width: 0;
   height: 0;
   border-radius: 50%;
-  
-  /* Advanced wave physics with interference patterns */
   border: 1px solid rgba(186, 148, 255, 0.4);
-  background: radial-gradient(circle, 
-    transparent 60%,
-    rgba(186, 148, 255, 0.05) 70%,
-    rgba(255, 255, 255, 0.02) 85%,
-    transparent 100%
-  );
-  
-  /* Realistic wave expansion with damping */
-  animation: 
-    rippleExpandAdvanced 8.472s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite var(--delay),
-    rippleInterference 2.118s ease-in-out infinite calc(var(--delay) + 1s);
+  animation: rippleExpand 8s ease-out infinite var(--delay);
 }
 
-/* Advanced Aurora Color Flow with Plasma Physics */
+@keyframes rippleExpand {
+  0% { 
+    width: 0;
+    height: 0;
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% { 
+    width: 350px;
+    height: 350px;
+    opacity: 0;
+  }
+}
+
+/* Simplified Aurora Color Flow */
 .auroraFlow {
   position: absolute;
   top: 0;
@@ -1287,33 +773,26 @@
   height: 100%;
   border-radius: 50%;
   
-  /* Advanced plasma-like color gradients */
-  background: 
-    conic-gradient(
-      from 0deg,
-      rgba(186, 148, 255, 0.08) 0%,
-      rgba(220, 180, 255, 0.12) 15%,
-      rgba(240, 200, 255, 0.1) 30%,
-      rgba(255, 220, 255, 0.08) 45%,
-      rgba(200, 160, 255, 0.1) 60%,
-      rgba(180, 140, 255, 0.09) 75%,
-      rgba(186, 148, 255, 0.08) 90%,
-      rgba(186, 148, 255, 0.08) 100%
-    );
+  background: conic-gradient(
+    from 0deg,
+    rgba(186, 148, 255, 0.08) 0%,
+    rgba(220, 180, 255, 0.12) 25%,
+    rgba(240, 200, 255, 0.1) 50%,
+    rgba(200, 160, 255, 0.1) 75%,
+    rgba(186, 148, 255, 0.08) 100%
+  );
   
-  /* Complex multi-layer rotation with plasma turbulence */
-  animation: 
-    auroraRotateAdvanced 28.318s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite,
-    auroraTurbulence 7.236s ease-in-out infinite,
-    auroraColorShift 15.708s ease-in-out infinite;
-  
-  /* Advanced blending for realistic plasma effect */
+  animation: auroraRotate 30s linear infinite;
   mix-blend-mode: soft-light;
   opacity: 0.8;
-  filter: blur(0.5px);
 }
 
-/* Gentle Sparkles - Fixed positioning */
+@keyframes auroraRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Simplified Sparkles */
 .sparkleContainer {
   position: absolute;
   top: 50%;
@@ -1334,574 +813,38 @@
   background: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
   transform: rotate(var(--angle)) translateX(80px) translate(-50%, -50%);
-  animation: sparkleGlow 8s ease-in-out infinite var(--delay);
-  box-shadow: 
-    0 0 6px rgba(255, 255, 255, 0.8),
-    0 0 12px rgba(186, 148, 255, 0.4);
+  animation: sparkle 8s ease-in-out infinite var(--delay);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
 }
 
-/* Advanced Physics-Based Animation Keyframes */
-
-/* Organic Liquid Breathing with Fourier Transform-based morphing */
-@keyframes liquidBreatheAdvanced {
-  0%, 100% { 
-    transform: scale(1);
-    border-radius: 50%;
-    filter: 
-      brightness(1) 
-      contrast(1)
-      hue-rotate(0deg);
-    box-shadow: 
-      0 0 30px rgba(106, 76, 147, 0.15),
-      0 0 60px rgba(186, 148, 255, 0.1),
-      inset 0 0 30px rgba(255, 255, 255, 0.05);
-  }
-  14.286% { /* π/4 phase */
-    border-radius: 52.5% 47.5% 50% 50%;
-    filter: 
-      brightness(1.02) 
-      contrast(1.01)
-      hue-rotate(3deg);
-  }
-  28.571% { /* π/2 phase */
-    border-radius: 48% 52% 51% 49%;
-    filter: 
-      brightness(1.05) 
-      contrast(1.03)
-      hue-rotate(6deg);
-  }
-  42.857% { /* 3π/4 phase */
-    border-radius: 49% 51% 53% 47%;
-    filter: 
-      brightness(1.08) 
-      contrast(1.05)
-      hue-rotate(9deg);
-  }
-  50% { /* Peak breathing expansion */
-    transform: scale(1.12);
-    border-radius: 47% 53% 52% 48%;
-    filter: 
-      brightness(1.1) 
-      contrast(1.08)
-      hue-rotate(12deg);
-    box-shadow: 
-      0 0 40px rgba(106, 76, 147, 0.25),
-      0 0 80px rgba(186, 148, 255, 0.15),
-      inset 0 0 40px rgba(255, 255, 255, 0.08);
-  }
-  57.143% { /* 5π/4 phase */
-    border-radius: 51% 49% 48% 52%;
-    filter: 
-      brightness(1.08) 
-      contrast(1.05)
-      hue-rotate(9deg);
-  }
-  71.429% { /* 3π/2 phase */
-    border-radius: 52% 48% 49% 51%;
-    filter: 
-      brightness(1.05) 
-      contrast(1.03)
-      hue-rotate(6deg);
-  }
-  85.714% { /* 7π/4 phase */
-    border-radius: 50.5% 49.5% 51.5% 48.5%;
-    filter: 
-      brightness(1.02) 
-      contrast(1.01)
-      hue-rotate(3deg);
-  }
-}
-
-/* Organic Morphing with Perlin Noise-like patterns */
-@keyframes organicMorph {
-  0% { 
-    border-radius: 50% 50% 50% 50%;
-    transform: rotate(0deg);
-  }
-  16.667% { 
-    border-radius: 53% 47% 52% 48%;
-    transform: rotate(0.5deg);
-  }
-  33.333% { 
-    border-radius: 48% 52% 49% 51%;
-    transform: rotate(-0.3deg);
-  }
-  50% { 
-    border-radius: 51% 49% 53% 47%;
-    transform: rotate(0.8deg);
-  }
-  66.667% { 
-    border-radius: 49% 51% 48% 52%;
-    transform: rotate(-0.2deg);
-  }
-  83.333% { 
-    border-radius: 52% 48% 50% 50%;
-    transform: rotate(0.4deg);
-  }
-  100% { 
-    border-radius: 50% 50% 50% 50%;
-    transform: rotate(0deg);
-  }
-}
-
-/* Enhanced Micro-vibrations using Fibonacci sequence */
-@keyframes gentleVibration {
-  0% { transform: translateX(0) translateY(0); }
-  23.6% { transform: translateX(0.618px) translateY(0.382px); } /* φ ratio */
-  38.2% { transform: translateX(-0.382px) translateY(0.618px); }
-  61.8% { transform: translateX(0.382px) translateY(-0.618px); }
-  76.4% { transform: translateX(-0.618px) translateY(-0.382px); }
-  100% { transform: translateX(0) translateY(0); }
-}
-
-/* Color Shifting Aurora with HSL interpolation */
-@keyframes colorShiftAura {
-  0%, 100% { 
-    filter: hue-rotate(0deg) saturate(1) brightness(1); 
-  }
-  25% { 
-    filter: hue-rotate(8deg) saturate(1.05) brightness(1.03); 
-  }
-  50% { 
-    filter: hue-rotate(-5deg) saturate(0.95) brightness(0.97); 
-  }
-  75% { 
-    filter: hue-rotate(12deg) saturate(1.08) brightness(1.05); 
-  }
-}
-
-/* Harmonic Aural Breathing using golden ratio frequencies */
-@keyframes auralBreatheHarmonic {
-  0%, 100% { 
-    opacity: 0.25;
-    transform: translate(-50%, -50%) scale(1);
-    filter: blur(0.5px);
-  }
-  38.2% { /* Golden ratio phase 1 */
-    opacity: 0.4;
-    transform: translate(-50%, -50%) scale(1.05);
-    filter: blur(0.8px);
-  }
-  50% { /* Peak expansion */
-    opacity: 0.6;
-    transform: translate(-50%, -50%) scale(1.12);
-    filter: blur(1px);
-  }
-  61.8% { /* Golden ratio phase 2 */
-    opacity: 0.4;
-    transform: translate(-50%, -50%) scale(1.05);
-    filter: blur(0.8px);
-  }
-}
-
-/* Advanced Particle Physics Simulation - Fixed */
-@keyframes floatUpwardAdvanced {
-  0% { 
-    transform: 
-      translate(-50%, -50%) 
-      rotate(var(--x-offset)) 
-      translateY(-100px);
-    opacity: 0;
-    filter: brightness(0.8) blur(0px);
-  }
-  8% {
-    opacity: 0.4;
-    filter: brightness(1) blur(0px);
-  }
-  15% {
-    opacity: 0.8;
-    transform: 
-      translate(-50%, -50%) 
-      rotate(var(--x-offset)) 
-      translateY(-140px);
-    filter: brightness(1.1) blur(0.2px);
-  }
-  50% {
-    opacity: 1;
-    transform: 
-      translate(-50%, -50%) 
-      rotate(var(--x-offset)) 
-      translateY(-200px);
-    filter: brightness(1.2) blur(0.5px);
-  }
-  85% {
-    opacity: 0.3;
-    transform: 
-      translate(-50%, -50%) 
-      rotate(var(--x-offset)) 
-      translateY(-260px);
-    filter: brightness(0.9) blur(1px);
-  }
-  100% { 
-    opacity: 0;
-    transform: 
-      translate(-50%, -50%) 
-      rotate(var(--x-offset)) 
-      translateY(-320px);
-    filter: brightness(0.7) blur(2px);
-  }
-}
-
-/* Advanced Particle Shimmer with Rayleigh scattering */
-@keyframes particleShimmerAdvanced {
-  0%, 100% { 
-    box-shadow: 
-      0 0 8px rgba(186, 148, 255, 0.4),
-      0 0 16px rgba(255, 255, 255, 0.2);
-    filter: brightness(1) saturate(1);
-  }
-  25% {
-    box-shadow: 
-      0 0 12px rgba(186, 148, 255, 0.6),
-      0 0 24px rgba(255, 255, 255, 0.4),
-      0 0 36px rgba(220, 180, 255, 0.2);
-    filter: brightness(1.2) saturate(1.1);
-  }
-  50% { 
-    box-shadow: 
-      0 0 16px rgba(186, 148, 255, 0.8),
-      0 0 32px rgba(255, 255, 255, 0.6),
-      0 0 48px rgba(240, 200, 255, 0.3);
-    filter: brightness(1.4) saturate(1.2);
-  }
-  75% {
-    box-shadow: 
-      0 0 12px rgba(186, 148, 255, 0.6),
-      0 0 24px rgba(255, 255, 255, 0.4),
-      0 0 36px rgba(220, 180, 255, 0.2);
-    filter: brightness(1.2) saturate(1.1);
-  }
-}
-
-/* 3D Particle Rotation - Fixed */
-@keyframes particleRotate {
-  0% { 
-    transform: 
-      translate(-50%, -50%) 
-      rotate(var(--x-offset)) 
-      translateY(-120px)
-      rotateZ(0deg); 
-  }
-  100% { 
-    transform: 
-      translate(-50%, -50%) 
-      rotate(var(--x-offset)) 
-      translateY(-120px)
-      rotateZ(360deg); 
-  }
-}
-
-/* Particle Breathing Sync */
-@keyframes particleBreathe {
-  0%, 100% { 
-    transform: scale(1);
-  }
-  50% { 
-    transform: scale(1.15);
-  }
-}
-
-/* Sacred Geometry Rotation with Divine Proportions */
-@keyframes sacredRotate {
-  0% { 
-    transform: translate(-50%, -50%) rotate(0deg);
-    opacity: 0.12;
-  }
-  25% {
-    opacity: 0.18;
-  }
-  50% {
-    opacity: 0.15;
-  }
-  75% {
-    opacity: 0.2;
-  }
-  100% { 
-    transform: translate(-50%, -50%) rotate(360deg);
-    opacity: 0.12;
-  }
-}
-
-/* Mandala Pulse with Breathing Harmony */
-@keyframes mandalaPulse {
-  0%, 100% { 
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.12;
-    filter: blur(0px);
-  }
-  50% { 
-    transform: translate(-50%, -50%) scale(1.03);
-    opacity: 0.25;
-    filter: blur(0.3px);
-  }
-}
-
-/* Enhanced Center Point Glow */
-@keyframes centerGlowAdvanced {
-  0%, 100% { 
-    opacity: 0.7;
-    transform: translate(-50%, -50%) scale(1);
-    filter: brightness(1) saturate(1);
-  }
-  25% {
-    opacity: 0.85;
-    transform: translate(-50%, -50%) scale(1.08);
-    filter: brightness(1.1) saturate(1.05);
-  }
-  50% { 
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.15);
-    filter: brightness(1.2) saturate(1.1);
-  }
-  75% {
-    opacity: 0.85;
-    transform: translate(-50%, -50%) scale(1.08);
-    filter: brightness(1.1) saturate(1.05);
-  }
-}
-
-/* Center Rotation with Golden Ratio */
-@keyframes centerRotate {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* Advanced Core Pulse with Harmonic Overtones */
-@keyframes corePulseAdvanced {
-  0%, 100% { 
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.9;
-    filter: brightness(1) saturate(1);
-    box-shadow: 
-      0 0 15px rgba(255, 255, 255, 0.9),
-      0 0 30px rgba(255, 255, 255, 0.6),
-      0 0 45px rgba(255, 200, 255, 0.3),
-      0 0 60px rgba(180, 150, 255, 0.2);
-  }
-  25% {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 0.95;
-    filter: brightness(1.1) saturate(1.05);
-  }
-  50% { 
-    transform: translate(-50%, -50%) scale(1.25);
-    opacity: 1;
-    filter: brightness(1.3) saturate(1.15);
-    box-shadow: 
-      0 0 20px rgba(255, 255, 255, 1),
-      0 0 40px rgba(255, 255, 255, 0.8),
-      0 0 60px rgba(255, 200, 255, 0.5),
-      0 0 80px rgba(180, 150, 255, 0.3),
-      0 0 120px rgba(186, 148, 255, 0.15);
-  }
-  75% {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 0.95;
-    filter: brightness(1.1) saturate(1.05);
-  }
-}
-
-/* Core Micro-vibration */
-@keyframes coreVibration {
-  0% { transform: translate(-50%, -50%) translateX(0) translateY(0); }
-  100% { transform: translate(-50%, -50%) translateX(0.2px) translateY(0.1px); }
-}
-
-/* Advanced Ripple Expansion with Damping */
-@keyframes rippleExpandAdvanced {
-  0% { 
-    width: 0;
-    height: 0;
-    opacity: 0.8;
-    border-width: 2px;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  15% {
-    width: 50px;
-    height: 50px;
-    opacity: 0.6;
-    border-width: 1.5px;
-  }
-  35% {
-    width: 120px;
-    height: 120px;
-    opacity: 0.4;
-    border-width: 1px;
-  }
-  60% {
-    width: 200px;
-    height: 200px;
-    opacity: 0.2;
-    border-width: 0.8px;
-  }
-  85% {
-    width: 280px;
-    height: 280px;
-    opacity: 0.05;
-    border-width: 0.4px;
-  }
-  100% { 
-    width: 350px;
-    height: 350px;
-    opacity: 0;
-    border-width: 0px;
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-}
-
-/* Ripple Interference Patterns */
-@keyframes rippleInterference {
-  0%, 100% { 
-    filter: brightness(1);
-    border-color: rgba(186, 148, 255, 0.4);
-  }
-  25% {
-    filter: brightness(1.1);
-    border-color: rgba(220, 180, 255, 0.5);
-  }
-  50% { 
-    filter: brightness(1.2);
-    border-color: rgba(255, 220, 255, 0.6);
-  }
-  75% {
-    filter: brightness(1.1);
-    border-color: rgba(220, 180, 255, 0.5);
-  }
-}
-
-/* Advanced Aurora Rotation with Plasma Dynamics */
-@keyframes auroraRotateAdvanced {
-  0% { 
-    transform: rotate(0deg) scale(1);
-    filter: hue-rotate(0deg) saturate(1);
-  }
-  25% {
-    transform: rotate(90deg) scale(1.02);
-    filter: hue-rotate(5deg) saturate(1.05);
-  }
-  50% {
-    transform: rotate(180deg) scale(1.04);
-    filter: hue-rotate(10deg) saturate(1.1);
-  }
-  75% {
-    transform: rotate(270deg) scale(1.02);
-    filter: hue-rotate(5deg) saturate(1.05);
-  }
-  100% { 
-    transform: rotate(360deg) scale(1);
-    filter: hue-rotate(0deg) saturate(1);
-  }
-}
-
-/* Aurora Turbulence */
-@keyframes auroraTurbulence {
-  0%, 100% { 
-    filter: blur(0.5px) brightness(1);
-    opacity: 0.8;
-  }
-  33% {
-    filter: blur(0.3px) brightness(1.05);
-    opacity: 0.85;
-  }
-  66% {
-    filter: blur(0.7px) brightness(0.95);
-    opacity: 0.75;
-  }
-}
-
-/* Aurora Color Shifting */
-@keyframes auroraColorShift {
-  0%, 100% { 
-    filter: hue-rotate(0deg) saturate(1) brightness(1);
-  }
-  20% {
-    filter: hue-rotate(8deg) saturate(1.08) brightness(1.03);
-  }
-  40% {
-    filter: hue-rotate(-5deg) saturate(0.95) brightness(0.98);
-  }
-  60% {
-    filter: hue-rotate(12deg) saturate(1.12) brightness(1.05);
-  }
-  80% {
-    filter: hue-rotate(-3deg) saturate(0.92) brightness(0.97);
-  }
-}
-
-/* Sparkle Effects with Quantum-like Behavior */
-@keyframes sparkleGlow {
+@keyframes sparkle {
   0%, 85%, 100% { 
     opacity: 0;
     transform: rotate(var(--angle)) translateX(80px) translate(-50%, -50%) scale(0.3);
-    filter: brightness(0.8);
-  }
-  5% {
-    opacity: 0.3;
-    transform: rotate(var(--angle)) translateX(80px) translate(-50%, -50%) scale(0.8);
-    filter: brightness(1.2);
   }
   15% { 
     opacity: 1;
     transform: rotate(var(--angle)) translateX(82px) translate(-50%, -50%) scale(1);
-    filter: brightness(1.8);
-  }
-  35% {
-    opacity: 0.9;
-    transform: rotate(var(--angle)) translateX(85px) translate(-50%, -50%) scale(1.2);
-    filter: brightness(2);
-  }
-  65% {
-    opacity: 0.6;
-    transform: rotate(var(--angle)) translateX(83px) translate(-50%, -50%) scale(0.9);
-    filter: brightness(1.5);
   }
 }
 
-/* Legacy animations - keeping for compatibility */
-@keyframes rotateClockwise {
+/* Essential animations only */
+
+/* Gentle floating animation */
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Fade in animation */
+@keyframes fadeInUp {
   from { 
-    transform: translate(-50%, -50%) rotate(0deg); 
+    opacity: 0;
+    transform: translateY(20px);
   }
   to { 
-    transform: translate(-50%, -50%) rotate(360deg); 
-  }
-}
-
-@keyframes rotateCounterClockwise {
-  from { 
-    transform: translate(-50%, -50%) rotate(0deg); 
-  }
-  to { 
-    transform: translate(-50%, -50%) rotate(-360deg); 
-  }
-}
-
-@keyframes dotGlow {
-  0%, 100% { 
-    opacity: 0.4; 
-    transform: rotate(var(--angle)) translateX(var(--radius)) translate(-50%, -50%) scale(0.8);
-    box-shadow: 
-      0 0 8px rgba(186, 148, 255, 0.3),
-      0 0 16px rgba(186, 148, 255, 0.1);
-  }
-  50% { 
-    opacity: 1; 
-    transform: rotate(var(--angle)) translateX(var(--radius)) translate(-50%, -50%) scale(1.2);
-    box-shadow: 
-      0 0 16px rgba(186, 148, 255, 0.7),
-      0 0 32px rgba(186, 148, 255, 0.3),
-      0 0 48px rgba(186, 148, 255, 0.1);
-  }
-}
-
-@keyframes dotPulse {
-  0%, 100% { 
-    opacity: 0.6; 
-    transform: rotate(var(--angle)) translateX(50px) translate(-50%, -50%) scale(1);
-  }
-  50% { 
-    opacity: 1; 
-    transform: rotate(var(--angle)) translateX(50px) translate(-50%, -50%) scale(1.5);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -1929,13 +872,16 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Player Controls - More Subtle */
+/* Player Controls - Even spacing */
 .playerControls {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem; /* Reduced from 2rem */
-  margin: 0rem 0; /* Removed margin to eliminate gap above play button */
+  gap: 1.5rem;
+  margin: 0; /* No margin for even spacing */
+  padding: 0; /* No padding, let flex handle spacing */
+  touch-action: manipulation;
+  flex-shrink: 0; /* Don't let controls shrink */
 }
 
 .controlButton {
@@ -1950,6 +896,15 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  /* Responsive sizing */
+  width: clamp(36px, 8vw, 50px);
+  height: clamp(36px, 8vw, 50px);
+  /* Minimum touch target for accessibility */
+  min-width: 44px;
+  min-height: 44px;
+  /* Better touch interaction */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .controlButton:hover {
@@ -1957,8 +912,16 @@
   transform: scale(1.03); /* Less dramatic scale */
 }
 
+.controlButton:active {
+  transform: scale(0.97);
+  background: rgba(106, 76, 147, 0.2);
+}
+
 .controlButton svg {
   color: rgba(106, 76, 147, 0.6); /* More subtle icon color */
+  /* Responsive icon size */
+  width: clamp(14px, 3vw, 18px);
+  height: clamp(14px, 3vw, 18px);
 }
 
 .playButton {
@@ -1972,6 +935,12 @@
   box-shadow: 
     0 8px 16px rgba(106, 76, 147, 0.15), /* Subtle shadow */
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  /* Responsive sizing */
+  width: clamp(56px, 12vw, 75px);
+  height: clamp(56px, 12vw, 75px);
+  /* Minimum touch target for accessibility */
+  min-width: 56px;
+  min-height: 56px;
 }
 
 .playButton:hover {
@@ -1985,13 +954,26 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
-.playButton svg {
-  color: rgba(255, 255, 255, 0.9); /* Subtle white icon */
+.playButton:active {
+  transform: scale(0.98);
+  box-shadow: 
+    0 6px 12px rgba(106, 76, 147, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
-/* Enhanced Progress Bar - More Subtle */
+.playButton svg {
+  color: rgba(255, 255, 255, 0.9); /* Subtle white icon */
+  /* Responsive icon size */
+  width: clamp(16px, 4vw, 22px);
+  height: clamp(16px, 4vw, 22px);
+}
+
+/* Enhanced Progress Bar - Even spacing */
 .progressContainer {
-  margin: 0rem 0; /* Removed all margins to minimize space */
+  margin: 0; /* No margin for even spacing */
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0; /* Don't let progress bar shrink */
 }
 
 .progressBar {
@@ -2000,6 +982,8 @@
   background: rgba(106, 76, 147, 0.1); /* Much more subtle background */
   border-radius: 3px;
   overflow: hidden;
+  /* Ensure proper touch interaction */
+  touch-action: pan-x;
 }
 
 .progressFill {
@@ -2012,15 +996,19 @@
   border-radius: 3px;
   animation: progressFlow 8s linear infinite;
   box-shadow: none; /* Remove any existing shadows */
+  /* Smooth transition for responsive changes */
+  transition: all 0.3s ease;
 }
 
 .timeDisplay {
   display: flex;
   justify-content: space-between;
-  font-size: 0.75rem; /* Slightly smaller */
-  color: rgba(106, 76, 147, 0.5); /* More subtle text color */
-  margin-top: 0.25rem; /* Further reduced from 0.4rem */
-  font-weight: 400; /* Lighter weight */
+  font-size: 0.75rem;
+  color: rgba(106, 76, 147, 0.5);
+  margin-top: 0.5rem; /* Small margin only at top */
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* Sound Waves Visualization */
@@ -2099,57 +1087,191 @@
 /* Responsive Design */
 @media (max-width: 1024px) {
   .heroWrapper {
-    height: auto; /* Switch to auto height for tablet and below */
-    min-height: 120vh; /* Taller section for tablet */
-    padding: 3rem 0; /* More padding for breathing room */
-    overflow: visible; /* Allow content to show */
+    height: auto; /* Allow natural height */
+    min-height: 120vh; /* Taller to accommodate content */
+    padding: 2rem 0; /* Proper padding */
+    overflow: visible; /* Show all content */
   }
-  
-  .heroContent {
+    .heroContent {
     grid-template-columns: 1fr;
-    gap: 3rem; /* Increased gap */
+    gap: 2rem; /* Closer spacing for tablet */
     text-align: center;
     max-width: 100%;
-    padding: 1rem;
+    padding: 2rem;
+    align-items: center; /* Center alignment for tablet */
   }
   
   .heroTextContent {
     align-items: center;
     text-align: center;
     padding-right: 0;
+    order: 1; /* Text content first */
   }
-    .meditationPlayer {
-    width: 320px;
-    height: 500px;
-    margin: 2rem auto; /* Override desktop margin for mobile */
-    padding: 1.5rem 1.25rem;
+    .meditationPlayerContainer {
+    order: 2; /* Player second */
+    justify-content: center; /* Center on tablet */
+    align-items: center;
+  }
+  
+  .meditationPlayer {
+    width: clamp(320px, 55vw, 400px); /* Better tablet proportions */
+    height: clamp(500px, 60vh, 650px); /* Proper height without cutoff */
+    margin: 0; /* Container handles positioning */
+    padding: clamp(1.5rem, 3vw, 2rem); /* Consistent padding */
+    /* Reset transform for tablet */
+    transform: none;
+    /* Ensure full visibility */
+    position: relative;
+    z-index: 5;
+  }
+  
+  /* Scale player content proportionally */
+  .playerHeader {
+    margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+    position: relative;
+    z-index: 20;
+    flex-shrink: 0;
+  }
+  
+  .playerTitle {
+    font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+  }
+  
+  .playerSubtitle {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  }
+  
+  .sessionDuration {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+  }
+  
+  /* Better tablet typography */
+  .rootTitle {
+    font-size: clamp(3.5rem, 7vw, 5rem);
+    letter-spacing: clamp(8px, 2vw, 12px);
+    margin-bottom: 1.5rem;
+  }
+  
+  .rootSubtitle {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    margin-bottom: 2rem;
+  }
+  
+  .description {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    max-width: 90%;
+    margin: 0 auto 2.5rem auto;
+  }
+  
+  .ctaButton {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    padding: clamp(1rem, 2.5vw, 1.5rem) clamp(2rem, 5vw, 3rem);
+    margin: 2rem auto 3rem auto;
+  }
+  
+  /* App buttons layout for tablet */
+  .appButtons {
+    flex-direction: row;
+    justify-content: center;
+    gap: clamp(1rem, 3vw, 2rem);
+    margin-top: 2rem;
+  }
+  
+  .appButton {
+    padding: clamp(0.8rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
+    max-width: 220px;
+  }
+  
+  /* Video indicators positioning for tablet */
+  .videoIndicators {
+    bottom: clamp(6rem, 10vh, 10rem);
+    right: clamp(2rem, 5vw, 4rem);
+    padding: clamp(1rem, 2vw, 1.5rem) clamp(0.75rem, 1.5vw, 1rem);
+  }
+  
+  .indicator {
+    width: clamp(8px, 1.5vw, 12px);
+    height: clamp(8px, 1.5vw, 12px);
+  }
+  
+  .indicator.active {
+    width: clamp(24px, 4vw, 32px);
   }
 }
 
 @media (max-width: 768px) {
   .heroWrapper {
-    height: auto; /* Auto height for mobile */
-    min-height: 140vh; /* Even taller for mobile */
-    padding: 4rem 0; /* More padding for mobile */
-    overflow: visible; /* Content can extend beyond viewport */
+    height: auto; /* Allow natural height */
+    min-height: 130vh; /* Taller for mobile content */
+    padding: 1.5rem 0; /* Better padding */
+    overflow: visible; /* Show all content */
+  }
+    .heroContent {
+    gap: 3rem; /* Better spacing */
+    padding: clamp(1rem, 4vw, 2rem);
+    align-items: center; /* Center alignment for mobile */
+  }
+  .meditationPlayerContainer {
+    order: 2; /* Player second on mobile */
+    justify-content: center; /* Center on mobile */
+    align-items: center;
+  }
+    .meditationPlayer {
+    width: clamp(280px, 80vw, 360px);
+    height: clamp(500px, 70vh, 600px); /* Increase height to prevent cutoff */
+    padding: 1.5rem; /* Even padding all around */
+    margin: 0;
+    max-width: calc(100vw - 2rem);
+    transform: none; /* Reset transform for mobile */
+    touch-action: manipulation;
+    position: relative;
+    z-index: 5;
+    gap: 1rem; /* Consistent spacing */
+    justify-content: space-between; /* Distribute content evenly */
+  }
+    /* Improve breathing circle responsiveness */
+  .breathingCircle {
+    width: clamp(140px, 28vw, 180px);
+    height: clamp(140px, 28vw, 180px);
+    animation: breathe 6s ease-in-out infinite; /* Use simplified animation */
+  }
+    /* Scale meditation visual area */
+  .meditationVisual {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px; /* Fixed minimum height */
+    max-height: 280px; /* Prevent too large */
+    padding: 1rem; /* Even padding */
+    margin: 0; /* No margin for even spacing */
   }
   
-  .heroContent {
-    gap: 2rem;
-    padding: 1rem;
+  /* Mobile typography improvements */
+  .rootTitle {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    letter-spacing: clamp(4px, 1.5vw, 8px);
+    margin-bottom: 1rem;
   }
   
-  .meditationPlayer {
-    width: 280px;
-    height: 420px;
-    padding: 1rem;
-    margin: 2rem auto; /* Comfortable margins without cutoff */
-  }
-    .breathingCircle {
-    width: 150px; /* Reduced from 200px */
-    height: 150px; /* Reduced from 200px */
+  .rootSubtitle {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    margin-bottom: 1.5rem;
   }
   
+  .description {
+    font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+    margin-bottom: 2rem;
+    max-width: 95%;
+  }
+  
+  .ctaButton {
+    font-size: clamp(1rem, 4vw, 1.3rem);
+    padding: clamp(0.8rem, 3vw, 1.2rem) clamp(1.8rem, 6vw, 2.5rem);
+    margin: 1.5rem auto 2.5rem auto;
+  }
+  
+  /* Responsive aura layers */
   .auraLayer[data-layer="1"] {
     width: 115%;
     height: 115%;
@@ -2175,118 +1297,156 @@
     height: 175%;
   }
   
+  /* Scale floating particles for mobile */
   .floatingParticle {
-    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-100px);
+    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(clamp(-60px, -15vw, -100px));
   }
   
   .sparkle {
-    transform: rotate(var(--angle)) translateX(60px) translate(-50%, -50%);
+    transform: rotate(var(--angle)) translateX(clamp(40px, 12vw, 60px)) translate(-50%, -50%);
+  }
+    /* Improve player controls for touch */
+  .playerControls {
+    gap: 1.5rem; /* Fixed gap for consistency */
+    padding: 0; /* No padding for even spacing */
+    margin: 0; /* No margin */
   }
   
-  .playerControls {
-    gap: 1rem; /* Reduced gap for mobile */
-  }
-    .controlButton {
-    width: 40px; /* Smaller on mobile */
-    height: 40px;
-    background: rgba(106, 76, 147, 0.06); /* Even more subtle on mobile */
+  .controlButton {
+    width: clamp(35px, 8vw, 45px);
+    height: clamp(35px, 8vw, 45px);
+    background: rgba(106, 76, 147, 0.08);
+    /* Improve touch targets */
+    min-width: 44px;
+    min-height: 44px;
   }
   
   .playButton {
-    width: 55px; /* Smaller on mobile */
-    height: 55px;
+    width: clamp(50px, 12vw, 65px);
+    height: clamp(50px, 12vw, 65px);
     background: linear-gradient(135deg, 
-      rgba(106, 76, 147, 0.6) 0%, 
-      rgba(142, 107, 184, 0.5) 100%
-    ); /* More subtle on mobile */
+      rgba(106, 76, 147, 0.7) 0%, 
+      rgba(142, 107, 184, 0.6) 100%
+    );
+    /* Improve touch targets */
+    min-width: 56px;
+    min-height: 56px;
+  }
+    /* Progress container improvements */
+  .progressContainer {
+    padding: 0; /* No padding for even spacing */
+    margin: 0; /* No margin */
+  }
+    .progressBar {
+    height: 6px; /* Fixed height */
+    margin-bottom: 0.5rem; /* Small margin for time display */
   }
   
+  .timeDisplay {
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+  }
+  
+  /* Responsive text sizing */
+  .playerTitle {
+    font-size: clamp(1rem, 4vw, 1.2rem);
+  }
+  
+  .playerSubtitle {
+    font-size: clamp(0.8rem, 3vw, 0.95rem);
+  }
+  
+  .sessionDuration {
+    font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+  }
+  
+  /* Sound waves responsiveness */
   .wave {
-    width: 3px; /* Smaller waves on mobile */
-    opacity: 0.4; /* More subtle */
+    width: clamp(2px, 1vw, 4px);
+    opacity: 0.5;
   }
   
   .progressFill {
     background: linear-gradient(90deg, 
-      rgba(106, 76, 147, 0.3) 0%, 
-      rgba(142, 107, 184, 0.25) 100%
-    ); /* More subtle on mobile */
+      rgba(106, 76, 147, 0.4) 0%, 
+      rgba(142, 107, 184, 0.3) 100%
+    );
   }
   
-  .playerTitle {
-    font-size: 1.1rem;
-  }
-  
-  .sessionName {
-    font-size: 1rem;
-  }
-  
+  /* App buttons improvements */
   .appButtons {
     align-items: center;
     width: 100%;
+    gap: clamp(0.8rem, 3vw, 1.2rem);
+    flex-direction: column;
+    margin-top: 2rem;
   }
   
   .appButton {
-    padding: 0.5rem 1rem;
-    max-width: 180px;
+    padding: clamp(0.6rem, 2vw, 0.8rem) clamp(1rem, 4vw, 1.5rem);
+    max-width: min(280px, 90vw);
     width: 100%;
+    min-height: 48px; /* Touch-friendly minimum */
   }
   
   .appIcon {
-    width: 20px;
-    height: 20px;
+    width: clamp(20px, 4vw, 24px);
+    height: clamp(20px, 4vw, 24px);
   }
   
   .appButtonText {
-    font-size: 0.8rem;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
   }
   
   .downloadText {
-    font-size: 0.7rem;
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
   }
   
   .storeText {
-    font-size: 0.85rem;
+    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+  }
+    /* Video indicators positioning for mobile */
+  .videoIndicators {
+    bottom: clamp(4rem, 8vh, 8rem);
+    right: clamp(1.5rem, 4vw, 3rem);
+    padding: clamp(0.8rem, 2vw, 1.2rem) clamp(0.6rem, 1.5vw, 0.8rem);
   }
 }
 
 /* Extra small screens - prevent cutoff */
 @media (max-width: 480px) {
   .heroWrapper {
-    height: auto; /* Auto height for small mobile */
-    min-height: 160vh; /* Very tall for small screens */
-    padding: 5rem 0; /* Generous padding */
-    overflow: visible; /* Allow content to extend */
+    height: auto;
+    min-height: 150vh; /* Taller for small screens */
+    padding: clamp(3rem, 8vh, 6rem) 0;
+    overflow: visible;
   }
   
   .heroContent {
-    padding: 1rem;
-    gap: 2rem; /* More space between elements */
+    padding: clamp(0.5rem, 3vw, 1.5rem);
+    gap: clamp(1.5rem, 5vh, 3rem);
+  }
+    .meditationPlayer {
+    width: clamp(240px, 95vw, 280px); /* Almost full width on tiny screens */
+    height: clamp(380px, 65vh, 440px); /* Better proportional height */
+    padding: clamp(0.75rem, 2.5vw, 1rem);
+    /* Ensure it fits even on very small screens */
+    max-width: calc(100vw - 0.5rem);
+    max-height: calc(100vh - 3rem); /* Less aggressive constraint */
   }
   
-  .meditationPlayer {
-    width: 260px;
-    height: 380px;
-    margin: 2rem auto; /* Comfortable margins */
-    padding: 0.75rem;
+  /* Compact breathing circle */
+  .breathingCircle {
+    width: clamp(100px, 20vw, 130px);
+    height: clamp(100px, 20vw, 130px);
   }
   
-  .playerTitle {
-    font-size: 1rem;
+  /* Adjust meditation visual space */
+  .meditationVisual {
+    min-height: clamp(120px, 25vh, 160px);
+    padding: clamp(0.25rem, 1vh, 0.75rem);
   }
   
-  .playerSubtitle {
-    font-size: 0.8rem;
-  }
-  
-  .sessionDuration {
-    font-size: 0.75rem;
-  }
-    .breathingCircle {
-    width: 120px;
-    height: 120px;
-  }
-  
+  /* Compact aura layers */
   .auraLayer[data-layer="1"] {
     width: 110%;
     height: 110%;
@@ -2312,37 +1472,51 @@
     height: 165%;
   }
   
+  /* Smaller particle effects */
   .floatingParticle {
-    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-80px);
+    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(clamp(-50px, -12vw, -80px));
   }
   
   .sparkle {
-    transform: rotate(var(--angle)) translateX(50px) translate(-50%, -50%);
+    transform: rotate(var(--angle)) translateX(clamp(30px, 8vw, 50px)) translate(-50%, -50%);
   }
   
+  /* Compact center elements */
   .centerPoint {
-    width: 10px;
-    height: 10px;
+    width: clamp(8px, 2vw, 12px);
+    height: clamp(8px, 2vw, 12px);
   }
   
   .innerGlow {
-    width: 16px;
-    height: 16px;
+    width: clamp(12px, 3vw, 18px);
+    height: clamp(12px, 3vw, 18px);
   }
   
   .pulsingCore {
-    width: 5px;
-    height: 5px;
+    width: clamp(4px, 1vw, 6px);
+    height: clamp(4px, 1vw, 6px);
   }
   
-  .playButton {
-    width: 50px;
-    height: 50px;
+  /* Compact controls */
+  .playerControls {
+    gap: clamp(0.5rem, 3vw, 1rem);
+    padding: clamp(0.25rem, 1.5vh, 0.75rem) 0;
   }
   
   .controlButton {
-    width: 35px;
-    height: 35px;
+    width: clamp(32px, 7vw, 40px);
+    height: clamp(32px, 7vw, 40px);
+    /* Ensure minimum touch target */
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .playButton {
+    width: clamp(36px, 8vw, 48px);
+    height: clamp(36px, 8vw, 48px);
+    /* Ensure minimum touch target */
+    min-width: 56px;
+    min-height: 56px;
   }
 }
 
@@ -2350,17 +1524,79 @@
 @media (max-height: 600px) and (orientation: landscape) {
   .heroWrapper {
     min-height: 100vh;
-    padding: 2rem 0; /* Comfortable padding for landscape */
+    padding: clamp(1rem, 3vh, 2rem) 0;
   }
   
   .heroContent {
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: clamp(1rem, 3vw, 2rem);
     align-items: center;
+    max-height: 90vh;
+  }
+    .meditationPlayer {
+    width: clamp(200px, 40vw, 280px);
+    height: clamp(280px, 70vh, 380px);
+    margin: clamp(0.5rem, 2vh, 1rem) auto;
+    padding: clamp(0.5rem, 2vw, 1rem);
+  }
+  
+  .breathingCircle {
+    width: clamp(80px, 18vw, 120px);
+    height: clamp(80px, 18vw, 120px);
+  }
+  
+  .meditationVisual {
+    min-height: clamp(90px, 20vh, 140px);
+  }
+  
+  .playerControls {
+    gap: clamp(0.5rem, 2vw, 1rem);
+  }
+  
+  .controlButton {
+    width: clamp(28px, 6vw, 36px);
+    height: clamp(28px, 6vw, 36px);
+    min-width: 36px;
+    min-height: 36px;
+  }
+  
+  .playButton {
+    width: clamp(36px, 8vw, 48px);
+    height: clamp(36px, 8vw, 48px);
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .meditationPlayer {
+    border-width: 1px; /* Crisp borders on retina */
+  }
+  
+  .progressBar {
+    border-radius: 1px; /* Crisp rounded corners */
+  }
+  
+  .controlButton,
+  .playButton {
+    border-width: 1px;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .breathingCircle,
+  .auraLayer,
+  .floatingParticle,
+  .sparkle,
+  .ripple,
+  .pulsingCore {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
   
   .meditationPlayer {
-    width: 240px;
-    height: 350px;
-    margin: 1rem auto;  }
+    animation: none;
+  }
 }

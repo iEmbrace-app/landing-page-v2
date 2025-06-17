@@ -1,8 +1,6 @@
 import { lazy } from 'react'
 
 // Lazy-loaded components for better performance
-export const ProceduralPebble = lazy(() => import('./three-d/ProceduralPebble').then(module => ({ default: module.ProceduralPebble })))
-export const SceneManager = lazy(() => import('./three-d/SceneManager').then(module => ({ default: module.SceneManager })))
 export const TabSection = lazy(() => import('./sections/TabSection').then(module => ({ default: module.TabSection })))
 export const HoldMeditateSection = lazy(() => import('./sections/HoldMeditateSection').then(module => ({ default: module.HoldMeditateSection })))
 export const ImmerseSection = lazy(() => import('./sections/ImmerseSection').then(module => ({ default: module.ImmerseSection })))

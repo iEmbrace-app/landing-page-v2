@@ -17,9 +17,8 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
       {/* Hero Content - Two Part Layout */}
       <div className={styles.heroContent}>
         {/* Left Side - Text Content */}
-        <div className={styles.heroTextContent}>
-          {/* ROOT Title */}
-          <h1 className={`${styles.rootTitle} ${isMobile ? styles.mobile : ''}`}>
+        <div className={styles.heroTextContent}>          {/* ROOT Title */}
+          <h1 className={`${styles.rootTitle} gradient-text-primary ${isMobile ? styles.mobile : ''}`}>
             ROOT
           </h1>
 
