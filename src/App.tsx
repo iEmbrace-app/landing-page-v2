@@ -4,18 +4,16 @@ import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
 import { ImmerseSectionContainer } from './components/sections/ImmerseSectionContainer'
 import { TabSection, HoldMeditateSection, ComponentLoadingFallback } from './components/LazyComponents'
-import { ParticleBackground } from './components/ui/ParticleBackground'
+// import { ParticleBackground } from './components/ui/ParticleBackground' // Removed for cleaner design
 import { useScreenSize } from './hooks/useScreenSize'
 import { tabContent } from './data/tabContent'
 import './App.css'
 
 function App() {
   const { isMobile } = useScreenSize()
-
   return (
     <>
-      {/* Ambient particle background */}
-      <ParticleBackground particleCount={30} />
+      {/* Removed ParticleBackground for cleaner, more meditative design */}
       
       {/* Skip link for keyboard navigation */}
       <a 
