@@ -313,38 +313,17 @@ button:focus,
   }
 }
 
-@media(min-width:1440px){
-  .section:not(.heroWrapper) {
-    padding: 120px 160px;
-    max-width: 1440px;
-    margin: 0 auto;
-  }
-  
-  /* Enhanced clickability for ultra-wide screens */
-  button {
-    pointer-events: auto !important;
-    z-index: 10 !important;
-    touch-action: manipulation;
-  }
+/* Removed problematic media query that caused alignment issues on large screens */
+
+/* ====================  REMOVED OLD SECTION STYLING  ==================== */
+/* Old section styling removed to prevent conflicts with individual section styles */
+
+/* Special spacing for full-width sections like ImmerseSection */
+main section#immerse {
+  margin-bottom: 0; /* ImmerseSection handles its own spacing */
 }
 
-/* ====================  SECTION STYLING  ==================== */
-.section:not(.heroWrapper) {
-  scroll-snap-align: start;
-  min-height: 100vh;
-  padding: 80px 0;
-  background: white;
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ====================  LOADING ANIMATIONS  ==================== */
-/* ====================  COMPONENT LOADING  ==================== */
+/* ====================  LOADING ANIMATIONS - CLEANED  ==================== */
 .component-loading {
   display: flex;
   align-items: center;
@@ -373,42 +352,43 @@ button:focus,
   100% { transform: rotate(360deg); }
 }
 
-/* Loading fallback styles */
-.component-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  min-height: 200px;
-  color: #003b5e;
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 0.9rem;
-  opacity: 0.7;
+/* ====================  SIMPLE CONSISTENT LAYOUT  ==================== */
+/* Simple approach: consistent max-width and padding for all content sections */
+.content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: var(--spacing-20);
+  padding-right: var(--spacing-20);
 }
 
-.loading-spinner {
-  width: 24px;
-  height: 24px;
-  border: 2px solid #e0e7ff;
-  border-top: 2px solid #003b5e;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+/* Sections should be seamless with no gaps */
+
+/* Ensure main sections have no gaps and consistent white background */
+main {
+  background: #ffffff;
 }
 
-.three-d-loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  color: #003b5e;
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 0.8rem;
-  opacity: 0.6;
-  text-align: center;
+section {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background: #ffffff; /* White background for all sections */
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+/* Hero section keeps its gradient background */
+section#home {
+  background: none; /* Let HeroSection handle its own background */
+}
+
+/* Video slider section has no background */
+section#immerse {
+  background: none; /* Transparent for video slider */
+}
+
+/* Mobile responsive for content containers */
+@media (max-width: 768px) {
+  .content-container {
+    padding-left: var(--spacing-5);
+    padding-right: var(--spacing-5);
+  }
 }

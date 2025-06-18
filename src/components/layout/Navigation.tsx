@@ -71,62 +71,75 @@ export function Navigation() {
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false)
   }
-
   return (
     <>
       {/* Skip to main content for accessibility */}
       <a href="#main-content" className={styles.skipToMain}>
         Skip to main content
-      </a>
-        <nav className={styles.nav} role="navigation" aria-label="Main navigation">
-        <a href="#home" className={styles.logo} aria-label="iembraceland home">
-          iembraceland
-        </a>
-        
-        {/* Desktop Navigation */}
-        <ul className={styles.links} role="list">
-          <li>
-            <a 
-              href="#home" 
-              className={`${styles.navLink} ${isActive('home') ? styles.active : ''}`}
-              aria-current={isActive('home') ? 'page' : undefined}
-            >
-              Home
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#about" 
-              className={`${styles.navLink} ${isActive('about') ? styles.active : ''}`}
-              aria-current={isActive('about') ? 'page' : undefined}
-            >
-              About
-            </a>
-          </li>
-          <li>
-            <a 
-              href="#how-it-works" 
-              className={`${styles.navLink} ${isActive('how-it-works') ? styles.active : ''}`}
-              aria-current={isActive('how-it-works') ? 'page' : undefined}
-            >
-              How it works
-            </a>
-          </li>
-        </ul>
+      </a>      <nav className={styles.nav} role="navigation" aria-label="Main navigation">
+        <div className={styles.navContent}>
+          {/* Logo - Left */}
+          <a href="#home" className={styles.logo} aria-label="iembraceland home">
+            iembraceland
+          </a>
+          
+          {/* Desktop Navigation - Center */}
+          <ul className={styles.links} role="list">
+            <li>
+              <a 
+                href="#home" 
+                className={`${styles.navLink} ${isActive('home') ? styles.active : ''}`}
+                aria-current={isActive('home') ? 'page' : undefined}
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#about" 
+                className={`${styles.navLink} ${isActive('about') ? styles.active : ''}`}
+                aria-current={isActive('about') ? 'page' : undefined}
+              >
+                About
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#how-it-works" 
+                className={`${styles.navLink} ${isActive('how-it-works') ? styles.active : ''}`}
+                aria-current={isActive('how-it-works') ? 'page' : undefined}
+              >
+                How it works
+              </a>
+            </li>
+          </ul>
 
-        {/* Mobile Menu Button */}
-        <button 
-          className={styles.mobileMenuButton}
-          onClick={toggleMobileMenu}
-          aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-          aria-expanded={isMobileMenuOpen}
-        >
-          <div className={`${styles.hamburger} ${isMobileMenuOpen ? styles.hamburgerOpen : ''}`}>
-            <span className={styles.hamburgerLine}></span>
-            <span className={styles.hamburgerLine}></span>
-            <span className={styles.hamburgerLine}></span>
-          </div>
-        </button>
+          {/* CTA Button - Right */}
+          <button 
+            className={styles.ctaButton}
+            aria-label="Purchase iEmbrace device"
+            onClick={() => {
+              // Add purchase logic here
+              console.log('Purchase clicked!')
+            }}
+          >
+            Buy iEmbrace
+          </button>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className={styles.mobileMenuButton}
+            onClick={toggleMobileMenu}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
+          >
+            <div className={`${styles.hamburger} ${isMobileMenuOpen ? styles.hamburgerOpen : ''}`}>
+              <span className={styles.hamburgerLine}></span>
+              <span className={styles.hamburgerLine}></span>
+              <span className={styles.hamburgerLine}></span>
+            </div>
+          </button>
+        </div>
 
         {/* Mobile Navigation Menu */}
         <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
@@ -157,9 +170,20 @@ export function Navigation() {
                 className={`${styles.mobileNavLink} ${isActive('how-it-works') ? styles.active : ''}`}
                 aria-current={isActive('how-it-works') ? 'page' : undefined}
                 onClick={closeMobileMenu}
-              >
-                How it works
+              >                How it works
               </a>
+            </li>
+            <li>
+              <button 
+                className={styles.mobileCta}
+                aria-label="Purchase iEmbrace device"
+                onClick={() => {
+                  closeMobileMenu()
+                  console.log('Purchase clicked!')
+                }}
+              >
+                Buy iEmbrace
+              </button>
             </li>
           </ul>
         </div>

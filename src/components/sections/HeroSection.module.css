@@ -8,6 +8,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0; /* Ensure no margin */
+  padding: 80px 80px 120px 80px; /* Ensure no padding */
   
   /* Simplified flowing gradient background */
   background: linear-gradient(
@@ -57,38 +59,41 @@
   z-index: 1;
 }
 
-/* Content Container - Two-Part Layout */
+/* Content Container - Aligned with navbar */
 .heroContent {
   position: relative;
   z-index: 10;
   width: 100%;
   max-width: 1400px;
+  margin: 0 auto; /* Center the content */
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr; /* Left side slightly larger */
-  gap: 4rem; /* Reduced gap for tighter layout */
+  grid-template-columns: auto 1fr; /* Text takes needed space, player fills remaining */
+  gap: var(--spacing-elementGap); /* Consistent 24px gap using semantic spacing */
   align-items: center; /* Center both halves vertically */
-  padding: 3rem 2rem;
+  padding: 0 var(--spacing-20); /* Only horizontal padding to match navbar */
   
   /* Simple floating animation */  
   animation: gentleFloat 8s ease-in-out infinite;
 }
 
-/* ROOT Title - Clean and Visible */
+/* ROOT Title - Clean and Visible with Semantic Spacing */
 .rootTitle {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(4rem, 8vw, 8rem);
   font-weight: 100;
   line-height: 1;
   letter-spacing: 12px;
-  margin: 0 0 1rem 0;
+  margin: 0; /* Remove margin, use gap from parent */
   text-transform: uppercase;
   position: relative;
-  /* Light purple/lavender color matching the screenshot */
-  color: rgba(167, 139, 189, 0.9) !important;
+  /* Gradient color like other titles on the page */
+  background: linear-gradient(135deg, #6865BF, #A496D9, #D3BDF2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-shadow: none;
   
   /* Remove background boxes */
-  background: none;
   padding: 0;
   border-radius: 0;
   border: none;
@@ -100,14 +105,14 @@
 
 /* Remove complex pseudo-element */
 
-/* Subtitle - Clean and Visible */
+/* Subtitle - Clean and Visible with Improved Accessibility */
 .rootSubtitle {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-size: clamp(1rem, 2vw, 1.4rem);
   font-weight: 300;
-  margin: 0 0 3rem 0;
-  /* Softer greyish-purple matching the screenshot */
-  color: rgba(140, 120, 150, 0.8) !important;
+  margin: 0; /* Remove margin, use gap from parent */
+  /* Improved contrast for accessibility */
+  color: var(--colors-text-secondary) !important;
   text-shadow: none;
   
   /* Remove background boxes */
@@ -128,16 +133,16 @@
   font-size: clamp(0.9rem, 3vw, 1.2rem);
 }
 
-/* Description - Clean and Readable */
+/* Description - Clean and Readable with Improved Accessibility */
 .description {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 300;
-  margin: 0 0 2rem 0;
-  max-width: 600px;
+  margin: 0; /* Remove margin, use gap from parent */
+  max-width: 65ch; /* Limit line length for better readability */
   line-height: 1.6;
-  /* Muted greyish purple for body text matching the screenshot */
-  color: rgba(120, 105, 135, 0.85) !important;
+  /* Improved contrast for accessibility */
+  color: var(--colors-text-tertiary) !important;
   text-shadow: none;
   
   /* Remove background boxes */
@@ -149,27 +154,27 @@
   animation: gentleFloat 8s ease-in-out infinite;
 }
 
-/* CTA Button - Clean and Accessible */
+/* CTA Button - Clean and Accessible with Semantic Spacing */
 .ctaButton {
-  /* Clean white background */
-  background: #ffffff;
+  /* Use design token background instead of white */
+  background: var(--colors-background-elevated);
   /* Soft lavender purple border - 3px */
   border: 4px solid rgba(180, 160, 220, 0.6);
   /* NO shadows - clean design */
   box-shadow: none;
   
-  /* Dark purple text matching the screenshot */
-  color: rgba(80, 60, 100, 0.8) !important;
+  /* Improved contrast for accessibility */
+  color: var(--colors-text-primary) !important;
   font-size: 1.1rem;
   font-weight: 600;
-  padding: 1.2rem 2.4rem;
+  padding: var(--spacing-5) var(--spacing-8); /* Semantic spacing for button padding */
   border-radius: 50px;
   cursor: pointer;
   letter-spacing: 0px;
   transition: letter-spacing 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
               border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  margin: 2rem 0;
+  margin: 0; /* Remove margin, use gap from parent */
   position: relative;
   overflow: hidden;
   
@@ -190,8 +195,8 @@
 }
 
 .ctaButton:hover {
-  /* Keep white background on hover */
-  background: #ffffff;
+  /* Use design token background on hover */
+  background: var(--colors-background-elevated);
   /* 16% darker purple border on hover */
   border-color: rgba(151, 134, 185, 0.8);
   /* No transform - button stays exactly the same size and position */
@@ -310,13 +315,16 @@
 
 /* Removed unused physics-based shadow mixin */
 
-/* Left Side - Text Content */
+/* Left Side - Text Content with Consistent Spacing */
 .heroTextContent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  padding-right: 2rem;
+  gap: var(--spacing-componentGap); /* Consistent 16px gap between text elements */
+  /* Align with navbar logo by removing any extra spacing */
+  margin-left: 0;
+  padding-left: 0;
 }
 
 /* Title Group - Grouping title and subtitle for mobile ordering */
@@ -325,7 +333,7 @@
   flex-direction: column;
   align-items: inherit;
   text-align: inherit;
-  margin-bottom: 1.5rem;
+  gap: var(--spacing-4); /* 16px gap between title and subtitle */
 }
 
 /* Right Side - iPhone-Sized Meditation Player */
@@ -1475,5 +1483,20 @@
     height: 650px;
     margin: 0;
     transform: none;
+  }
+}
+
+/* Large screen media queries for consistent alignment with navbar */
+@media (min-width: 1440px) {
+  .heroContent {
+    max-width: 1400px; /* Keep consistent max-width */
+    padding: 0 5rem; /* Match navbar padding exactly */
+  }
+}
+
+@media (min-width: 1920px) {
+  .heroContent {
+    max-width: 1400px; /* Keep consistent max-width */
+    padding: 0 5rem; /* Match navbar padding exactly */
   }
 }

@@ -21,18 +21,11 @@ export default defineConfig({
           // Split Three.js into its own chunk
           three: ['three'],
 
-          // Split React-Three-Fiber ecosystem
-          'react-three': ['@react-three/fiber', '@react-three/drei'],
+          // Split React-Three-Fiber ecosystem          'react-three': ['@react-three/fiber', '@react-three/drei'],
 
           // Split remaining utilities
           utils: [
             './src/utils/VideoManager',
-          ],
-
-          // Split 3D components
-          'three-components': [
-            './src/components/three-d/ProceduralPebble',
-            './src/components/three-d/SceneManager',
           ],
         },
       },

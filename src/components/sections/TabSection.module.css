@@ -1,18 +1,19 @@
-/* TabSection Module Styles - Lavender Theme */
+/* TabSection Module Styles - Consistent Layout System */
 
 .section {
   width: 100%;
-  max-width: 100%;
+  max-width: 1400px; /* Match HeroSection max-width */
+  margin: 0 auto; /* Center the content */
   min-height: 100vh;
   padding-left: var(--spacing-20);
   padding-right: var(--spacing-20);
-  padding-top: var(--spacing-30);
-  padding-bottom: var(--spacing-30);
-  background: #ffffff;
+  padding-top: var(--spacing-20);
+  padding-bottom: var(--spacing-20);
+  background: var(--colors-background-primary); /* Use design token background */
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: var(--spacing-20);
+  gap: var(--spacing-elementGap); /* Consistent element gap */
   display: flex;
   box-sizing: border-box;
 }
@@ -26,7 +27,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  gap: var(--spacing-6);
+  gap: var(--spacing-componentGap); /* Consistent component gap */
   display: flex;
 }
 
@@ -36,7 +37,7 @@
   justify-content: flex-start;
   display: flex;
   flex-direction: column;
-  color: #2A2A2A;
+  color: var(--colors-text-primary); /* Use accessible primary text color */
   font-size: var(--typography-fontSize-4xl);
   font-family: var(--typography-fontFamily-primary);
   font-weight: var(--typography-fontWeight-thin);
@@ -465,4 +466,21 @@
 
 .dropdownOption.active:hover {
   background: rgba(147, 51, 234, 0.12);
+}
+
+/* Large screen media queries for consistent alignment */
+@media (min-width: 1440px) {
+  .section {
+    max-width: 1400px; /* Keep consistent max-width */
+    padding-left: 5rem; /* Match navbar and hero padding */
+    padding-right: 5rem; /* Match navbar and hero padding */
+  }
+}
+
+@media (min-width: 1920px) {
+  .section {
+    max-width: 1400px; /* Keep consistent max-width */
+    padding-left: 5rem; /* Match navbar and hero padding */
+    padding-right: 5rem; /* Match navbar and hero padding */
+  }
 }

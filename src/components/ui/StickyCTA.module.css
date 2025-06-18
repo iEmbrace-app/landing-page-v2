@@ -1,0 +1,118 @@
+/* Sticky CTA Component Styles */
+.stickyContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-3) var(--spacing-4);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--colors-border-light);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  z-index: var(--z-sticky);
+  animation: slideUpFadeIn var(--motion-duration-normal) ease-out;
+}
+
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ctaButton {
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-4) var(--spacing-6);
+  background: linear-gradient(135deg, var(--colors-primary-500), var(--colors-primary-600));
+  color: var(--colors-text-inverse);
+  border: none;
+  border-radius: var(--borderRadius-full);
+  font-family: var(--typography-fontFamily-primary);
+  font-weight: var(--typography-fontWeight-semibold);
+  cursor: pointer;
+  transition: all var(--motion-duration-fast) ease-out;
+  box-shadow: 0 4px 16px rgba(147, 51, 234, 0.3);
+  
+  /* Enhanced focus state for accessibility */
+  outline: none;
+  position: relative;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(147, 51, 234, 0.4);
+  background: linear-gradient(135deg, var(--colors-primary-600), var(--colors-primary-700));
+}
+
+.ctaButton:focus-visible {
+  outline: var(--a11y-focus-width) solid var(--a11y-focus-color);
+  outline-offset: var(--a11y-focus-offset);
+}
+
+.ctaButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(147, 51, 234, 0.4);
+}
+
+.buttonText {
+  font-size: var(--typography-fontSize-lg);
+  font-weight: var(--typography-fontWeight-bold);
+  line-height: var(--typography-lineHeight-tight);
+}
+
+.buttonSubtext {
+  font-size: var(--typography-fontSize-sm);
+  font-weight: var(--typography-fontWeight-medium);
+  opacity: 0.9;
+  margin-top: var(--spacing-1);
+  line-height: var(--typography-lineHeight-tight);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .stickyContainer {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+  
+  .ctaButton {
+    padding: var(--spacing-3) var(--spacing-5);
+  }
+  
+  .buttonText {
+    font-size: var(--typography-fontSize-base);
+  }
+  
+  .buttonSubtext {
+    font-size: var(--typography-fontSize-xs);
+  }
+}
+
+/* Ensure content doesn't overlap with sticky CTA */
+.ctaButton + * {
+  margin-bottom: 80px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .stickyContainer {
+    animation: none;
+  }
+  
+  .ctaButton {
+    transition: none;
+  }
+  
+  .ctaButton:hover {
+    transform: none;
+  }
+}

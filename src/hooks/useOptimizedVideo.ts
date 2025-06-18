@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import { Video } from '../lib/supabase'
+import { Video } from '../services/r2Service'
 import { VideoService } from '../services/videoService'
 import { OptimizedVideoCache } from '../utils/OptimizedVideoCache'
 

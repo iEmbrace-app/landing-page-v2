@@ -35,15 +35,18 @@ function App() {
         onFocus={(e) => e.currentTarget.style.top = '0'}
         onBlur={(e) => e.currentTarget.style.top = '-40px'}
       >
-        Skip to main content
-      </a>
+        Skip to main content      </a>
         <Navigation />
-      
-      <main id="main-content" role="main" tabIndex={-1}>
+        <main id="main-content" role="main" tabIndex={-1} style={{ 
+        display: 'flex', 
+        flexDirection: 'column' 
+      }}>
         {/* Hero Section */}
         <section id="home" aria-label="Home">
           <HeroSection isMobile={isMobile} />
-        </section>        {/* Immerse Section */}
+        </section>
+        
+        {/* Immerse Section */}
         <section id="immerse" aria-label="Immerse yourself in tranquil environments">
           <Suspense fallback={<ComponentLoadingFallback />}>
             <ImmerseSection isMobile={isMobile} />
@@ -56,7 +59,7 @@ function App() {
             <TabSection isMobile={isMobile} tabContent={tabContent} />
           </Suspense>
         </section>
-
+        
         {/* How It Works Section */}
         <section id="how-it-works" aria-label="How it works - Hold and meditate practice">
           <Suspense fallback={<ComponentLoadingFallback />}>
