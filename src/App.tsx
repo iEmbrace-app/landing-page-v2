@@ -2,7 +2,8 @@ import { Suspense } from 'react'
 import { Navigation } from './components/layout/Navigation'
 import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
-import { TabSection, HoldMeditateSection, ImmerseSection, ComponentLoadingFallback } from './components/LazyComponents'
+import { ImmerseSectionContainer } from './components/sections/ImmerseSectionContainer'
+import { TabSection, HoldMeditateSection, ComponentLoadingFallback } from './components/LazyComponents'
 import { ParticleBackground } from './components/ui/ParticleBackground'
 import { useScreenSize } from './hooks/useScreenSize'
 import { tabContent } from './data/tabContent'
@@ -45,12 +46,9 @@ function App() {
         <section id="home" aria-label="Home">
           <HeroSection isMobile={isMobile} />
         </section>
-        
-        {/* Immerse Section */}
+          {/* Immerse Section */}
         <section id="immerse" aria-label="Immerse yourself in tranquil environments">
-          <Suspense fallback={<ComponentLoadingFallback />}>
-            <ImmerseSection isMobile={isMobile} />
-          </Suspense>
+          <ImmerseSectionContainer isMobile={isMobile} />
         </section>
         
         {/* About Section */}

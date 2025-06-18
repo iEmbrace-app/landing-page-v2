@@ -1,33 +1,49 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   // Serve from root for development
   base: '/',
 
-  plugins: [react()],
+  plugins: [
+    react(),
+    visualizer({
+      filename: 'dist/bundle-analysis.html',
+      open: false,
+      gzipSize: true,
+    })
+  ],
 
   server: {
     host: true,
     port: 5173,
   },
-
   build: {
     outDir: 'dist',
-    sourcemap: true,
-    chunkSizeWarningLimit: 300,
-    rollupOptions: {      output: {
+    sourcemap: false, // Disable sourcemaps for production
+    chunkSizeWarningLimit: 500,
+    rollupOptions: {
+      output: {
         manualChunks: {
-          // Split Three.js into its own chunk
-          three: ['three'],
-
-          // Split React-Three-Fiber ecosystem          'react-three': ['@react-three/fiber', '@react-three/drei'],
-
-          // Split remaining utilities
-          utils: [
-            './src/utils/VideoManager',
-          ],
+          // Split vendor libraries
+          vendor: ['react', 'react-dom'],
+          
+          // Split R2/AWS SDK (if used)
+          'aws-sdk': ['@aws-sdk/client-s3', '@aws-sdk/s3-request-presigner'],
+          
+          // Split utilities
+          utils: ['./src/utils/VideoManager', './src/utils/OptimizedVideoCache'],
         },
+      },
+    },
+    
+    // Additional optimization
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // Remove console logs in production
+        drop_debugger: true,
       },
     },
   },
