@@ -133,9 +133,6 @@ src/
 Create a `.env` file in the root directory:
 
 ```env
-# Supabase Configuration
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # AWS S3/Cloudflare R2 Configuration
 VITE_AWS_ACCESS_KEY_ID=your_access_key
