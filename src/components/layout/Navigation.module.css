@@ -1,4 +1,4 @@
-/* Navigation CSS Module - Bright Lilac Theme */
+/* Navigation CSS Module - Clean white theme with glassmorphism */
 .nav {
   font-family: var(--typography-fontFamily-primary);
   position: sticky;
@@ -6,27 +6,40 @@
   left: 0;
   right: 0;
   z-index: var(--z-sticky);
-  background: rgba(250, 248, 255, 0.8); /* Bright lilac glassmorphism */
-  backdrop-filter: blur(40px) saturate(180%);
-  border-bottom: 1px solid rgba(186, 148, 255, 0.2); /* Bright lilac border */
-  padding: var(--spacing-4) var(--spacing-8);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  /* Pure glassmorphism - no background, just blur effect to show hero gradient behind */
+  background: transparent;
+  backdrop-filter: blur(20px) saturate(120%); /* Enhanced blur for glassmorphism */
+  -webkit-backdrop-filter: blur(20px) saturate(120%); /* Safari support */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03); /* Very subtle shadow */
+  padding: var(--spacing-4) 0;
   transition: all var(--animation-duration-normal) var(--animation-easing-ease);
+}
+
+/* Navigation content wrapper using consistent layout */
+.navContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-20); /* Use same shorthand as hero section */
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* Logo | Menu | CTA */
+  gap: var(--spacing-componentGap);
+  align-items: center;
 }
 
 .logo {
   font-family: var(--typography-fontFamily-primary);
   font-size: var(--typography-fontSize-xl);
   font-weight: var(--typography-fontWeight-bold);
-  color: rgba(74, 58, 90, 0.9); /* Dark purple-gray to match hero */
+  color: var(--colors-primary-700); /* Use design token purple */
   text-decoration: none;
   letter-spacing: var(--typography-letterSpacing-tight);
+  text-shadow: none; /* Remove text shadow for clean look */
 }
 
 .logo:hover {
-  color: rgba(58, 42, 74, 1); /* Darker purple on hover */
+  color: var(--colors-primary-600); /* Lighter purple on hover */
+  text-shadow: none; /* Keep clean look on hover */
 }
 
 .links {
@@ -34,6 +47,7 @@
   display: flex;
   gap: var(--spacing-8);
   align-items: center;
+  justify-content: center; /* Center the navigation links */
   list-style: none;
   margin: 0;
   padding: 0;
@@ -41,27 +55,30 @@
 
 .navLink {
   font-family: var(--typography-fontFamily-primary);
-  color: rgba(74, 58, 90, 0.8); /* Soft purple-gray to match hero */
+  color: var(--colors-text-primary); /* Use clean text color */
   text-decoration: none;
   font-weight: var(--typography-fontWeight-medium);
   font-size: var(--typography-fontSize-sm);
   letter-spacing: var(--typography-letterSpacing-wide);
   transition: all var(--animation-duration-normal) var(--animation-easing-ease);
   padding: var(--spacing-2) 0;
+  text-shadow: none; /* Remove text shadow for clean look */
   border-bottom: 2px solid transparent;
 }
 
 .navLink:hover,
 .navLink:focus {
-  color: rgba(58, 42, 74, 1); /* Dark purple on hover */
-  border-bottom-color: rgba(186, 148, 255, 0.8); /* Bright lilac underline */
+  color: var(--colors-primary-600); /* Purple on hover */
+  border-bottom-color: var(--colors-primary-600); /* Purple underline */
   outline: none;
+  text-shadow: none; /* Keep clean look */
 }
 
 .navLink.active {
-  color: rgba(58, 42, 74, 1); /* Dark purple for active */
-  border-bottom-color: rgba(186, 148, 255, 0.8); /* Bright lilac underline */
+  color: var(--colors-primary-700); /* Darker purple for active */
+  border-bottom-color: var(--colors-primary-600); /* Purple underline */
   font-weight: var(--typography-fontWeight-semibold);
+  text-shadow: none; /* Keep clean look */
 }
 
 .navLink:focus-visible {
@@ -75,7 +92,7 @@
   position: absolute;
   top: -40px;
   left: 6px;
-  background: #003b5e;
+  background: var(--colors-primary-800); /* Use design token */
   color: white;
   padding: 8px;
   text-decoration: none;
@@ -193,31 +210,96 @@
 
 .mobileNavLink:hover,
 .mobileNavLink:focus {
-  color: rgba(58, 42, 74, 1);
-  background: rgba(186, 148, 255, 0.1);
-  border-left-color: rgba(186, 148, 255, 0.8);
+  color: var(--colors-primary-700);
+  background: var(--colors-primary-50); /* Light background */
+  border-left-color: var(--colors-primary-600);
   outline: none;
 }
 
 .mobileNavLink.active {
-  color: rgba(58, 42, 74, 1);
-  background: rgba(186, 148, 255, 0.15);
-  border-left-color: rgba(186, 148, 255, 0.8);
+  color: var(--colors-primary-700);
+  background: var(--colors-primary-100); /* Slightly darker background */
+  border-left-color: var(--colors-primary-600);
   font-weight: var(--typography-fontWeight-semibold);
+}
+
+/* CTA Button - Desktop - Clean design */
+.ctaButton {
+  font-family: var(--typography-fontFamily-primary);
+  background: var(--colors-primary-600); /* Solid color instead of gradient */
+  color: white;
+  border: none;
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--borderRadius-lg);
+  font-size: var(--typography-fontSize-sm);
+  font-weight: var(--typography-fontWeight-semibold);
+  letter-spacing: var(--typography-letterSpacing-wide);
+  cursor: pointer;
+  transition: all var(--animation-duration-normal) var(--animation-easing-ease);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  white-space: nowrap;
+}
+
+.ctaButton:hover {
+  background: var(--colors-primary-700); /* Darker on hover */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+}
+
+.ctaButton:focus {
+  outline: 2px solid var(--colors-primary-300);
+  outline-offset: 2px;
+}
+
+.ctaButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile CTA Button - Clean design */
+.mobileCta {
+  font-family: var(--typography-fontFamily-primary);
+  background: var(--colors-primary-600); /* Solid color instead of gradient */
+  color: white;
+  border: none;
+  padding: var(--spacing-4) var(--spacing-6);
+  margin: var(--spacing-4) var(--spacing-6);
+  border-radius: var(--borderRadius-lg);
+  font-size: var(--typography-fontSize-base);
+  font-weight: var(--typography-fontWeight-semibold);
+  letter-spacing: var(--typography-letterSpacing-wide);
+  cursor: pointer;
+  transition: all var(--animation-duration-normal) var(--animation-easing-ease);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: calc(100% - var(--spacing-12));
+  text-align: center;
+}
+
+.mobileCta:hover {
+  background: var(--colors-primary-700); /* Darker on hover */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+}
+
+.mobileCta:focus {
+  outline: 2px solid rgba(186, 148, 255, 0.8);
+  outline-offset: 2px;
 }
 
 /* Mobile responsive */
 @media (max-width: 768px) {
-  .nav {
-    padding: 0.8rem 1rem;
+  .navContent {
+    padding-left: var(--spacing-5);
+    padding-right: var(--spacing-5);
+    grid-template-columns: auto auto; /* Only logo and mobile menu button */
   }
   
   .logo {
     font-size: 1.3rem;
   }
   
-  /* Hide desktop navigation on mobile */
-  .links {
+  /* Hide desktop navigation and CTA on mobile */
+  .links,
+  .ctaButton {
     display: none;
   }
   
@@ -236,5 +318,20 @@
   
   .mobileMenuOpen {
     right: 0;
+  }
+}
+
+/* Large screen media queries for consistent alignment */
+@media (min-width: 1440px) {
+  .navContent {
+    max-width: 1400px; /* Keep consistent max-width */
+    padding: 0 5rem; /* Ensure consistent padding */
+  }
+}
+
+@media (min-width: 1920px) {
+  .navContent {
+    max-width: 1400px; /* Keep consistent max-width */
+    padding: 0 5rem; /* Ensure consistent padding */
   }
 }

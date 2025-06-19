@@ -13,27 +13,26 @@
   --colors-primary-700: #6b21a8;   /* Darker purple (rare) */
   --colors-primary-800: #581c87;   /* Very dark purple (rare) */
   --colors-primary-900: #3b0764;   /* Ultra dark purple (rare) */
-  --colors-primary-950: #1d1d1f;   /* Apple charcoal (text only) */
-  
-  /* Colors - Apple Text System */
-  --colors-text-primary: #1d1d1f;     /* Apple primary text */
-  --colors-text-secondary: #86868b;   /* Apple secondary text */
-  --colors-text-tertiary: #c7c7cc;    /* Apple tertiary text */
+  --colors-primary-950: #1d1d1f;   /* Apple charcoal (text only) */    /* Colors - Text System (Optimized for white background) */
+  --colors-text-primary: #1a1a1a;     /* Very dark gray for primary text (excellent contrast on white) */
+  --colors-text-secondary: #4a4a4a;   /* Medium gray for secondary text */
+  --colors-text-tertiary: #6b6b6b;    /* Light gray for tertiary text */
   --colors-text-inverse: #ffffff;     /* White text */
-  --colors-text-accent: #9333ea;      /* Purple accent text */
+  --colors-text-muted: #8a8a8a;       /* Muted gray for less important text */
+  --colors-text-accent: #6A1B9A;      /* Purple accent text */
   
   /* Colors - Semantic */
   --colors-semantic-success: #30d158;  /* Apple green */
   --colors-semantic-warning: #ff9f0a;  /* Apple orange */
   --colors-semantic-error: #ff453a;    /* Apple red */
-  --colors-semantic-info: #007aff;     /* Apple blue */
-    /* Colors - Background - Apple-inspired Minimal */
-  --colors-background-primary: #ffffff;          /* Pure white */
-  --colors-background-secondary: #fdfcff;        /* Barely perceptible purple */
-  --colors-background-tertiary: #fbfaff;         /* Ultra light lavender */
-  --colors-background-overlay: rgba(255, 255, 255, 0.8);   /* Clean overlay */
-  --colors-background-glass: rgba(255, 255, 255, 0.85);    /* Glass morphism */
-  --colors-background-gradient: linear-gradient(180deg, #ffffff 0%, #fdfcff 25%, #fbfaff 50%, #f9f7ff 75%, #f7f4ff 100%);
+  --colors-semantic-info: #007aff;     /* Apple blue */    /* Colors - Background - Clean white base */
+  --colors-background-primary: #ffffff;          /* Pure white background */
+  --colors-background-secondary: #ffffff;        /* Pure white */
+  --colors-background-tertiary: #ffffff;         /* Pure white */
+  --colors-background-elevated: #ffffff;         /* Pure white for elevated components */
+  --colors-background-overlay: rgba(242, 228, 238, 0.15);   /* Lavender overlay */
+  --colors-background-glass: rgba(242, 216, 238, 0.25);     /* Lavender glassmorphism */
+  --colors-background-gradient: linear-gradient(135deg, #F2E4EE 0%, #F2D8EE 50%, #D3BDF2 100%);
   
   /* Colors - Border - Apple-inspired Minimal */
   --colors-border-light: rgba(147, 51, 234, 0.1);   /* Ultra light purple */
@@ -91,8 +90,7 @@
   --spacing-5: 1.25rem;
   --spacing-6: 1.5rem;
   --spacing-8: 2rem;
-  --spacing-10: 2.5rem;
-  --spacing-12: 3rem;
+  --spacing-10: 2.5rem;  --spacing-12: 3rem;
   --spacing-16: 4rem;
   --spacing-20: 5rem;
   --spacing-24: 6rem;
@@ -101,6 +99,13 @@
   --spacing-48: 12rem;
   --spacing-56: 14rem;
   --spacing-64: 16rem;
+  
+  /* Semantic spacing for layout consistency */
+  --spacing-sectionGap: 5rem;         /* 80px - consistent gap between major sections */
+  --spacing-sectionPadding: 3rem;     /* 48px - internal section padding */
+  --spacing-containerPadding: 1.5rem; /* 24px - container side padding */
+  --spacing-elementGap: 1.5rem;       /* 24px - gap between related elements */
+  --spacing-componentGap: 1rem;       /* 16px - gap between small components */
   
   /* Border Radius */
   --borderRadius-none: 0;

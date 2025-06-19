@@ -8,11 +8,12 @@ export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
       id="hold-meditate-section"
       style={{
         width: '100%',
-        minHeight: '100vh',
-        paddingLeft: isMobile ? 20 : 80,
-        paddingRight: isMobile ? 20 : 80,
-        paddingTop: 160,
-        paddingBottom: 120,
+        maxWidth: '1400px', // Consistent with other sections
+        margin: '0 auto', // Center the content
+        minHeight: '100vh',        paddingLeft: isMobile ? 20 : 80, // 5rem for desktop consistency
+        paddingRight: isMobile ? 20 : 80, // 5rem for desktop consistency
+        paddingTop: 80, // Reduced from 160 for better spacing
+        paddingBottom: 80, // Reduced from 120 for better spacing
         background: 'white',
         display: 'flex',
         flexDirection: 'column',
@@ -21,7 +22,7 @@ export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
         boxSizing: 'border-box',
         position: 'relative'
       }}
-    >      {/* Top Section - Header text positioned on right side (columns 7-12) */}
+    >{/* Top Section - Header text positioned on right side (columns 7-12) */}
       <div className={`grid-container ${isMobile ? '' : ''}`} style={{
         width: '100%',
         marginBottom: isMobile ? 60 : 80

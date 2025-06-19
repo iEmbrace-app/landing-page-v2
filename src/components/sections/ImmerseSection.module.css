@@ -1,0 +1,800 @@
+/* Immerse Section - Separate from Hero with Enhanced Features */
+.immerseSection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0; /* Ensure no margin */
+  padding: 0; /* Ensure no padding */
+  
+  /* Fallback gradient background when videos aren't loaded */
+  background: linear-gradient(
+    135deg,
+    #667eea 0%,
+    #764ba2 25%,
+    #f093fb 50%,
+    #f5576c 75%,
+    #4facfe 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease-in-out infinite;
+}
+
+/* Video Background Container - Optimized for performance */
+.videoContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  contain: layout style paint;
+  /* Performance optimizations */
+  transform: translateZ(0);
+  will-change: auto;
+}
+
+/* Background Video Styles - Cross-fade transition */
+.backgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 1;
+  /* Simple hardware acceleration */
+  transform: translateZ(0);
+  /* Smooth opacity transition for cross-fade effect */
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Video Filter Overlay for Better Text Readability */
+.videoFilter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    /* Stronger purple overlay for better theme integration */
+    linear-gradient(
+      135deg,
+      rgba(106, 76, 147, 0.35) 0%,
+      rgba(142, 107, 184, 0.28) 25%,
+      rgba(200, 180, 255, 0.20) 50%,
+      rgba(106, 76, 147, 0.30) 75%,
+      rgba(80, 60, 120, 0.40) 100%
+    ),
+    /* Enhanced vignette for focus */
+    radial-gradient(
+      ellipse at center,
+      transparent 20%,
+      rgba(74, 20, 140, 0.15) 70%,
+      rgba(74, 20, 140, 0.25) 100%
+    );
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Content Container */
+.content {
+  position: relative;
+  z-index: 10;
+  color: white;
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  animation: fadeInUp 1s ease-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Text Content Container */
+.textContent {
+  text-align: center;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex: 1;  padding-bottom: 15vh; /* Move content up by adding bottom padding */
+}
+
+/* Title with Capital Letters and Character Spacing */
+.title {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1.2rem, 8vw, 1.4rem);
+  font-weight: 100;
+  line-height: 1.1;
+  letter-spacing: 24px; /* Character spacing as requested */
+  margin: 0;
+  padding-bottom: 24px;
+  text-transform: uppercase; /* Capital letters as requested */
+  color: #ffffff; 
+  text-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 4px 16px rgba(106, 76, 147, 0.2);
+  animation: gentleFloat 8s ease-in-out infinite;
+  text-align: center;
+  max-width: 100%;
+}
+
+/* Subtitle */
+.subtitle {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-weight: 100;
+  line-height: 1.3;
+  letter-spacing: 1px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Video Navigation Boxes - Glass morphism with icons - Positioned at bottom */
+.videoNavigationBoxes {
+  position: absolute;
+  bottom: 80px; /* Moved closer to bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  z-index: 20; /* Ensure buttons appear above everything */
+}
+
+/* Individual Navigation Box - Enhanced Glassmorphism styling */
+.navigationBox {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Longer transition for smoother effect */
+  
+  /* Enhanced Glassmorphism background */
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(25px) saturate(120%);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  
+  /* Ensure glassmorphism works */
+  overflow: hidden;
+  
+  /* Subtle breathing animation for ASMR effect */
+  animation: gentleBreathing 4s ease-in-out infinite;
+}
+
+/* Progressive Border for Active Video - NEW IMPLEMENTATION */
+.navigationBox.active {
+  position: relative;
+  overflow: visible;
+  /* Base border hidden for active state */
+  border: 1.6px solid transparent;
+  /* Keep glassmorphism background */
+  background: linear-gradient(
+    135deg,
+    rgba(186, 148, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(35px) saturate(140%);
+  -webkit-backdrop-filter: blur(35px) saturate(140%);
+}
+
+/* Progressive border using pseudo-elements */
+.navigationBox.active::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 16px;
+  background: conic-gradient(
+    from -90deg at 50% 50%,
+    /* Matte purple laser effect */
+    rgba(186, 148, 255, 0.9) 0deg,
+    rgba(220, 200, 255, 1) calc(var(--progress, 0) * 0.5),
+    rgba(186, 148, 255, 0.9) var(--progress, 0deg),
+    /* Unfilled portion */
+    rgba(255, 255, 255, 0.2) var(--progress, 0deg),
+    rgba(255, 255, 255, 0.2) 360deg
+  );
+  /* Create border effect by masking center */
+  mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 2px;
+  /* Laser glow effect */
+  filter: drop-shadow(0 0 3px rgba(186, 148, 255, 0.6)) 
+          drop-shadow(0 0 6px rgba(186, 148, 255, 0.3));
+  pointer-events: none;
+  z-index: -1;
+  /* Smooth transition for the entire pseudo-element */
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Enhanced laser effect on hover */
+.navigationBox.active:hover::before {
+  filter: drop-shadow(0 0 4px rgba(220, 200, 255, 0.8)) 
+          drop-shadow(0 0 8px rgba(186, 148, 255, 0.5))
+          drop-shadow(0 0 12px rgba(186, 148, 255, 0.3));
+  background: conic-gradient(
+    from -90deg at 50% 50%,
+    rgba(220, 200, 255, 1) 0deg,
+    rgba(255, 255, 255, 0.9) calc(var(--progress, 0) * 0.5),
+    rgba(220, 200, 255, 1) var(--progress, 0deg),
+    rgba(255, 255, 255, 0.3) var(--progress, 0deg),
+    rgba(255, 255, 255, 0.3) 360deg
+  );
+}
+
+/* Gentle breathing animation */
+@keyframes gentleBreathing {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.01);
+    opacity: 1;
+  }
+}
+
+/* Hover and active states should not change size */
+.navigationBox:hover {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(30px) saturate(130%);
+  -webkit-backdrop-filter: blur(30px) saturate(130%);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: none; /* No size change */
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.15),
+    0 1px 4px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 8px rgba(255, 255, 255, 0.05);
+}
+
+.navigationBox:active {
+  transform: none; /* No size change */
+}
+
+.navigationBox:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Active Navigation Box hover state */
+.navigationBox.active:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(186, 148, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  backdrop-filter: blur(40px) saturate(145%);
+  -webkit-backdrop-filter: blur(40px) saturate(145%);
+  transform: translateY(-2px) scale(1.07);
+  box-shadow: 
+    0 8px 24px rgba(186, 148, 255, 0.18),
+    0 4px 12px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(186, 148, 255, 0.1),
+    0 0 16px rgba(186, 148, 255, 0.12);
+}
+
+/* Icon Container */
+.iconContainer {
+  width: 40px;
+  height: 40px;
+  color: rgba(255, 255, 255, 0.9); /* White icons for glassmorphism */
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transform: translateY(0);
+}
+
+.iconContainer svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Title inside button - positioned at bottom with reduced gap */
+.buttonTitle {
+  position: absolute;
+  bottom: 6px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 8px;
+  font-weight: 100;
+  color: rgba(255, 255, 255, 0.95);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0;
+  transform: translateY(2px);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  line-height: 1;
+}
+
+/* Hover effects - Icon moves up to make space for title with reduced gap */
+.navigationBox:hover .iconContainer {
+  transform: translateY(-4px); /* Reduced movement for smaller gap */
+}
+
+.navigationBox:hover .buttonTitle {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.navigationBox.active .iconContainer {
+  color: rgba(255, 255, 255, 1); /* Bright white icons on active glassmorphism */
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+  transform: scale(1.05) translateY(-4px); /* Move up to make space for title */
+}
+
+.navigationBox.active .buttonTitle {
+  opacity: 1; /* Always visible on active button */
+  transform: translateY(0);
+}
+
+.navigationBox.active:hover .iconContainer {
+  transform: scale(1.05) translateY(-4px); /* Keep same position on hover */
+}
+
+/* Loading and Error States */
+.loadingContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loadingContainer p {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 300;
+  margin: 0;
+  opacity: 0.9;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top: 3px solid rgba(186, 148, 255, 0.8);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes spin {
+  0% { 
+    transform: rotate(0deg); 
+  }
+  100% { 
+    transform: rotate(360deg); 
+  }
+}
+
+.errorContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 20;
+  max-width: 600px;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.errorContainer p {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+/* Performance optimizations for video elements */
+.transitioning {
+  will-change: opacity;
+}
+
+/* Loading performance enhancements */
+.videoContainer {
+  contain: layout style paint;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gentleFloat {
+  0%, 100% { 
+    transform: translateY(0px);
+  }
+  50% { 
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Video Status Indicators - Simple states without progress rings */
+
+/* Loading state */
+.navigationBox.loading {
+  opacity: 0.7;
+  border-color: rgba(255, 255, 255, 0.4);
+  animation: loadingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Buffering state */
+.navigationBox.buffering {
+  opacity: 0.8;
+  border-color: rgba(255, 200, 100, 0.5);
+}
+
+/* Paused state */
+.navigationBox.paused {
+  opacity: 0.6;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Error state */
+.navigationBox.error {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: rgba(255, 100, 100, 0.5);
+}
+
+/* Complete state */
+.navigationBox.complete {
+  opacity: 1;
+  border-color: rgba(100, 255, 150, 0.6);
+}
+
+/* Transition state for smooth switching */
+.navigationBox.transitioning {
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Responsive Design - Consolidated Breakpoints */
+@media (max-width: 1024px) {
+  .immerseWrapper {
+    height: 80vh;
+    min-height: 500px;
+  }
+  
+  .videoTitleContainer {
+    padding: 2.5rem 1.5rem 0 1.5rem;
+  }
+  
+  .videoTitle {
+    font-size: clamp(0.7rem, 1.8vw, 1rem);
+    letter-spacing: 2.5px;
+  }
+  
+  .title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: 6px;
+  }
+  
+  .videoIndicators {
+    bottom: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .immerseSection {
+    height: 85vh;
+    min-height: 500px;
+  }
+  
+  .videoTitleContainer {
+    padding: 2rem 1rem 0 1rem;
+  }
+  
+  .videoTitle {
+    font-size: clamp(0.65rem, 1.6vw, 0.9rem);
+    letter-spacing: 2px;
+  }
+    .title {
+    font-size: clamp(1.8rem, 6vw, 3.2rem);
+    letter-spacing: 5px;
+    margin-bottom: 1.2rem;
+    line-height: 1.1;
+  }
+  
+  .subtitle {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    letter-spacing: 1.5px;
+    line-height: 1.3;
+    max-width: 85%;
+    margin: 0 auto;
+  }
+  
+  .textContent {
+    padding-bottom: 18vh;
+  }
+  
+  .videoNavigationBoxes {
+    bottom: 10vh;
+    gap: 1.2rem;
+  }
+  
+  .navigationBox {
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+  }
+  
+  .iconContainer {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .iconContainer svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .buttonTitle {
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 480px) {
+  .immerseSection {
+    height: 100vh;
+    min-height: 500px;
+  }
+  
+  .videoTitleContainer {
+    padding: 1.5rem 1rem 0 1rem;
+  }
+  
+  .videoTitle {
+    font-size: clamp(0.6rem, 1.4vw, 0.8rem);
+    letter-spacing: 1.5px;
+  }
+    .title {
+    font-size: clamp(2rem, 7vw, 3rem);
+    letter-spacing: 3px;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-align: center;
+  }
+  
+  .subtitle {
+    font-size: clamp(1rem, 3.5vw, 1.3rem);
+    letter-spacing: 1px;
+    line-height: 1.4;
+    max-width: 90%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .textContent {
+    padding-bottom: 20vh; /* More space for navigation */
+  }
+  
+  .videoNavigationBoxes {
+    gap: 1.5rem;
+    bottom: 8vh; /* Better positioning */
+    flex-wrap: wrap;
+    max-width: 90vw;
+    justify-content: center;
+  }
+  
+  .navigationBox {
+    width: 64px; /* Larger touch targets */
+    height: 64px;
+    border-radius: 16px;
+    /* Enhanced glassmorphism on mobile */
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(25px) saturate(130%);
+    -webkit-backdrop-filter: blur(25px) saturate(130%);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 4px 16px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    /* Better mobile interaction */
+    transition: all 0.3s ease;
+  }
+  
+  .iconContainer {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .iconContainer svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .navigationBox:hover .iconContainer,
+  .navigationBox:active .iconContainer {
+    transform: translateY(-3px);
+  }
+  
+  .buttonTitle {
+    font-size: 7px;
+    bottom: 5px;
+    letter-spacing: 0.5px;
+  }
+  
+  .navigationBox.active .buttonTitle {
+    opacity: 1;
+  }
+  
+  .navigationBox.active::before {
+    padding: 2px; /* Better visibility on mobile */
+  }
+  
+  /* Mobile-specific hover effects */
+  .navigationBox:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Mobile landscape and very small screens */
+@media (max-width: 360px) {
+  .title {
+    font-size: clamp(1.6rem, 8vw, 2.2rem);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+  
+  .subtitle {
+    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    letter-spacing: 0.8px;
+    line-height: 1.3;
+    max-width: 95%;
+  }
+  
+  .textContent {
+    padding-bottom: 18vh;
+  }
+  
+  .videoNavigationBoxes {
+    gap: 1rem;
+    bottom: 6vh;
+  }
+  
+  .navigationBox {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+  }
+  
+  .iconContainer {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .iconContainer svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .buttonTitle {
+    font-size: 6px;
+    bottom: 4px;
+    letter-spacing: 0.3px;
+  }
+}
+
+/* Touch-friendly mobile enhancements */
+@media (hover: none) and (pointer: coarse) {
+  /* Mobile devices with touch */
+  .navigationBox {
+    /* Larger touch targets */
+    min-width: 64px;
+    min-height: 64px;
+    /* Better visual feedback for touch */
+    transition: all 0.2s ease;
+  }
+  
+  .navigationBox:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.18);
+  }
+  
+  .navigationBox.active:active {
+    transform: scale(0.95);
+  }
+  
+  /* Always show button titles on mobile */
+  .buttonTitle {
+    opacity: 1;
+  }
+  
+  .iconContainer {
+    transform: translateY(-2px); /* Make space for always-visible title */
+  }
+}
+
+/* High-DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .navigationBox {
+    /* Crisper borders on retina displays */
+    border-width: 1px;
+  }
+  
+  .navigationBox.active::before {
+    padding: 1px;
+  }
+}

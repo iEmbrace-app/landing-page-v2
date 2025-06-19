@@ -1,40 +1,19 @@
-// src/App.tsx
-import { Suspense, useEffect } from 'react'
+import { Suspense } from 'react'
 import { Navigation } from './components/layout/Navigation'
 import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
+import { ImmerseSectionContainer } from './components/sections/ImmerseSectionContainer'
 import { TabSection, HoldMeditateSection, ComponentLoadingFallback } from './components/LazyComponents'
-import { ParticleBackground } from './components/ui/ParticleBackground'
+// import { ParticleBackground } from './components/ui/ParticleBackground' // Removed for cleaner design
 import { useScreenSize } from './hooks/useScreenSize'
-import { 
-  useAccessibilityMonitor, 
-  useKeyboardNavigationTracker, 
-  useScreenReaderSimulator 
-} from './hooks/useAccessibilityAudit'
 import { tabContent } from './data/tabContent'
 import './App.css'
 
 function App() {
   const { isMobile } = useScreenSize()
-  
-  // Accessibility testing hooks (development only)
-  useAccessibilityMonitor(import.meta.env.DEV)
-  useKeyboardNavigationTracker(import.meta.env.DEV)
-  useScreenReaderSimulator(import.meta.env.DEV)  // Initialize comprehensive testing suite in development
-  useEffect(() => {
-    if (import.meta.env.DEV) {
-      console.log('🧪 Wellness App Testing Suite initialized')
-      console.log('Use window.runTests() to manually run the full test suite')
-        // Initialize testing suite globally for manual testing
-      import('./utils/TestSuite').then(({ testSuite }) => {
-        (window as any).runTests = () => testSuite.runFullSuite()
-      })
-    }
-  }, [])
   return (
     <>
-      {/* Ambient particle background */}
-      <ParticleBackground particleCount={30} />
+      {/* Removed ParticleBackground for cleaner, more meditative design */}
       
       {/* Skip link for keyboard navigation */}
       <a 
@@ -55,21 +34,30 @@ function App() {
         onFocus={(e) => e.currentTarget.style.top = '0'}
         onBlur={(e) => e.currentTarget.style.top = '-40px'}
       >
-        Skip to main content
-      </a>
-      
-      <Navigation />      <main id="main-content" role="main" tabIndex={-1}>
+        Skip to main content      </a>
+        <Navigation />
+        <main id="main-content" role="main" tabIndex={-1} style={{ 
+        display: 'flex', 
+        flexDirection: 'column' 
+      }}>
+        {/* Hero Section */}
         <section id="home" aria-label="Home">
           <HeroSection isMobile={isMobile} />
         </section>
+          {/* Immerse Section */}
+        <section id="immerse" aria-label="Immerse yourself in tranquil environments">
+          <ImmerseSectionContainer isMobile={isMobile} />
+        </section>
         
-        {/* Lazy load non-critical sections */}
+        {/* About Section */}
         <section id="about" aria-label="About - Meditation techniques">
           <Suspense fallback={<ComponentLoadingFallback />}>
             <TabSection isMobile={isMobile} tabContent={tabContent} />
           </Suspense>
         </section>
-          <section id="how-it-works" aria-label="How it works - Hold and meditate practice">
+        
+        {/* How It Works Section */}
+        <section id="how-it-works" aria-label="How it works - Hold and meditate practice">
           <Suspense fallback={<ComponentLoadingFallback />}>
             <HoldMeditateSection isMobile={isMobile} />
           </Suspense>

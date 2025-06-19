@@ -6,17 +6,21 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:analyze": "npm run build && echo Build complete! Check dist/bundle-analysis.html for bundle analysis",
+    "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "upload-videos": "node scripts/uploadVideosR2.js"
   },
   "dependencies": {
-    "@react-three/drei": "^9.100.0",
-    "@react-three/fiber": "^8.15.0",
-    "@types/three": "^0.160.0",
+    "@aws-sdk/client-s3": "^3.828.0",
+    "@aws-sdk/s3-request-presigner": "^3.828.0",
+    "@supabase/supabase-js": "^2.50.0",
     "css.gg": "^2.1.4",
+    "dotenv": "^16.5.0",
+    "node-fetch": "^3.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "three": "^0.160.0"
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
@@ -27,6 +31,8 @@
     "eslint": "^8.53.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
+    "rollup-plugin-visualizer": "^6.0.3",
+    "terser": "^5.43.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.0"
   }

@@ -16,6 +16,13 @@ node_modules/
 
 # production
 /build
+/dist
+
+# Large files (videos should be hosted externally)
+public/videos/
+*.mp4
+*.mov
+*.avi
 
 # misc
 .DS_Store
@@ -29,6 +36,11 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env.development
+.env.production
+
+# Supabase secrets
+.env.supabase
 
 # vercel
 .vercel

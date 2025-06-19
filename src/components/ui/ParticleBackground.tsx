@@ -45,7 +45,6 @@ export function ParticleBackground({ particleCount = 50 }: ParticleBackgroundPro
       })
     }
   }, [particleCount])
-
   return (
     <div 
       ref={containerRef}
@@ -58,7 +57,10 @@ export function ParticleBackground({ particleCount = 50 }: ParticleBackgroundPro
         height: '100%',
         pointerEvents: 'none',
         zIndex: -10,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        /* Add a subtle gradient base that matches the hero section */
+        background: 'linear-gradient(135deg, #ffffff 0%, #f8f8ff 25%, #f0ebff 50%, #e6dcff 75%, #ddd0ff 100%)',
+        opacity: 0.3 /* Make it subtle so it doesn't interfere with content */
       }}
     />
   )
