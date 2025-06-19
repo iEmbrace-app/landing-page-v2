@@ -167,7 +167,7 @@
   color: var(--colors-text-primary) !important;
   font-size: 1.1rem;
   font-weight: 600;
-  padding: var(--spacing-5) var(--spacing-8); /* Semantic spacing for button padding */
+  padding: var(--spacing-4) var(--spacing-12); /* Semantic spacing for button padding */
   border-radius: 50px;
   cursor: pointer;
   letter-spacing: 0px;
