@@ -1,8 +1,13 @@
 import { useRef, useEffect } from 'react'
-import * as THREE from 'three'
+
+// Simple Vector2 interface to replace Three.js Vector2
+interface Vector2 {
+  x: number
+  y: number
+}
 
 export function useMouseTracking() {
-  const mouse = useRef(new THREE.Vector2())
+  const mouse = useRef<Vector2>({ x: 0, y: 0 })
   
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
