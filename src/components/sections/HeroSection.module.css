@@ -1116,7 +1116,7 @@
 
 /* Mobile-specific class modifiers for better control */
 .mobileContent {
-  padding: 1rem !important;
+  padding: 6rem 1rem 1rem 1rem !important; /* Increased top padding for navbar clearance */
   gap: 1.5rem !important;
 }
 
@@ -1183,7 +1183,7 @@
   .heroWrapper {
     height: auto;
     min-height: 100vh; /* Fit to viewport */
-    padding: 1.5rem 0;
+    padding: 6rem 0 1.5rem 0; /* Increased top padding for navbar clearance */
     overflow: visible;
   }
   .heroContent {
@@ -1378,7 +1378,7 @@
   .heroWrapper {
     height: auto;
     min-height: 100vh; /* More conservative height */
-    padding: 1rem 0;
+    padding: 4rem 0 1rem 0; /* Increased top padding for navbar clearance */
     overflow: visible;
   } 
   .heroContent {
