@@ -51,8 +51,8 @@
   z-index: 1;
   /* Simple hardware acceleration */
   transform: translateZ(0);
-  /* Smooth opacity transition for cross-fade effect */
-  transition: opacity 0.5s ease-in-out;
+  /* Faster, smoother opacity transition for cross-fade effect */
+  transition: opacity 0.3s ease-in-out;
 }
 
 /* Video Filter Overlay for Better Text Readability */
@@ -530,6 +530,47 @@
 }
 
 /* Responsive Design - Consolidated Breakpoints */
+
+/* Desktop layout (756px+) - New layout as per design */
+@media (min-width: 756px) {
+  .content {
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+  }
+  .textContent {
+    padding-bottom: 15vh;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    max-width: none;
+    padding-left: 8vw;
+    padding-right: 8vw;
+    gap: 4rem;
+  }
+  
+  .subtitle {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    margin-bottom: 0;
+    order: 2;
+    flex: 1;
+    text-align: right;
+    max-width: none;
+    margin-left: auto;
+  }
+  
+  .videoNavigationBoxes {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0;
+  }
+}
+
 @media (max-width: 1024px) {
   .immerseWrapper {
     height: 80vh;

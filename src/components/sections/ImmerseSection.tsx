@@ -11,13 +11,8 @@ interface ImmerseSectionProps {
   isMobile?: boolean
 }
 
-// Video duration mapping (in seconds) - Order: zen, forest, lake, campfire
-const VIDEO_DURATIONS: Record<string, number> = {
-  'zen.mp4': 11,
-  'forest.mp4': 14,
-  'lake.mp4': 12,
-  'campfire.mp4': 14
-}
+// Fixed duration for all videos (10 seconds)
+const FIXED_VIDEO_DURATION = 10
 
 export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
   // Simple state - no over-engineering
@@ -26,18 +21,16 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
   const [loading, setLoading] = useState(true)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [activeVideoRef, setActiveVideoRef] = useState<'video1' | 'video2'>('video1')
-    const video1Ref = useRef<HTMLVideoElement>(null)
+  const video1Ref = useRef<HTMLVideoElement>(null)
   const video2Ref = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<number>()
   const autoSwitchRef = useRef<NodeJS.Timeout>()
+  const timerStartRef = useRef<number>(0)
   
-  // Get the duration of the current video for auto-switch timing
+  // Get fixed duration for all videos (10 seconds)
   const getCurrentVideoDuration = useCallback(() => {
-    if (videos[currentIndex]) {
-      return (VIDEO_DURATIONS[videos[currentIndex].filename] || 14) * 1000 // Convert to milliseconds
-    }
-    return 14000 // Default 14 seconds
-  }, [videos, currentIndex])  // Load videos - simple and clean
+    return FIXED_VIDEO_DURATION * 1000 // Convert to milliseconds
+  }, [])// Load videos - simple and clean
   useEffect(() => {
     VideoService.fetchVideos()
       .then((loadedVideos) => {
@@ -53,11 +46,14 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
       })
       .catch(console.error)
       .finally(() => setLoading(false))
-  }, [])  // Cross-fade video switching - no gradient background visible
+  }, [])  // Cross-fade video switching - no gradient background visible  // Cross-fade video switching - no gradient background visible
   const switchToVideo = useCallback((index: number) => {
     if (index === currentIndex || index < 0 || index >= videos.length || isTransitioning) return
     
     setIsTransitioning(true)
+    
+    // Reset timer for new video
+    timerStartRef.current = Date.now()
     
     // Determine which video element to use for the new video
     const currentVideoRef = activeVideoRef === 'video1' ? video1Ref : video2Ref
@@ -74,34 +70,30 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
         if (nextVideoRef.current) {
           nextVideoRef.current.play().catch(console.warn)
           
-          // Start the cross-fade
+          // Start the cross-fade immediately
           nextVideoRef.current.style.opacity = '1'
           if (currentVideoRef.current) {
             currentVideoRef.current.style.opacity = '0'
           }
           
-          // Switch the active reference and update state smoothly after a brief delay
+          // Switch the active reference and update state after transition
           setTimeout(() => {
             setActiveVideoRef(nextActiveRef)
+            setCurrentIndex(index)
+            setIsTransitioning(false)
             
-            // Update current index with a slight delay for smooth transition
-            setTimeout(() => {
-              setCurrentIndex(index)
-              setIsTransitioning(false)
-              
-              // Reset progress for the new video
-              const newActiveNavBox = document.querySelector(`.${styles.navigationBox}.${styles.active}`) as HTMLElement
-              if (newActiveNavBox) {
-                newActiveNavBox.style.setProperty('--progress', '0deg')
-              }
-              
-              // Hide the old video completely
-              if (currentVideoRef.current) {
-                currentVideoRef.current.style.opacity = '0'
-                currentVideoRef.current.pause()
-              }
-            }, 100) // Small delay for smooth button transition
-          }, 400) // Slightly earlier than video transition completion
+            // Reset progress for the new video
+            const newActiveNavBox = document.querySelector(`.${styles.navigationBox}.${styles.active}`) as HTMLElement
+            if (newActiveNavBox) {
+              newActiveNavBox.style.setProperty('--progress', '0deg')
+            }
+            
+            // Hide the old video completely
+            if (currentVideoRef.current) {
+              currentVideoRef.current.style.opacity = '0'
+              currentVideoRef.current.pause()
+            }
+          }, 300) // Reduced from 500ms total to 300ms
         }
         nextVideoRef.current?.removeEventListener('canplay', handleCanPlay)
       }
@@ -132,38 +124,35 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
 
   const goToIndex = useCallback((index: number) => {
     switchToVideo(index)
-  }, [switchToVideo])  // Progress tracking based on actual video playback
+  }, [switchToVideo])  // Progress tracking based on timer (10 seconds fixed)
   const updateVideoProgress = useCallback(() => {
-    const currentVideo = activeVideoRef === 'video1' ? video1Ref.current : video2Ref.current
+    const currentTime = Date.now()
+    const elapsed = currentTime - timerStartRef.current
+    const progressPercent = Math.min((elapsed / (FIXED_VIDEO_DURATION * 1000)) * 100, 100)
     
-    if (currentVideo && videos[currentIndex]) {
-      const currentTime = currentVideo.currentTime
-      // Try to get actual video duration first, fallback to our mapping
-      const actualDuration = currentVideo.duration && !isNaN(currentVideo.duration) ? currentVideo.duration : null
-      const videoDuration = actualDuration || VIDEO_DURATIONS[videos[currentIndex].filename] || 14
-      const progressPercent = Math.min((currentTime / videoDuration) * 100, 100)
-      
-      // Update CSS custom property for the active navigation box
-      const activeNavBox = document.querySelector(`.${styles.navigationBox}.${styles.active}`) as HTMLElement
-      if (activeNavBox) {
-        const progressDegrees = (progressPercent / 100) * 360
-        activeNavBox.style.setProperty('--progress', `${progressDegrees}deg`)
-      }
+    // Update CSS custom property for the active navigation box
+    const activeNavBox = document.querySelector(`.${styles.navigationBox}.${styles.active}`) as HTMLElement
+    if (activeNavBox) {
+      const progressDegrees = (progressPercent / 100) * 360
+      activeNavBox.style.setProperty('--progress', `${progressDegrees}deg`)
     }
-  }, [activeVideoRef, videos, currentIndex])
-
+  }, [])
   // Start progress tracking when video plays
   const startProgressTracking = useCallback(() => {
     if (progressRef.current) {
       cancelAnimationFrame(progressRef.current)
     }
     
+    // Reset timer start time
+    timerStartRef.current = Date.now()
+    
     const trackProgress = () => {
       updateVideoProgress()
       progressRef.current = requestAnimationFrame(trackProgress)
     }
     
-    trackProgress()  }, [updateVideoProgress])
+    trackProgress()
+  }, [updateVideoProgress])
   // Auto-switch videos
   useEffect(() => {
     if (videos.length > 0 && !loading) {
@@ -279,12 +268,10 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
         
         <div className={styles.videoFilter} />
       </div>      {/* Content */}
-      <div className={styles.content}>
-        {/* Text Content */}
+      <div className={styles.content}>        {/* Text Content */}
         <div className={styles.textContent}>
-          <h2 className={styles.title}>IMMERSE YOURSELF</h2>
           <p className={styles.subtitle}>
-            Experience tranquil environments designed to deepen your meditation practice
+            Immerse in environments designed for deeper meditation
           </p>
         </div>{/* Video Navigation Boxes - Simple and clean */}
         <div className={styles.videoNavigationBoxes}>
