@@ -10,9 +10,8 @@
   background: transparent;
   backdrop-filter: blur(20px) saturate(120%); /* Enhanced blur for glassmorphism */
   -webkit-backdrop-filter: blur(20px) saturate(120%); /* Safari support */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03); /* Very subtle shadow */
-  padding: var(--spacing-4) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Very subtle shadow */
+  padding: 0.5rem 0; /* Reduced by 16% from 1rem */
   transition: all var(--animation-duration-normal) var(--animation-easing-ease);
 }
 
@@ -76,7 +75,8 @@
 
 .navLink.active {
   color: var(--colors-primary-700); /* Darker purple for active */
-  border-bottom-color: var(--colors-primary-600); /* Purple underline */
+  border-bottom-color: var(--colors-primary-700); /* Darker purple underline for better visibility */
+  border-bottom-width: 3px; /* Thicker underline for active state */
   font-weight: var(--typography-fontWeight-semibold);
   text-shadow: none; /* Keep clean look */
 }
