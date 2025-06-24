@@ -8,39 +8,30 @@ export function Navigation() {
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['home', 'about', 'how-it-works']
-      const scrollPosition = window.scrollY
-      const windowHeight = window.innerHeight
-      const threshold = windowHeight * 0.5 // 50% of viewport height as threshold
+      const scrollPosition = window.scrollY + 100 // Add offset for navbar height
       
       let newActiveSection = 'home' // Default to home
       
-      // Check each section to find which one is most prominently visible
-      for (const section of sections) {
+      // Check each section from bottom to top to find the current one
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i]
         const element = document.getElementById(section)
         if (element) {
-          const rect = element.getBoundingClientRect()
-          const elementTop = scrollPosition + rect.top
-          const elementBottom = elementTop + rect.height
+          const elementTop = element.offsetTop
           
-          // If the section's top is above the threshold line (middle of screen)
-          // and the section's bottom is below the threshold line
-          if (elementTop <= scrollPosition + threshold && 
-              elementBottom > scrollPosition + threshold) {
+          // If we've scrolled past the start of this section, it's active
+          if (scrollPosition >= elementTop) {
             newActiveSection = section
-            break
-          }
-          
-          // Special case for home section when at very top
-          if (section === 'home' && scrollPosition < threshold) {
-            newActiveSection = 'home'
             break
           }
         }
       }
       
-      if (newActiveSection !== activeSection) {
-        setActiveSection(newActiveSection)
-      }
+      // Debug logging (remove in production)
+      console.log('Active section:', newActiveSection, 'Scroll position:', scrollPosition)
+      
+      // Only update if actually different
+      setActiveSection(prev => prev !== newActiveSection ? newActiveSection : prev)
     }
 
     // Set initial active section and call handleScroll immediately
@@ -60,7 +51,19 @@ export function Navigation() {
 
     window.addEventListener('scroll', throttledHandleScroll, { passive: true })
     return () => window.removeEventListener('scroll', throttledHandleScroll)
-  }, [activeSection])
+  }, []) // Removed activeSection from dependency array to prevent unnecessary re-runs
+
+  const handleNavClick = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+      // Immediately update active section for responsive feedback
+      setActiveSection(sectionId)
+    }
+  }
 
   const isActive = (section: string) => activeSection === section
 
@@ -77,19 +80,29 @@ export function Navigation() {
       <a href="#main-content" className={styles.skipToMain}>
         Skip to main content
       </a>      <nav className={styles.nav} role="navigation" aria-label="Main navigation">
-        <div className={styles.navContent}>
-          {/* Logo - Left */}
-          <a href="#home" className={styles.logo} aria-label="iembraceland home">
+        <div className={styles.navContent}>          {/* Logo - Left */}
+          <a 
+            href="#home" 
+            className={styles.logo} 
+            aria-label="iembraceland home"
+            onClick={(e) => {
+              e.preventDefault()
+              handleNavClick('home')
+            }}
+          >
             iembraceland
           </a>
           
           {/* Desktop Navigation - Center */}
-          <ul className={styles.links} role="list">
-            <li>
+          <ul className={styles.links} role="list">            <li>
               <a 
                 href="#home" 
                 className={`${styles.navLink} ${isActive('home') ? styles.active : ''}`}
                 aria-current={isActive('home') ? 'page' : undefined}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleNavClick('home')
+                }}
               >
                 Home
               </a>
@@ -99,6 +112,10 @@ export function Navigation() {
                 href="#about" 
                 className={`${styles.navLink} ${isActive('about') ? styles.active : ''}`}
                 aria-current={isActive('about') ? 'page' : undefined}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleNavClick('about')
+                }}
               >
                 About
               </a>
@@ -108,6 +125,10 @@ export function Navigation() {
                 href="#how-it-works" 
                 className={`${styles.navLink} ${isActive('how-it-works') ? styles.active : ''}`}
                 aria-current={isActive('how-it-works') ? 'page' : undefined}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleNavClick('how-it-works')
+                }}
               >
                 How it works
               </a>
@@ -143,13 +164,16 @@ export function Navigation() {
 
         {/* Mobile Navigation Menu */}
         <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
-          <ul className={styles.mobileLinks} role="list">
-            <li>
+          <ul className={styles.mobileLinks} role="list">            <li>
               <a 
                 href="#home" 
                 className={`${styles.mobileNavLink} ${isActive('home') ? styles.active : ''}`}
                 aria-current={isActive('home') ? 'page' : undefined}
-                onClick={closeMobileMenu}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleNavClick('home')
+                  closeMobileMenu()
+                }}
               >
                 Home
               </a>
@@ -159,7 +183,11 @@ export function Navigation() {
                 href="#about" 
                 className={`${styles.mobileNavLink} ${isActive('about') ? styles.active : ''}`}
                 aria-current={isActive('about') ? 'page' : undefined}
-                onClick={closeMobileMenu}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleNavClick('about')
+                  closeMobileMenu()
+                }}
               >
                 About
               </a>
@@ -169,8 +197,13 @@ export function Navigation() {
                 href="#how-it-works" 
                 className={`${styles.mobileNavLink} ${isActive('how-it-works') ? styles.active : ''}`}
                 aria-current={isActive('how-it-works') ? 'page' : undefined}
-                onClick={closeMobileMenu}
-              >                How it works
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleNavClick('how-it-works')
+                  closeMobileMenu()
+                }}
+              >
+                How it works
               </a>
             </li>
             <li>
