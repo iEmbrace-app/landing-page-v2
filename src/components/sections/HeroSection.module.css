@@ -79,12 +79,11 @@
 /* ROOT Title - Clean and Visible with Semantic Spacing */
 .rootTitle {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(4rem, 8vw, 8rem);
+  font-size: clamp(2rem, 8vw, 4.8rem);
   font-weight: 100;
   line-height: 1;
-  letter-spacing: 12px;
+  letter-spacing: 4px;
   margin: 0; /* Remove margin, use gap from parent */
-  text-transform: uppercase;
   position: relative;
   /* Gradient color like other titles on the page */
   background: linear-gradient(135deg, #6865BF, #A496D9, #D3BDF2);
@@ -150,6 +149,7 @@
   padding: 0;
   border-radius: 0;
   border: none;
+  max-width: 400px;
   
   animation: gentleFloat 8s ease-in-out infinite;
 }
@@ -175,8 +175,10 @@
               border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   margin: 0; /* Remove margin, use gap from parent */
+  margin-bottom: 40px;
   position: relative;
   overflow: hidden;
+
   
   /* Remove floating animation to prevent any size changes */
   /* animation: gentleFloat 6s ease-in-out infinite; */
@@ -222,7 +224,7 @@
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 0.8rem;
   position: relative;
   z-index: 15;
 }

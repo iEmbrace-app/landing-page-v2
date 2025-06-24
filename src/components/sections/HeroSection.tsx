@@ -24,7 +24,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
               <div className={styles.titleGroup}>
                 {/* ROOT Title */}
                 <h1 className={styles.rootTitle}>
-                  ROOT
+                  Embraceland
                 </h1>
 
                 {/* Subtitle */}
@@ -38,7 +38,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
                 className={styles.ctaButton}
                 aria-label="Start your wellness journey"
               >
-                Buy Me :)
+                Try for $0
               </button>
 
               {/* Description */}

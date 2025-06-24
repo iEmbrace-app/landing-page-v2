@@ -90,7 +90,7 @@ export function Navigation() {
               handleNavClick('home')
             }}
           >
-            iembraceland
+            Embraceland
           </a>
           
           {/* Desktop Navigation - Center */}
@@ -144,7 +144,7 @@ export function Navigation() {
               console.log('Purchase clicked!')
             }}
           >
-            Buy iEmbrace
+            Try for free
           </button>
 
           {/* Mobile Menu Button */}
