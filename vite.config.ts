@@ -4,7 +4,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   // Serve from root for development
-  base: '/ideal-adventure-z2qp27p/',
+  base: '/',
 
   plugins: [
     react(),
@@ -20,7 +20,7 @@ export default defineConfig({
     port: 5173,
   },
   build: {
-    outDir: 'dist',
+    outDir: 'docs',
     sourcemap: false, // Disable sourcemaps for production
     chunkSizeWarningLimit: 500,
     rollupOptions: {
