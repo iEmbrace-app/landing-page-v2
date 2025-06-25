@@ -39,7 +39,7 @@
   will-change: auto;
 }
 
-/* Background Video Styles - Cross-fade transition */
+/* Background Video Styles - Optimized for industry-standard smooth cross-fade */
 .backgroundVideo {
   position: absolute;
   top: 0;
@@ -49,10 +49,16 @@
   object-fit: cover;
   object-position: center center;
   z-index: 1;
-  /* Simple hardware acceleration */
-  transform: translateZ(0);
-  /* Faster, smoother opacity transition for cross-fade effect */
-  transition: opacity 0.3s ease-in-out;
+  /* Advanced hardware acceleration for smooth transitions */
+  transform: translateZ(0) scale3d(1, 1, 1);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: opacity;
+  /* Optimized transition timing for industry-standard smoothness */
+  transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* Ensure smooth playback */
+  image-rendering: optimizeSpeed;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 /* Video Filter Overlay for Better Text Readability */
