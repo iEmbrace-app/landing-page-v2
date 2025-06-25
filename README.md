@@ -1,39 +1,36 @@
-# ROOT - Meditation Landing Page
+# Embraceland - Meditation Landing Page
+
+> Modern, responsive landing page for ROOT meditation device with AWS S3 media integration
 
 <div align="center">
-  <h3>🧘‍♀️ Emotional Wellness Companion</h3>
-  <p>A modern, responsive landing page for ROOT - an innovative meditation and mindfulness device</p>
-  
-  ![React](https://img.shields.io/badge/React-18.2-blue?logo=react)
-  ![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue?logo=typescript)
-  ![Vite](https://img.shields.io/badge/Vite-5.0-purple?logo=vite)
-  ![Bundle Size](https://img.shields.io/badge/Bundle%20Size-483kB-green)
-  ![Performance](https://img.shields.io/badge/Performance-Optimized-brightgreen)
+
+![React](https://img.shields.io/badge/React-18.2-blue?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue?logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-5.0-purple?logo=vite)
+![License](https://img.shields.io/badge/License-MIT-green)
+
 </div>
 
----
+## Features
 
-## 🌟 Features
+- 🎨 **Modern Design** - Clean UI with glassmorphism effects
+- 📱 **Fully Responsive** - Desktop, tablet, and mobile optimized
+- 🎥 **Interactive Videos** - AWS S3 hosted meditation environments
+- ⚡ **Performance Optimized** - Fast loading with preloading strategies
+- ♿ **Accessible** - WCAG compliant
 
-- **🎨 Modern Design** - Clean, meditative UI with glassmorphism effects
-- **📱 Fully Responsive** - Optimized for desktop, tablet, and mobile devices
-- **🎥 Interactive Video Backgrounds** - Immersive meditation environments
-- **⚡ Performance Optimized** - Lazy loading, code splitting, and optimized assets
-- **♿ Accessible** - WCAG compliant with keyboard navigation and screen reader support
-- **🎯 CSS-Only Animations** - Smooth breathing effects and particle animations without heavy libraries
-
-## 🚀 Quick Start
+## Getting Started
 
 ### Prerequisites
 
-- Node.js 16+ 
-- npm or yarn package manager
+- Node.js 16.0 or higher
+- npm or yarn
 
 ### Installation
 
 ```bash
 # Clone the repository
-git clone [repository-url]
+git clone <repository-url>
 cd landing-page-v2
 
 # Install dependencies
@@ -43,224 +40,63 @@ npm install
 npm run dev
 ```
 
-### Development
+## Tech Stack
 
-```bash
-# Start dev server with hot reload
-npm run dev
+- **Frontend**: React 18, TypeScript, Vite
+- **Styling**: CSS Modules with design tokens
+- **Media**: AWS S3 for video/image hosting
+- **Icons**: React Icons
+- **Build**: Vite with Rollup
 
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Analyze bundle size
-npm run build:analyze
-```
-
-## 🏗️ Tech Stack
-
-### Core Technologies
-- **React 18.2** - UI library with hooks and modern patterns
-- **TypeScript 5.2** - Type-safe JavaScript development
-- **Vite 5.0** - Fast build tool and dev server
-- **CSS Modules** - Scoped styling with design tokens
-
-### Key Libraries
-- **React Icons** - Comprehensive icon library
-- **AWS SDK** - S3 bucket storage integration
-
-### Performance Tools
-- **Rollup Bundle Analyzer** - Bundle size visualization
-- **Terser** - JavaScript minification
-- **Custom Performance Monitor** - Real-time performance tracking
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
-├── components/           # Reusable UI components
-│   ├── layout/          # Navigation, Footer
-│   ├── sections/        # Page sections (Hero, Features, etc.)
-│   └── ui/              # Base UI components
-├── hooks/               # Custom React hooks
-├── services/            # API and external service integrations
-├── utils/               # Utility functions and helpers
-├── types/               # TypeScript type definitions
-├── data/                # Static data and content
-├── assets/              # Images, icons, and static files
-└── tokens/              # Design system tokens (colors, spacing, etc.)
+├── components/         # UI components
+│   ├── layout/        # Navigation, Footer
+│   ├── sections/      # Page sections
+│   └── ui/            # Reusable UI components
+├── services/          # AWS S3 video/image services
+├── hooks/             # Custom React hooks
+├── tokens/            # Design system (colors, typography)
+└── utils/             # Helper functions
 ```
 
-## 🎨 Design System
+## Media Assets
 
-### Design Tokens
-- **Colors** - Carefully selected meditation-inspired palette
-- **Typography** - Source Sans Pro with consistent scale
-- **Spacing** - 8px grid system for consistent layouts
-- **Animations** - Smooth, natural timing functions
+All media assets are hosted on AWS S3:
 
-### Key Components
-- **HeroSection** - Landing area with breathing animation
-- **ImmerseSection** - Interactive video backgrounds
-- **TabSection** - Feature showcase with expandable content
-- **Navigation** - Responsive nav with glassmorphism
+- **Videos**: `iembrace-website-videos.s3.us-east-2.amazonaws.com`
+- **Images**: `embrace-website-images.s3.us-east-2.amazonaws.com`
 
-## ⚡ Performance Optimizations
+Assets are preloaded in HTML for optimal performance.
 
-### Bundle Optimization
-- ✅ **Removed Three.js** - Replaced with CSS animations (51% size reduction)
-- ✅ **Tree Shaking** - Eliminated unused code
-- ✅ **Code Splitting** - Lazy loaded components
-- ✅ **Asset Optimization** - Compressed images and videos
+## Scripts
 
-### Runtime Performance
-- **Lazy Loading** - Components load on demand
-- **Intersection Observer** - Efficient scroll-based triggers
-- **RequestAnimationFrame** - Smooth animations
-- **Memory Management** - Proper cleanup and disposal
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production (outputs to `docs/`) |
+| `npm run preview` | Preview production build |
+| `npm run build:analyze` | Analyze bundle size |
 
-### Results
-- Bundle size: **977kB → 483kB** (51% reduction)
-- First Contentful Paint: **<1.5s**
-- Time to Interactive: **<2.0s**
+## Deployment
 
-## 🔧 Configuration
+The application builds to the `docs/` directory, making it ready for:
 
-### Environment Variables
+- **GitHub Pages** - Enable Pages in repository settings
+- **Vercel** - Zero-config deployment
+- **Netlify** - Drag and drop deployment
+- **Any static hosting** - Upload `docs/` contents
 
-The application now uses direct AWS S3 URLs for media content. No additional environment variables are required for basic functionality.
+## Contributing
 
-For development, create a `.env` file in the root directory if you need custom configurations:
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-```env
-# Optional: Custom configurations
-VITE_APP_TITLE=iEmbrace Landing Page
-VITE_APP_DEBUG=false
-```
-
-### Build Configuration
-
-The project uses Vite for building with the following optimizations:
-
-- **Rollup Bundle Analyzer** - Visual bundle analysis
-- **Terser** - JavaScript minification
-- **CSS Optimization** - Minification and tree shaking
-- **Asset Optimization** - Image compression and lazy loading
-
-## 🚀 Deployment
-
-### Production Build
-
-```bash
-# Create optimized production build
-npm run build
-
-# Serve locally to test
-npm run preview
-```
-
-### Deployment Platforms
-
-The app is optimized for deployment on:
-
-- **Vercel** - Zero-config deployment with edge functions
-- **Netlify** - JAMstack deployment with form handling
-- **AWS S3 + CloudFront** - Scalable static hosting
-- **GitHub Pages** - Simple static hosting
-
-### Performance Monitoring
-
-Built-in performance monitoring includes:
-
-- **Core Web Vitals** tracking
-- **Bundle size** analysis
-- **Memory usage** monitoring
-- **Video load performance** metrics
-
-## 🤝 Contributing
-
-### Development Workflow
-
-1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
-3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
-4. **Push** to the branch (`git push origin feature/amazing-feature`)
-5. **Open** a Pull Request
-
-### Code Standards
-
-- **TypeScript** for type safety
-- **ESLint** for code quality
-- **Prettier** for consistent formatting
-- **CSS Modules** for scoped styling
-- **Semantic HTML** for accessibility
-
-### Testing
-
-```bash
-# Run type checking
-npm run type-check
-
-# Run linting
-npm run lint
-
-# Build test
-npm run build
-```
-
-## 📊 Bundle Analysis
-
-View detailed bundle composition:
-
-```bash
-npm run build:analyze
-```
-
-This generates a visual report showing:
-- **Chunk sizes** and dependencies
-- **Module composition** breakdown
-- **Performance** recommendations
-- **Optimization** opportunities
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**Build Errors**
-- Ensure Node.js 16+ is installed
-- Clear `node_modules` and reinstall: `rm -rf node_modules && npm install`
-- Check TypeScript errors: `npx tsc --noEmit`
-
-**Performance Issues**
-- Check bundle size: `npm run build:analyze`
-- Monitor memory usage in browser DevTools
-- Verify lazy loading is working correctly
-
-**Video Loading Issues**
-- Verify environment variables are set
-- Check network connectivity
-- Ensure video files are properly uploaded to cloud storage
-
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **Design Inspiration** - Modern meditation and wellness apps
-- **Performance Patterns** - React and Vite best practices
-- **Accessibility** - WCAG guidelines and inclusive design principles
-
----
-
-<div align="center">
-  <p>Built with ❤️ for mindfulness and emotional wellness</p>
-  <p>
-    <a href="#quick-start">Getting Started</a> •
-    <a href="#tech-stack">Tech Stack</a> •
-    <a href="#performance-optimizations">Performance</a> •
-    <a href="#contributing">Contributing</a>
-  </p>
-</div>
