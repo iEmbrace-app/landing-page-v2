@@ -9,7 +9,7 @@
     "build:analyze": "npm run build && echo Build complete! Check dist/bundle-analysis.html for bundle analysis",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "upload-videos": "node scripts/uploadVideosR2.js"
+    "upload-videos": "node scripts/uploadVideosS3.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.828.0",

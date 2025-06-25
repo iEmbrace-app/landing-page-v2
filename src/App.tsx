@@ -6,11 +6,16 @@ import { ImmerseSectionContainer } from './components/sections/ImmerseSectionCon
 import { TabSection, HoldMeditateSection, ComponentLoadingFallback } from './components/LazyComponents'
 // import { ParticleBackground } from './components/ui/ParticleBackground' // Removed for cleaner design
 import { useScreenSize } from './hooks/useScreenSize'
+
 import { tabContent } from './data/tabContent'
 import './App.css'
 
 function App() {
   const { isMobile } = useScreenSize()
+  
+  // Smart image preloading based on user interaction
+
+
   return (
     <>
       {/* Removed ParticleBackground for cleaner, more meditative design */}

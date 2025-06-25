@@ -29,33 +29,54 @@ export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
         {/* Hold Column - Columns 1-4 */}
         <div className={`col-12 md:col-4 ${styles.column}`}>
           <div className={styles.columnTitle}>
-            HOLD
+            SELECT
           </div>
-          <div className={`${styles.circle} ${isMobile ? styles.circleMobile : styles.circleDesktop}`}></div>
+          <div className={`${styles.circle} ${isMobile ? styles.circleMobile : styles.circleDesktop}`}>
+            <img 
+              src="https://embrace-website-images.s3.us-east-2.amazonaws.com/select.jpeg" 
+              alt="Hold - Touch activated lights"
+              className={styles.circleImage}
+              loading="eager"
+            />
+          </div>
           <div className={styles.columnDescription}>
-            Lights activate as it senses your touch
+          Choose a scene to begin your session
           </div>
         </div>
 
         {/* Breathe Column - Columns 5-8 */}
         <div className={`col-12 md:col-4 ${styles.column}`}>
           <div className={styles.columnTitle}>
-            BREATHE
+            IMMERSE
           </div>
-          <div className={`${styles.circle} ${isMobile ? styles.circleMobile : styles.circleDesktop}`}></div>
+          <div className={`${styles.circle} ${isMobile ? styles.circleMobile : styles.circleDesktop}`}>
+            <img 
+              src="https://embrace-website-images.s3.us-east-2.amazonaws.com/immerse.jpeg" 
+              alt="Breathe - Emotional vibration patterns"
+              className={styles.circleImage}
+              loading="eager"
+            />
+          </div>
           <div className={styles.columnDescription}>
-            Gently vibrates in patterns inspired by your emotions
+          Feel the immersive view and haptics guide your breath
           </div>
         </div>
 
         {/* Connect Column - Columns 9-12 */}
         <div className={`col-12 md:col-4 ${styles.column}`}>
           <div className={styles.columnTitle}>
-            CONNECT
+            JOURNAL
           </div>
-          <div className={`${styles.circle} ${isMobile ? styles.circleMobile : styles.circleDesktop}`}></div>
+          <div className={`${styles.circle} ${isMobile ? styles.circleMobile : styles.circleDesktop}`}>
+            <img 
+              src="https://embrace-website-images.s3.us-east-2.amazonaws.com/journal.png" 
+              alt="Connect - iEmbrace app reflection and tracking"
+              className={styles.circleImage}
+              loading="eager"
+            />
+          </div>
           <div className={styles.columnDescription}>
-            iEmbrace app helps to reflect, track, and grow with Root
+            Reflect and save your thoughts post-session
           </div>
         </div>
       </div>

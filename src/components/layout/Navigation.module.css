@@ -27,6 +27,13 @@
   align-items: center;
 }
 
+/* Logo container with flex layout */
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Space between text and logo */
+}
+
 .logo {
   font-family: var(--typography-fontFamily-primary);
   font-size: var(--typography-fontSize-xl);
@@ -40,6 +47,18 @@
 .logo:hover {
   color: var(--colors-primary-600); /* Lighter purple on hover */
   text-shadow: none; /* Keep clean look on hover */
+}
+
+/* Logo image styling */
+.logoImage {
+  height: 32px; /* Match text height */
+  width: auto; /* Maintain aspect ratio */
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.logoImage:hover {
+  transform: scale(1.05); /* Subtle hover effect */
 }
 
 .links {

@@ -81,17 +81,25 @@ export function Navigation() {
         Skip to main content
       </a>      <nav className={styles.nav} role="navigation" aria-label="Main navigation">
         <div className={styles.navContent}>          {/* Logo - Left */}
-          <a 
-            href="#home" 
-            className={styles.logo} 
-            aria-label="iembraceland home"
-            onClick={(e) => {
-              e.preventDefault()
-              handleNavClick('home')
-            }}
-          >
-            Embraceland
-          </a>
+          <div className={styles.logoContainer}>
+            <img 
+              src="https://embrace-website-images.s3.us-east-2.amazonaws.com/logo.png"
+              alt="Embraceland logo"
+              className={styles.logoImage}
+              loading="eager"
+            />
+            <a 
+              href="#home" 
+              className={styles.logo} 
+              aria-label="iembraceland home"
+              onClick={(e) => {
+                e.preventDefault()
+                handleNavClick('home')
+              }}
+            >
+              Embraceland
+            </a>
+          </div>
           
           {/* Desktop Navigation - Center */}
           <ul className={styles.links} role="list">            <li>

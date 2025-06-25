@@ -130,21 +130,14 @@ src/
 
 ### Environment Variables
 
-Create a `.env` file in the root directory:
+The application now uses direct AWS S3 URLs for media content. No additional environment variables are required for basic functionality.
+
+For development, create a `.env` file in the root directory if you need custom configurations:
 
 ```env
-
-# AWS S3/Cloudflare R2 Configuration
-VITE_AWS_ACCESS_KEY_ID=your_access_key
-VITE_AWS_SECRET_ACCESS_KEY=your_secret_key
-VITE_AWS_REGION=your_region
-VITE_S3_BUCKET_NAME=your_bucket_name
-
-# Cloudflare R2 Configuration (if using)
-VITE_R2_ACCOUNT_ID=your_r2_account_id
-VITE_R2_ACCESS_KEY_ID=your_r2_access_key
-VITE_R2_SECRET_ACCESS_KEY=your_r2_secret_key
-VITE_R2_BUCKET_NAME=your_r2_bucket_name
+# Optional: Custom configurations
+VITE_APP_TITLE=iEmbrace Landing Page
+VITE_APP_DEBUG=false
 ```
 
 ### Build Configuration

@@ -30,7 +30,7 @@ export function ImmerseSectionContainer({ isMobile }: ImmerseSectionContainerPro
             
             if (shouldLoadHeavyAssets) {
               // Preload critical assets before loading component
-              optimizer.preloadResource('/src/services/r2Service.ts', 'script', 'high')
+              optimizer.preloadResource('/src/services/videoService.ts', 'script', 'high')
               optimizer.preloadResource('/src/utils/VideoManager.ts', 'script', 'medium')
               
               // Load the component when it's about to become visible

@@ -16,7 +16,15 @@
       <!-- Performance Optimizations -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://your-r2-domain.com">
+    <link rel="dns-prefetch" href="https://iembrace-website-videos.s3.us-east-2.amazonaws.com">
+    <link rel="dns-prefetch" href="https://embrace-website-images.s3.us-east-2.amazonaws.com">
+    
+    <!-- Preload critical images for fast loading -->
+    <link rel="preload" as="image" href="https://embrace-website-images.s3.us-east-2.amazonaws.com/select.jpeg">
+    <link rel="preload" as="image" href="https://embrace-website-images.s3.us-east-2.amazonaws.com/immerse.jpeg">
+    <link rel="preload" as="image" href="https://embrace-website-images.s3.us-east-2.amazonaws.com/journal.png">
+    <link rel="preload" as="image" href="https://embrace-website-images.s3.us-east-2.amazonaws.com/mindful.jpeg">
+    <link rel="preload" as="image" href="https://embrace-website-images.s3.us-east-2.amazonaws.com/logo.png">
     
     <!-- Critical CSS hint - load asynchronously -->
     <link rel="preload" href="/src/App.css" as="style" onload="this.onload=null;this.rel='stylesheet'">

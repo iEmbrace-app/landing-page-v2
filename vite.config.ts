@@ -29,9 +29,6 @@ export default defineConfig({
           // Split vendor libraries
           vendor: ['react', 'react-dom'],
           
-          // Split R2/AWS SDK (if used)
-          'aws-sdk': ['@aws-sdk/client-s3', '@aws-sdk/s3-request-presigner'],
-          
           // Split utilities
           utils: ['./src/utils/VideoManager', './src/utils/OptimizedVideoCache'],
         },

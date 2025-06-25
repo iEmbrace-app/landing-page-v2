@@ -20,8 +20,7 @@
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  padding: 0;
   min-width: 320px;
   min-height: 100vh;
   background: var(--colors-background-gradient);
@@ -29,9 +28,8 @@ body {
 
 #root {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
-  text-align: center;
 }
 
 * {
@@ -40,5 +38,6 @@ body {
 
 html, body {
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }

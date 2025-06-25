@@ -184,9 +184,14 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
               `${activeTab}-feature-3`
             )}
           </div>          
-          {/* Right image placeholder - Columns 7-12 */}
+          {/* Right image - Columns 7-12 */}
           <div className={`col-12 md:col-6 ${styles.rightImageColumn} ${isMobile ? styles.mobile : ''}`}>
-            [Image Placeholder 600x400]
+            <img 
+              src="https://embrace-website-images.s3.us-east-2.amazonaws.com/mindful.jpeg"
+              alt="Mindful meditation and wellness"
+              className={styles.tabImage}
+              loading="eager"
+            />
           </div>
         </div>
       </div>

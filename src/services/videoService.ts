@@ -1,8 +1,20 @@
-import { getPublicUrl, Video } from './r2Service'
-import { OptimizedVideoCache } from '../utils/OptimizedVideoCache'
-import { PerformanceMonitor } from '../utils/PerformanceMonitor'
+// Direct AWS S3 video URLs - all videos now hosted on AWS S3
+const videoUrls = {
+  'zen.mp4': 'https://iembrace-website-videos.s3.us-east-2.amazonaws.com/zen.mp4',
+  'forest.mp4': 'https://iembrace-website-videos.s3.us-east-2.amazonaws.com/forest.mp4',
+  'lake.mp4': 'https://iembrace-website-videos.s3.us-east-2.amazonaws.com/lake.mp4',
+  'campfire.mp4': 'https://iembrace-website-videos.s3.us-east-2.amazonaws.com/campfire.mp4'
+}
 
-// Known video files in the R2 bucket - Order: zen, forest, lake, campfire
+// Video interface
+export interface Video {
+  id: string
+  title: string
+  filename: string
+  url: string
+}
+
+// Known video files - Order: zen, forest, lake, campfire
 const knownVideoFiles = [
   { file_path: 'zen.mp4', title: 'Garden', order_index: 1 },
   { file_path: 'forest.mp4', title: 'Forest', order_index: 2 },
@@ -10,7 +22,7 @@ const knownVideoFiles = [
   { file_path: 'campfire.mp4', title: 'Campfire', order_index: 4 }
 ]
 
-// Singleton pattern for video service with observer pattern for state management
+// Simplified video service class
 class VideoServiceState {
   private static instance: VideoServiceState
   private observers: Array<(videos: Video[]) => void> = []
@@ -54,183 +66,79 @@ class VideoServiceState {
     this.notify(videos)
     this.loadingPromise = null
     return videos
-  }  private async loadVideosFromSource(): Promise<Video[]> {
+  }
+
+  private async loadVideosFromSource(): Promise<Video[]> {
     try {
-      console.log('🎥 Loading videos from Cloudflare R2...')
+      console.log('🎥 Loading videos from AWS S3...')
       
-      const perfMonitor = PerformanceMonitor.getInstance()
-      const endTimer = perfMonitor.startVideoLoadTimer('batch')
-      
-      const videoCache = OptimizedVideoCache.getInstance(6) // Cache up to 6 videos
-      const videos: Video[] = []      // Parallel loading with Promise.allSettled for better performance
-      const videoPromises = knownVideoFiles.map(async (video) => {
-        try {
-          // Use R2.dev public URL since it's working
-          const publicUrl = getPublicUrl(video.file_path)
-          console.log(`✅ Using R2.dev public URL for ${video.file_path}`)
+      const videos: Video[] = []
 
-          const optimizedVideo: Video = {
+      // Create video objects using direct AWS S3 URLs
+      for (const video of knownVideoFiles) {
+        const videoUrl = videoUrls[video.file_path as keyof typeof videoUrls]
+        if (videoUrl) {
+          console.log(`✅ Using AWS S3 URL for ${video.file_path}`)
+
+          const videoObject: Video = {
             id: video.file_path,
             title: video.title,
             filename: video.file_path,
-            url: publicUrl
+            url: videoUrl
           }
 
-          // Pre-cache first video immediately, others progressively
-          if (video.file_path === 'zen.mp4') {
-            await videoCache.preloadVideo(video.file_path, publicUrl)
-          } else {
-            // Progressive preloading for others
-            videoCache.preloadVideo(video.file_path, publicUrl).catch(console.warn)
-          }
-
-          return optimizedVideo
-        } catch (err) {
-          console.error(`❌ Error processing ${video.file_path}:`, err)
-          // Fall back to local videos
-          const localUrl = `/videos/${video.file_path}`
-          console.log(`🔄 Using local fallback for ${video.file_path}`)
-          
-          return {
-            id: video.file_path,
-            title: video.title,
-            filename: video.file_path,
-            url: localUrl
-          }
-        }
-      })
-
-      const results = await Promise.allSettled(videoPromises)
-      
-      results.forEach((result, index) => {
-        if (result.status === 'fulfilled') {
-          videos.push(result.value)
+          videos.push(videoObject)
         } else {
-          console.error(`Failed to load video ${knownVideoFiles[index].file_path}:`, result.reason)
-          // Add fallback
-          videos.push({
-            id: knownVideoFiles[index].file_path,
-            title: knownVideoFiles[index].title,
-            filename: knownVideoFiles[index].file_path,
-            url: `/videos/${knownVideoFiles[index].file_path}`
-          })
+          console.warn(`⚠️ No URL found for ${video.file_path}`)
         }
+      }
+
+      // Sort by order index to maintain zen, forest, lake, campfire order
+      videos.sort((a, b) => {
+        const aIndex = knownVideoFiles.find(f => f.file_path === a.filename)?.order_index || 999
+        const bIndex = knownVideoFiles.find(f => f.file_path === b.filename)?.order_index || 999
+        return aIndex - bIndex
       })
 
-      console.log('🎬 Optimized videos loaded:', videos.length)
-      console.log('📊 Cache stats:', videoCache.getCacheStats())
-      
-      // Record performance metrics
-      endTimer() // Records the batch load time
-      perfMonitor.measureMemoryUsage()
-      perfMonitor.logPerformanceSummary()
-      
+      console.log(`✅ Successfully loaded ${videos.length} videos from AWS S3`)
       return videos
     } catch (error) {
-      console.error('❌ Error in loadVideosFromSource:', error)
-      // Complete fallback to local videos
-      console.log('🔄 Falling back to local videos')
-      return knownVideoFiles.map(video => ({
-        id: video.file_path,
-        title: video.title,
-        filename: video.file_path,
-        url: `/videos/${video.file_path}`
-      }))
+      console.error('❌ Error loading videos:', error)
+      return []
     }
   }
 }
 
-export class VideoService {
-  private static state = VideoServiceState.getInstance()
+// Singleton instance
+const videoServiceState = VideoServiceState.getInstance()
 
+// Main VideoService class - simplified for AWS S3 direct URLs
+export class VideoService {
   static async fetchVideos(): Promise<Video[]> {
-    console.log('🎥 Using Cloudflare R2 video service...')
-    return this.state.getVideos()
+    console.log('🎥 Using AWS S3 video service...')
+    return videoServiceState.getVideos()
   }
 
   static subscribe(observer: (videos: Video[]) => void) {
-    this.state.subscribe(observer)
+    videoServiceState.subscribe(observer)
   }
 
   static unsubscribe(observer: (videos: Video[]) => void) {
-    this.state.unsubscribe(observer)
+    videoServiceState.unsubscribe(observer)
   }
 
-  static async getOptimizedVideoUrl(videoId: string, originalUrl: string): Promise<string> {
-    const cache = OptimizedVideoCache.getInstance()
-    return cache.getVideo(videoId, originalUrl, 'progressive')
-  }
-
-  static predictNextVideos(currentVideoId: string): string[] {
-    const cache = OptimizedVideoCache.getInstance()
-    return cache.predictNextVideos(currentVideoId, 2)
-  }
-
-  static preloadNextVideos(currentVideoId: string, videos: Video[]): void {
-    const cache = OptimizedVideoCache.getInstance()
-    const predictions = cache.predictNextVideos(currentVideoId, 2)
-    
-    predictions.forEach(videoId => {
-      const video = videos.find(v => v.id === videoId)
-      if (video) {
-        cache.preloadVideo(videoId, video.url).catch(console.warn)
-      }
-    })
-  }  static async getVideoByFilename(filename: string): Promise<Video | null> {
+  static async getVideoByFilename(filename: string): Promise<Video | null> {
     try {
-      const videoFile = knownVideoFiles.find(v => v.file_path === filename)
-      if (!videoFile) return null
-      
-      const videoUrl = getPublicUrl(filename)
-      
-      return {
-        id: filename,
-        title: videoFile.title,
-        filename: filename,
-        url: videoUrl
-      }
+      const videos = await videoServiceState.getVideos()
+      return videos.find(video => video.filename === filename) || null
     } catch (error) {
-      console.error('❌ Error in getVideoByFilename:', error)
+      console.error(`❌ Error getting video by filename ${filename}:`, error)
       return null
     }
-  }  // Method to test R2 storage connectivity
-  static async testStorageConnection(): Promise<boolean> {
-    try {
-      // Test by trying to access a public URL
-      const testUrl = getPublicUrl('zen.mp4')
-      const response = await fetch(testUrl, { method: 'HEAD' })
-      return response.ok
-    } catch (error) {
-      console.error('❌ R2 connection test failed:', error)
-      return false
-    }
   }
-}
 
-// Debug helper functions
-export const VideoServiceDebug = {
-  async testVideoAccess(filename: string): Promise<{ success: boolean, url?: string, error?: string }> {
-    try {
-      const publicUrl = getPublicUrl(filename)
-      
-      // Test if URL is accessible
-      try {
-        const response = await fetch(publicUrl, { method: 'HEAD' })
-        return { 
-          success: response.ok, 
-          url: publicUrl,
-          error: response.ok ? undefined : `HTTP ${response.status}`
-        }
-      } catch (fetchError) {
-        return { success: false, url: publicUrl, error: String(fetchError) }
-      }
-      
-    } catch (error) {
-      return { success: false, error: String(error) }
-    }
-  },
-
-  getPublicVideoUrl(filename: string): string {
-    return getPublicUrl(filename)
+  // Get direct AWS S3 URL for a video file
+  static getVideoUrl(filename: string): string {
+    return videoUrls[filename as keyof typeof videoUrls] || ''
   }
 }

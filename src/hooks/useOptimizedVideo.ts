@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import { Video } from '../services/r2Service'
+import { Video } from '../services/videoService'
 import { VideoService } from '../services/videoService'
 import { OptimizedVideoCache } from '../utils/OptimizedVideoCache'
 
@@ -120,15 +120,11 @@ export function useOptimizedVideo(options: UseOptimizedVideoOptions = {}) {
       preloadIndices.push(prevIndex)
     }
 
-    // Predictive loading based on user behavior
+    // Predictive loading based on user behavior - simplified
     if (usePredictiveLoading) {
-      const predictions = VideoService.predictNextVideos(currentVideo.id)
-      predictions.forEach(videoId => {
-        const videoIndex = state.videos.findIndex(v => v.id === videoId)
-        if (videoIndex !== -1) {
-          preloadIndices.push(videoIndex)
-        }
-      })
+      // Simple predictive loading: next 2 videos
+      const nextNext = (state.currentIndex + 2) % state.videos.length
+      preloadIndices.push(nextNext)
     }
 
     // Remove duplicates and current index
@@ -147,9 +143,10 @@ export function useOptimizedVideo(options: UseOptimizedVideoOptions = {}) {
           })
           .catch(console.warn)
       }
-    })    // Trigger predictive preloading
-    VideoService.preloadNextVideos(currentVideo.id, state.videos)
-  }, [state.currentIndex, state.videos.length, autoPreload, preloadCount, usePredictiveLoading]) // Removed state.loadedVideos dependency
+    })
+    
+    // Simplified preloading - no external service call needed
+  }, [state.currentIndex, state.videos.length, autoPreload, preloadCount, usePredictiveLoading])
   // Optimized transition handler with debouncing
   const handleTransition = useCallback((newIndex: number) => {
     if (state.isTransitioning || newIndex === state.currentIndex || newIndex >= state.videos.length) {
@@ -195,13 +192,14 @@ export function useOptimizedVideo(options: UseOptimizedVideoOptions = {}) {
     handleTransition(index)
   }, [handleTransition])
 
-  // Get optimized video URL
+  // Get optimized video URL - simplified
   const getOptimizedUrl = useCallback(async (videoId: string): Promise<string> => {
     const originalUrl = optimizedVideoUrls.get(videoId)
     if (!originalUrl) return ''
 
     try {
-      return await VideoService.getOptimizedVideoUrl(videoId, originalUrl)
+      // Return the direct AWS S3 URL
+      return VideoService.getVideoUrl(videoId) || originalUrl
     } catch {
       return originalUrl // Fallback to original
     }

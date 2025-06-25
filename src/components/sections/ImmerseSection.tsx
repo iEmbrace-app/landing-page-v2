@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import styles from './ImmerseSection.module.css'
 import { VideoService } from '../../services/videoService'
-import { Video } from '../../services/r2Service'
+import { Video } from '../../services/videoService'
 import { CgTrees } from "react-icons/cg"
 import { SlFire } from "react-icons/sl"
 import { PiPlantFill } from "react-icons/pi"
