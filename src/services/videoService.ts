@@ -6,12 +6,21 @@ const videoUrls = {
   'campfire.mp4': 'https://iembrace-website-videos.s3.us-east-2.amazonaws.com/campfire.mp4'
 }
 
+// Direct AWS S3 audio URLs
+const audioUrls = {
+  'zen.mp4': 'https://embrace-website-audio.s3.us-east-2.amazonaws.com/zengarden.mp3',
+  'forest.mp4': 'https://embrace-website-audio.s3.us-east-2.amazonaws.com/forest.mp3',
+  'lake.mp4': 'https://embrace-website-audio.s3.us-east-2.amazonaws.com/lake.mp3',
+  'campfire.mp4': 'https://embrace-website-audio.s3.us-east-2.amazonaws.com/campfire.mp3'
+}
+
 // Video interface
 export interface Video {
   id: string
   title: string
   filename: string
   url: string
+  audioUrl: string
 }
 
 // Known video files - Order: zen, forest, lake, campfire
@@ -77,19 +86,21 @@ class VideoServiceState {
       // Create video objects using direct AWS S3 URLs
       for (const video of knownVideoFiles) {
         const videoUrl = videoUrls[video.file_path as keyof typeof videoUrls]
-        if (videoUrl) {
-          console.log(`✅ Using AWS S3 URL for ${video.file_path}`)
+        const audioUrl = audioUrls[video.file_path as keyof typeof audioUrls]
+        if (videoUrl && audioUrl) {
+          console.log(`✅ Using AWS S3 URLs for ${video.file_path}`)
 
           const videoObject: Video = {
             id: video.file_path,
             title: video.title,
             filename: video.file_path,
-            url: videoUrl
+            url: videoUrl,
+            audioUrl: audioUrl
           }
 
           videos.push(videoObject)
         } else {
-          console.warn(`⚠️ No URL found for ${video.file_path}`)
+          console.warn(`⚠️ No URLs found for ${video.file_path}`)
         }
       }
 
@@ -140,5 +151,10 @@ export class VideoService {
   // Get direct AWS S3 URL for a video file
   static getVideoUrl(filename: string): string {
     return videoUrls[filename as keyof typeof videoUrls] || ''
+  }
+
+  // Get direct AWS S3 URL for an audio file
+  static getAudioUrl(filename: string): string {
+    return audioUrls[filename as keyof typeof audioUrls] || ''
   }
 }

@@ -6,7 +6,6 @@ import { CgTrees } from "react-icons/cg"
 import { SlFire } from "react-icons/sl"
 import { PiPlantFill } from "react-icons/pi"
 import { BiWater } from "react-icons/bi"
-import { HiVolumeUp, HiVolumeOff } from "react-icons/hi"
 
 interface ImmerseSectionProps {
   isMobile?: boolean
@@ -22,12 +21,8 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
   const [loading, setLoading] = useState(true)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [activeVideoRef, setActiveVideoRef] = useState<'video1' | 'video2'>('video1')
-  const [isMuted, setIsMuted] = useState(true) // Start muted for better UX
-  
   const video1Ref = useRef<HTMLVideoElement>(null)
   const video2Ref = useRef<HTMLVideoElement>(null)
-  const audio1Ref = useRef<HTMLAudioElement>(null)
-  const audio2Ref = useRef<HTMLAudioElement>(null)
   const progressRef = useRef<number>()
   const autoSwitchRef = useRef<NodeJS.Timeout>()
   const timerStartRef = useRef<number>(0)
@@ -35,62 +30,18 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
   // Get fixed duration for all videos (10 seconds)
   const getCurrentVideoDuration = useCallback(() => {
     return FIXED_VIDEO_DURATION * 1000 // Convert to milliseconds
-  }, [])
-
-  // Audio toggle function
-  const toggleMute = useCallback(() => {
-    setIsMuted(prev => {
-      const newMutedState = !prev
-      console.log(`Audio ${newMutedState ? 'muted' : 'unmuted'}`)
-      
-      // Update audio elements
-      if (audio1Ref.current) {
-        audio1Ref.current.muted = newMutedState
-        console.log('Audio 1 muted state:', audio1Ref.current.muted, 'src:', audio1Ref.current.src)
-        // Try to play if unmuting
-        if (!newMutedState && audio1Ref.current.src && activeVideoRef === 'video1') {
-          audio1Ref.current.play().catch(console.warn)
-        }
-      }
-      if (audio2Ref.current) {
-        audio2Ref.current.muted = newMutedState
-        console.log('Audio 2 muted state:', audio2Ref.current.muted, 'src:', audio2Ref.current.src)
-        // Try to play if unmuting
-        if (!newMutedState && audio2Ref.current.src && activeVideoRef === 'video2') {
-          audio2Ref.current.play().catch(console.warn)
-        }
-      }
-      
-      return newMutedState
-    })
-  }, [activeVideoRef])// Load videos - simple and clean
+  }, [])// Load videos - simple and clean
   useEffect(() => {
     VideoService.fetchVideos()
       .then((loadedVideos) => {
         setVideos(loadedVideos)
-        // Preload first video and audio immediately
+        // Preload first video immediately
         if (loadedVideos.length > 0) {
-          const videoLink = document.createElement('link')
-          videoLink.rel = 'preload'
-          videoLink.href = loadedVideos[0].url
-          videoLink.as = 'video'
-          document.head.appendChild(videoLink)
-          
-          // Also preload first audio
-          const audioLink = document.createElement('link')
-          audioLink.rel = 'preload'
-          audioLink.href = loadedVideos[0].audioUrl
-          audioLink.as = 'audio'
-          document.head.appendChild(audioLink)
-          
-          // Initialize first audio element
-          setTimeout(() => {
-            if (audio1Ref.current && loadedVideos[0].audioUrl) {
-              audio1Ref.current.src = loadedVideos[0].audioUrl
-              audio1Ref.current.muted = isMuted
-              audio1Ref.current.load()
-            }
-          }, 100)
+          const link = document.createElement('link')
+          link.rel = 'preload'
+          link.href = loadedVideos[0].url
+          link.as = 'video'
+          document.head.appendChild(link)
         }
       })
       .catch(console.error)
@@ -104,27 +55,20 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
     // Reset timer for new video
     timerStartRef.current = Date.now()
     
-    // Determine which video/audio elements to use for the new video
+    // Determine which video element to use for the new video
     const currentVideoRef = activeVideoRef === 'video1' ? video1Ref : video2Ref
     const nextVideoRef = activeVideoRef === 'video1' ? video2Ref : video1Ref
-    const currentAudioRef = activeVideoRef === 'video1' ? audio1Ref : audio2Ref
-    const nextAudioRef = activeVideoRef === 'video1' ? audio2Ref : audio1Ref
     const nextActiveRef = activeVideoRef === 'video1' ? 'video2' : 'video1'
     
-    // Load the new video and audio in the background elements
-    if (nextVideoRef.current && nextAudioRef.current) {
+    // Load the new video in the background video element
+    if (nextVideoRef.current) {
       nextVideoRef.current.src = videos[index].url
-      nextAudioRef.current.src = videos[index].audioUrl
-      nextAudioRef.current.muted = isMuted
       nextVideoRef.current.load()
-      nextAudioRef.current.load()
       
       // Wait for the video to be ready, then cross-fade
       const handleCanPlay = () => {
-        if (nextVideoRef.current && nextAudioRef.current) {
-          // Start video and audio playback
+        if (nextVideoRef.current) {
           nextVideoRef.current.play().catch(console.warn)
-          nextAudioRef.current.play().catch(console.warn)
           
           // Start the cross-fade immediately
           nextVideoRef.current.style.opacity = '1'
@@ -144,12 +88,10 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
               newActiveNavBox.style.setProperty('--progress', '0deg')
             }
             
-            // Hide the old video and stop audio completely
-            if (currentVideoRef.current && currentAudioRef.current) {
+            // Hide the old video completely
+            if (currentVideoRef.current) {
               currentVideoRef.current.style.opacity = '0'
               currentVideoRef.current.pause()
-              currentAudioRef.current.pause()
-              currentAudioRef.current.currentTime = 0
             }
           }, 300) // Reduced from 500ms total to 300ms
         }
@@ -172,7 +114,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
         document.head.appendChild(link)
       }
     }
-  }, [currentIndex, videos, isTransitioning, activeVideoRef, isMuted])
+  }, [currentIndex, videos, isTransitioning, activeVideoRef])
 
   // Navigation functions
   const goToNext = useCallback(() => {
@@ -288,36 +230,22 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
           loop
           muted
           playsInline
-          preload="metadata"
-          style={{ opacity: activeVideoRef === 'video1' ? 1 : 0 }}
+          preload="metadata"          style={{ opacity: activeVideoRef === 'video1' ? 1 : 0 }}
           onCanPlay={() => {
             // Play as soon as basic playback is possible
             if (video1Ref.current && video1Ref.current.paused && activeVideoRef === 'video1') {
               video1Ref.current.play().catch(console.warn)
-              // Also start audio if this is the active video and audio is loaded
-              if (audio1Ref.current && audio1Ref.current.src) {
-                console.log('Starting audio 1:', audio1Ref.current.src)
-                audio1Ref.current.play().catch(console.warn)
-              }
             }
           }}
           onPlay={() => {
             // Start progress tracking when video plays
             if (activeVideoRef === 'video1') {
               startProgressTracking()
-              // Ensure audio plays with video
-              if (audio1Ref.current && audio1Ref.current.paused && audio1Ref.current.src) {
-                console.log('Video 1 playing, starting audio 1:', audio1Ref.current.src)
-                audio1Ref.current.play().catch(console.warn)
-              }
             }
-          }}
-          onError={(e) => {
+          }}          onError={(e) => {
             console.error(`Video 1 ${videos[currentIndex]?.filename} failed to load:`, e)
           }}
-        />
-
-        <video
+        />        <video
           ref={video2Ref}
           className={styles.backgroundVideo}
           loop
@@ -332,53 +260,15 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
             // Start progress tracking when video plays
             if (activeVideoRef === 'video2') {
               startProgressTracking()
-              // Ensure audio plays with video
-              if (audio2Ref.current && audio2Ref.current.paused && audio2Ref.current.src) {
-                console.log('Video 2 playing, starting audio 2:', audio2Ref.current.src)
-                audio2Ref.current.play().catch(console.warn)
-              }
             }
-          }}
-          onError={(e) => {
+          }}          onError={(e) => {
             console.error(`Video 2 failed to load:`, e)
-          }}
-        />
-
-        {/* Audio elements for ambient sound */}
-        <audio
-          ref={audio1Ref}
-          src={videos[currentIndex]?.audioUrl}
-          loop
-          muted={isMuted}
-          preload="metadata"
-          onError={(e) => {
-            console.error(`Audio 1 ${videos[currentIndex]?.filename} failed to load:`, e)
-          }}
-        />
-
-        <audio
-          ref={audio2Ref}
-          loop
-          muted={isMuted}
-          preload="metadata"
-          onError={(e) => {
-            console.error(`Audio 2 failed to load:`, e)
           }}
         />
         
         <div className={styles.videoFilter} />
       </div>      {/* Content */}
-      <div className={styles.content}>
-        {/* Audio Control */}
-        <button 
-          className={styles.audioToggle}
-          onClick={toggleMute}
-          aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
-        >
-          {isMuted ? <HiVolumeOff /> : <HiVolumeUp />}
-        </button>
-
-        {/* Text Content */}
+      <div className={styles.content}>        {/* Text Content */}
         <div className={styles.textContent}>
           <p className={styles.subtitle}>
             Immerse in environments designed for deeper meditation
