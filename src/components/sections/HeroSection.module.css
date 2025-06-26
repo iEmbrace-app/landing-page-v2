@@ -11,19 +11,8 @@
   margin: -80px 0 0 0; /* Negative top margin to extend behind navigation */
   padding: 160px 80px 120px 80px; /* Increased top padding to account for navigation overlap */
   
-  /* Simplified flowing gradient background */
-  background: linear-gradient(
-    135deg,
-    #ffffff 0%,
-    #f8f8ff 25%,
-    #f0ebff 50%,
-    #e6dcff 75%,
-    #ddd0ff 100%
-  );
-  background-size: 400% 400%;
-    
-  /* Simple fluid animation */
-  animation: simpleGradientFlow 15s ease-in-out infinite;
+  /* White background with gradient overlay */
+  background: #ffffff;
 }
 
 /* Unused video components removed */
@@ -48,12 +37,14 @@
   width: 100%;
   height: 100%;
   background: linear-gradient(
-    135deg,
-    #ffffff 0%,
-    #f8f8ff 25%,
-    #f0ebff 50%,
-    #e6dcff 75%,
-    #ddd0ff 100%
+    178deg,
+    #f8f8ff 0%,
+    #f0ebff 0%,
+    #faf4ff 20%,
+    #efe8fe 45%,
+    #f9edff 60%,
+    #f8f8ff 80%,
+    #ffffff 100%
   );
   transition: opacity 1s ease-in-out;
   z-index: 1;
@@ -82,7 +73,6 @@
   font-size: clamp(2rem, 8vw, 4.8rem);
   font-weight: 100;
   line-height: 1;
-  letter-spacing: 4px;
   margin: 0; /* Remove margin, use gap from parent */
   position: relative;
   /* Gradient color like other titles on the page */
@@ -1148,36 +1138,40 @@
   align-items: center !important;
 }
 
+/* Mobile-specific meditation player - Clean approach without !important */
 .mobilePlayer {
   /* Remove phone-like styling for mobile */
-  width: clamp(300px, 90vw, 400px) !important;
-  height: auto !important; /* Let content determine height */
-  min-height: clamp(400px, 50vh, 500px) !important;
-  margin: 1rem auto !important;
-  border-radius: 20px !important; /* Less phone-like, more modern */
-  border: 1px solid rgba(255, 255, 255, 0.2) !important; /* Subtle border */
-  padding: 1.5rem !important;
+  width: clamp(300px, 90vw, 400px);
+  height: auto; /* Let content determine height */
+  min-height: clamp(400px, 50vh, 500px);
+  margin: 1rem auto;
+  border-radius: 20px; /* Less phone-like, more modern */
+  border: 1px solid rgba(200, 200, 200, 0.3); /* Slightly more visible border */
+  padding: 1.5rem;
   box-shadow: 
     0 10px 30px rgba(106, 76, 147, 0.1),
-    0 4px 15px rgba(147, 112, 219, 0.05) !important; /* Lighter shadow */
-  animation: none !important; /* Remove floating animation on mobile */
+    0 4px 15px rgba(147, 112, 219, 0.05); /* Lighter shadow */
+  animation: none; /* Remove floating animation on mobile */
+  /* Pure white background for mobile */
+  background: #ffffff;
+  backdrop-filter: none;
 }
 
 .mobilePlayerHeader {
-  text-align: center !important;
-  margin-bottom: 1rem !important;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .mobilePlayerTitle {
-  font-size: 1.2rem !important;
+  font-size: 1.2rem;
 }
 
 .mobilePlayerSubtitle {
-  font-size: 0.9rem !important;
+  font-size: 0.9rem;
 }
 
 .mobileSessionDuration {
-  font-size: 0.8rem !important;
+  font-size: 0.8rem;
 }
 
 /* Responsive Design */
@@ -1213,26 +1207,29 @@
     text-align: center;
     margin-bottom: 2rem;
   }
-  /* Mobile order: meditation player second */
+  /* Mobile meditation player with clean white background */
   .meditationPlayer {
     order: 2;
-    width: clamp(350px, 60vw, 450px); /* Better tablet proportions */
-    height: auto !important;
-    min-height: clamp(500px, 60vh, 600px) !important;
+    width: clamp(350px, 60vw, 450px);
+    height: auto;
+    min-height: clamp(500px, 60vh, 600px);
     margin: 2rem auto;
     padding: clamp(1.5rem, 3vw, 2rem);
-    border-radius: 25px !important; /* Less phone-like for tablet */
-    border: 1px solid rgba(255, 255, 255, 0.25) !important;
-    transform: none; /* Reset transform for tablet */
+    border-radius: 25px;
+    border: 1px solid rgba(220, 220, 220, 0.3);
+    transform: none;
     position: relative;
     z-index: 5;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    animation: none !important; /* Remove floating animation */
+    animation: none;
     box-shadow: 
-      0 15px 40px rgba(106, 76, 147, 0.12),
-      0 6px 20px rgba(147, 112, 219, 0.08) !important;
+      0 15px 40px rgba(106, 76, 147, 0.08),
+      0 6px 20px rgba(147, 112, 219, 0.04);
+    /* Pure white background for mobile/tablet */
+    background: #ffffff;
+    backdrop-filter: none;
   }
 
   /* Mobile order: CTA button third */
@@ -1428,6 +1425,9 @@
     box-shadow: 
       0 10px 30px rgba(106, 76, 147, 0.1),
       0 4px 15px rgba(147, 112, 219, 0.05) !important;
+    /* White background for mobile */
+    background: #ffffff !important;
+    backdrop-filter: none !important;
   }
 
   /* Mobile order: CTA button third */
@@ -1497,6 +1497,8 @@
     height: 650px;
     margin: 0;
     transform: none;
+    /* Ensure white background on smaller screens */
+    background: #ffffff;
   }
 }
 
@@ -1513,4 +1515,29 @@
     max-width: 1400px; /* Keep consistent max-width */
     padding: 0 5rem; /* Match navbar padding exactly */
   }
+}
+
+/* Premium gradient overlay with refined opacity for subtle elegance */
+.heroWrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(230, 220, 255, 0.08) 0%,
+    rgba(235, 225, 255, 0.06) 25%,
+    rgba(245, 240, 255, 0.04) 50%,
+    rgba(250, 248, 255, 0.02) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+  /* Override any conflicting global styles */
+  inset: unset !important;
+  filter: none !important;
+  animation: none !important;
+  border-radius: 0 !important;
 }

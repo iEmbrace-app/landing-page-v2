@@ -2,6 +2,7 @@ import { Suspense } from 'react'
 import { Navigation } from './components/layout/Navigation'
 import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
+import { ImmerseIntroSection } from './components/sections/ImmerseIntroSection'
 import { ImmerseSectionContainer } from './components/sections/ImmerseSectionContainer'
 import { TabSection, HoldMeditateSection, ComponentLoadingFallback } from './components/LazyComponents'
 // import { ParticleBackground } from './components/ui/ParticleBackground' // Removed for cleaner design
@@ -48,6 +49,11 @@ function App() {
         {/* Hero Section */}
         <section id="home" aria-label="Home">
           <HeroSection isMobile={isMobile} />
+        </section>
+        
+        {/* Immerse Introduction Section */}
+        <section aria-label="Immerse yourself introduction">
+          <ImmerseIntroSection isMobile={isMobile} />
         </section>
           {/* Immerse Section */}
         <section id="immerse" aria-label="Immerse yourself in tranquil environments">

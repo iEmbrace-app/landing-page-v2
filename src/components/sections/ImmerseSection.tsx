@@ -64,13 +64,23 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
       const newMutedState = !prev
       console.log(`Audio ${newMutedState ? 'muted' : 'unmuted'}`)
       
-      // Update audio elements
+      // Update audio elements with better error handling
       if (audio1Ref.current) {
         audio1Ref.current.muted = newMutedState
         console.log('Audio 1 muted state:', audio1Ref.current.muted, 'src:', audio1Ref.current.src)
         // Try to play if unmuting and this is the active video
         if (!newMutedState && audio1Ref.current.src && (video1Ref.current?.style.opacity === '1' || video1Ref.current?.style.opacity === '')) {
-          audio1Ref.current.play().catch(console.warn)
+          // Ensure audio is properly looped and ready
+          audio1Ref.current.loop = true
+          audio1Ref.current.play().catch(e => {
+            console.warn('Audio 1 play failed:', e)
+            // Retry after a short delay
+            setTimeout(() => {
+              if (audio1Ref.current && !audio1Ref.current.muted) {
+                audio1Ref.current.play().catch(console.warn)
+              }
+            }, 100)
+          })
         }
       }
       if (audio2Ref.current) {
@@ -78,7 +88,17 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
         console.log('Audio 2 muted state:', audio2Ref.current.muted, 'src:', audio2Ref.current.src)
         // Try to play if unmuting and this is the active video
         if (!newMutedState && audio2Ref.current.src && video2Ref.current?.style.opacity === '1') {
-          audio2Ref.current.play().catch(console.warn)
+          // Ensure audio is properly looped and ready
+          audio2Ref.current.loop = true
+          audio2Ref.current.play().catch(e => {
+            console.warn('Audio 2 play failed:', e)
+            // Retry after a short delay
+            setTimeout(() => {
+              if (audio2Ref.current && !audio2Ref.current.muted) {
+                audio2Ref.current.play().catch(console.warn)
+              }
+            }, 100)
+          })
         }
       }
       
@@ -104,12 +124,27 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
           audioLink.as = 'audio'
           document.head.appendChild(audioLink)
           
-          // Initialize first audio element
+          // Initialize first audio element with better error handling
           setTimeout(() => {
             if (audio1Ref.current && loadedVideos[0].audioUrl) {
               audio1Ref.current.src = loadedVideos[0].audioUrl
               audio1Ref.current.muted = isMuted
+              audio1Ref.current.loop = true // Ensure looping is enabled
+              audio1Ref.current.preload = 'auto' // Preload the full audio
               audio1Ref.current.load()
+              
+              // Add event listeners for better audio handling
+              audio1Ref.current.addEventListener('canplaythrough', () => {
+                console.log('Audio 1 ready to play continuously')
+              })
+              audio1Ref.current.addEventListener('ended', () => {
+                console.log('Audio 1 ended - this should not happen with loop=true')
+                // Force restart if loop fails
+                if (audio1Ref.current && !audio1Ref.current.muted) {
+                  audio1Ref.current.currentTime = 0
+                  audio1Ref.current.play().catch(console.warn)
+                }
+              })
             }
           }, 100)
         }
@@ -130,56 +165,73 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
     const nextVideoRef = activeVideoRef === 'video1' ? video2Ref : video1Ref
     const currentAudioRef = activeVideoRef === 'video1' ? audio1Ref : audio2Ref
     const nextAudioRef = activeVideoRef === 'video1' ? audio2Ref : audio1Ref
-    const nextActiveRef = activeVideoRef === 'video1' ? 'video2' : 'video1'
-    
-    // Load the new video and audio in the background elements
-    if (nextVideoRef.current && nextAudioRef.current) {
-      // Set video source and prepare for smooth transition
-      nextVideoRef.current.src = videos[index].url
-      nextVideoRef.current.currentTime = 0 // Ensure video starts from beginning
-      nextAudioRef.current.src = videos[index].audioUrl
-      nextAudioRef.current.muted = isMuted
-      nextAudioRef.current.currentTime = 0 // Sync audio to start
-      
-      // Use canplaythrough for better buffering before transition
-      const handleCanPlayThrough = () => {
-        if (nextVideoRef.current && nextAudioRef.current) {
-          // Ensure both video and audio are ready to play smoothly
-          Promise.all([
-            nextVideoRef.current.play().catch(console.warn),
-            nextAudioRef.current.play().catch(console.warn)
-          ]).then(() => {
-            // Smooth cross-fade using requestAnimationFrame for optimal timing
-            requestAnimationFrame(() => {
-              if (nextVideoRef.current) {
-                nextVideoRef.current.style.opacity = '1'
-              }
-              if (currentVideoRef.current) {
-                currentVideoRef.current.style.opacity = '0'
-              }
-              
-              // Wait for CSS transition to complete before cleanup
-              setTimeout(() => {
-                setActiveVideoRef(nextActiveRef)
-                setCurrentIndex(index)
-                setIsTransitioning(false)
-                
-                // Reset progress for the new video
-                const newActiveNavBox = document.querySelector(`.${styles.navigationBox}.${styles.active}`) as HTMLElement
-                if (newActiveNavBox) {
-                  newActiveNavBox.style.setProperty('--progress', '0deg')
+    const nextActiveRef = activeVideoRef === 'video1' ? 'video2' : 'video1'      // Load the new video and audio in the background elements
+      if (nextVideoRef.current && nextAudioRef.current) {
+        // Set video source and prepare for smooth transition
+        nextVideoRef.current.src = videos[index].url
+        nextVideoRef.current.currentTime = 0 // Ensure video starts from beginning
+        nextAudioRef.current.src = videos[index].audioUrl
+        nextAudioRef.current.muted = isMuted
+        nextAudioRef.current.loop = true // Ensure looping
+        nextAudioRef.current.preload = 'auto' // Full preload for seamless playback
+        nextAudioRef.current.currentTime = 0 // Sync audio to start
+        
+        // Use canplaythrough for better buffering before transition
+        const handleCanPlayThrough = () => {
+          if (nextVideoRef.current && nextAudioRef.current) {
+            // Ensure both video and audio are ready to play smoothly
+            const videoPlayPromise = nextVideoRef.current.play().catch(console.warn)
+            const audioPlayPromise = !nextAudioRef.current.muted ? 
+              nextAudioRef.current.play().catch(console.warn) : 
+              Promise.resolve()
+            
+            Promise.all([videoPlayPromise, audioPlayPromise]).then(() => {
+              // Smooth cross-fade using requestAnimationFrame for optimal timing
+              requestAnimationFrame(() => {
+                if (nextVideoRef.current) {
+                  nextVideoRef.current.style.opacity = '1'
+                }
+                if (currentVideoRef.current) {
+                  currentVideoRef.current.style.opacity = '0'
                 }
                 
-                // Clean up old video/audio after transition
-                if (currentVideoRef.current && currentAudioRef.current) {
-                  currentVideoRef.current.pause()
-                  currentAudioRef.current.pause()
-                  currentAudioRef.current.currentTime = 0
-                  // Keep opacity at 0 but don't modify it during cleanup
-                }
-              }, 420) // Slightly longer than CSS transition (400ms) for safety
+                // Wait for CSS transition to complete before cleanup
+                setTimeout(() => {
+                  setActiveVideoRef(nextActiveRef)
+                  setCurrentIndex(index)
+                  setIsTransitioning(false)
+                  
+                  // Reset progress for the new video
+                  const newActiveNavBox = document.querySelector(`.${styles.navigationBox}.${styles.active}`) as HTMLElement
+                  if (newActiveNavBox) {
+                    newActiveNavBox.style.setProperty('--progress', '0deg')
+                  }
+                  
+                  // Clean up old video/audio after transition - but don't stop current audio abruptly
+                  if (currentVideoRef.current && currentAudioRef.current) {
+                    currentVideoRef.current.pause()
+                    // Fade out old audio instead of stopping immediately
+                    if (currentAudioRef.current.volume > 0) {
+                      const fadeOut = setInterval(() => {
+                        if (currentAudioRef.current && currentAudioRef.current.volume > 0.1) {
+                          currentAudioRef.current.volume = Math.max(0, currentAudioRef.current.volume - 0.1)
+                        } else {
+                          clearInterval(fadeOut)
+                          if (currentAudioRef.current) {
+                            currentAudioRef.current.pause()
+                            currentAudioRef.current.currentTime = 0
+                            currentAudioRef.current.volume = 1 // Reset volume for next use
+                          }
+                        }
+                      }, 50)
+                    } else {
+                      currentAudioRef.current.pause()
+                      currentAudioRef.current.currentTime = 0
+                    }
+                  }
+                }, 420) // Slightly longer than CSS transition (400ms) for safety
+              })
             })
-          })
         }
         nextVideoRef.current?.removeEventListener('canplaythrough', handleCanPlayThrough)
       }
@@ -274,14 +326,18 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
                 nextVideoRef.current.currentTime = 0
                 nextAudioRef.current.src = videos[nextIndex].audioUrl
                 nextAudioRef.current.muted = isMuted
+                nextAudioRef.current.loop = true // Ensure looping
+                nextAudioRef.current.preload = 'auto' // Full preload
                 nextAudioRef.current.currentTime = 0
                 
                 const handleCanPlayThrough = () => {
                   if (nextVideoRef.current && nextAudioRef.current) {
-                    Promise.all([
-                      nextVideoRef.current.play().catch(console.warn),
-                      nextAudioRef.current.play().catch(console.warn)
-                    ]).then(() => {
+                    const videoPlayPromise = nextVideoRef.current.play().catch(console.warn)
+                    const audioPlayPromise = !nextAudioRef.current.muted ? 
+                      nextAudioRef.current.play().catch(console.warn) : 
+                      Promise.resolve()
+                    
+                    Promise.all([videoPlayPromise, audioPlayPromise]).then(() => {
                       requestAnimationFrame(() => {
                         if (nextVideoRef.current) nextVideoRef.current.style.opacity = '1'
                         if (currentVideoRef.current) currentVideoRef.current.style.opacity = '0'
@@ -297,8 +353,24 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
                           
                           if (currentVideoRef.current && currentAudioRef.current) {
                             currentVideoRef.current.pause()
-                            currentAudioRef.current.pause()
-                            currentAudioRef.current.currentTime = 0
+                            // Gentle fade out for audio instead of abrupt stop
+                            if (currentAudioRef.current.volume > 0) {
+                              const fadeOut = setInterval(() => {
+                                if (currentAudioRef.current && currentAudioRef.current.volume > 0.1) {
+                                  currentAudioRef.current.volume = Math.max(0, currentAudioRef.current.volume - 0.1)
+                                } else {
+                                  clearInterval(fadeOut)
+                                  if (currentAudioRef.current) {
+                                    currentAudioRef.current.pause()
+                                    currentAudioRef.current.currentTime = 0
+                                    currentAudioRef.current.volume = 1
+                                  }
+                                }
+                              }, 50)
+                            } else {
+                              currentAudioRef.current.pause()
+                              currentAudioRef.current.currentTime = 0
+                            }
                           }
                         }, 420)
                       })
@@ -457,9 +529,36 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
           src={videos[currentIndex]?.audioUrl}
           loop
           muted={isMuted}
-          preload="metadata"
+          preload="auto"
+          onCanPlay={() => {
+            console.log('Audio 1 can play:', videos[currentIndex]?.audioUrl)
+            // Ensure it starts playing if it's the active audio and not muted
+            if (audio1Ref.current && !audio1Ref.current.muted && activeVideoRef === 'video1') {
+              audio1Ref.current.play().catch(console.warn)
+            }
+          }}
+          onPlay={() => {
+            console.log('Audio 1 started playing')
+          }}
+          onPause={() => {
+            console.log('Audio 1 paused')
+          }}
+          onEnded={() => {
+            console.log('Audio 1 ended - restarting due to loop failure')
+            // This should not happen with loop=true, but handle it as fallback
+            if (audio1Ref.current && !audio1Ref.current.muted) {
+              audio1Ref.current.currentTime = 0
+              audio1Ref.current.play().catch(console.warn)
+            }
+          }}
           onError={(e) => {
             console.error(`Audio 1 ${videos[currentIndex]?.filename} failed to load:`, e)
+          }}
+          onLoadStart={() => {
+            console.log('Audio 1 loading started')
+          }}
+          onLoadedData={() => {
+            console.log('Audio 1 loaded data')
           }}
         />
 
@@ -467,9 +566,36 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
           ref={audio2Ref}
           loop
           muted={isMuted}
-          preload="metadata"
+          preload="auto"
+          onCanPlay={() => {
+            console.log('Audio 2 can play')
+            // Ensure it starts playing if it's the active audio and not muted
+            if (audio2Ref.current && !audio2Ref.current.muted && activeVideoRef === 'video2') {
+              audio2Ref.current.play().catch(console.warn)
+            }
+          }}
+          onPlay={() => {
+            console.log('Audio 2 started playing')
+          }}
+          onPause={() => {
+            console.log('Audio 2 paused')
+          }}
+          onEnded={() => {
+            console.log('Audio 2 ended - restarting due to loop failure')
+            // This should not happen with loop=true, but handle it as fallback
+            if (audio2Ref.current && !audio2Ref.current.muted) {
+              audio2Ref.current.currentTime = 0
+              audio2Ref.current.play().catch(console.warn)
+            }
+          }}
           onError={(e) => {
             console.error(`Audio 2 failed to load:`, e)
+          }}
+          onLoadStart={() => {
+            console.log('Audio 2 loading started')
+          }}
+          onLoadedData={() => {
+            console.log('Audio 2 loaded data')
           }}
         />
         
@@ -477,6 +603,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
       </div>      {/* Content */}
       <div className={styles.content}>
         {/* Audio Control */}
+        <p className={styles.headphonesText}>use headphones for better experience</p>
         <button 
           className={styles.audioToggle}
           onClick={toggleMute}
@@ -485,12 +612,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
           {isMuted ? <HiVolumeOff /> : <HiVolumeUp />}
         </button>
 
-        {/* Text Content */}
-        <div className={styles.textContent}>
-          <p className={styles.subtitle}>
-            Immerse in environments designed for deeper meditation
-          </p>
-        </div>{/* Video Navigation Boxes - Simple and clean */}
+        {/* Video Navigation Boxes - Simple and clean */}
         <div className={styles.videoNavigationBoxes}>
           {videos.map((video, index) => (
             <button
