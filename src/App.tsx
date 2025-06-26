@@ -5,6 +5,7 @@ import { HeroSection } from './components/sections/HeroSection'
 import { ImmerseIntroSection } from './components/sections/ImmerseIntroSection'
 import { ImmerseSectionContainer } from './components/sections/ImmerseSectionContainer'
 import { TabSection, HoldMeditateSection, TestimonialSection, ComponentLoadingFallback } from './components/LazyComponents'
+import { ScrollProgressIndicator } from './components/ui/ScrollProgressIndicator'
 import { useScreenSize } from './hooks/useScreenSize'
 
 import { tabContent } from './data/tabContent'
@@ -15,6 +16,13 @@ function App() {
 
   return (
     <>
+      {/* Scroll Progress Indicator */}
+      <ScrollProgressIndicator 
+        color="#6865BF" 
+        height={4} 
+        position="top" 
+      />
+      
       {/* Skip link for keyboard navigation */}
       <a 
         href="#main-content" 

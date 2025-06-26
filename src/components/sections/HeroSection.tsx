@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import styles from './HeroSection.module.css'
 
 interface HeroSectionProps {
@@ -14,14 +15,35 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
       {/* Soft Purple Gradient Background */}
       <div className={styles.gradientBackground} />
       
+      {/* Aurora Background Effect */}
+      <div className={styles.auroraBackground}>
+        <div className={styles.auroraEffect}>
+          <div className={styles.auroraOverlay} />
+        </div>
+      </div>
+      
       {/* Hero Content - Conditional Layout for Desktop vs Mobile */}
-      <div className={`${styles.heroContent} ${isMobile ? styles.mobileContent : ''}`}>
+      <motion.div 
+        className={`${styles.heroContent} ${isMobile ? styles.mobileContent : ''}`}
+        initial={{ opacity: 0.0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          delay: 0.3,
+          duration: 0.8,
+          ease: "easeInOut",
+        }}
+      >
         {!isMobile ? (
           <>
             {/* Desktop Layout - Left Side Text Content */}
             <div className={styles.heroTextContent}>
               {/* Title & Subtitle Group */}
-              <div className={styles.titleGroup}>
+              <motion.div 
+                className={styles.titleGroup}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
+              >
                 {/* ROOT Title */}
                 <h1 className={styles.rootTitle}>
                   Embraceland
@@ -31,15 +53,20 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
                 <p className={styles.rootSubtitle}>
                   Companion for Emotional Embracing
                 </p>
-              </div>
+              </motion.div>
 
               {/* CTA Button */}
-              <button 
+              <motion.button 
                 className={styles.ctaButton}
                 aria-label="Start your wellness journey"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.7, duration: 0.4, ease: "easeOut" }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Try for $0
-              </button>
+              </motion.button>
 
               {/* Description */}
               <p className={styles.description}>
@@ -83,7 +110,12 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
             </div>
 
             {/* Desktop Layout - Right Side iPhone Meditation Player */}
-            <div className={styles.meditationPlayer}>
+            <motion.div 
+              className={styles.meditationPlayer}
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+            >
               {/* Player Header */}
               <div className={styles.playerHeader}>
                 <h2 className={styles.playerTitle}>Evening Calm</h2>
@@ -186,7 +218,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
                   <span>12:00</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </>
         ) : (
           <>
@@ -311,12 +343,17 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
             </div>
 
             {/* CTA Button - Order 3 on mobile */}
-            <button 
+            <motion.button 
               className={`${styles.ctaButton} ${styles.mobileCta}`}
               aria-label="Start your wellness journey"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.8, duration: 0.4, ease: "easeOut" }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Buy Me :)
-            </button>
+            </motion.button>
 
             {/* Description - Order 4 on mobile */}
             <p className={`${styles.description} ${styles.mobileDescription}`}>
@@ -359,7 +396,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
             </div>
           </>
         )}
-      </div>
+      </motion.div>
 
       {/* Scroll Indicator */}
       <div className={styles.scrollIndicator}>
