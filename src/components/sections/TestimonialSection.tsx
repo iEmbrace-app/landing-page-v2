@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { HiArrowRight } from 'react-icons/hi2'
 import styles from './TestimonialSection.module.css'
 
@@ -261,17 +261,47 @@ const CardLogo = ({ company }: { company: string }) => {
 export function TestimonialSection({ isMobile }: TestimonialSectionProps) {
   const [activeIndex, setActiveIndex] = useState(CAROUSEL_SETTINGS.DEFAULT_ACTIVE_INDEX)
   const [isPaused, setIsPaused] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
   
-  // Auto-play functionality
+  // Intersection Observer for performance optimization
   useEffect(() => {
-    if (!isPaused) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { 
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    )
+    
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+    
+    return () => observer.disconnect()
+  }, [])
+  
+  // Auto-play functionality - only when visible
+  useEffect(() => {
+    if (!isPaused && isVisible) {
       const interval = setInterval(() => {
         setActiveIndex((prev) => (prev + 1) % testimonials.length)
       }, CAROUSEL_SETTINGS.AUTO_PLAY_INTERVAL)
       
       return () => clearInterval(interval)
     }
-  }, [isPaused])
+  }, [isPaused, isVisible])
+  
+  // Optimized card click handler
+  const handleCardClick = useCallback((index: number) => {
+    if (index !== activeIndex) {
+      setActiveIndex(index)
+      setIsPaused(true)
+      setTimeout(() => setIsPaused(false), CAROUSEL_SETTINGS.PAUSE_DURATION)
+    }
+  }, [activeIndex])
   
   // Get visible companies for navigation - always center the active company
   const getVisibleCompanies = () => {
@@ -345,23 +375,19 @@ export function TestimonialSection({ isMobile }: TestimonialSectionProps) {
     }
   }
 
-  // Handle card interaction
-  const handleCardClick = (index: number) => {
-    if (index !== activeIndex) {
-      setActiveIndex(index)
-      setIsPaused(true)
-      setTimeout(() => setIsPaused(false), CAROUSEL_SETTINGS.PAUSE_DURATION)
-    }
-  }
-
   return (
-    <section className={styles.testimonialSection}>
+    <section ref={sectionRef} className={styles.testimonialSection} aria-label="Customer testimonials">
+      {/* Skip link for accessibility */}
+      <a href="#testimonial-content" className={styles.skipLink}>
+        Skip to testimonials content
+      </a>
+      
       <div className={styles.container}>
         {/* Header */}
-        <header className={styles.header}>
-          <p className={styles.subtitle}>Trusted by wellness professionals</p>
+        <header className={styles.header} id="testimonial-content">
+          <p className={styles.subtitle} role="text">Trusted by wellness professionals</p>
           <h2 className={styles.title}>What our users are saying</h2>
-          <p className={styles.description}>
+          <p className={styles.description} role="text">
             Discover how mindfulness transforms lives through our immersive meditation experience
           </p>
         </header>
@@ -386,6 +412,7 @@ export function TestimonialSection({ isMobile }: TestimonialSectionProps) {
                   isActive={isActive}
                   isMobile={isMobile}
                   onClick={() => handleCardClick(index)}
+                  cardIndex={index}
                 />
               )
             })}
@@ -412,11 +439,18 @@ interface TestimonialCardProps {
   isActive: boolean
   isMobile?: boolean
   onClick: () => void
+  cardIndex: number
 }
 
-function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick }: TestimonialCardProps) {
+function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick, cardIndex }: TestimonialCardProps) {
+  const [imageError, setImageError] = useState(false)
+  
+  const handleImageError = () => {
+    setImageError(true)
+  }
+  
   return (
-    <div
+    <article
       className={`${styles.card} ${cardStyle.className}`}
       style={{
         transform: cardStyle.transform,
@@ -425,15 +459,27 @@ function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick }
         filter: cardStyle.filter,
         width: isMobile ? '300px' : '720px'
       }}
+      role="tabpanel"
+      id={`testimonial-${cardIndex}`}
+      aria-label={`Testimonial from ${testimonial.author.name} at ${testimonial.company}`}
     >
       <div 
         className={`${styles.cardContent} ${
           isActive ? styles.cardActive : styles.cardInactive
         }`}
         onClick={onClick}
+        tabIndex={isActive ? 0 : -1}
+        role="button"
+        aria-pressed={isActive}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            onClick()
+          }
+        }}
       >
         {/* Premium gradient accent */}
-        <div className={`${styles.cardAccent} bg-gradient-to-r ${testimonial.accentColor}`} />
+        <div className={`${styles.cardAccent} bg-gradient-to-r ${testimonial.accentColor}`} aria-hidden="true" />
         
         <div className={styles.cardBody}>
           {/* Company Logo */}
@@ -442,20 +488,35 @@ function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick }
           </div>
 
           {/* Quote */}
-          <p className={styles.quote}>
+          <blockquote className={styles.quote}>
             "{testimonial.quote}"
-          </p>
+          </blockquote>
 
           {/* Author section */}
           <div className={styles.authorSection}>
             <div className={styles.authorInfo}>
               <div className={styles.avatarContainer}>
-                <img 
-                  src={testimonial.author.avatar}
-                  alt={testimonial.author.name}
-                  className={styles.avatar}
-                />
-                <div className={styles.avatarRing} />
+                {!imageError ? (
+                  <img 
+                    src={testimonial.author.avatar}
+                    alt={`Profile photo of ${testimonial.author.name}`}
+                    className={styles.avatar}
+                    loading="lazy"
+                    decoding="async"
+                    onError={handleImageError}
+                  />
+                ) : (
+                  <div 
+                    className={styles.avatar}
+                    style={{ backgroundColor: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                    aria-label={`Profile photo of ${testimonial.author.name} (unavailable)`}
+                  >
+                    <span style={{ fontSize: '18px', color: '#9ca3af' }}>
+                      {testimonial.author.name.charAt(0)}
+                    </span>
+                  </div>
+                )}
+                <div className={styles.avatarRing} aria-hidden="true" />
               </div>
               <div className={styles.authorDetails}>
                 <p className={styles.authorName}>{testimonial.author.name}</p>
@@ -464,15 +525,18 @@ function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick }
             </div>
             
             {isActive && (
-              <button className={styles.readMoreBtn}>
+              <button 
+                className={styles.readMoreBtn}
+                aria-label={`Read more about ${testimonial.author.name}'s testimonial`}
+              >
                 Read more
-                <HiArrowRight className={styles.readMoreIcon} />
+                <HiArrowRight className={styles.readMoreIcon} aria-hidden="true" />
               </button>
             )}
           </div>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 
@@ -493,15 +557,15 @@ function NavigationSection({
   onCardClick 
 }: NavigationSectionProps) {
   return (
-    <div className={styles.navigation}>
+    <nav className={styles.navigation} role="tablist" aria-label="Testimonial navigation">
       {!isMobile && (
         <>
           {/* Company logos */}
           <div className={styles.companyLogos}>
             {/* Left fade overlay */}
-            <div className={styles.fadeOverlayLeft}></div>
+            <div className={styles.fadeOverlayLeft} aria-hidden="true"></div>
             {/* Right fade overlay */}
-            <div className={styles.fadeOverlayRight}></div>
+            <div className={styles.fadeOverlayRight} aria-hidden="true"></div>
             
             {visibleCompanies.map((company) => {
               const companyIndex = testimonials.findIndex(t => t.id === company)
@@ -515,7 +579,11 @@ function NavigationSection({
                   className={`${styles.companyLogo} ${
                     isActive ? styles.companyLogoActive : styles.companyLogoInactive
                   }`}
-                  aria-label={`View ${testimonial.company} testimonial`}
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls={`testimonial-${companyIndex}`}
+                  aria-label={`View ${testimonial.company} testimonial from ${testimonial.author.name}`}
+                  tabIndex={isActive ? 0 : -1}
                 >
                   {CompanyLogos[company]({ 
                     isActive, 
@@ -527,6 +595,6 @@ function NavigationSection({
           </div>
         </>
       )}
-    </div>
+    </nav>
   )
 }
