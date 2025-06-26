@@ -25,7 +25,7 @@
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 80px;
-  padding-bottom: 80px;
+  padding-bottom: 0px;
 }
 
 .topSection {
@@ -47,7 +47,7 @@
 }
 
 .mainTitle {
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 300;
   line-height: 1.2;
   word-wrap: break-word;
@@ -63,9 +63,9 @@
 }
 
 .description {
-  color: #8A8A8A;
+  color: #6b6b6b; /* Improved contrast from #8A8A8A */
   font-size: 16px;
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 300;
   word-wrap: break-word;
   text-align: left;
@@ -86,9 +86,9 @@
 }
 
 .columnTitle {
-  color: #d2d2d2;
+  color: #9a9a9a; /* Improved contrast from #d2d2d2 */
   font-size: 16px;
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 1.28px;
@@ -104,6 +104,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .circleDesktop {
@@ -114,6 +116,17 @@
 .circleMobile {
   width: 180px;
   height: 180px;
+}
+
+.circle:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: #ddd;
+}
+
+.circle:focus-visible {
+  outline: 2px solid #6865BF;
+  outline-offset: 2px;
 }
 
 .circleImage {
@@ -131,12 +144,157 @@
 }
 
 .columnDescription {
-  color: #8a8a8a;
+  color: #6b6b6b; /* Improved contrast from #8a8a8a */
   font-size: 16px;
-  font-family: 'Source Sans Pro';
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 400;
   word-wrap: break-word;
   line-height: 1.5;
   text-align: center;
   padding-bottom: 120px;
+}
+
+/* Media Queries - Only for responsive behavior, keeping desktop layout intact */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .sectionDesktop {
+    padding: 60px;
+  }
+  
+  .mainTitleDesktop {
+    font-size: 42px;
+  }
+  
+  .circleDesktop {
+    width: 240px;
+    height: 240px;
+  }
+  
+  .columnDescription {
+    padding-bottom: 80px;
+  }
+}
+
+/* Mobile Landscape (481px - 767px) */
+@media (max-width: 767px) and (min-width: 481px) {
+  /* Force mobile styles in this range */
+  .sectionDesktop {
+    padding: 40px 30px;
+  }
+  
+  .topSectionDesktop {
+    margin-bottom: 50px;
+  }
+  
+  .mainTitleDesktop {
+    font-size: 36px;
+  }
+  
+  .circleDesktop {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .column {
+    gap: 30px;
+  }
+  
+  .columnDescription {
+    padding-bottom: 60px;
+  }
+}
+
+/* Mobile Portrait (up to 480px) */
+@media (max-width: 480px) {
+  .mainTitleMobile {
+    font-size: 28px;
+  }
+  
+  .description {
+    font-size: 15px;
+  }
+  
+  .columnTitle {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  
+  .circleMobile {
+    width: 160px;
+    height: 160px;
+  }
+  
+  .columnDescription {
+    font-size: 15px;
+    padding-bottom: 80px;
+  }
+}
+
+/* Accessibility - Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .circle,
+  .circleImage {
+    transition: none;
+  }
+  
+  .circle:hover {
+    transform: none;
+  }
+  
+  .circleImage:hover {
+    transform: none;
+    filter: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .circle {
+    border: 2px solid currentColor;
+  }
+  
+  .columnTitle {
+    color: #666;
+  }
+  
+  .description,
+  .columnDescription {
+    color: #333;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .circle:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .circleImage:hover {
+    transform: none;
+    filter: none;
+  }
+  
+  /* Add tap feedback */
+  .circle:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Print styles */
+@media print {
+  .section {
+    min-height: auto;
+    padding: 0;
+  }
+  
+  .columnDescription {
+    padding-bottom: 20px;
+  }
+  
+  .circle {
+    border: 1px solid #000;
+    page-break-inside: avoid;
+  }
 }

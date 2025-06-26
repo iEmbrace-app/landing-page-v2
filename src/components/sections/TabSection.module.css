@@ -483,6 +483,8 @@
   background: rgba(147, 51, 234, 0.12);
 }
 
+/* ==== MEDIA QUERIES START HERE ==== */
+
 /* Large screen media queries for consistent alignment */
 @media (min-width: 1440px) {
   .section {
@@ -497,5 +499,275 @@
     max-width: 1400px; /* Keep consistent max-width */
     padding-left: 5rem; /* Match navbar and hero padding */
     padding-right: 5rem; /* Match navbar and hero padding */
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .section {
+    padding: 60px;
+    min-height: auto;
+  }
+  
+  .headerSectionWithMargin {
+    margin-top: 80px;
+  }
+  
+  .gradientTextPrimary {
+    font-size: 42px;
+    width: 80%;
+  }
+  
+  .descriptionWithMargin {
+    font-size: 15px;
+  }
+  
+  .tabContentWrapper {
+    gap: 48px;
+  }
+  
+  .gridContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  
+  .leftContentColumn {
+    padding-right: 30px;
+  }
+  
+  .rightImageColumn {
+    height: 350px;
+  }
+}
+
+/* Mobile (up to 767px) */
+@media (max-width: 767px) {
+  .section {
+    padding: 40px 20px;
+    min-height: auto;
+  }
+  
+  .headerSection {
+    padding: 0 20px; /* Add horizontal padding to match image */
+  }
+  
+  .headerSectionWithMargin {
+    margin-top: 60px;
+  }
+  
+  .gradientTextPrimary {
+    font-size: 28px;
+    width: 100%;
+  }
+  
+  .descriptionWithMargin {
+    font-size: 14px;
+    margin-top: 16px;
+  }
+  
+  .tabContentWrapper {
+    gap: 0; /* Remove gap to control spacing manually */
+  }
+  
+  /* Hide desktop tabs on mobile */
+  .tabButtonsWrapper {
+    display: none !important;
+  }
+  
+  /* Show mobile dropdown */
+  .dropdownWrapper {
+    display: block !important;
+    max-width: 100%;
+    margin-bottom: 24px;
+    padding: 0 20px; /* Add horizontal padding to match image */
+  }
+  
+  .gridContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .leftContentColumn {
+    padding-right: 0;
+    padding-left: 20px; /* Add left padding */
+    padding-right: 20px; /* Add right padding */
+    order: 2; /* Place after image */
+  }
+  
+  .rightImageColumn {
+    height: 250px;
+    margin-top: 0;
+    order: 1; /* Image after dropdown but before content */
+    padding: 0 20px; /* Add padding to contain border radius */
+  }
+  
+  .tabImage {
+    border-radius: 16px; /* Keep border radius */
+  }
+  
+  .expandableItemHeader {
+    gap: 16px;
+    padding: 12px 0;
+  }
+  
+  .expandableItemDescription {
+    padding-left: 40px;
+  }
+  
+  .expandableItemContent {
+    font-size: 13px;
+  }
+}
+
+/* Small Mobile (up to 480px) */
+@media (max-width: 480px) {
+  .section {
+    padding: 30px 15px;
+  }
+  
+  .headerSection {
+    padding: 0 15px; /* Match section padding */
+  }
+  
+  .headerSectionWithMargin {
+    margin-top: 40px;
+  }
+  
+  .gradientTextPrimary {
+    font-size: 24px;
+  }
+  
+  .descriptionWithMargin {
+    font-size: 13px;
+  }
+  
+  .tabContentWrapper {
+    gap: 0; /* Remove gap to control spacing manually */
+  }
+  
+  .dropdownWrapper {
+    padding: 0 15px; /* Match section padding */
+    margin-bottom: 20px;
+  }
+  
+  .leftContentColumn {
+    padding-left: 15px; /* Match section padding */
+    padding-right: 15px; /* Match section padding */
+    order: 2; /* Place after image */
+  }
+  
+  .rightImageColumn {
+    height: 200px;
+    padding: 0 15px; /* Add padding to contain border radius */
+    order: 1; /* Image after dropdown but before content */
+  }
+  
+  .tabImage {
+    border-radius: 16px; /* Keep border radius */
+  }
+  
+  .expandableItemTitle {
+    font-size: 14px;
+  }
+  
+  .expandableItemContent {
+    font-size: 12px;
+  }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .tabImage,
+  .expandableItemHeader,
+  .expandableItemDescription,
+  .dropdownButton,
+  .dropdownChevron,
+  .dropdownOption,
+  .tabButton {
+    transition: none !important;
+  }
+  
+  .tabImage:hover {
+    transform: none;
+    filter: none;
+  }
+  
+  @keyframes dropdownSlide {
+    from { opacity: 1; transform: none; }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .expandableItemTitle {
+    color: #333;
+  }
+  
+  .expandableItemTitle.expanded {
+    color: #000;
+    text-decoration: underline;
+  }
+  
+  .descriptionWithMargin,
+  .expandableItemContent {
+    color: #333;
+  }
+  
+  .dropdownButton {
+    border-width: 2px;
+  }
+  
+  .expandableItemSeparator {
+    outline-width: 1px;
+    outline-color: currentColor;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .expandableItemHeader {
+    min-height: 48px;
+  }
+  
+  .tabImage:hover {
+    transform: none;
+    filter: none;
+  }
+  
+  .dropdownButton {
+    min-height: 48px;
+  }
+  
+  .dropdownOption {
+    min-height: 44px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .section {
+    min-height: auto;
+    padding: 0;
+  }
+  
+  .tabButtonsWrapper,
+  .dropdownWrapper {
+    display: none !important;
+  }
+  
+  .expandableItemDescription {
+    max-height: none !important;
+    display: block;
+  }
+  
+  .expandableItemDescription.expanded {
+    padding-left: 48px;
+  }
+  
+  .rightImageColumn {
+    page-break-inside: avoid;
   }
 }

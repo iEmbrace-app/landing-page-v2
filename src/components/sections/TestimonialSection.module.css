@@ -1,5 +1,6 @@
 /* CSS Custom Properties for Performance and Maintainability */
 :root {
+  /* Colors */
   --testimonial-primary-color: #6865BF;
   --testimonial-secondary-color: #A496D9;
   --testimonial-tertiary-color: #D3BDF2;
@@ -7,10 +8,33 @@
   --testimonial-text-secondary: #374151;
   --testimonial-text-muted: #6b7280;
   --testimonial-bg-white: #ffffff;
+  --testimonial-bg-section: #f9fafb;
   --testimonial-border-light: rgba(229, 231, 235, 0.6);
   --testimonial-shadow-light: rgba(0, 0, 0, 0.1);
+  
+  /* Transitions */
   --testimonial-transition-smooth: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
   --testimonial-transition-fast: all 0.3s ease;
+  
+  /* Spacing */
+  --testimonial-spacing-xs: 0.5rem;
+  --testimonial-spacing-sm: 1rem;
+  --testimonial-spacing-md: 2rem;
+  --testimonial-spacing-lg: 3rem;
+  --testimonial-spacing-xl: 4rem;
+  
+  /* Card dimensions */
+  --testimonial-card-width-desktop: 720px;
+  --testimonial-card-width-tablet: 600px;
+  --testimonial-card-width-mobile: 300px;
+  
+  /* Z-index system */
+  --testimonial-z-base: 1;
+  --testimonial-z-overlay: 5;
+  --testimonial-z-card-hidden: 10;
+  --testimonial-z-card-inactive: 20;
+  --testimonial-z-card-active: 30;
+  --testimonial-z-modal: 999;
 }
 
 /* Testimonial Section - Customer Reviews */
@@ -18,19 +42,20 @@
   min-height: 100vh;
   background: linear-gradient(
     135deg,
-    rgba(249, 250, 251, 1) 0%,
-    rgba(255, 255, 255, 1) 25%,
+    var(--testimonial-bg-section) 0%,
+    var(--testimonial-bg-white) 25%,
     rgba(248, 250, 252, 1) 50%,
-    rgba(249, 250, 251, 1) 100%
+    var(--testimonial-bg-section) 100%
   );
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   position: relative;
+  padding: var(--testimonial-spacing-xl) var(--testimonial-spacing-md);
   /* Performance optimizations */
   contain: layout style paint;
-  will-change: auto;
+  padding-bottom: 160px;
 }
 
 .container {
@@ -38,13 +63,13 @@
   width: 100%;
   /* Performance optimizations */
   contain: layout style;
-  transform: translateZ(0); /* Hardware acceleration */
+  transform: translateZ(0);
 }
 
 /* Header */
 .header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: var(--testimonial-spacing-lg);
   /* Performance optimizations */
   contain: layout style;
 }
@@ -55,7 +80,7 @@
   text-transform: uppercase;
   letter-spacing: 0.4em;
   font-weight: 500;
-  margin-bottom: 1rem;
+  margin-bottom: var(--testimonial-spacing-sm);
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -65,20 +90,23 @@
   line-height: 1.2;
   letter-spacing: -0.02em;
   margin: 0 0 1.5rem 0;
-  background: linear-gradient(135deg, var(--testimonial-primary-color), var(--testimonial-secondary-color), var(--testimonial-tertiary-color));
+  background: linear-gradient(
+    135deg,
+    var(--testimonial-primary-color),
+    var(--testimonial-secondary-color),
+    var(--testimonial-tertiary-color)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  /* Performance optimizations */
-  will-change: auto;
 }
 
 .description {
   font-size: clamp(1rem, 2vw, 1.2rem);
   color: var(--testimonial-text-muted);
   line-height: 1.6;
-  max-width: 400px;
+  max-width: 600px;
   margin: 0 auto;
   font-weight: 300;
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -88,10 +116,10 @@
 .carouselContainer {
   position: relative;
   height: 520px;
-  margin-bottom: 0rem;
+  margin-bottom: var(--testimonial-spacing-lg);
   /* Performance optimizations */
   contain: layout style;
-  transform: translateZ(0); /* Hardware acceleration */
+  transform: translateZ(0);
 }
 
 .carouselInner {
@@ -107,10 +135,12 @@
 /* Card Styles */
 .card {
   position: absolute;
-  margin: 0rem;
   /* Performance optimizations */
   contain: layout style;
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
+  /* Prevent layout shifts */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .cardContent {
@@ -120,14 +150,14 @@
   overflow: hidden;
   transition: var(--testimonial-transition-smooth);
   /* Performance optimizations */
-  transform: translateZ(0); /* Hardware acceleration */
+  transform: translateZ(0);
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .cardActive {
   box-shadow: 0 8px 20px -15px var(--testimonial-shadow-light);
   cursor: default;
-  /* Accessibility: Focus styles */
 }
 
 .cardActive:focus-visible {
@@ -138,8 +168,8 @@
 .cardInactive {
   box-shadow: 0 10px 40px -15px var(--testimonial-shadow-light);
   cursor: pointer;
-  /* Accessibility: Touch targets and hover states */
-  min-height: 44px; /* Minimum touch target size */
+  /* Accessibility: Touch targets */
+  min-height: 44px;
   transition: var(--testimonial-transition-fast);
 }
 
@@ -158,20 +188,20 @@
 }
 
 .cardBody {
-  padding: 3.5rem;
+  padding: var(--testimonial-spacing-lg);
   /* Performance optimizations */
   contain: layout style;
 }
 
 .logoContainer {
-  margin-bottom: 3rem;
+  margin-bottom: var(--testimonial-spacing-lg);
 }
 
 .quote {
   font-size: 19px;
   line-height: 1.65;
   color: var(--testimonial-text-secondary);
-  margin-bottom: 3.5rem;
+  margin-bottom: var(--testimonial-spacing-lg);
   font-weight: 300;
   letter-spacing: -0.01em;
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -181,25 +211,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--testimonial-spacing-sm);
 }
 
 .authorInfo {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--testimonial-spacing-sm);
 }
 
 .avatarContainer {
   position: relative;
+  flex-shrink: 0;
 }
 
 .avatar {
   width: 44px;
   height: 44px;
   border-radius: 50%;
+  object-fit: cover;
   /* Performance optimizations for images */
   transform: translateZ(0);
-  will-change: auto;
 }
 
 .avatarRing {
@@ -207,11 +239,13 @@
   inset: 0;
   border-radius: 50%;
   border: 1px solid var(--testimonial-border-light);
+  pointer-events: none;
 }
 
 .authorDetails {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .authorName {
@@ -243,9 +277,10 @@
   transition: var(--testimonial-transition-fast);
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   /* Accessibility improvements */
-  min-height: 44px; /* Minimum touch target size */
+  min-height: 44px;
   padding: 8px 12px;
   border-radius: 4px;
+  white-space: nowrap;
 }
 
 .readMoreBtn:hover {
@@ -270,58 +305,62 @@
   transform: translateX(2px);
 }
 
-/* Fade Overlays - Applied to company logos section */
+/* Navigation */
+.navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--testimonial-spacing-md);
+  margin-top: var(--testimonial-spacing-md);
+  /* Performance optimizations */
+  contain: layout style;
+}
+
+/* Company Logos Navigation */
 .companyLogos {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
+  gap: var(--testimonial-spacing-lg);
   position: relative;
   overflow: hidden;
   min-height: 60px;
-  padding: 0 10%; /* Reduced padding for more subtle effect */
+  padding: 0 10%;
+  width: 100%;
   /* Performance optimizations */
   contain: layout style;
   transform: translateZ(0);
 }
 
-/* Remove top fade overlay for now */
-.companyLogos::before {
-  display: none;
-}
-
-/* Left fade overlay element - very subtle */
-.fadeOverlayLeft {
+/* Fade Overlays */
+.fadeOverlayLeft,
+.fadeOverlayRight {
   position: absolute;
-  left: 0;
   top: 0;
   bottom: 0;
   width: 10%;
   pointer-events: none;
-  z-index: 5;
+  z-index: var(--testimonial-z-overlay);
+}
+
+.fadeOverlayLeft {
+  left: 0;
   background: linear-gradient(
     to right,
-    rgba(248, 250, 252, 0.7) 0%,
-    rgba(248, 250, 252, 0.4) 40%,
-    rgba(248, 250, 252, 0.1) 70%,
+    rgba(248, 250, 252, 0.8) 0%,
+    rgba(248, 250, 252, 0.5) 30%,
+    rgba(248, 250, 252, 0.2) 60%,
     transparent 100%
   );
 }
 
-/* Right fade overlay element - very subtle */
 .fadeOverlayRight {
-  position: absolute;
   right: 0;
-  top: 0;
-  bottom: 0;
-  width: 10%;
-  pointer-events: none;
-  z-index: 5;
   background: linear-gradient(
     to left,
-    rgba(248, 250, 252, 0.7) 0%,
-    rgba(248, 250, 252, 0.4) 40%,
-    rgba(248, 250, 252, 0.1) 70%,
+    rgba(248, 250, 252, 0.8) 0%,
+    rgba(248, 250, 252, 0.5) 30%,
+    rgba(248, 250, 252, 0.2) 60%,
     transparent 100%
   );
 }
@@ -329,145 +368,57 @@
 .companyLogo {
   position: relative;
   padding: 0.75rem 1rem;
-  margin-bottom: 160px;
   background: none;
   border: none;
   cursor: pointer;
   transition: var(--testimonial-transition-smooth);
   white-space: nowrap;
   flex-shrink: 0;
-  border-radius: 0; /* Remove border radius */
   transform-origin: center;
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   /* Accessibility improvements */
-  min-height: 44px; /* Minimum touch target size */
+  min-height: 44px;
   /* Performance optimizations */
   will-change: transform, opacity;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .companyLogo:focus-visible {
   outline: 2px solid var(--testimonial-primary-color);
   outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .companyLogoActive {
   opacity: 1;
-  transform: scale(1.08) translateY(-1px); /* Added subtle upward movement */
+  transform: scale(1.08) translateY(-1px);
   font-weight: bold;
-  z-index: 10;
-  position: relative;
-  background: none; /* Remove background box */
-  border-radius: 0; /* Remove border radius */
-  box-shadow: none; /* Remove box shadow */
-  backdrop-filter: none; /* Remove backdrop filter */
-  -webkit-backdrop-filter: none; /* Remove webkit backdrop filter */
-  animation: breathe 3s ease-in-out infinite; /* Breathing animation */
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  z-index: var(--testimonial-z-card-inactive);
+  animation: breathe 3s ease-in-out infinite;
 }
 
 .companyLogoActive * {
   font-weight: bold !important;
   transition: var(--testimonial-transition-smooth);
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .companyLogoInactive {
   opacity: 0.35;
-  transform: scale(0.95) translateY(0px); /* Slightly smaller and neutral position */
+  transform: scale(0.95) translateY(0px);
   transition: var(--testimonial-transition-smooth);
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .companyLogoInactive:hover {
   opacity: 0.65;
-  transform: scale(1.02) translateY(-0.5px); /* Subtle hover effect */
-}
-
-/* Navigation */
-.navigation {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2.5rem;
-  margin-top: 0rem;
-  /* Performance optimizations */
-  contain: layout style;
-}
-
-/* Bottom Showcase */
-.bottomShowcase {
-  margin-top: 8rem;
-  padding-top: 4rem;
-  border-top: 1px solid var(--testimonial-border-light);
-  /* Performance optimizations */
-  contain: layout style;
-}
-
-.showcaseLogos {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4rem;
-  margin-bottom: 4rem;
-  padding: 0 2rem;
-  /* Performance optimizations */
-  contain: layout style;
-  transform: translateZ(0);
-}
-
-.showcaseLogo {
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: var(--testimonial-transition-smooth);
-  transform-origin: center;
-  border-radius: 6px;
-  padding: 0.5rem 0.75rem;
-  /* Accessibility improvements */
-  min-height: 44px; /* Minimum touch target size */
-  /* Performance optimizations */
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-}
-
-.showcaseLogo:focus-visible {
-  outline: 2px solid var(--testimonial-primary-color);
-  outline-offset: 2px;
-}
-
-.showcaseLogoActive {
-  opacity: 1;
-  transform: translateY(-3px) scale(1.05);
-  font-weight: bold;
-  z-index: 10;
-  position: relative;
-  background: var(--testimonial-bg-white);
-  box-shadow: 0 4px 16px var(--testimonial-shadow-light);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.showcaseLogoActive * {
-  font-weight: bold !important;
-  transition: var(--testimonial-transition-smooth);
-}
-
-.showcaseLogoInactive {
-  opacity: 0.3;
-  transform: translateY(0) scale(0.96);
-}
-
-.showcaseLogoInactive:hover {
-  opacity: 0.6;
-  transform: translateY(-1px) scale(1.01);
+  transform: scale(1.02) translateY(-0.5px);
 }
 
 /* Skip Link for Accessibility */
 .skipLink {
   position: absolute;
   left: -9999px;
-  z-index: 999;
+  z-index: var(--testimonial-z-modal);
   padding: 8px 16px;
   background: var(--testimonial-primary-color);
   color: white;
@@ -482,7 +433,7 @@
   top: 20px;
 }
 
-/* ASMR-like breathing animation for active company logo */
+/* Animations */
 @keyframes breathe {
   0%, 100% {
     transform: scale(1.08) translateY(-1px);
@@ -492,24 +443,92 @@
   }
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
+/* Tablet (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
   .testimonialSection {
-    padding: 4rem 1rem;
-  }
-
-  .header {
-    margin-bottom: 3rem;
-  }
-
-  .title {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    padding: var(--testimonial-spacing-lg) var(--testimonial-spacing-md);
   }
 
   .carouselContainer {
-    height: 400px;
-    margin-bottom: 4rem;
+    height: 480px;
+  }
+
+  .cardBody {
+    padding: 2.5rem;
+  }
+
+  .quote {
+    font-size: 18px;
+  }
+
+  .companyLogos {
+    gap: 2.5rem;
+    padding: 0 8%;
+  }
+
+  .fadeOverlayLeft,
+  .fadeOverlayRight {
+    width: 8%;
+  }
+}
+
+/* Mobile Tablet (481px - 768px) */
+@media (max-width: 768px) and (min-width: 481px) {
+  .testimonialSection {
+    padding: 3rem 1.5rem;
+    min-height: 100vh;
+    background: var(--testimonial-bg-white);
+  }
+
+  .header {
+    margin-bottom: 2.5rem;
+  }
+
+  .title {
+    font-size: 2.25rem;
+    background: none;
+    -webkit-text-fill-color: var(--testimonial-text-primary);
+  }
+
+  .subtitle {
+    color: var(--testimonial-primary-color);
+  }
+
+  .description {
+    font-size: 1rem;
+    color: var(--testimonial-text-secondary);
+  }
+
+  .carouselContainer {
+    height: auto;
+    margin-bottom: 2.5rem;
+  }
+
+  .carouselInner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1.5rem;
+  }
+
+  /* Tablet: Show only active card with better spacing */
+  .card {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 500px;
+    margin: 0 auto;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    display: none;
+  }
+
+  .card:has(.cardActive) {
+    display: block;
+  }
+
+  .cardContent {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
   }
 
   .cardBody {
@@ -517,71 +536,283 @@
   }
 
   .quote {
-    font-size: 16px;
-    margin-bottom: 2.5rem;
+    font-size: 17px;
+    margin-bottom: 2rem;
   }
 
   .authorSection {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
     gap: 1rem;
   }
 
   .readMoreBtn {
-    align-self: flex-end;
+    background: var(--testimonial-bg-section);
+    border-radius: 20px;
   }
 
   .navigation {
-    gap: 2rem;
+    gap: 1rem;
   }
 
-  .companyLogos::before,
-  .companyLogos::after {
-    width: 18%; /* Slightly wider for mobile to account for smaller screen */
-  }
-
+  /* Hide company logos on tablets too */
   .companyLogos {
-    padding: 0 22%; /* Match the fade overlay width */
-    gap: 2rem; /* Reduced gap for mobile */
+    display: none;
   }
 
-  .showcaseLogos {
-    flex-direction: column;
-    gap: 2rem;
+  /* Tablet dots navigation */
+  .mobileDots {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    padding: 1rem 0;
+  }
+
+  .mobileDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--testimonial-border-light);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .mobileDot.active {
+    width: 30px;
+    border-radius: 5px;
+    background: var(--testimonial-primary-color);
   }
 }
 
+/* Mobile (up to 480px) */
 @media (max-width: 480px) {
   .testimonialSection {
-    padding: 3rem 0.75rem;
+    padding: 2rem 1rem;
+    min-height: 100vh;
+    background: var(--testimonial-bg-white);
+  }
+
+  .container {
+    padding: 0;
+  }
+
+  .header {
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+    /* Solid color for better mobile readability */
+    background: none;
+    -webkit-text-fill-color: var(--testimonial-text-primary);
+  }
+
+  .subtitle {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+    color: var(--testimonial-primary-color);
+  }
+
+  .description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    padding: 0;
+    max-width: 100%;
+    color: var(--testimonial-text-secondary);
   }
 
   .carouselContainer {
-    height: 350px;
-    margin-bottom: 3rem;
+    height: auto;
+    margin-bottom: 2rem;
+    padding: 0;
+  }
+
+  .carouselInner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  /* Mobile: Show only active card */
+  .card {
+    position: relative !important;
+    width: 100% !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    display: none;
+  }
+
+  .card:nth-child(n) {
+    display: none;
+  }
+
+  /* Show only the active card */
+  .card:has(.cardActive) {
+    display: block;
+  }
+
+  .cardContent {
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   .cardBody {
     padding: 1.5rem;
   }
 
-  .quote {
-    font-size: 15px;
-    line-height: 1.5;
-    margin-bottom: 2rem;
+  .logoContainer {
+    margin-bottom: 1.5rem;
+    transform: scale(0.85);
+    transform-origin: left center;
   }
 
-  .logoContainer {
-    margin-bottom: 2rem;
+  .quote {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: var(--testimonial-text-primary);
+  }
+
+  .authorSection {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
   }
 
   .authorInfo {
     gap: 0.75rem;
+    flex: 1;
   }
 
   .avatar {
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .authorName {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .authorRole {
+    font-size: 13px;
+    color: var(--testimonial-text-muted);
+  }
+
+  .readMoreBtn {
+    padding: 0.5rem 1rem;
+    font-size: 13px;
+    background: var(--testimonial-bg-section);
+    border-radius: 20px;
+  }
+
+  /* Mobile navigation dots */
+  .navigation {
+    gap: 0;
+    margin-top: 0;
+  }
+
+  /* Hide company logos on mobile */
+  .companyLogos {
+    display: none;
+  }
+
+  /* Add mobile dots navigation */
+  .navigation::after {
+    content: '';
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  /* Mobile pagination dots */
+  .mobileDots {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+  }
+
+  .mobileDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--testimonial-border-light);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .mobileDot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: var(--testimonial-primary-color);
+  }
+
+  /* Mobile-optimized card accent */
+  .cardAccent {
+    height: 4px;
+  }
+}
+
+/* Very small mobile (up to 360px) */
+@media (max-width: 360px) {
+  .testimonialSection {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .header {
+    padding: 0 0.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .subtitle {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+  }
+
+  .description {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .carouselInner {
+    padding: 0 0.75rem;
+  }
+
+  .cardBody {
+    padding: 1.25rem;
+  }
+
+  .logoContainer {
+    transform: scale(0.8);
+  }
+
+  .quote {
+    font-size: 15px;
+  }
+
+  .avatar {
+    width: 38px;
+    height: 38px;
   }
 
   .authorName {
@@ -592,21 +823,25 @@
     font-size: 12px;
   }
 
-  .companyLogos::before,
-  .companyLogos::after {
-    width: 20%; /* Even wider for very small screens */
-  }
-
-  .companyLogos {
-    padding: 0 25%; /* Match the fade overlay width */
-    gap: 1.5rem; /* Tighter gap for small screens */
+  .readMoreBtn {
+    font-size: 12px;
+    padding: 0.5rem 0.75rem;
   }
 }
 
 /* High-contrast mode support */
 @media (prefers-contrast: high) {
   .cardContent {
-    border: 2px solid #000;
+    border: 2px solid currentColor;
+  }
+
+  .companyLogoInactive {
+    opacity: 0.6;
+  }
+
+  .fadeOverlayLeft,
+  .fadeOverlayRight {
+    display: none;
   }
 }
 
@@ -615,60 +850,110 @@
   .card,
   .cardContent,
   .companyLogo,
-  .showcaseLogo,
   .readMoreBtn,
-  .ctaLink {
-    transition: none;
+  .readMoreIcon {
+    transition: none !important;
   }
   
   .companyLogoActive {
-    animation: none; /* Disable breathing animation for reduced motion */
+    animation: none !important;
+  }
+
+  .readMoreBtn:hover .readMoreIcon {
+    transform: none;
   }
 }
 
-.ctaContainer {
-  text-align: center;
-  margin-top: 3rem;
-  /* Performance optimizations */
-  contain: layout style;
+/* Print styles */
+@media print {
+  .testimonialSection {
+    background: white;
+    min-height: auto;
+  }
+
+  .navigation,
+  .readMoreBtn,
+  .fadeOverlayLeft,
+  .fadeOverlayRight {
+    display: none;
+  }
+
+  .card {
+    position: static;
+    page-break-inside: avoid;
+    margin-bottom: 2rem;
+  }
+
+  .cardContent {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
 }
 
-.ctaLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--testimonial-text-muted);
-  text-decoration: none;
-  transition: var(--testimonial-transition-smooth);
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  /* Accessibility improvements */
-  min-height: 44px; /* Minimum touch target size */
-  /* Performance optimizations */
-  transform: translateZ(0);
+/* Add mobile-specific dot navigation styles */
+.mobileDots {
+  display: none;
 }
 
-.ctaLink:hover {
-  color: var(--testimonial-text-primary);
-  background: var(--testimonial-bg-white);
+@media (max-width: 768px) {
+  .mobileDots {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0;
+    margin-top: 1rem;
+  }
+
+  .mobileDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .mobileDot.active {
+    width: 24px;
+    border-radius: 4px;
+    background: var(--testimonial-primary-color);
+  }
+
+  .mobileDot:hover:not(.active) {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .mobileDot:focus-visible {
+    outline: 2px solid var(--testimonial-primary-color);
+    outline-offset: 2px;
+  }
 }
 
-.ctaLink:focus-visible {
-  outline: 2px solid var(--testimonial-primary-color);
-  outline-offset: 2px;
-}
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .cardInactive:hover {
+    transform: none;
+    box-shadow: 0 10px 40px -15px var(--testimonial-shadow-light);
+  }
 
-.ctaIcon {
-  width: 14px;
-  height: 14px;
-  transition: var(--testimonial-transition-smooth);
-  /* Performance optimization */
-  transform: translateZ(0);
-}
+  .companyLogoInactive:hover {
+    opacity: 0.35;
+    transform: scale(0.95) translateY(0px);
+  }
 
-.ctaLink:hover .ctaIcon {
-  transform: translateX(3px);
+  .readMoreBtn:hover {
+    background-color: transparent;
+    color: var(--testimonial-text-muted);
+  }
+
+  /* Larger touch targets on touch devices */
+  .companyLogo,
+  .readMoreBtn {
+    min-height: 48px;
+    min-width: 48px;
+  }
 }
