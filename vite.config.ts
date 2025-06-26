@@ -28,9 +28,6 @@ export default defineConfig({
         manualChunks: {
           // Split vendor libraries
           vendor: ['react', 'react-dom'],
-          
-          // Split utilities
-          utils: ['./src/utils/VideoManager', './src/utils/OptimizedVideoCache'],
         },
       },
     },

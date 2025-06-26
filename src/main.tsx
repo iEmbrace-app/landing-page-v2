@@ -32,7 +32,7 @@ async function registerServiceWorker() {
             type: 'CACHE_ASSETS',
             payload: {
               assets: [
-                '/src/utils/VideoManager.ts'
+                // No additional assets to cache
               ]
             }
           })

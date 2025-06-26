@@ -4,8 +4,7 @@ import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
 import { ImmerseIntroSection } from './components/sections/ImmerseIntroSection'
 import { ImmerseSectionContainer } from './components/sections/ImmerseSectionContainer'
-import { TabSection, HoldMeditateSection, ComponentLoadingFallback } from './components/LazyComponents'
-// import { ParticleBackground } from './components/ui/ParticleBackground' // Removed for cleaner design
+import { TabSection, HoldMeditateSection, TestimonialSection, ComponentLoadingFallback } from './components/LazyComponents'
 import { useScreenSize } from './hooks/useScreenSize'
 
 import { tabContent } from './data/tabContent'
@@ -13,14 +12,9 @@ import './App.css'
 
 function App() {
   const { isMobile } = useScreenSize()
-  
-  // Smart image preloading based on user interaction
-
 
   return (
     <>
-      {/* Removed ParticleBackground for cleaner, more meditative design */}
-      
       {/* Skip link for keyboard navigation */}
       <a 
         href="#main-content" 
@@ -71,6 +65,13 @@ function App() {
         <section id="how-it-works" aria-label="How it works - Hold and meditate practice">
           <Suspense fallback={<ComponentLoadingFallback />}>
             <HoldMeditateSection isMobile={isMobile} />
+          </Suspense>
+        </section>
+        
+        {/* Testimonials Section */}
+        <section id="testimonials" aria-label="Customer testimonials and reviews">
+          <Suspense fallback={<ComponentLoadingFallback />}>
+            <TestimonialSection isMobile={isMobile} />
           </Suspense>
         </section>
       </main>

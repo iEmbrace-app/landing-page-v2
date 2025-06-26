@@ -1,0 +1,596 @@
+/* Testimonial Section - Customer Reviews */
+.testimonialSection {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    rgba(249, 250, 251, 1) 0%,
+    rgba(255, 255, 255, 1) 25%,
+    rgba(248, 250, 252, 1) 50%,
+    rgba(249, 250, 251, 1) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.container {
+  max-width: 1400px;
+  width: 100%;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: rgba(107, 114, 128, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  font-weight: 00;
+  margin-bottom: 1rem;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 100;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.5rem 0;
+  background: linear-gradient(135deg, #6865BF, #A496D9, #D3BDF2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.description {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: rgba(107, 114, 128, 0.9);
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0 auto;
+  font-weight: 300;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Carousel Container */
+.carouselContainer {
+  position: relative;
+  height: 520px;
+  margin-bottom: 0rem;
+}
+
+.carouselInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card Styles */
+.card {
+  position: absolute;
+}
+
+.cardContent {
+  background: white;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1); /* Smoother, ASMR-like transition */
+}
+
+.cardActive {
+  box-shadow: 0 20px 70px -15px rgba(0, 0, 0, 0.15);
+  cursor: default;
+}
+
+.cardInactive {
+  box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.cardAccent {
+  height: 3px;
+}
+
+.cardBody {
+  padding: 3.5rem;
+}
+
+.logoContainer {
+  margin-bottom: 3rem;
+}
+
+.quote {
+  font-size: 19px;
+  line-height: 1.65;
+  color: #374151;
+  margin-bottom: 3.5rem;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.authorSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatarContainer {
+  position: relative;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.avatarRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.authorDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.authorName {
+  font-weight: 500;
+  color: #111827;
+  font-size: 15px;
+  margin: 0;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.authorRole {
+  font-size: 13px;
+  color: #6b7280;
+  letter-spacing: -0.01em;
+  margin: 0;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.readMoreBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.readMoreBtn:hover {
+  color: #111827;
+}
+
+.readMoreIcon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+
+.readMoreBtn:hover .readMoreIcon {
+  transform: translateX(2px);
+}
+
+/* Fade Overlays - Applied to company logos section */
+.companyLogos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 60px;
+  padding: 0 10%; /* Reduced padding for more subtle effect */
+}
+
+/* Remove top fade overlay for now */
+.companyLogos::before {
+  display: none;
+}
+
+/* Left fade overlay element - very subtle */
+.fadeOverlayLeft {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 10%;
+  pointer-events: none;
+  z-index: 5;
+  background: linear-gradient(
+    to right,
+    rgba(248, 250, 252, 0.7) 0%,
+    rgba(248, 250, 252, 0.4) 40%,
+    rgba(248, 250, 252, 0.1) 70%,
+    transparent 100%
+  );
+}
+
+/* Right fade overlay element - very subtle */
+.fadeOverlayRight {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 10%;
+  pointer-events: none;
+  z-index: 5;
+  background: linear-gradient(
+    to left,
+    rgba(248, 250, 252, 0.7) 0%,
+    rgba(248, 250, 252, 0.4) 40%,
+    rgba(248, 250, 252, 0.1) 70%,
+    transparent 100%
+  );
+}
+
+.companyLogo {
+  position: relative;
+  padding: 0.75rem 1rem;
+  margin-bottom: 160px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1); /* Smoother, longer transition */
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-radius: 0; /* Remove border radius */
+  transform-origin: center;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.companyLogoActive {
+  opacity: 1;
+  transform: scale(1.08) translateY(-1px); /* Added subtle upward movement */
+  font-weight: bold;
+  z-index: 10;
+  position: relative;
+  background: none; /* Remove background box */
+  border-radius: 0; /* Remove border radius */
+  box-shadow: none; /* Remove box shadow */
+  backdrop-filter: none; /* Remove backdrop filter */
+  -webkit-backdrop-filter: none; /* Remove webkit backdrop filter */
+  animation: breathe 3s ease-in-out infinite; /* Breathing animation */
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.companyLogoActive * {
+  font-weight: bold !important;
+  transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1); /* Smooth text transitions */
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.companyLogoInactive {
+  opacity: 0.35;
+  transform: scale(0.95) translateY(0px); /* Slightly smaller and neutral position */
+  transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1); /* Matching smooth transition */
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.companyLogoInactive:hover {
+  opacity: 0.65;
+  transform: scale(1.02) translateY(-0.5px); /* Subtle hover effect */
+}
+
+/* Navigation */
+.navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+
+.progressIndicators {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+  padding: 1rem 2rem;
+}
+
+.progressDot {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 1.0s cubic-bezier(0.23, 1, 0.32, 1); /* Smoother transition */
+  border-radius: 9999px;
+}
+
+.progressDotActive {
+  width: 80px;
+  height: 8px;
+  background: linear-gradient(135deg, #6865BF, #A496D9);
+  border-radius: 9999px;
+  box-shadow: 0 4px 16px rgba(104, 101, 191, 0.3);
+  font-weight: bold;
+  transform: scale(1.05); /* Slightly reduced scale for subtlety */
+}
+
+.progressDotInactive {
+  width: 40px;
+  height: 2px;
+  background: rgba(156, 163, 175, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.progressDotInactive:hover {
+  background: rgba(156, 163, 175, 0.5);
+  transform: scale(1.08);
+}
+
+/* Bottom Showcase */
+.bottomShowcase {
+  margin-top: 8rem;
+  padding-top: 4rem;
+  border-top: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+.showcaseLogos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+  margin-bottom: 4rem;
+  padding: 0 2rem;
+}
+
+.showcaseLogo {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1); /* Smooth ASMR-like transition */
+  transform-origin: center;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+}
+
+.showcaseLogoActive {
+  opacity: 1;
+  transform: translateY(-3px) scale(1.05);
+  font-weight: bold;
+  z-index: 10;
+  position: relative;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.showcaseLogoActive * {
+  font-weight: bold !important;
+  transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.showcaseLogoInactive {
+  opacity: 0.3;
+  transform: translateY(0) scale(0.96);
+}
+
+.showcaseLogoInactive:hover {
+  opacity: 0.6;
+  transform: translateY(-1px) scale(1.01);
+}
+
+
+/* ASMR-like breathing animation for active company logo */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1.08) translateY(-1px);
+  }
+  50% {
+    transform: scale(1.1) translateY(-2px);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .testimonialSection {
+    padding: 4rem 1rem;
+  }
+
+  .header {
+    margin-bottom: 3rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .carouselContainer {
+    height: 400px;
+    margin-bottom: 4rem;
+  }
+
+  .cardBody {
+    padding: 2rem;
+  }
+
+  .quote {
+    font-size: 16px;
+    margin-bottom: 2.5rem;
+  }
+
+  .authorSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .readMoreBtn {
+    align-self: flex-end;
+  }
+
+  .navigation {
+    gap: 2rem;
+  }
+
+  .companyLogos::before,
+  .companyLogos::after {
+    width: 18%; /* Slightly wider for mobile to account for smaller screen */
+  }
+
+  .companyLogos {
+    padding: 0 22%; /* Match the fade overlay width */
+    gap: 2rem; /* Reduced gap for mobile */
+  }
+
+  .showcaseLogos {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonialSection {
+    padding: 3rem 0.75rem;
+  }
+
+  .carouselContainer {
+    height: 350px;
+    margin-bottom: 3rem;
+  }
+
+  .cardBody {
+    padding: 1.5rem;
+  }
+
+  .quote {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+  }
+
+  .logoContainer {
+    margin-bottom: 2rem;
+  }
+
+  .authorInfo {
+    gap: 0.75rem;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .authorName {
+    font-size: 14px;
+  }
+
+  .authorRole {
+    font-size: 12px;
+  }
+
+  .companyLogos::before,
+  .companyLogos::after {
+    width: 20%; /* Even wider for very small screens */
+  }
+
+  .companyLogos {
+    padding: 0 25%; /* Match the fade overlay width */
+    gap: 1.5rem; /* Tighter gap for small screens */
+  }
+}
+
+/* High-contrast mode support */
+@media (prefers-contrast: high) {
+  .cardContent {
+    border: 2px solid #000;
+  }
+
+  .progressIndicators {
+    background: rgba(107, 114, 128, 0.1);
+    border: 2px solid #6b7280;
+  }
+
+  .progressDotActive {
+    background: #000;
+  }
+
+  .progressDotInactive {
+    background: #6b7280;
+    border: 1px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .cardContent,
+  .companyLogo,
+  .showcaseLogo,
+  .progressDot,
+  .progressIndicators,
+  .readMoreBtn,
+  .ctaLink {
+    transition: none;
+  }
+  
+  .companyLogoActive {
+    animation: none; /* Disable breathing animation for reduced motion */
+  }
+}
+
+.ctaContainer {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.ctaLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  text-decoration: none;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.ctaLink:hover {
+  color: #111827;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.ctaIcon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.ctaLink:hover .ctaIcon {
+  transform: translateX(3px);
+}
