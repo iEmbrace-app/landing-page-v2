@@ -494,20 +494,6 @@ function NavigationSection({
 }: NavigationSectionProps) {
   return (
     <div className={styles.navigation}>
-      {/* Progress indicators */}
-      <div className={styles.progressIndicators}>
-        {testimonials.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => onCardClick(index)}
-            className={`${styles.progressDot} ${
-              index === activeIndex ? styles.progressDotActive : styles.progressDotInactive
-            }`}
-            aria-label={`Go to testimonial ${index + 1}`}
-          />
-        ))}
-      </div>
-
       {!isMobile && (
         <>
           {/* Company logos */}
