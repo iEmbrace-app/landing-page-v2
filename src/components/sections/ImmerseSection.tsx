@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
+import { motion } from 'framer-motion'
 import styles from './ImmerseSection.module.css'
 import { VideoService } from '../../services/videoService'
 import { Video } from '../../services/videoService'
@@ -29,8 +30,9 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
   const audio1Ref = useRef<HTMLAudioElement>(null)
   const audio2Ref = useRef<HTMLAudioElement>(null)
   const progressRef = useRef<number>()
-  const autoSwitchRef = useRef<NodeJS.Timeout>()
+  const autoSwitchRef = useRef<number>()
   const timerStartRef = useRef<number>(0)
+  const sectionRef = useRef<HTMLDivElement>(null)
   
   // STABLE FUNCTIONS - No dependencies to prevent recreation
   const startProgressTracking = useCallback(() => {
@@ -457,8 +459,16 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
       </section>
     )
   }  return (
-    <section className={styles.immerseSection}>
-      <div className={styles.videoContainer}>
+    <motion.section 
+      ref={sectionRef}
+      className={styles.immerseSection}
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, ease: "easeOut" }}
+    >
+      <motion.div 
+        className={styles.videoContainer}
+      >
         {/* Two video elements for seamless cross-fading */}        <video
           ref={video1Ref}
           className={styles.backgroundVideo}
@@ -600,8 +610,13 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
         />
         
         <div className={styles.videoFilter} />
-      </div>      {/* Content */}
-      <div className={styles.content}>
+      </motion.div>      {/* Content */}
+      <motion.div 
+        className={styles.content}
+        initial={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+      >
         {/* Audio Control */}
         <p className={styles.headphonesText}>use headphones for better experience</p>
         <button 
@@ -632,7 +647,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
             </button>
           ))}
         </div>
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   )
 }

@@ -2,14 +2,14 @@
 .immerseSection {
   position: relative;
   width: 100%;
-  height: 120vh; /* Increased from 100vh to 120vh for taller video container */
-  min-height: 700px; /* Increased minimum height */
+  height: 120vh;
+  min-height: 700px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0; /* Ensure no margin */
-  padding: 0; /* Ensure no padding */
+  margin: 0;
+  padding: 0;
   
   /* Fallback gradient background when videos aren't loaded */
   background: linear-gradient(
@@ -24,22 +24,7 @@
   animation: gradientShift 15s ease-in-out infinite;
 }
 
-/* Video Background Container - Optimized for performan  .audioToggle {
-    top: 20px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
-    font-size: 1rem;
-  }
-  
-  /* Responsive headphones text for mobile */
-  .headphonesText {
-    top: 25px;
-    right: 75px; /* Adjust position for smaller button */
-    font-size: 1rem;
-  }
-  
-  .videoContainer {
+.videoContainer {
   position: absolute;
   top: 0;
   left: 0;
@@ -121,7 +106,7 @@
 /* Audio Toggle Button */
 .audioToggle {
   position: absolute;
-  top: 30px;
+  top: 8px;
   right: 30px;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -142,11 +127,11 @@
 /* Headphones text - positioned beside the mute button */
 .headphonesText {
   position: absolute;
-  top: 30px; /* Align with audio toggle button top */
-  right: 90px; /* Position to the left of the audio toggle button */
-  height: 50px; /* Same height as audio toggle button */
+  top: 8px;
+  right: 90px;
+  height: 50px;
   display: flex;
-  align-items: center; /* Center vertically */
+  align-items: center;
   color: white;
   font-weight: 100;
   opacity: 0.8;
@@ -178,7 +163,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  flex: 1;  padding-bottom: 15vh; /* Move content up by adding bottom padding */
+  flex: 1;
+  padding-bottom: 15vh;
 }
 
 /* Title with Capital Letters and Character Spacing */
@@ -187,10 +173,10 @@
   font-size: clamp(1.2rem, 8vw, 1.4rem);
   font-weight: 100;
   line-height: 1.1;
-  letter-spacing: 24px; /* Character spacing as requested */
+  letter-spacing: 24px;
   margin: 0;
   padding-bottom: 24px;
-  text-transform: uppercase; /* Capital letters as requested */
+  text-transform: uppercase;
   color: #ffffff; 
   text-shadow: 
     0 2px 8px rgba(0, 0, 0, 0.3),
@@ -218,7 +204,7 @@
 /* Video Navigation Boxes - Glass morphism with icons - Positioned at bottom */
 .videoNavigationBoxes {
   position: absolute;
-  bottom: 80px; /* Moved closer to bottom */
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -226,18 +212,18 @@
   align-items: center;
   justify-content: center;
   pointer-events: auto;
-  z-index: 20; /* Ensure buttons appear above everything */
+  z-index: 20;
 }
 
 /* Individual Navigation Box - Enhanced Glassmorphism styling */
 .navigationBox {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 16px;
   border: none;
   cursor: pointer;
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Longer transition for smoother effect */
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   
   /* Enhanced Glassmorphism background */
   background: rgba(255, 255, 255, 0.08);
@@ -348,7 +334,7 @@
   backdrop-filter: blur(30px) saturate(130%);
   -webkit-backdrop-filter: blur(30px) saturate(130%);
   border-color: rgba(255, 255, 255, 0.3);
-  transform: none; /* No size change */
+  transform: none;
   box-shadow: 
     0 2px 4px rgba(0, 0, 0, 0.15),
     0 1px 4px rgba(0, 0, 0, 0.1),
@@ -357,7 +343,7 @@
 }
 
 .navigationBox:active {
-  transform: none; /* No size change */
+  transform: none;
 }
 
 .navigationBox:disabled {
@@ -388,7 +374,7 @@
 .iconContainer {
   width: 40px;
   height: 40px;
-  color: rgba(255, 255, 255, 0.9); /* White icons for glassmorphism */
+  color: rgba(255, 255, 255, 0.9);
   transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
   display: flex;
@@ -425,7 +411,7 @@
 
 /* Hover effects - Icon moves up to make space for title with reduced gap */
 .navigationBox:hover .iconContainer {
-  transform: translateY(-4px); /* Reduced movement for smaller gap */
+  transform: translateY(-4px);
 }
 
 .navigationBox:hover .buttonTitle {
@@ -434,18 +420,18 @@
 }
 
 .navigationBox.active .iconContainer {
-  color: rgba(255, 255, 255, 1); /* Bright white icons on active glassmorphism */
+  color: rgba(255, 255, 255, 1);
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
-  transform: scale(1.05) translateY(-4px); /* Move up to make space for title */
+  transform: scale(1.05) translateY(-4px);
 }
 
 .navigationBox.active .buttonTitle {
-  opacity: 1; /* Always visible on active button */
+  opacity: 1;
   transform: translateY(0);
 }
 
 .navigationBox.active:hover .iconContainer {
-  transform: scale(1.05) translateY(-4px); /* Keep same position on hover */
+  transform: scale(1.05) translateY(-4px);
 }
 
 /* Loading and Error States */
@@ -518,11 +504,6 @@
 /* Performance optimizations for video elements */
 .transitioning {
   will-change: opacity;
-}
-
-/* Loading performance enhancements */
-.videoContainer {
-  contain: layout style paint;
 }
 
 /* Animations */
@@ -602,13 +583,14 @@
 
 /* Responsive Design - Consolidated Breakpoints */
 
-/* Desktop layout (756px+) - New layout as per design */
+/* Desktop layout (756px+) - No changes as requested */
 @media (min-width: 756px) {
   .content {
     justify-content: space-between;
     align-items: center;
     padding: 0;
   }
+  
   .textContent {
     padding-bottom: 15vh;
     margin-bottom: 0;
@@ -642,55 +624,43 @@
   }
 }
 
-@media (max-width: 1024px) {
-  .immerseWrapper {
-    height: 80vh;
-    min-height: 500px;
-  }
-  
-  .videoTitleContainer {
-    padding: 2.5rem 1.5rem 0 1.5rem;
-  }
-  
-  .videoTitle {
-    font-size: clamp(0.7rem, 1.8vw, 1rem);
-    letter-spacing: 2.5px;
+/* Tablet landscape (769px - 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .immerseSection {
+    height: 100vh;
+    min-height: 600px;
   }
   
   .title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    letter-spacing: 6px;
-  }
-  
-  .videoIndicators {
-    bottom: 2.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .immerseSection {
-    height: 100vh; /* Increased from 85vh to maintain better proportions on tablets */
-    min-height: 600px; /* Increased minimum height */
-  }
-  
-  .videoTitleContainer {
-    padding: 2rem 1rem 0 1rem;
-  }
-  
-  .videoTitle {
-    font-size: clamp(0.65rem, 1.6vw, 0.9rem);
-    letter-spacing: 2px;
-  }
-    .title {
-    font-size: clamp(1.8rem, 6vw, 3.2rem);
-    letter-spacing: 5px;
-    margin-bottom: 1.2rem;
-    line-height: 1.1;
+    font-size: clamp(1rem, 6vw, 1.3rem);
+    letter-spacing: 18px;
   }
   
   .subtitle {
-    font-size: clamp(1rem, 3vw, 1.2rem);
-    letter-spacing: 1.5px;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  }
+  
+  .videoNavigationBoxes {
+    bottom: 60px;
+  }
+}
+
+/* Tablet portrait (481px - 768px) */
+@media (max-width: 768px) and (min-width: 481px) {
+  .immerseSection {
+    height: 100vh;
+    min-height: 600px;
+  }
+  
+  .title {
+    font-size: clamp(0.9rem, 5vw, 1.2rem);
+    letter-spacing: 12px;
+    margin-bottom: 1.2rem;
+  }
+  
+  .subtitle {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    letter-spacing: 1px;
     line-height: 1.3;
     max-width: 85%;
     margin: 0 auto;
@@ -708,20 +678,26 @@
     font-size: 1.1rem;
   }
   
+  .headphonesText {
+    top: 20px;
+    right: 70px;
+    font-size: 0.9rem;
+  }
+  
   .videoNavigationBoxes {
     bottom: 10vh;
     gap: 1.2rem;
   }
   
   .navigationBox {
-    width: 58px;
-    height: 58px;
+    width: 60px;
+    height: 60px;
     border-radius: 14px;
   }
   
   .iconContainer {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
   }
   
   .iconContainer svg {
@@ -734,51 +710,54 @@
   }
 }
 
+/* Mobile (up to 480px) */
 @media (max-width: 480px) {
   .immerseSection {
-    height: 110vh; /* Increased from 100vh for better mobile experience */
-    min-height: 600px; /* Increased minimum height */
+    height: 100vh;
+    min-height: 600px;
   }
   
-  .videoTitleContainer {
-    padding: 1.5rem 1rem 0 1rem;
-  }
-  
-  .videoTitle {
-    font-size: clamp(0.6rem, 1.4vw, 0.8rem);
-    letter-spacing: 1.5px;
-  }
-    .title {
-    font-size: clamp(2rem, 7vw, 3rem);
-    letter-spacing: 3px;
+  .title {
+    font-size: clamp(0.8rem, 4.5vw, 1rem);
+    letter-spacing: 8px;
     margin-bottom: 1.5rem;
-    line-height: 1.1;
-    text-align: center;
+    padding-bottom: 0;
   }
   
   .subtitle {
-    font-size: clamp(1rem, 3.5vw, 1.3rem);
-    letter-spacing: 1px;
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    letter-spacing: 0.5px;
     line-height: 1.4;
     max-width: 90%;
     margin: 0 auto;
-    text-align: center;
   }
   
   .textContent {
-    padding-bottom: 20vh; /* More space for navigation */
+    padding-bottom: 20vh;
+  }
+  
+  .audioToggle {
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+  
+  .headphonesText {
+    display: none; /* Hide on mobile for space */
   }
   
   .videoNavigationBoxes {
-    gap: 1.5rem;
-    bottom: 8vh; /* Better positioning */
+    gap: 1rem;
+    bottom: 8vh;
     flex-wrap: wrap;
     max-width: 90vw;
     justify-content: center;
   }
   
   .navigationBox {
-    width: 64px; /* Larger touch targets */
+    width: 64px;
     height: 64px;
     border-radius: 16px;
     /* Enhanced glassmorphism on mobile */
@@ -790,7 +769,6 @@
       0 8px 32px rgba(0, 0, 0, 0.3),
       0 4px 16px rgba(0, 0, 0, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    /* Better mobile interaction */
     transition: all 0.3s ease;
   }
   
@@ -820,7 +798,7 @@
   }
   
   .navigationBox.active::before {
-    padding: 2px; /* Better visibility on mobile */
+    padding: 2px;
   }
   
   /* Mobile-specific hover effects */
@@ -830,17 +808,17 @@
   }
 }
 
-/* Mobile landscape and very small screens */
+/* Very small mobile (up to 360px) */
 @media (max-width: 360px) {
   .title {
-    font-size: clamp(1.6rem, 8vw, 2.2rem);
-    letter-spacing: 2px;
+    font-size: clamp(0.7rem, 4vw, 0.9rem);
+    letter-spacing: 6px;
     margin-bottom: 1rem;
   }
   
   .subtitle {
-    font-size: clamp(0.9rem, 4vw, 1.1rem);
-    letter-spacing: 0.8px;
+    font-size: clamp(0.8rem, 3.5vw, 0.9rem);
+    letter-spacing: 0.3px;
     line-height: 1.3;
     max-width: 95%;
   }
@@ -850,7 +828,7 @@
   }
   
   .videoNavigationBoxes {
-    gap: 1rem;
+    gap: 0.8rem;
     bottom: 6vh;
   }
   
@@ -903,7 +881,7 @@
   }
   
   .iconContainer {
-    transform: translateY(-2px); /* Make space for always-visible title */
+    transform: translateY(-2px);
   }
 }
 

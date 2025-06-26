@@ -1,43 +1,45 @@
-/* Ultra-optimized HeroSection with Flowing Gradients */
+/* CSS Variables for consistent theming */
+:root {
+  --meditation-primary: rgba(106, 76, 147, 1);
+  --meditation-secondary: rgba(186, 148, 255, 1);
+  --meditation-glow: rgba(255, 255, 255, 0.9);
+  --meditation-text-primary: rgba(120, 105, 135, 0.9);
+  --meditation-text-secondary: rgba(140, 120, 150, 0.8);
+  --meditation-text-tertiary: rgba(140, 120, 150, 0.7);
+}
+
+/* Performance optimizations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Ultra-optimized HeroSection */
 .heroWrapper {
   position: relative;
   width: 100%;
-  height: auto; /* Allow natural height */
-  min-height: 110vh; /* Taller to accommodate content properly */
-  overflow: visible; /* Show all content, no cutoff */
+  height: auto;
+  min-height: 110vh;
+  overflow: visible;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: -80px 0 0 0; /* Negative top margin to extend behind navigation */
-  padding: 160px 80px 120px 80px; /* Increased top padding to account for navigation overlap */
-  
-  /* White background with gradient overlay */
+  margin: -80px 0 0 0;
+  padding: 160px 80px 120px 80px;
   background: #ffffff;
+  contain: layout style;
 }
 
-/* Unused video components removed */
-
-@keyframes simpleGradientFlow {
-  0% { 
-    background-position: 0% 50%;
-  }
-  50% { 
-    background-position: 100% 50%;
-  }
-  100% { 
-    background-position: 0% 50%;
-  }
-}
-
+/* Simplified gradient animations */
 @keyframes aurora {
-  0% {
+  0%, 100% {
     background-position: 0% 50%, 50% 50%;
   }
   50% {
     background-position: 100% 50%, 75% 25%;
-  }
-  100% {
-    background-position: 0% 50%, 50% 50%;
   }
 }
 
@@ -54,7 +56,7 @@
   inset: 0;
   opacity: 0.4;
   filter: blur(8px);
-  will-change: transform;
+  will-change: transform, opacity;
   background: linear-gradient(
     45deg,
     rgba(255, 255, 255, 0.9) 0%,
@@ -65,7 +67,6 @@
   );
   background-size: 400% 400%;
   animation: aurora 25s ease-in-out infinite;
-  pointer-events: none;
 }
 
 .auroraOverlay {
@@ -80,18 +81,14 @@
     rgba(255, 255, 255, 0.4) 100%
   );
   background-size: 300% 300%;
-  background-attachment: fixed;
   opacity: 0.6;
   animation: aurora 30s ease-in-out infinite reverse;
 }
 
-/* Gradient background fallback - Fixed to match hero wrapper */
+/* Gradient background */
 .gradientBackground {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: linear-gradient(
     178deg,
     #f8f8ff 0%,
@@ -106,166 +103,91 @@
   z-index: 2;
 }
 
-/* Content Container - Aligned with navbar */
+/* Content Container */
 .heroContent {
   position: relative;
   z-index: 10;
   width: 100%;
   max-width: 1400px;
-  margin: 0 auto; /* Center the content */
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: auto 1fr; /* Text takes needed space, player fills remaining */
-  gap: var(--spacing-elementGap); /* Consistent 24px gap using semantic spacing */
-  align-items: center; /* Center both halves vertically */
-  padding: 0 var(--spacing-20); /* Only horizontal padding to match navbar */
-  
-  /* Simple floating animation */  
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-elementGap, 24px);
+  align-items: center;
+  padding: 0 var(--spacing-20, 80px);
   animation: gentleFloat 8s ease-in-out infinite;
+  will-change: transform;
 }
 
-/* ROOT Title - Clean and Visible with Semantic Spacing */
+/* Typography - Optimized */
 .rootTitle {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(2rem, 8vw, 4.8rem);
   font-weight: 100;
   line-height: 1;
-  margin: 0; /* Remove margin, use gap from parent */
-  position: relative;
-  /* Gradient color like other titles on the page */
+  margin: 0;
   background: linear-gradient(135deg, #6865BF, #A496D9, #D3BDF2);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: none;
-  
-  /* Remove background boxes */
-  padding: 0;
-  border-radius: 0;
-  border: none;
-  /* Gentle animation */
-  animation: 
-    gentleFloat 8s ease-in-out infinite,
-    fadeInUp 1s ease-out;
+  animation: gentleFloat 8s ease-in-out infinite, fadeInUp 1s ease-out;
+  will-change: transform, opacity;
 }
 
-/* Remove complex pseudo-element */
-
-/* Subtitle - Clean and Visible with Improved Accessibility */
 .rootSubtitle {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(1rem, 2vw, 1.4rem);
   font-weight: 300;
-  margin: 0; /* Remove margin, use gap from parent */
-  /* Improved contrast for accessibility */
-  color: var(--colors-text-secondary) !important;
-  text-shadow: none;
-  
-  /* Remove background boxes */
-  background: none;
-  padding: 0;
-  border-radius: 0;
-  border: none;
-  animation: 
-    gentleFloat 6s ease-in-out infinite;
+  margin: 0;
+  color: var(--colors-text-secondary, #666);
+  animation: gentleFloat 6s ease-in-out infinite;
 }
 
-.rootTitle.mobile {
-  font-size: clamp(2rem, 6vw, 3rem);
-  letter-spacing: 6px;
-}
-
-.rootSubtitle.mobile {
-  font-size: clamp(0.9rem, 3vw, 1.2rem);
-}
-
-/* Description - Clean and Readable with Improved Accessibility */
 .description {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 300;
-  margin: 0; /* Remove margin, use gap from parent */
-  max-width: 65ch; /* Limit line length for better readability */
-  line-height: 1.6;
-  /* Improved contrast for accessibility */
-  color: var(--colors-text-tertiary) !important;
-  text-shadow: none;
-  
-  /* Remove background boxes */
-  background: none;
-  padding: 0;
-  border-radius: 0;
-  border: none;
+  margin: 0;
   max-width: 400px;
-  
+  line-height: 1.6;
+  color: var(--colors-text-tertiary, #777);
   animation: gentleFloat 8s ease-in-out infinite;
 }
 
-/* CTA Button - Clean and Accessible with Semantic Spacing */
+/* CTA Button - Optimized */
 .ctaButton {
-  /* Use design token background instead of white */
-  background: var(--colors-background-elevated);
-  /* Soft lavender purple border - 3px */
+  background: var(--colors-background-elevated, #fff);
   border: 4px solid rgba(180, 160, 220, 0.6);
-  /* NO shadows - clean design */
   box-shadow: none;
-  
-  /* Improved contrast for accessibility */
-  color: var(--colors-text-primary) !important;
+  color: var(--colors-text-primary, #333);
   font-size: 1.1rem;
   font-weight: 600;
-  padding: var(--spacing-4) var(--spacing-12); /* Semantic spacing for button padding */
+  padding: var(--spacing-4, 16px) var(--spacing-12, 48px);
   border-radius: 50px;
   cursor: pointer;
   letter-spacing: 0px;
   transition: letter-spacing 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
               border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  margin: 0; /* Remove margin, use gap from parent */
-  margin-bottom: 40px;
+  margin: 0 0 40px 0;
   position: relative;
   overflow: hidden;
-
-  
-  /* Remove floating animation to prevent any size changes */
-  /* animation: gentleFloat 6s ease-in-out infinite; */
-}
-
-.ctaButton::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  transition: left 0.5s;
-  display: none; /* Remove shimmer effect for clean white background */
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .ctaButton:hover {
-  /* Use design token background on hover */
-  background: var(--colors-background-elevated);
-  /* 16% darker purple border on hover */
   border-color: rgba(151, 134, 185, 0.8);
-  /* No transform - button stays exactly the same size and position */
-  
-  /* Increased letter spacing on hover */
   letter-spacing: 1.2px;
-  
-  /* Slightly darker text on hover for better contrast */
-  color: rgba(70, 50, 90, 1) !important;
-  
-  /* NO shadows on hover */
-  box-shadow: none;
+  color: rgba(70, 50, 90, 1);
 }
 
-.ctaButton:hover::before {
-  left: 100%;
+.ctaButton:focus {
+  outline: 2px solid rgba(106, 76, 147, 0.5);
+  outline-offset: 2px;
 }
 
-/* Video indicators and scroll elements removed */
-
-/* App Store Buttons with Glassmorphism - positioned within left content */
+/* App Store Buttons */
 .appButtons {
   display: flex;
   flex-direction: row;
@@ -275,7 +197,6 @@
   z-index: 15;
 }
 
-/* App Store Buttons with Modern Gradient Design */
 .appButton {
   display: inline-flex;
   align-items: center;
@@ -285,8 +206,6 @@
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   width: fit-content;
   max-width: 200px;
-  
-  /* Modern glassmorphism without shadows */
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.15) 0%,
@@ -295,32 +214,22 @@
   );
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.8);
-  
-  /* NO shadows - only gradients */
   box-shadow: none;
-  
   position: relative;
   overflow: hidden;
-}
-
-.appButton::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(147, 112, 219, 0.2), transparent);
-  transition: left 0.5s;
-  display: none; /* Remove shiny effect */
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .appButton:hover {
-  /* Subtle lift effect */
   transform: translateY(-2px);
   border-color: rgba(255, 255, 255, 0.35);
-  /* Minimal shadow - 1-2px */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appButton:focus {
+  outline: 2px solid rgba(106, 76, 147, 0.5);
+  outline-offset: 2px;
 }
 
 .appButtonContent {
@@ -334,7 +243,6 @@
 .appIcon {
   width: 24px;
   height: 24px;
-  /* Matching greyish-purple icon color */
   color: rgba(120, 105, 135, 0.85);
 }
 
@@ -342,7 +250,6 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* Matching greyish-purple text color */
   color: rgba(120, 105, 135, 0.85);
 }
 
@@ -359,32 +266,26 @@
   line-height: 1.2;
 }
 
-/* Unused scroll elements removed */
-
-/* Removed unused physics-based shadow mixin */
-
-/* Left Side - Text Content with Consistent Spacing */
+/* Layout Components */
 .heroTextContent {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  gap: var(--spacing-componentGap); /* Consistent 16px gap between text elements */
-  /* Align with navbar logo by removing any extra spacing */
+  gap: var(--spacing-componentGap, 16px);
   margin-left: 0;
   padding-left: 0;
 }
 
-/* Title Group - Grouping title and subtitle for mobile ordering */
 .titleGroup {
   display: flex;
   flex-direction: column;
   align-items: inherit;
   text-align: inherit;
-  gap: var(--spacing-4); /* 16px gap between title and subtitle */
+  gap: var(--spacing-4, 16px);
 }
 
-/* Right Side - iPhone-Sized Meditation Player */
+/* Meditation Player - Optimized */
 .meditationPlayer {
   width: 350px;
   height: 650px;
@@ -396,12 +297,12 @@
   backdrop-filter: blur(25px) saturate(1.8);
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 45px;
-  padding: 1.5rem 1.5rem; /* Even padding all around */
+  padding: 1.5rem;
   margin: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Distribute content evenly */
-  gap: 1rem; /* Consistent spacing */
+  justify-content: space-between;
+  gap: 1rem;
   position: relative;
   overflow: hidden;
   box-shadow: 
@@ -410,26 +311,13 @@
     inset 0 2px 0 rgba(255, 255, 255, 0.4),
     inset 0 -1px 0 rgba(106, 76, 147, 0.1);
   animation: phoneFloat 12s ease-in-out infinite;
-  
-  /* Improve touch interaction */
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  
-  /* Ensure proper stacking and visibility */
   z-index: 5;
+  contain: layout style paint;
+  will-change: transform;
 }
 
-/* Meditation Player Container - Centered positioning */
-.meditationPlayerContainer {
-  position: relative;
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  width: 100%;
-  height: 100%;
-}
-
-/* Add subtle gradient overlay */
 .meditationPlayer::before {
   content: '';
   position: absolute;
@@ -448,106 +336,83 @@
 /* Player Header */
 .playerHeader {
   text-align: center;
-  margin-bottom: 0; /* Remove bottom margin */
-  padding: 0; /* Clean padding */
+  margin-bottom: 0;
+  padding: 0;
   overflow: hidden;
   position: relative;
   z-index: 15;
-  flex-shrink: 0; /* Don't let it shrink */
+  flex-shrink: 0;
 }
 
 .playerTitle {
-  /* Responsive scaling */
   font-size: clamp(1.1rem, 3.5vw, 1.4rem);
   font-weight: 600;
-  /* Updated to match the elegant greyish-purple palette */
-  color: rgba(120, 105, 135, 0.9);
+  color: var(--meditation-text-primary);
   margin-bottom: 0.25rem;
   line-height: 1.2;
-  /* Prevent text overflow */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* Ensure visibility */
   opacity: 1;
   display: block;
 }
 
 .playerSubtitle {
-  /* Responsive scaling */
   font-size: clamp(0.85rem, 2.5vw, 1rem);
-  /* Updated to match the elegant greyish-purple palette */
-  color: rgba(140, 120, 150, 0.8);
+  color: var(--meditation-text-secondary);
   opacity: 0.9;
   margin-bottom: 0.1rem;
   line-height: 1.3;
-  /* Handle text wrapping */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* Ensure visibility */
   display: block;
 }
 
 .sessionDuration {
-  /* Responsive scaling */
   font-size: clamp(0.75rem, 2vw, 0.9rem);
-  /* Updated to match the elegant greyish-purple palette */
-  color: rgba(140, 120, 150, 0.7);
+  color: var(--meditation-text-tertiary);
   opacity: 0.7;
   font-weight: 300;
-  /* Ensure visibility */
   display: block;
 }
 
-/* Meditation Visual */
+/* Meditation Visual - Simplified */
 .meditationVisual {
-  flex: 1; /* Take available space */
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  margin: 0; /* No margin for even spacing */
-  min-height: 250px; /* Adequate minimum height */
-  max-height: 350px; /* Prevent it from being too large */
-  padding: 1rem; /* Even padding inside the visual area */
+  margin: 0;
+  min-height: 250px;
+  max-height: 350px;
+  padding: 1rem;
   overflow: hidden;
   contain: layout style paint;
 }
 
-/* Advanced Physics-Based ASMR Breathing Circle - Simplified */
+/* Breathing Circle - Optimized */
 .breathingCircle {
-  /* Responsive sizing */
   width: clamp(160px, 28vw, 240px);
   height: clamp(160px, 28vw, 240px);
   position: relative;
-  
-  /* Simplified background */
   background: radial-gradient(circle at 35% 25%, 
     rgba(255, 255, 255, 0.15) 0%,
     rgba(186, 148, 255, 0.08) 35%,
     rgba(106, 76, 147, 0.03) 70%,
     transparent 100%
   );
-  
   border: 2px solid rgba(186, 148, 255, 0.4);
   border-radius: 50%;
   border-width: clamp(1px, 0.3vw, 3px);
-  
-  /* Simplified breathing animation */
   animation: breathe 6s ease-in-out infinite;
-    
-  /* Simplified shadows */
   box-shadow: 
     0 8px 32px rgba(106, 76, 147, 0.15),
     0 16px 64px rgba(186, 148, 255, 0.08),
     inset 0 2px 8px rgba(255, 255, 255, 0.1);
-    
-  /* Hardware acceleration */
-  will-change: transform;
+  will-change: transform, opacity;
   transform: translateZ(0);
-  
-  /* Ensure circle maintains aspect ratio */
   aspect-ratio: 1 / 1;
   z-index: 10;
 }
@@ -556,26 +421,25 @@
   0%, 100% { 
     transform: scale(1);
     opacity: 0.8;
-    filter: blur(0px);
-  }
-  25% {
-    transform: scale(1.03);
-    opacity: 0.9;
-    filter: blur(0.5px);
   }
   50% { 
     transform: scale(1.1);
     opacity: 1;
-    filter: blur(0px);
-  }
-  75% {
-    transform: scale(1.03);
-    opacity: 0.9;
-    filter: blur(0.5px);
   }
 }
 
-/* Simplified Aura System */
+/* Reduced complexity animations for mobile */
+@media (max-width: 768px) {
+  .particleContainer,
+  .sparkleContainer,
+  .rippleContainer,
+  .sacredGeometry,
+  .auraLayer:nth-child(n+3) {
+    display: none;
+  }
+}
+
+/* Simplified Aura System - Only 2 layers on mobile */
 .auraLayer {
   position: absolute;
   top: 50%;
@@ -583,16 +447,15 @@
   transform: translate(-50%, -50%);
   border-radius: 50%;
   pointer-events: none;
-  
   background: radial-gradient(circle, 
     transparent 60%,
     rgba(186, 148, 255, 0.06) 65%,
     rgba(106, 76, 147, 0.04) 85%,
     transparent 100%
   );
-  
   border: 1px solid rgba(186, 148, 255, 0.08);
   animation: auraBreath 8s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 .auraLayer[data-layer="1"] {
@@ -607,24 +470,6 @@
   animation-delay: 1s;
 }
 
-.auraLayer[data-layer="3"] {
-  width: 172%;
-  height: 172%;
-  animation-delay: 2s;
-}
-
-.auraLayer[data-layer="4"] {
-  width: 195%;
-  height: 195%;
-  animation-delay: 3s;
-}
-
-.auraLayer[data-layer="5"] {
-  width: 219%;
-  height: 219%;
-  animation-delay: 4s;
-}
-
 @keyframes auraBreath {
   0%, 100% { 
     opacity: 0.25;
@@ -636,101 +481,7 @@
   }
 }
 
-/* Simplified Floating Particle System */
-.particleContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.floatingParticle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: var(--size);
-  height: var(--size);
-  
-  background: radial-gradient(circle at 25% 25%, 
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(186, 148, 255, 0.4) 60%,
-    transparent 100%
-  );
-  
-  border-radius: 50%;
-  transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-120px);
-  animation: floatUp 12s ease-in-out infinite var(--delay);
-  
-  box-shadow: 0 0 8px rgba(186, 148, 255, 0.4);
-  opacity: 0.8;
-}
-
-@keyframes floatUp {
-  0% { 
-    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-100px);
-    opacity: 0;
-  }
-  15% { opacity: 0.8; }
-  50% {
-    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-200px);
-    opacity: 1;
-  }
-  100% { 
-    opacity: 0;
-    transform: translate(-50%, -50%) rotate(var(--x-offset)) translateY(-320px);
-  }
-}
-
-/* Simplified Sacred Geometry */
-.sacredGeometry {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  opacity: 0.12;
-}
-
-.mandalaRing {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  border: 1px dashed rgba(186, 148, 255, 0.25);
-  animation: rotate 60s linear infinite;
-}
-
-.mandalaRing[data-ring="outer"] {
-  width: 93%;
-  height: 93%;
-  border-width: 1.5px;
-}
-
-.mandalaRing[data-ring="middle"] {
-  width: 71%;
-  height: 71%;
-  animation-direction: reverse;
-  animation-duration: 45s;
-}
-
-.mandalaRing[data-ring="inner"] {
-  width: 52%;
-  height: 52%;
-  animation-duration: 30s;
-  border-width: 0.8px;
-}
-
-@keyframes rotate {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* Simplified Center Focus Point */
+/* Center Point - Simplified */
 .centerPoint {
   position: absolute;
   top: 50%;
@@ -749,36 +500,16 @@
   width: 28px;
   height: 28px;
   background: radial-gradient(circle, 
-    rgba(255, 255, 255, 0.95) 0%,
+    var(--meditation-glow) 0%,
     rgba(186, 148, 255, 0.5) 50%,
     transparent 100%
   );
   border-radius: 50%;
   animation: glow 6s ease-in-out infinite;
-  
   box-shadow: 
     0 0 20px rgba(255, 255, 255, 0.8),
     0 0 40px rgba(186, 148, 255, 0.5);
-}
-
-.pulsingCore {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 8px;
-  height: 8px;
-  background: radial-gradient(circle, 
-    rgba(255, 255, 255, 1) 0%,
-    rgba(186, 148, 255, 0.6) 80%,
-    transparent 100%
-  );
-  border-radius: 50%;
-  animation: pulse 4s ease-in-out infinite;
-  
-  box-shadow: 
-    0 0 15px rgba(255, 255, 255, 0.9),
-    0 0 30px rgba(186, 148, 255, 0.3);
+  will-change: transform, opacity;
 }
 
 @keyframes glow {
@@ -792,129 +523,138 @@
   }
 }
 
-@keyframes pulse {
-  0%, 100% { 
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.9;
-  }
-  50% { 
-    transform: translate(-50%, -50%) scale(1.25);
-    opacity: 1;
-  }
+/* Player Controls - Accessible */
+.playerControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  touch-action: manipulation;
+  flex-shrink: 0;
+  role: group;
 }
 
-/* Simplified Ripple Effects */
-.rippleContainer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.ripple {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 0;
-  height: 0;
+.controlButton {
+  width: clamp(44px, 8vw, 50px);
+  height: clamp(44px, 8vw, 50px);
+  min-width: 44px;
+  min-height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(186, 148, 255, 0.4);
-  animation: rippleExpand 8s ease-out infinite var(--delay);
+  background: rgba(106, 76, 147, 0.08);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(106, 76, 147, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-@keyframes rippleExpand {
-  0% { 
-    width: 0;
-    height: 0;
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 0.4;
-  }
-  100% { 
-    width: 350px;
-    height: 350px;
-    opacity: 0;
-  }
+.controlButton:hover {
+  background: rgba(106, 76, 147, 0.15);
+  transform: scale(1.03);
 }
 
-/* Simplified Aurora Color Flow */
-.auroraFlow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  
-  background: conic-gradient(
-    from 0deg,
-    rgba(186, 148, 255, 0.08) 0%,
-    rgba(220, 180, 255, 0.12) 25%,
-    rgba(240, 200, 255, 0.1) 50%,
-    rgba(200, 160, 255, 0.1) 75%,
-    rgba(186, 148, 255, 0.08) 100%
+.controlButton:active {
+  transform: scale(0.97);
+  background: rgba(106, 76, 147, 0.2);
+}
+
+.controlButton:focus {
+  outline: 2px solid rgba(106, 76, 147, 0.5);
+  outline-offset: 2px;
+}
+
+.controlButton svg {
+  color: rgba(106, 76, 147, 0.6);
+  width: clamp(14px, 3vw, 18px);
+  height: clamp(14px, 3vw, 18px);
+}
+
+.playButton {
+  width: clamp(56px, 12vw, 75px);
+  height: clamp(56px, 12vw, 75px);
+  min-width: 56px;
+  min-height: 56px;
+  background: linear-gradient(135deg, 
+    rgba(106, 76, 147, 0.7) 0%, 
+    rgba(142, 107, 184, 0.6) 100%
   );
-  
-  animation: auroraRotate 30s linear infinite;
-  mix-blend-mode: soft-light;
-  opacity: 0.8;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 8px 16px rgba(106, 76, 147, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
-@keyframes auroraRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.playButton:hover {
+  background: linear-gradient(135deg, 
+    rgba(106, 76, 147, 0.8) 0%, 
+    rgba(142, 107, 184, 0.7) 100%
+  );
+  transform: scale(1.05);
+  box-shadow: 
+    0 10px 20px rgba(106, 76, 147, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
-/* Simplified Sparkles */
-.sparkleContainer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.playButton svg {
+  color: rgba(255, 255, 255, 0.9);
+  width: clamp(16px, 4vw, 22px);
+  height: clamp(16px, 4vw, 22px);
+}
+
+/* Progress Bar */
+.progressContainer {
+  margin: 0;
   width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: rgba(106, 76, 147, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  touch-action: pan-x;
+  cursor: pointer;
+}
+
+.progressFill {
   height: 100%;
-  pointer-events: none;
-  z-index: 8;
+  width: 35%;
+  background: linear-gradient(90deg, 
+    rgba(106, 76, 147, 0.4) 0%, 
+    rgba(142, 107, 184, 0.35) 100%
+  );
+  border-radius: 3px;
+  animation: progressFlow 8s linear infinite;
+  transition: all 0.3s ease;
+  will-change: width;
 }
 
-.sparkle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 3px;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  transform: rotate(var(--angle)) translateX(80px) translate(-50%, -50%);
-  animation: sparkle 8s ease-in-out infinite var(--delay);
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+.timeDisplay {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: rgba(106, 76, 147, 0.5);
+  margin-top: 0.5rem;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-@keyframes sparkle {
-  0%, 85%, 100% { 
-    opacity: 0;
-    transform: rotate(var(--angle)) translateX(80px) translate(-50%, -50%) scale(0.3);
-  }
-  15% { 
-    opacity: 1;
-    transform: rotate(var(--angle)) translateX(82px) translate(-50%, -50%) scale(1);
-  }
-}
-
-/* Essential animations only */
-
-/* Gentle floating animation */
+/* Essential animations */
 @keyframes gentleFloat {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-3px); }
 }
 
-/* Fade in animation */
 @keyframes fadeInUp {
   from { 
     opacity: 0;
@@ -925,195 +665,6 @@
     transform: translateY(0);
   }
 }
-
-/* Sound Waves Visualization - Moved Up */
-.soundWaves {
-  display: flex;
-  gap: 4px;
-  align-items: end;
-  justify-content: center;
-  margin: 0rem 0; /* Removed all margins to minimize space */
-  z-index: 3;
-}
-
-.wave {
-  width: 4px;
-  background: linear-gradient(to top, 
-    rgba(106, 76, 147, 0.4) 0%, 
-    rgba(153, 102, 204, 0.3) 50%,
-    rgba(142, 107, 184, 0.3) 100%
-  );
-  border-radius: 3px;
-  opacity: 0.5;
-  box-shadow: 
-    0 0 6px rgba(147, 112, 219, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-/* Player Controls - Even spacing */
-.playerControls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin: 0; /* No margin for even spacing */
-  padding: 0; /* No padding, let flex handle spacing */
-  touch-action: manipulation;
-  flex-shrink: 0; /* Don't let controls shrink */
-}
-
-.controlButton {
-  width: 45px; /* Slightly smaller */
-  height: 45px; /* Slightly smaller */
-  border-radius: 50%;
-  background: rgba(106, 76, 147, 0.08); /* Much more subtle */
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(106, 76, 147, 0.12); /* More subtle border */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  /* Responsive sizing */
-  width: clamp(36px, 8vw, 50px);
-  height: clamp(36px, 8vw, 50px);
-  /* Minimum touch target for accessibility */
-  min-width: 44px;
-  min-height: 44px;
-  /* Better touch interaction */
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.controlButton:hover {
-  background: rgba(106, 76, 147, 0.15); /* Subtle hover */
-  transform: scale(1.03); /* Less dramatic scale */
-}
-
-.controlButton:active {
-  transform: scale(0.97);
-  background: rgba(106, 76, 147, 0.2);
-}
-
-.controlButton svg {
-  color: rgba(106, 76, 147, 0.6); /* More subtle icon color */
-  /* Responsive icon size */
-  width: clamp(14px, 3vw, 18px);
-  height: clamp(14px, 3vw, 18px);
-}
-
-.playButton {
-  width: 65px; /* Slightly smaller */
-  height: 65px; /* Slightly smaller */
-  background: linear-gradient(135deg, 
-    rgba(106, 76, 147, 0.7) 0%, 
-    rgba(142, 107, 184, 0.6) 100%
-  ); /* Much more subtle gradient */
-  border: 2px solid rgba(255, 255, 255, 0.2); /* Subtle border */
-  box-shadow: 
-    0 8px 16px rgba(106, 76, 147, 0.15), /* Subtle shadow */
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  /* Responsive sizing */
-  width: clamp(56px, 12vw, 75px);
-  height: clamp(56px, 12vw, 75px);
-  /* Minimum touch target for accessibility */
-  min-width: 56px;
-  min-height: 56px;
-}
-
-.playButton:hover {
-  background: linear-gradient(135deg, 
-    rgba(106, 76, 147, 0.8) 0%, 
-    rgba(142, 107, 184, 0.7) 100%
-  ); /* Slightly stronger on hover */
-  transform: scale(1.05); /* Less dramatic scale */
-  box-shadow: 
-    0 10px 20px rgba(106, 76, 147, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-.playButton:active {
-  transform: scale(0.98);
-  box-shadow: 
-    0 6px 12px rgba(106, 76, 147, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-.playButton svg {
-  color: rgba(255, 255, 255, 0.9); /* Subtle white icon */
-  /* Responsive icon size */
-  width: clamp(16px, 4vw, 22px);
-  height: clamp(16px, 4vw, 22px);
-}
-
-/* Enhanced Progress Bar - Even spacing */
-.progressContainer {
-  margin: 0; /* No margin for even spacing */
-  width: 100%;
-  min-width: 0;
-  flex-shrink: 0; /* Don't let progress bar shrink */
-}
-
-.progressBar {
-  width: 100%;
-  height: 6px;
-  background: rgba(106, 76, 147, 0.1); /* Much more subtle background */
-  border-radius: 3px;
-  overflow: hidden;
-  /* Ensure proper touch interaction */
-  touch-action: pan-x;
-}
-
-.progressFill {
-  height: 100%;
-  width: 35%;
-  background: linear-gradient(90deg, 
-    rgba(106, 76, 147, 0.4) 0%, 
-    rgba(142, 107, 184, 0.35) 100%
-  ); /* Much more subtle fill */
-  border-radius: 3px;
-  animation: progressFlow 8s linear infinite;
-  box-shadow: none; /* Remove any existing shadows */
-  /* Smooth transition for responsive changes */
-  transition: all 0.3s ease;
-}
-
-.timeDisplay {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: rgba(106, 76, 147, 0.5);
-  margin-top: 0.5rem; /* Small margin only at top */
-  font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-/* Sound Waves Visualization */
-.soundWaves {
-  position: absolute;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 3px;
-  align-items: end;
-}
-
-.wave {
-  width: 3px;
-  background: linear-gradient(to top, #6a4c93 0%, #8e6bb8 100%);
-  border-radius: 2px;
-  opacity: 0.6;
-}
-
-.wave:nth-child(1) { height: 20px; animation: wave1 1.5s ease-in-out infinite; }
-.wave:nth-child(2) { height: 35px; animation: wave2 1.5s ease-in-out infinite 0.1s; }
-.wave:nth-child(3) { height: 25px; animation: wave3 1.5s ease-in-out infinite 0.2s; }
-.wave:nth-child(4) { height: 40px; animation: wave4 1.5s ease-in-out infinite 0.3s; }
-.wave:nth-child(5) { height: 30px; animation: wave5 1.5s ease-in-out infinite 0.4s; }
-.wave:nth-child(6) { height: 45px; animation: wave6 1.5s ease-in-out infinite 0.5s; }
-.wave:nth-child(7) { height: 25px; animation: wave7 1.5s ease-in-out infinite 0.6s; }
 
 @keyframes phoneFloat {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -1127,416 +678,120 @@
   100% { width: 35%; }
 }
 
-@keyframes wave1 {
-  0%, 100% { height: 20px; }
-  50% { height: 35px; }
+/* Mobile-first responsive design */
+/* Base mobile styles */
+.heroWrapper {
+  min-height: 100vh;
+  padding: 4rem 1rem 1rem 1rem;
 }
 
-@keyframes wave2 {
-  0%, 100% { height: 35px; }
-  50% { height: 25px; }
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+  align-items: center;
+  text-align: center;
 }
 
-@keyframes wave3 {
-  0%, 100% { height: 25px; }
-  50% { height: 40px; }
+.heroTextContent {
+  align-items: center;
+  text-align: center;
+  width: 100%;
 }
 
-@keyframes wave4 {
-  0%, 100% { height: 40px; }
-  50% { height: 20px; }
+.titleGroup {
+  order: 1;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-@keyframes wave5 {
-  0%, 100% { height: 30px; }
-  50% { height: 45px; }
-}
-
-@keyframes wave6 {
-  0%, 100% { height: 45px; }
-  50% { height: 30px; }
-}
-
-@keyframes wave7 {
-  0%, 100% { height: 25px; }
-  50% { height: 35px; }
-}
-
-/* Mobile-specific class modifiers for better control */
-.mobileContent {
-  padding: 6rem 1rem 1rem 1rem !important; /* Increased top padding for navbar clearance */
-  gap: 1.5rem !important;
-}
-
-.mobileText {
-  text-align: center !important;
-  align-items: center !important;
-  width: 100% !important;
-}
-
-.mobileDescription {
-  font-size: 0.9rem !important;
-  line-height: 1.5 !important;
-  max-width: 90% !important;
-  margin: 0 auto 1.5rem auto !important;
-}
-
-.mobileCta {
-  margin: 1.2rem auto 2rem auto !important;
-  font-size: 1rem !important;
-  padding: 0.8rem 1.8rem !important;
-}
-
-.mobileAppButtons {
-  flex-direction: column !important;
-  gap: 0.8rem !important;
-  width: 100% !important;
-  align-items: center !important;
-}
-
-/* Mobile-specific meditation player - Clean approach without !important */
-.mobilePlayer {
-  /* Remove phone-like styling for mobile */
-  width: clamp(300px, 90vw, 400px);
-  height: auto; /* Let content determine height */
-  min-height: clamp(400px, 50vh, 500px);
-  margin: 1rem auto;
-  border-radius: 20px; /* Less phone-like, more modern */
-  border: 1px solid rgba(200, 200, 200, 0.3); /* Slightly more visible border */
+.meditationPlayer {
+  order: 2;
+  width: min(90vw, 400px);
+  height: auto;
+  min-height: 400px;
+  margin: 1.5rem auto;
   padding: 1.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(200, 200, 200, 0.3);
+  animation: none;
   box-shadow: 
     0 10px 30px rgba(106, 76, 147, 0.1),
-    0 4px 15px rgba(147, 112, 219, 0.05); /* Lighter shadow */
-  animation: none; /* Remove floating animation on mobile */
-  /* Pure white background for mobile */
+    0 4px 15px rgba(147, 112, 219, 0.05);
   background: #ffffff;
   backdrop-filter: none;
 }
 
-.mobilePlayerHeader {
-  text-align: center;
-  margin-bottom: 1rem;
+.ctaButton {
+  order: 3;
+  margin: 1.5rem 0;
 }
 
-.mobilePlayerTitle {
-  font-size: 1.2rem;
+.description {
+  order: 4;
+  margin: 1rem 0;
+  max-width: 90%;
 }
 
-.mobilePlayerSubtitle {
-  font-size: 0.9rem;
+.appButtons {
+  order: 5;
+  margin-top: 1.5rem;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  align-items: center;
 }
 
-.mobileSessionDuration {
-  font-size: 0.8rem;
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
+/* Tablet styles */
+@media (min-width: 768px) and (max-width: 1024px) {
   .heroWrapper {
-    height: auto;
-    min-height: 100vh; /* Fit to viewport */
-    padding: 6rem 0 1.5rem 0; /* Increased top padding for navbar clearance */
-    overflow: visible;
-  }
-  .heroContent {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-    text-align: center;
-    max-width: 100%;
-    padding: 1.5rem;
-    align-items: center;
-  }
-  .heroTextContent {
-    align-items: center;
-    text-align: center;
-    padding-right: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+    padding: 6rem 2rem 2rem 2rem;
   }
 
-  /* Mobile order: title group first */
-  .titleGroup {
-    order: 1;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 2rem;
+  .heroContent {
+    gap: 2.5rem;
+    padding: 1.5rem;
   }
-  /* Mobile meditation player with clean white background */
+
   .meditationPlayer {
-    order: 2;
-    width: clamp(350px, 60vw, 450px);
-    height: auto;
-    min-height: clamp(500px, 60vh, 600px);
-    margin: 2rem auto;
-    padding: clamp(1.5rem, 3vw, 2rem);
+    width: min(60vw, 450px);
+    min-height: 500px;
+    padding: 2rem;
     border-radius: 25px;
-    border: 1px solid rgba(220, 220, 220, 0.3);
-    transform: none;
-    position: relative;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    animation: none;
     box-shadow: 
       0 15px 40px rgba(106, 76, 147, 0.08),
       0 6px 20px rgba(147, 112, 219, 0.04);
-    /* Pure white background for mobile/tablet */
-    background: #ffffff;
-    backdrop-filter: none;
   }
 
-  /* Mobile order: CTA button third */
-  .ctaButton {
-    order: 3;
-    margin: 1.5rem 0;
-  }
-
-  /* Mobile order: description fourth */
-  .description {
-    order: 4;
-    margin: 1rem 0;
-  }
-
-  /* Mobile order: app buttons last */
-  .appButtons {
-    order: 5;
-    margin-top: 2rem;
-  }
-  
-  /* Scale player content proportionally */
-  .playerHeader {
-    margin-bottom: clamp(1rem, 2vh, 1.5rem);
-    position: relative;
-    z-index: 20;
-    flex-shrink: 0;
-    text-align: center;
-  }
-  
-  .playerTitle {
-    font-size: clamp(1.3rem, 3.2vw, 1.6rem);
-  }
-  
-  .playerSubtitle {
-    font-size: clamp(1rem, 2.3vw, 1.2rem);
-  }
-  
-  .sessionDuration {
-    font-size: clamp(0.85rem, 1.8vw, 1rem);
-  }
-  
-  /* Better tablet typography */
-  .rootTitle {
-    font-size: clamp(3rem, 6vw, 4.5rem);
-    letter-spacing: clamp(6px, 1.3vw, 10px);
-    margin-bottom: 1rem;
-  }
-  
-  .rootSubtitle {
-    font-size: clamp(1.1rem, 3.5vw, 1.6rem);
-    margin-bottom: 1.5rem;
-  }
-  
-  .description {
-    font-size: clamp(1rem, 2.8vw, 1.3rem);
-    max-width: 64%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .ctaButton {
-    font-size: clamp(1.1rem, 3vw, 1.4rem);
-    padding: clamp(1rem, 2.5vw, 1.3rem) clamp(2rem, 4vw, 2.8rem);
-    margin: 2rem auto;
-  }
-  
-  /* Tablet app store buttons */
   .appButtons {
     flex-direction: row;
     gap: 1rem;
     justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .appButton {
-    width: clamp(160px, 35vw, 200px);
-    font-size: clamp(0.8rem, 1.8vw, 1rem);
-  }
-  
-  /* Tablet breathing circle */
-  .breathingCircle {
-    width: clamp(160px, 28vw, 200px);
-    height: clamp(160px, 28vw, 200px);
-  }
-  
-  /* Tablet meditation visual */
-  .meditationVisual {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 220px;
-    max-height: 300px;
-    padding: 1rem;
-  }
-  
-  /* Tablet controls */
-  .playerControls {
-    margin-top: 1.2rem;
-    padding: 1rem;
-    gap: 1.2rem;
-  }
-  
-  .controlButton {
-    width: clamp(40px, 7vw, 50px);
-    height: clamp(40px, 7vw, 50px);
-  }
-  
-  .playButton {
-    width: clamp(50px, 9vw, 60px);
-    height: clamp(50px, 9vw, 60px);
-  }
-  
-  /* App buttons layout for tablet */
-  .appButtons {
-    flex-direction: row;
-    justify-content: center;
-    gap: clamp(1rem, 3vw, 2rem);
-    margin-top: 2rem;
-  }
-  
-  .appButton {
-    padding: clamp(0.8rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
-    max-width: 220px;
-  }
-  
-  /* Video indicators positioning for tablet */
-  .videoIndicators {
-    bottom: clamp(6rem, 10vh, 10rem);
-    right: clamp(2rem, 5vw, 4rem);
-    padding: clamp(1rem, 2vw, 1.5rem) clamp(0.75rem, 1.5vw, 1rem);
-  }
-  
-  .indicator {
-    width: clamp(8px, 1.5vw, 12px);
-    height: clamp(8px, 1.5vw, 12px);
-  }
-  
-  .indicator.active {
-    width: clamp(24px, 4vw, 32px);
-  }
-}
-
-@media (max-width: 768px) {
-  .heroWrapper {
-    height: auto;
-    min-height: 100vh; /* More conservative height */
-    padding: 4rem 0 1rem 0; /* Increased top padding for navbar clearance */
-    overflow: visible;
-  } 
-  .heroContent {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem; /* Reduced gap for better spacing */
-    padding: 1rem;
-    align-items: center;
-    text-align: center;
-  }
-  .heroTextContent {
-    align-items: center;
-    text-align: center;
-    padding: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
   }
 
-  /* Mobile order: title group first */
-  .titleGroup {
-    order: 1;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  /* Mobile order: meditation player second */
-  .meditationPlayer {
-    order: 2;
-    width: clamp(300px, 90vw, 400px) !important;
-    height: auto !important;
-    min-height: clamp(400px, 50vh, 500px) !important;
-    padding: 1.5rem !important;
-    margin: 1.5rem auto !important;
-    max-width: calc(100vw - 2rem);
-    border-radius: 20px !important; /* Less phone-like */
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    transform: none;
-    position: relative;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    animation: none !important; /* Remove floating animation */
-    box-shadow: 
-      0 10px 30px rgba(106, 76, 147, 0.1),
-      0 4px 15px rgba(147, 112, 219, 0.05) !important;
-    /* White background for mobile */
-    background: #ffffff !important;
-    backdrop-filter: none !important;
-  }
-
-  /* Mobile order: CTA button third */
-  .ctaButton {
-    order: 3;
-    margin: 1.5rem 0;
-  }
-
-  /* Mobile order: description fourth */
   .description {
-    order: 4;
-    margin: 1rem 0;
-  }
-
-  /* Mobile order: app buttons last */
-  .appButtons {
-    order: 5;
-    margin-top: 1.5rem;
-  }
-
-  /* Improve breathing circle responsiveness */
-  .breathingCircle {
-    width: clamp(120px, 25vw, 160px);
-    height: clamp(120px, 25vw, 160px);
-    margin: 0 auto;
-  }
-
-  /* Scale meditation visual area */
-  .meditationVisual {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 180px;
-    max-height: 240px;
-    padding: 0.8rem;
-    margin: 0;
+    max-width: 64%;
   }
 }
 
-/* Desktop Layout - Keep original two-column layout */
+/* Desktop styles */
 @media (min-width: 1025px) {
+  .heroWrapper {
+    padding: 160px 80px 120px 80px;
+  }
+
   .heroContent {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: 4rem;
     align-items: center;
-    padding: 3rem 2rem;
+    padding: 0 2rem;
+    text-align: left;
   }
 
   .heroTextContent {
-    display: flex;
-    flex-direction: column;
     align-items: flex-start;
     text-align: left;
     padding-right: 2rem;
@@ -1552,28 +807,41 @@
     width: 350px;
     height: 650px;
     margin: 0;
-    transform: none;
-    /* Ensure white background on smaller screens */
-    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 45px;
+    animation: phoneFloat 12s ease-in-out infinite;
+    background: linear-gradient(145deg, 
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(240, 235, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    backdrop-filter: blur(25px) saturate(1.8);
+  }
+
+  .ctaButton {
+    margin: 0 0 40px 0;
+  }
+
+  .description {
+    max-width: 400px;
+  }
+
+  .appButtons {
+    flex-direction: row;
+    width: auto;
+    align-items: flex-start;
   }
 }
 
-/* Large screen media queries for consistent alignment with navbar */
+/* Large screen alignment */
 @media (min-width: 1440px) {
   .heroContent {
-    max-width: 1400px; /* Keep consistent max-width */
-    padding: 0 5rem; /* Match navbar padding exactly */
+    max-width: 1400px;
+    padding: 0 5rem;
   }
 }
 
-@media (min-width: 1920px) {
-  .heroContent {
-    max-width: 1400px; /* Keep consistent max-width */
-    padding: 0 5rem; /* Match navbar padding exactly */
-  }
-}
-
-/* Premium gradient overlay with refined opacity for subtle elegance */
+/* Premium gradient overlay */
 .heroWrapper::before {
   content: '';
   position: absolute;
@@ -1591,9 +859,31 @@
   );
   z-index: 2;
   pointer-events: none;
-  /* Override any conflicting global styles */
-  inset: unset !important;
-  filter: none !important;
-  animation: none !important;
-  border-radius: 0 !important;
+}
+
+/* Scroll indicator for desktop only */
+.scrollIndicator {
+  display: none;
+}
+
+@media (min-width: 1025px) {
+  .scrollIndicator {
+    display: block;
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 36px;
+    opacity: 0.5;
+    animation: gentleFloat 3s ease-in-out infinite;
+  }
+  
+  .scrollIndicator svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--meditation-text-tertiary);
+    stroke-width: 2;
+    fill: none;
+  }
 }

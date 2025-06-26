@@ -55,7 +55,7 @@ function App() {
         
         {/* Immerse Introduction Section */}
         <section aria-label="Immerse yourself introduction">
-          <ImmerseIntroSection isMobile={isMobile} />
+          <ImmerseIntroSection />
         </section>
           {/* Immerse Section */}
         <section id="immerse" aria-label="Immerse yourself in tranquil environments">

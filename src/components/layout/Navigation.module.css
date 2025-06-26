@@ -316,35 +316,29 @@
   outline-offset: 2px;
 }
 
-/* Mobile responsive */
-@media (max-width: 1024px) {
+/* ============================================
+   MEDIA QUERIES - Mobile First Approach
+   ============================================ */
+
+/* Small Mobile Devices (320px - 479px) */
+@media (max-width: 479px) {
+  .nav {
+    padding: 0.75rem 0;
+  }
+  
   .navContent {
-    padding-left: var(--spacing-5);
-    padding-right: var(--spacing-5);
-    grid-template-columns: 1fr auto; /* Logo takes space, hamburger at right */
-    justify-items: end; /* Align hamburger to the right */
+    padding: 0 1rem;
+    gap: 0.5rem;
   }
   
   .logo {
-    font-size: 1.3rem;
-    justify-self: start; /* Explicitly align logo to left */
+    font-size: 1.1rem;
   }
   
-  /* Hide desktop navigation and CTA on mobile */
-  .links,
-  .ctaButton {
-    display: none;
+  .logoImage {
+    height: 24px;
   }
   
-  /* Show mobile menu button */
-  .mobileMenuButton {
-    display: block;
-    justify-self: end; /* Align hamburger to the right */
-  }
-}
-
-/* Larger mobile devices */
-@media (max-width: 480px) {
   .mobileMenu {
     width: 100vw;
     right: -100vw;
@@ -353,19 +347,156 @@
   .mobileMenuOpen {
     right: 0;
   }
-}
-
-/* Large screen media queries for consistent alignment */
-@media (min-width: 1440px) {
-  .navContent {
-    max-width: 1400px; /* Keep consistent max-width */
-    padding: 0 5rem; /* Ensure consistent padding */
+  
+  .mobileNavLink {
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+  }
+  
+  .mobileCta {
+    font-size: 0.875rem;
+    padding: 0.75rem 1.25rem;
   }
 }
 
+/* Standard Mobile Devices (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+  .nav {
+    padding: 0.84rem 0;
+  }
+  
+  .navContent {
+    padding: 0 1.5rem;
+  }
+  
+  .logo {
+    font-size: 1.25rem;
+  }
+  
+  .logoImage {
+    height: 28px;
+  }
+  
+  .mobileMenu {
+    width: 300px;
+  }
+}
+
+/* Tablets Portrait (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .navContent {
+    padding: 0 2rem;
+    grid-template-columns: 1fr auto; /* Logo takes space, hamburger at right */
+  }
+  
+  .logo {
+    font-size: 1.4rem;
+    justify-self: start;
+  }
+  
+  .logoImage {
+    height: 30px;
+  }
+  
+  /* Still show mobile menu on tablets portrait */
+  .links,
+  .ctaButton {
+    display: none;
+  }
+  
+  .mobileMenuButton {
+    display: block;
+    justify-self: end;
+  }
+  
+  .mobileMenu {
+    width: 320px;
+  }
+  
+  .mobileNavLink {
+    font-size: 1.125rem;
+  }
+}
+
+/* Tablets Landscape & Small Laptops (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  /* Show desktop navigation */
+  .mobileMenuButton,
+  .mobileMenu,
+  .mobileMenuOverlay {
+    display: none !important;
+  }
+  
+  .navContent {
+    padding: 0 3rem;
+    grid-template-columns: auto 1fr auto; /* Back to desktop layout */
+  }
+  
+  .links {
+    gap: 1.5rem;
+  }
+  
+  .navLink {
+    font-size: 0.875rem;
+  }
+  
+  .ctaButton {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Standard Laptops/Desktops (1200px - 1439px) */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .navContent {
+    padding: 0 4rem;
+  }
+  
+  .links {
+    gap: 2rem;
+  }
+  
+  .navLink {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Large Desktops (1440px - 1919px) */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .navContent {
+    max-width: 1400px;
+    padding: 0 5rem;
+  }
+}
+
+/* Extra Large Desktops (1920px+) */
 @media (min-width: 1920px) {
   .navContent {
-    max-width: 1400px; /* Keep consistent max-width */
-    padding: 0 5rem; /* Ensure consistent padding */
+    max-width: 1400px;
+    padding: 0 5rem;
+  }
+}
+
+/* Special handling for mobile menu visibility */
+@media (max-width: 991px) {
+  .links,
+  .ctaButton {
+    display: none;
+  }
+  
+  .mobileMenuButton {
+    display: block;
+  }
+  
+  .navContent {
+    grid-template-columns: 1fr auto;
+  }
+  
+  .logo {
+    justify-self: start;
+  }
+  
+  .mobileMenuButton {
+    justify-self: end;
   }
 }

@@ -1,58 +1,96 @@
-/* Immerse Intro Section - Text introduction before video section */
+/* CSS Variables for theming consistency */
+:root {
+  --intro-gradient-start: #6865BF;
+  --intro-gradient-mid: #A496D9;
+  --intro-gradient-end: #D3BDF2;
+  --intro-text-secondary: #4b5563; /* Improved contrast from #6b7280 */
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .immerseIntroSection * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mobile-first approach */
 .immerseIntroSection {
   position: relative;
   width: 100%;
-  min-height: 50vh;
+  min-height: 60vh; /* Increased for better mobile spacing */
   background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 80px;
+  padding: 80px 20px; /* More generous vertical padding */
   overflow: hidden;
+  contain: layout style;
 }
 
 .content {
   position: relative;
   z-index: 10;
   text-align: center;
+  width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  animation: fadeInUp 1s ease-out;
 }
 
-/* Title with purple gradient - matching HeroSection style */
+/* Title with optimized gradient */
 .title {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(2rem, 8vw, 3.6rem);
-  font-weight: 100;
-  line-height: 1.3;
-  margin: 0 0 24px 0;
+  font-size: clamp(1.85rem, 4vw + 0.75rem, 3.5rem); /* Better mobile scaling */
+  font-weight: 200; /* Slightly heavier for readability */
+  line-height: 1.35; /* Better line height for mobile */
+  margin: 0 0 1.25rem 0; /* Tighter margin for mobile */
   max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 0.5rem; /* Small padding to prevent edge touching */
   
-  /* Purple gradient text matching HeroSection title */
-  background: linear-gradient(135deg, #6865BF, #A496D9, #D3BDF2);
+  /* Purple gradient text */
+  background: linear-gradient(
+    135deg, 
+    var(--intro-gradient-start), 
+    var(--intro-gradient-mid), 
+    var(--intro-gradient-end)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 200% 200%;
-  animation: gradientShift 8s ease-in-out infinite;
   
-  /* Subtle text shadow for depth - matching new gradient */
+  /* Subtle shadow for depth */
   filter: drop-shadow(0 2px 4px rgba(164, 150, 217, 0.1));
+  
+  /* Performance optimization */
+  will-change: background-position;
+  transform: translateZ(0);
 }
 
-/* Subtitle */
+/* Conditional gradient animation */
+.title.animateGradient {
+  animation: gradientShift 8s ease-in-out infinite;
+}
+
+/* Subtitle with better contrast */
 .subtitle {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(1.1rem, 3vw, 1.3rem);
-  font-weight: 100;
-  line-height: 1.6;
-  color: #6b7280;
+  font-size: clamp(1.05rem, 2vw + 0.2rem, 1.375rem); /* Better mobile size */
+  font-weight: 300;
+  line-height: 1.65; /* More breathing room */
+  color: var(--intro-text-secondary);
   margin: 0;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em; /* Slightly more spacing */
+  max-width: 500px; /* Narrower for better readability on mobile */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 0.5rem; /* Prevent edge touching */
 }
 
-/* Gradient animation for title */
+/* Gradient animation - only when needed */
 @keyframes gradientShift {
   0%, 100% {
     background-position: 0% 50%;
@@ -62,46 +100,87 @@
   }
 }
 
-/* Fade in animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Mobile styles */
-.immerseIntroSection.mobile {
-  padding: 80px 40px;
-  min-height: 40vh;
-}
-
-.mobile .content {
-  max-width: 100%;
-}
-
-.mobile .title {
-  font-size: clamp(2rem, 10vw, 3rem);
-  margin: 0 0 20px 0;
-}
-
-.mobile .subtitle {
-  font-size: clamp(1rem, 4vw, 1.2rem);
-}
-
-/* Responsive breakpoints */
-@media (max-width: 768px) {
+/* Small mobile adjustments */
+@media (max-width: 375px) {
   .immerseIntroSection {
-    padding: 60px 32px;
+    padding: 60px 16px;
+    min-height: 50vh;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
   }
 }
 
-@media (max-width: 480px) {
+/* Tablet styles */
+@media (min-width: 768px) {
   .immerseIntroSection {
-    padding: 40px 24px;
+    min-height: 60vh;
+    padding: 100px 40px;
   }
+  
+  .title {
+    margin-bottom: 2rem;
+    padding: 0; /* Remove mobile padding */
+    font-weight: 100; /* Back to ultra-light on larger screens */
+  }
+  
+  .subtitle {
+    padding: 0; /* Remove mobile padding */
+    max-width: 600px; /* Wider on tablet */
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .immerseIntroSection {
+    padding: 120px 80px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1440px) {
+  .immerseIntroSection {
+    padding: 120px 5rem; /* Match HeroSection padding */
+  }
+}
+
+/* Optional decorative background - more subtle on mobile */
+.immerseIntroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(248, 248, 255, 0.3) 0%, /* Less opacity on mobile */
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .immerseIntroSection::before {
+    background: linear-gradient(
+      180deg,
+      rgba(248, 248, 255, 0.5) 0%, /* Full opacity on larger screens */
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+}
+
+/* Focus styles for keyboard navigation */
+.title:focus-visible,
+.subtitle:focus-visible {
+  outline: 2px solid var(--intro-gradient-mid);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
