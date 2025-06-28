@@ -1,167 +1,181 @@
-import React, { memo } from 'react'
+import { memo, useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import styles from './HeroSection.module.css'
 
-// Type for CSS custom properties
-type CSSPropertiesWithVars = React.CSSProperties & {
-  '--delay'?: string
-  '--x-offset'?: string
-  '--size'?: string
-  '--z-depth'?: string
-  '--angle'?: string
-}
-
-interface HeroSectionProps {
-  isMobile: boolean
-}
-
-// Memoized components for better performance
-const MeditationVisual = memo(({ isMobile }: { isMobile: boolean }) => {
-  // Reduce particle count on mobile
-  const PARTICLE_COUNT = isMobile ? 6 : 12
-  const SPARKLE_COUNT = isMobile ? 3 : 6
-  
-  return (
-    <div className={styles.meditationVisual} aria-label="Breathing visualization">
-      <div className={styles.breathingCircle}>
-        {/* Reduced aura layers for mobile */}
-        <div className={styles.auraLayer} data-layer="1"></div>
-        <div className={styles.auraLayer} data-layer="2"></div>
-        {!isMobile && (
-          <>
-            <div className={styles.auraLayer} data-layer="3"></div>
-            <div className={styles.auraLayer} data-layer="4"></div>
-            <div className={styles.auraLayer} data-layer="5"></div>
-          </>
-        )}
-        
-        {/* Conditionally render complex animations */}
-        {!isMobile && (
-          <>
-            {/* Floating Particles */}
-            <div className={styles.particleContainer}>
-              {Array.from({ length: PARTICLE_COUNT }, (_, i) => (
-                <div 
-                  key={`particle-${i}`}
-                  className={styles.floatingParticle}
-                  style={{
-                    '--delay': `${i * 0.618}s`,
-                    '--x-offset': `${(i * 137.5) % 360}deg`,
-                    '--size': `${2 + (i % 4)}px`,
-                    '--z-depth': `${(i % 5) * 20}px`
-                  } as CSSPropertiesWithVars}
-                />
-              ))}
-            </div>
-            
-            {/* Sacred Geometry */}
-            <div className={styles.sacredGeometry}>
-              <div className={styles.mandalaRing} data-ring="outer"></div>
-              <div className={styles.mandalaRing} data-ring="middle"></div>
-              <div className={styles.mandalaRing} data-ring="inner"></div>
-            </div>
-            
-            {/* Ripple Effects */}
-            <div className={styles.rippleContainer}>
-              <div className={styles.ripple} style={{'--delay': '0s'} as CSSPropertiesWithVars}></div>
-              <div className={styles.ripple} style={{'--delay': '2s'} as CSSPropertiesWithVars}></div>
-              <div className={styles.ripple} style={{'--delay': '4s'} as CSSPropertiesWithVars}></div>
-            </div>
-            
-            {/* Aurora Flow */}
-            <div className={styles.auroraFlow}></div>
-            
-            {/* Sparkles */}
-            <div className={styles.sparkleContainer}>
-              {Array.from({ length: SPARKLE_COUNT }, (_, i) => (
-                <div 
-                  key={`sparkle-${i}`}
-                  className={styles.sparkle}
-                  style={{
-                    '--angle': `${i * 60}deg`,
-                    '--delay': `${i * 1.5}s`
-                  } as CSSPropertiesWithVars}
-                />
-              ))}
-            </div>
-          </>
-        )}
-        
-        {/* Central Focus Point - Always visible */}
-        <div className={styles.centerPoint}>
-          <div className={styles.innerGlow}></div>
-          <div className={styles.pulsingCore}></div>
-        </div>
-      </div>
-    </div>
-  )
-})
-
-MeditationVisual.displayName = 'MeditationVisual'
-
-// Memoized Meditation Player component
+// Memoized Meditation Player component - iPhone Mockup Design
 const MeditationPlayer = memo(({ 
-  isMobile, 
   className = '' 
 }: { 
-  isMobile: boolean
   className?: string 
 }) => {
+  const [isBreathing, setIsBreathing] = useState(false)
+  const [breathCount, setBreathCount] = useState(0)
+  const playerRef = useRef<HTMLDivElement>(null)
+
+  // Breathing counter
+  useEffect(() => {
+    if (isBreathing) {
+      const interval = setInterval(() => {
+        setBreathCount(prev => prev + 1)
+      }, 8000) // One complete breath cycle
+      return () => clearInterval(interval)
+    } else {
+      setBreathCount(0)
+    }
+  }, [isBreathing])
+
+  const handleBreathToggle = () => {
+    setIsBreathing(!isBreathing)
+    
+    // Trigger warp effect
+    if (!isBreathing && playerRef.current) {
+      const phoneScreen = playerRef.current.querySelector(`.${styles.phoneScreen}`)
+      if (phoneScreen) {
+        const startTime = Date.now()
+        const duration = 1200
+        
+        const animateWarp = () => {
+          const elapsed = Date.now() - startTime
+          const progress = Math.min(elapsed / duration, 1)
+          
+          // Easing function
+          const easeOutQuad = (t: number) => t * (2 - t)
+          const easedProgress = easeOutQuad(progress)
+          
+          // Calculate deformation
+          const deform = progress < 0.3 ? easedProgress : 1 - easedProgress;
+          
+          // Apply transformations to phone screen content
+          (phoneScreen as HTMLElement).style.transform = `
+            perspective(1000px)
+            rotateX(${deform * -3}deg)
+            translateZ(${deform * 30}px)
+            scale(${1 + deform * 0.02})
+          `
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateWarp)
+          } else {
+            (phoneScreen as HTMLElement).style.transform = ''
+          }
+        }
+        
+        requestAnimationFrame(animateWarp)
+      }
+    }
+  }
+
   return (
     <motion.div 
-      className={`${styles.meditationPlayer} ${className}`}
-      initial={{ opacity: 0, x: isMobile ? 0 : 40 }}
-      animate={{ opacity: 1, x: 0 }}
+      ref={playerRef}
+      className={`${styles.iphoneMockup} ${className}`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
     >
-      {/* Player Header */}
-      <div className={styles.playerHeader}>
-        <h2 className={styles.playerTitle}>Evening Calm</h2>
-        <p className={styles.playerSubtitle}>Gentle Breathing & Relaxation</p>
-        <time className={styles.sessionDuration} dateTime="PT12M">
-          12 minutes
-        </time>
-      </div>
-
-      {/* Meditation Visual */}
-      <MeditationVisual isMobile={isMobile} />
-
-      {/* Player Controls */}
-      <div className={styles.playerControls} role="group" aria-label="Media controls">
-        <button className={styles.controlButton} aria-label="Previous track">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M7 6v12l-5-6 5-6zm1 6l8.5-6v12L8 12z"/>
-          </svg>
-        </button>
+      {/* iPhone Frame */}
+      <div className={styles.phoneFrame}>
+        {/* Power Button */}
+        <div className={styles.powerButton}></div>
         
-        <button className={`${styles.controlButton} ${styles.playButton}`} aria-label="Play">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-        </button>
+        {/* Volume Buttons */}
+        <div className={styles.volumeUp}></div>
+        <div className={styles.volumeDown}></div>
         
-        <button className={styles.controlButton} aria-label="Next track">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17 18V6l5 6-5 6zm-1-6L7.5 6v12L16 12z"/>
-          </svg>
-        </button>
-      </div>
+        {/* Silent Switch */}
+        <div className={styles.silentSwitch}></div>
 
-      {/* Progress Bar */}
-      <div className={styles.progressContainer}>
-        <div 
-          className={styles.progressBar} 
-          role="progressbar" 
-          aria-label="Playback progress"
-          aria-valuenow={35}
-          aria-valuemin={0}
-          aria-valuemax={100}
-        >
-          <div className={styles.progressFill}></div>
-        </div>
-        <div className={styles.timeDisplay}>
-          <span aria-label="Current time">4:15</span>
-          <span aria-label="Total duration">12:00</span>
+        {/* Screen Container */}
+        <div className={styles.screenContainer}>
+          {/* Notch/Dynamic Island */}
+          <div className={styles.dynamicIsland}></div>
+
+          {/* Phone Screen */}
+          <div className={styles.phoneScreen}>
+            {/* Status Bar */}
+            <div className={styles.statusBar}>
+              <span className={styles.time}>9:41</span>
+              <div className={styles.statusIcons}>
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
+                  <rect x="1" y="4" width="3" height="7" rx="0.5" opacity="0.3"/>
+                  <rect x="5.5" y="2.5" width="3" height="8.5" rx="0.5" opacity="0.5"/>
+                  <rect x="10" y="1" width="3" height="10" rx="0.5" opacity="0.7"/>
+                  <rect x="14.5" y="0" width="3" height="11" rx="0.5"/>
+                </svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor">
+                  <path d="M1 4a4 4 0 014-4h6a4 4 0 014 4v4a4 4 0 01-4 4H5a4 4 0 01-4-4V4z" opacity="0.3"/>
+                  <path d="M12 4.5v3a.5.5 0 001 0v-3a.5.5 0 00-1 0z"/>
+                  <path d="M16 5v2a1 1 0 01-1 1h-.5a.5.5 0 01-.5-.5v-3a.5.5 0 01.5-.5H15a1 1 0 011 1z"/>
+                </svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor">
+                  <rect x="1" y="3" width="21" height="7" rx="2.5" stroke="currentColor" fill="none" strokeWidth="1"/>
+                  <path d="M23 5.5v2a.5.5 0 00.5.5h.5a1 1 0 001-1v-2a1 1 0 00-1-1h-.5a.5.5 0 00-.5.5z"/>
+                  <rect x="2" y="4.5" width="18" height="4" rx="1.5" fill="currentColor"/>
+                </svg>
+              </div>
+            </div>
+
+            {/* App Content */}
+            <div className={styles.appContent}>
+              {/* Header */}
+              <div className={styles.appHeader}>
+                <h2 className={styles.appTitle}>Mind Space</h2>
+                <p className={styles.appTagline}>Find your inner calm</p>
+              </div>
+
+              {/* Breathing Visualization */}
+              <div className={styles.breathingSection}>
+                <div className={`${styles.breathingOrb} ${isBreathing ? styles.breathing : ''}`}>
+                  <div className={styles.orbRing} data-ring="1"></div>
+                  <div className={styles.orbRing} data-ring="2"></div>
+                  <div className={styles.orbRing} data-ring="3"></div>
+                  
+                  <button 
+                    className={styles.breathButton}
+                    onClick={handleBreathToggle}
+                    aria-label={isBreathing ? "Stop breathing exercise" : "Start breathing exercise"}
+                  >
+                    <span className={styles.breathText}>
+                      {isBreathing ? 'BREATHE' : 'START'}
+                    </span>
+                  </button>
+                </div>
+
+                {/* Breath Counter */}
+                {isBreathing && (
+                  <motion.div 
+                    className={styles.breathCounter}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <span className={styles.countNumber}>{breathCount}</span> <br />
+                    <span className={styles.countLabel}>  Breaths </span>
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Stats Section - Centered */}
+              <div className={styles.statsSection}>
+                <div className={styles.statItem}>
+                  <span className={styles.statNumber}>7</span>
+                  <span className={styles.statLabel}>Day Streak</span>
+                </div>
+                <div className={styles.statDivider}></div>
+                <div className={styles.statItem}>
+                  <span className={styles.statNumber}>42</span>
+                  <span className={styles.statLabel}>Total Sessions</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Warp Overlay Effect */}
+            <div className={`${styles.warpOverlay} ${isBreathing ? styles.active : ''}`}>
+              <div className={styles.expandingCircle}></div>
+              <div className={styles.gradientCircle} data-position="top-left"></div>
+              <div className={styles.gradientCircle} data-position="bottom-right"></div>
+            </div>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -171,7 +185,7 @@ const MeditationPlayer = memo(({
 MeditationPlayer.displayName = 'MeditationPlayer'
 
 // Main component
-export function HeroSection({ isMobile }: HeroSectionProps) {
+export function HeroSection({ isMobile }: { isMobile: boolean }) {
   return (
     <section 
       className={styles.heroWrapper}
@@ -277,7 +291,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
             </div>
 
             {/* Right Side - Meditation Player */}
-            <MeditationPlayer isMobile={false} />
+            <MeditationPlayer />
           </>
         ) : (
           <>
@@ -293,7 +307,7 @@ export function HeroSection({ isMobile }: HeroSectionProps) {
             </div>
 
             {/* Meditation Player */}
-            <MeditationPlayer isMobile={true} />
+            <MeditationPlayer />
 
             {/* CTA Button */}
             <motion.button 

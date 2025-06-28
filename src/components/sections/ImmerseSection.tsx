@@ -30,7 +30,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
   const audio1Ref = useRef<HTMLAudioElement>(null)
   const audio2Ref = useRef<HTMLAudioElement>(null)
   const progressRef = useRef<number>()
-  const autoSwitchRef = useRef<number>()
+  const autoSwitchRef = useRef<ReturnType<typeof setInterval>>()
   const timerStartRef = useRef<number>(0)
   const sectionRef = useRef<HTMLDivElement>(null)
   

@@ -1,5 +1,19 @@
 /* CSS Variables for consistent theming */
 :root {
+  /* iOS Native Dark Theme Colors */
+  --ios-purple: #5856D6;
+  --ios-purple-light: #787AFF;
+  --ios-purple-dark: #3634A3;
+  --ios-background: #000000;
+  --ios-surface: #1C1C1E;
+  --ios-surface-2: #2C2C2E;
+  --ios-surface-3: #3A3A3C;
+  --ios-text-primary: #FFFFFF;
+  --ios-text-secondary: #8E8E93;
+  --ios-text-tertiary: #48484A;
+  --ios-separator: #38383A;
+  
+  /* Original Theme Colors for Hero Section */
   --meditation-primary: rgba(106, 76, 147, 1);
   --meditation-secondary: rgba(186, 148, 255, 1);
   --meditation-glow: rgba(255, 255, 255, 0.9);
@@ -285,371 +299,493 @@
   gap: var(--spacing-4, 16px);
 }
 
-/* Meditation Player - Optimized */
-.meditationPlayer {
-  width: 350px;
-  height: 650px;
-  background: linear-gradient(145deg, 
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(240, 235, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0.1) 100%
-  );
-  backdrop-filter: blur(25px) saturate(1.8);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 45px;
-  padding: 1.5rem;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1rem;
+/* iPhone Mockup Design - Black Edition */
+.iphoneMockup {
   position: relative;
-  overflow: hidden;
-  box-shadow: 
-    0 25px 50px rgba(106, 76, 147, 0.15),
-    0 8px 25px rgba(147, 112, 219, 0.1),
-    inset 0 2px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -1px 0 rgba(106, 76, 147, 0.1);
+  display: inline-block;
+  transform-origin: center;
   animation: phoneFloat 12s ease-in-out infinite;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  z-index: 5;
-  contain: layout style paint;
-  will-change: transform;
 }
 
-.meditationPlayer::before {
-  content: '';
+/* Phone Frame - Black Style */
+.phoneFrame {
+  width: 360px; /* ~5.5 inch screen width */
+  height: 640px; /* Proper iPhone ratio */
+  background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #000000 100%);
+  border-radius: 40px;
+  padding: 12px; /* Increased from 10px to create gap */
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    0 10px 20px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 0 0 2px #1a1a1a;
+  position: relative;
+}
+
+/* Hardware Buttons */
+.powerButton {
+  position: absolute;
+  right: -3px;
+  top: 110px;
+  width: 3px;
+  height: 70px;
+  background: #1a1a1a;
+  border-radius: 0 3px 3px 0;
+}
+
+.volumeUp {
+  position: absolute;
+  left: -3px;
+  top: 90px;
+  width: 3px;
+  height: 45px;
+  background: #1a1a1a;
+  border-radius: 3px 0 0 3px;
+}
+
+.volumeDown {
+  position: absolute;
+  left: -3px;
+  top: 145px;
+  width: 3px;
+  height: 45px;
+  background: #1a1a1a;
+  border-radius: 3px 0 0 3px;
+}
+
+.silentSwitch {
+  position: absolute;
+  left: -3px;
+  top: 60px;
+  width: 3px;
+  height: 20px;
+  background: #1a1a1a;
+  border-radius: 3px 0 0 3px;
+}
+
+/* Screen Container */
+.screenContainer {
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+}
+
+/* Dynamic Island */
+.dynamicIsland {
+  position: absolute;
+  top: 8px; /* Added gap from top */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 26px;
+  background: #000;
+  border-radius: 14px;
+  z-index: 100;
+}
+
+/* Phone Screen */
+.phoneScreen {
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Status Bar */
+.statusBar {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 60%;
-  background: linear-gradient(180deg, 
-    rgba(255, 255, 255, 0.1) 0%,
-    transparent 100%
-  );
-  pointer-events: none;
-  z-index: 1;
+  height: 40px;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 90;
+  background: rgba(255, 255, 255, 0.98);
 }
 
-/* Player Header */
-.playerHeader {
-  text-align: center;
-  margin-bottom: 0;
-  padding: 0;
-  overflow: hidden;
-  position: relative;
-  z-index: 15;
-  flex-shrink: 0;
-}
-
-.playerTitle {
-  font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+.time {
+  font-size: 14px;
   font-weight: 600;
-  color: var(--meditation-text-primary);
-  margin-bottom: 0.25rem;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  opacity: 1;
-  display: block;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.playerSubtitle {
-  font-size: clamp(0.85rem, 2.5vw, 1rem);
-  color: var(--meditation-text-secondary);
-  opacity: 0.9;
-  margin-bottom: 0.1rem;
-  line-height: 1.3;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
+.statusIcons {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  color: #000;
 }
 
-.sessionDuration {
-  font-size: clamp(0.75rem, 2vw, 0.9rem);
-  color: var(--meditation-text-tertiary);
-  opacity: 0.7;
-  font-weight: 300;
-  display: block;
+.statusIcons svg {
+  height: 11px;
 }
 
-/* Meditation Visual - Simplified */
-.meditationVisual {
+/* App Content */
+.appContent {
+  padding: 45px 16px 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%);
+}
+
+/* App Header */
+.appHeader {
+  text-align: center;
+  margin-bottom: 15px;
+  margin-top: 10px; /* Added top margin for space from camera */
+}
+
+.appTitle {
+  font-size: 26px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 4px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.appTagline {
+  font-size: 13px;
+  font-weight: 400;
+  color: #666;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  opacity: 0.8;
+  margin-bottom: 0;
+}
+
+/* Breathing Section */
+.breathingSection {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Start from top */
+  position: relative;
+  margin: 0;
+  padding-top: 40px; /* Add top padding */
+  min-height: 280px;
+}
+
+/* Breathing Orb */
+.breathingOrb {
+  width: 160px;
+  height: 160px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  margin: 0;
-  min-height: 250px;
-  max-height: 350px;
-  padding: 1rem;
-  overflow: hidden;
-  contain: layout style paint;
+  margin-bottom: 60px; /* Add space below orb for counter */
 }
 
-/* Breathing Circle - Optimized */
-.breathingCircle {
-  width: clamp(160px, 28vw, 240px);
-  height: clamp(160px, 28vw, 240px);
-  position: relative;
-  background: radial-gradient(circle at 35% 25%, 
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(186, 148, 255, 0.08) 35%,
-    rgba(106, 76, 147, 0.03) 70%,
-    transparent 100%
-  );
-  border: 2px solid rgba(186, 148, 255, 0.4);
-  border-radius: 50%;
-  border-width: clamp(1px, 0.3vw, 3px);
-  animation: breathe 6s ease-in-out infinite;
-  box-shadow: 
-    0 8px 32px rgba(106, 76, 147, 0.15),
-    0 16px 64px rgba(186, 148, 255, 0.08),
-    inset 0 2px 8px rgba(255, 255, 255, 0.1);
-  will-change: transform, opacity;
-  transform: translateZ(0);
-  aspect-ratio: 1 / 1;
-  z-index: 10;
-}
-
-@keyframes breathe {
-  0%, 100% { 
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  50% { 
-    transform: scale(1.1);
-    opacity: 1;
-  }
-}
-
-/* Reduced complexity animations for mobile */
-@media (max-width: 768px) {
-  .particleContainer,
-  .sparkleContainer,
-  .rippleContainer,
-  .sacredGeometry,
-  .auraLayer:nth-child(n+3) {
-    display: none;
-  }
-}
-
-/* Simplified Aura System - Only 2 layers on mobile */
-.auraLayer {
+/* Orb Rings */
+.orbRing {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 50%;
+  border: 2px solid rgba(147, 112, 219, 0.2);
   pointer-events: none;
-  background: radial-gradient(circle, 
-    transparent 60%,
-    rgba(186, 148, 255, 0.06) 65%,
-    rgba(106, 76, 147, 0.04) 85%,
-    transparent 100%
-  );
-  border: 1px solid rgba(186, 148, 255, 0.08);
-  animation: auraBreath 8s ease-in-out infinite;
-  will-change: transform, opacity;
+  transition: all 0.3s ease;
 }
 
-.auraLayer[data-layer="1"] {
-  width: 124%;
-  height: 124%;
+.orbRing[data-ring="1"] {
+  width: 100%;
+  height: 100%;
+}
+
+.orbRing[data-ring="2"] {
+  width: 70%;
+  height: 70%;
+}
+
+.orbRing[data-ring="3"] {
+  width: 40%;
+  height: 40%;
+}
+
+/* Breathing animation */
+.breathingOrb.breathing .orbRing {
+  animation: ringPulse 4s ease-in-out infinite;
+}
+
+.breathingOrb.breathing .orbRing[data-ring="1"] {
   animation-delay: 0s;
 }
 
-.auraLayer[data-layer="2"] {
-  width: 147%;
-  height: 147%;
-  animation-delay: 1s;
+.breathingOrb.breathing .orbRing[data-ring="2"] {
+  animation-delay: 0.15s;
 }
 
-@keyframes auraBreath {
-  0%, 100% { 
-    opacity: 0.25;
+.breathingOrb.breathing .orbRing[data-ring="3"] {
+  animation-delay: 0.3s;
+}
+
+@keyframes ringPulse {
+  0%, 100% {
     transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+    border-color: rgba(147, 112, 219, 0.2);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 1;
+    border-color: rgba(147, 112, 219, 0.6);
+  }
+}
+
+/* Breath Button */
+.breathButton {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+  border: none;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 10;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.breathButton:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.breathButton:active {
+  transform: scale(0.98);
+}
+
+/* Breath Counter */
+.breathCounter {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  top: auto;
+  transform: none;
+  text-align: center;
+  margin: -40px auto 0 auto; /* Pull up closer to orb, but below it */
+  width: max-content;
+  min-width: 60px;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .breathCounter {
+    margin: -30px auto 0 auto;
+    min-width: 50px;
+  }
+}
+
+/* Stats Section - Centered */
+.statsSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 16px;
+  margin: 0 16px 20px;
+}
+
+.countNumber{
+  font-size: 36px;
+  font-weight: 700;
+  color: #000;
+  margin: 0
+}
+
+.countLabel{
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statNumber {
+  display: block;
+  font-size: 36px;
+  font-weight: 700;
+  color: #000;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.statLabel {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statDivider {
+  width: 1px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Warp Overlay Effect - Dark Theme */
+.warpOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.warpOverlay.active {
+  opacity: 1;
+}
+
+/* Expanding Circle - Dark warp effect */
+.expandingCircle {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 70%);
+  filter: blur(8px);
+  opacity: 0;
+  animation: none;
+}
+
+.warpOverlay.active .expandingCircle {
+  animation: expandWarp 1.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes expandWarp {
+  0% {
+    transform: translate(-50%, 50%) scale(0);
+    opacity: 1;
+    filter: blur(0px);
+  }
+  50% {
+    opacity: 0.8;
+    filter: blur(15px);
+  }
+  100% {
+    transform: translate(-50%, 50%) scale(20);
+    opacity: 0;
+    filter: blur(30px);
+  }
+}
+
+/* Gradient Circles for ambient effect - Dark */
+.gradientCircle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  will-change: transform, opacity;
+}
+
+.warpOverlay.active .gradientCircle {
+  opacity: 0.4;
+}
+
+.gradientCircle[data-position="top-left"] {
+  width: 250px;
+  height: 250px;
+  top: -80px;
+  left: -80px;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 0%, transparent 70%);
+  animation: breatheGradient 4s ease-in-out infinite;
+}
+
+.gradientCircle[data-position="bottom-right"] {
+  width: 200px;
+  height: 200px;
+  bottom: -80px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(26, 26, 26, 0.4) 0%, transparent 70%);
+  animation: breatheGradient 4s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+@keyframes breatheGradient {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+/* Key Animations */
+@keyframes breathe {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.6;
   }
   50% { 
-    opacity: 0.6;
-    transform: translate(-50%, -50%) scale(1.05);
+    transform: scale(1.15);
+    opacity: 1;
   }
-}
-
-/* Center Point - Simplified */
-.centerPoint {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 14px;
-  height: 14px;
-  z-index: 15;
-}
-
-.innerGlow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 28px;
-  height: 28px;
-  background: radial-gradient(circle, 
-    var(--meditation-glow) 0%,
-    rgba(186, 148, 255, 0.5) 50%,
-    transparent 100%
-  );
-  border-radius: 50%;
-  animation: glow 6s ease-in-out infinite;
-  box-shadow: 
-    0 0 20px rgba(255, 255, 255, 0.8),
-    0 0 40px rgba(186, 148, 255, 0.5);
-  will-change: transform, opacity;
 }
 
 @keyframes glow {
   0%, 100% { 
-    opacity: 0.7;
+    opacity: 0.4;
     transform: translate(-50%, -50%) scale(1);
   }
   50% { 
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.2);
   }
 }
 
-/* Player Controls - Accessible */
-.playerControls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
-  touch-action: manipulation;
-  flex-shrink: 0;
-  role: group;
+@keyframes warpEffect {
+  0% {
+    transform: perspective(1000px) rotateX(0deg) translateZ(0);
+  }
+  20% {
+    transform: perspective(1000px) rotateX(-3deg) translateZ(50px);
+  }
+  80% {
+    transform: perspective(1000px) rotateX(-3deg) translateZ(50px);
+  }
+  100% {
+    transform: perspective(1000px) rotateX(0deg) translateZ(0);
+  }
 }
 
-.controlButton {
-  width: clamp(44px, 8vw, 50px);
-  height: clamp(44px, 8vw, 50px);
-  min-width: 44px;
-  min-height: 44px;
-  border-radius: 50%;
-  background: rgba(106, 76, 147, 0.08);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(106, 76, 147, 0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.controlButton:hover {
-  background: rgba(106, 76, 147, 0.15);
-  transform: scale(1.03);
-}
-
-.controlButton:active {
-  transform: scale(0.97);
-  background: rgba(106, 76, 147, 0.2);
-}
-
-.controlButton:focus {
-  outline: 2px solid rgba(106, 76, 147, 0.5);
-  outline-offset: 2px;
-}
-
-.controlButton svg {
-  color: rgba(106, 76, 147, 0.6);
-  width: clamp(14px, 3vw, 18px);
-  height: clamp(14px, 3vw, 18px);
-}
-
-.playButton {
-  width: clamp(56px, 12vw, 75px);
-  height: clamp(56px, 12vw, 75px);
-  min-width: 56px;
-  min-height: 56px;
-  background: linear-gradient(135deg, 
-    rgba(106, 76, 147, 0.7) 0%, 
-    rgba(142, 107, 184, 0.6) 100%
-  );
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 
-    0 8px 16px rgba(106, 76, 147, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.playButton:hover {
-  background: linear-gradient(135deg, 
-    rgba(106, 76, 147, 0.8) 0%, 
-    rgba(142, 107, 184, 0.7) 100%
-  );
-  transform: scale(1.05);
-  box-shadow: 
-    0 10px 20px rgba(106, 76, 147, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-.playButton svg {
-  color: rgba(255, 255, 255, 0.9);
-  width: clamp(16px, 4vw, 22px);
-  height: clamp(16px, 4vw, 22px);
-}
-
-/* Progress Bar */
-.progressContainer {
-  margin: 0;
-  width: 100%;
-  min-width: 0;
-  flex-shrink: 0;
-}
-
-.progressBar {
-  width: 100%;
-  height: 6px;
-  background: rgba(106, 76, 147, 0.1);
-  border-radius: 3px;
-  overflow: hidden;
-  touch-action: pan-x;
-  cursor: pointer;
-}
-
-.progressFill {
-  height: 100%;
-  width: 35%;
-  background: linear-gradient(90deg, 
-    rgba(106, 76, 147, 0.4) 0%, 
-    rgba(142, 107, 184, 0.35) 100%
-  );
-  border-radius: 3px;
-  animation: progressFlow 8s linear infinite;
-  transition: all 0.3s ease;
-  will-change: width;
-}
-
-.timeDisplay {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: rgba(106, 76, 147, 0.5);
-  margin-top: 0.5rem;
-  font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-/* Essential animations */
 @keyframes gentleFloat {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-3px); }
@@ -672,164 +808,245 @@
   66% { transform: translateY(3px) rotate(-0.5deg); }
 }
 
-@keyframes progressFlow {
-  0% { width: 35%; }
-  50% { width: 45%; }
-  100% { width: 35%; }
-}
-
 /* Mobile-first responsive design */
 /* Base mobile styles */
-.heroWrapper {
-  min-height: 100vh;
-  padding: 4rem 1rem 1rem 1rem;
-}
-
-.heroContent {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 1rem;
-  align-items: center;
-  text-align: center;
-}
-
-.heroTextContent {
-  align-items: center;
-  text-align: center;
-  width: 100%;
-}
-
-.titleGroup {
-  order: 1;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.meditationPlayer {
-  order: 2;
-  width: min(90vw, 400px);
-  height: auto;
-  min-height: 400px;
-  margin: 1.5rem auto;
-  padding: 1.5rem;
-  border-radius: 20px;
-  border: 1px solid rgba(200, 200, 200, 0.3);
-  animation: none;
-  box-shadow: 
-    0 10px 30px rgba(106, 76, 147, 0.1),
-    0 4px 15px rgba(147, 112, 219, 0.05);
-  background: #ffffff;
-  backdrop-filter: none;
-}
-
-.ctaButton {
-  order: 3;
-  margin: 1.5rem 0;
-}
-
-.description {
-  order: 4;
-  margin: 1rem 0;
-  max-width: 90%;
-}
-
-.appButtons {
-  order: 5;
-  margin-top: 1.5rem;
-  flex-direction: column;
-  gap: 0.8rem;
-  width: 100%;
-  align-items: center;
-}
-
-/* Tablet styles */
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (max-width: 768px) {
   .heroWrapper {
-    padding: 6rem 2rem 2rem 2rem;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    margin: 0;
   }
 
   .heroContent {
-    gap: 2.5rem;
-    padding: 1.5rem;
-  }
-
-  .meditationPlayer {
-    width: min(60vw, 450px);
-    min-height: 500px;
-    padding: 2rem;
-    border-radius: 25px;
-    box-shadow: 
-      0 15px 40px rgba(106, 76, 147, 0.08),
-      0 6px 20px rgba(147, 112, 219, 0.04);
-  }
-
-  .appButtons {
-    flex-direction: row;
-    gap: 1rem;
-    justify-content: center;
-  }
-
-  .description {
-    max-width: 64%;
-  }
-}
-
-/* Desktop styles */
-@media (min-width: 1025px) {
-  .heroWrapper {
-    padding: 160px 80px 120px 80px;
-  }
-
-  .heroContent {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 0;
     align-items: center;
-    padding: 0 2rem;
-    text-align: left;
+    text-align: center;
+    animation: none;
   }
 
   .heroTextContent {
-    align-items: flex-start;
-    text-align: left;
-    padding-right: 2rem;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    gap: 1rem;
   }
 
   .titleGroup {
-    align-items: flex-start;
-    text-align: left;
-    margin-bottom: 1.5rem;
+    order: 1;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1rem;
+    gap: 0.5rem;
   }
 
-  .meditationPlayer {
-    width: 350px;
-    height: 650px;
-    margin: 0;
-    padding: 1.5rem;
-    border-radius: 45px;
-    animation: phoneFloat 12s ease-in-out infinite;
-    background: linear-gradient(145deg, 
-      rgba(255, 255, 255, 0.25) 0%,
-      rgba(240, 235, 255, 0.15) 50%,
-      rgba(255, 255, 255, 0.1) 100%
-    );
-    backdrop-filter: blur(25px) saturate(1.8);
+  .rootTitle {
+    font-size: 2.5rem;
+    animation: none;
   }
 
-  .ctaButton {
-    margin: 0 0 40px 0;
+  .rootSubtitle {
+    font-size: 1.1rem;
+    animation: none;
   }
 
   .description {
-    max-width: 400px;
+    order: 4;
+    margin: 1rem 0;
+    max-width: 90%;
+    font-size: 1rem;
+    animation: none;
   }
 
+  /* iPhone Mockup Mobile */
+  .iphoneMockup {
+    order: 2;
+    transform: scale(0.85);
+    margin: 1rem 0;
+    animation: none;
+  }
+
+  .phoneFrame {
+    width: 300px;
+    height: 600px;
+    padding: 10px;
+    border-radius: 35px;
+  }
+
+  .screenContainer {
+    border-radius: 25px;
+  }
+
+  .dynamicIsland {
+    width: 90px;
+    height: 24px;
+    top: 5px;
+  }
+
+  .appContent {
+    padding: 40px 12px 12px;
+  }
+
+  .appHeader {
+    margin-bottom: 10px;
+    margin-top: 5px;
+  }
+
+  .appTitle {
+    font-size: 22px;
+  }
+
+  .appTagline {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+
+  .breathingSection {
+    min-height: 240px;
+    padding-top: 20px;
+    padding-bottom: 60px;
+  }
+
+  .breathingOrb {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 50px;
+  }
+
+  .breathButton {
+    width: 60px;
+    height: 60px;
+    font-size: 9px;
+  }
+
+  .breathCounter {
+    margin: -30px auto 0 auto;
+    min-width: 50px;
+  }
+
+  .countNumber {
+    font-size: 36px;
+    font-weight: 700;
+    color: #000;
+  }
+
+  .countLabel {
+    font-size: 11px;
+  }
+
+  .statsSection {
+    gap: 24px;
+    padding: 16px;
+    margin: 0 8px 12px;
+  }
+
+  .statNumber {
+    font-size: 28px;
+  }
+
+  .statLabel {
+    font-size: 10px;
+  }
+
+  .statDivider {
+    height: 32px;
+  }
+
+  /* CTA Button Mobile */
+  .ctaButton {
+    order: 3;
+    margin: 1rem 0;
+    padding: 12px 36px;
+    font-size: 1rem;
+    animation: none;
+  }
+
+  /* App Buttons Mobile */
   .appButtons {
-    flex-direction: row;
-    width: auto;
-    align-items: flex-start;
+    order: 5;
+    margin-top: 1rem;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 100%;
+    align-items: center;
+  }
+
+  .appButton {
+    width: 90%;
+    max-width: 280px;
+    padding: 0.8rem 1.2rem;
+  }
+
+  /* Remove floating animations on mobile */
+  .auroraBackground {
+    display: none;
+  }
+
+  .gradientBackground {
+    opacity: 0.5;
+  }
+}
+
+/* Small mobile adjustments */
+@media (max-width: 480px) {
+  .rootTitle {
+    font-size: 2rem;
+  }
+
+  .rootSubtitle {
+    font-size: 1rem;
+  }
+
+  .iphoneMockup {
+    transform: scale(0.75);
+    margin: 0;
+  }
+
+  .phoneFrame {
+    width: 280px;
+    height: 560px;
+  }
+
+  .breathingOrb {
+    width: 120px;
+    height: 120px;
+  }
+
+  .breathButton {
+    width: 55px;
+    height: 55px;
+    font-size: 8px;
+  }
+
+  .breathCounter {
+    top: 140px;
+  }
+
+  .countNumber {
+    font-size: 24px;
+  }
+
+  .statsSection {
+    gap: 20px;
+    padding: 14px;
+  }
+
+  .statNumber {
+    font-size: 24px;
+  }
+}
+
+/* Very small mobile (iPhone SE, etc) */
+@media (max-width: 375px) {
+  .iphoneMockup {
+    transform: scale(0.7);
+  }
+
+  .phoneFrame {
+    width: 260px;
+    height: 520px;
   }
 }
 
@@ -885,5 +1102,14 @@
     stroke: var(--meditation-text-tertiary);
     stroke-width: 2;
     fill: none;
+  }
+
+  .heroContent {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 6rem; /* Increased gap for more space between text and player */
+    align-items: center;
+    padding: 0 2rem;
+    text-align: left;
   }
 }
