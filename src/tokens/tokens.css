@@ -106,17 +106,28 @@
   --spacing-containerPadding: 1.5rem; /* 24px - container side padding */
   --spacing-elementGap: 1.5rem;       /* 24px - gap between related elements */
   --spacing-componentGap: 1rem;       /* 16px - gap between small components */
+
+  /* Component Sizing Tokens */
+  --size-nfc-badge: 5rem;             /* 80px - NFC badge size */
+  --size-nav-arrow: 3.125rem;         /* 50px - Navigation arrow size */
+  --size-icon-lg: 2.25rem;            /* 36px - Large icon size */
+  --size-icon-md: 1.5rem;             /* 24px - Medium icon size */
+  --size-icon-sm: 1rem;               /* 16px - Small icon size */
+  --size-image-height: 43.75rem;      /* 700px - NFC card image height */
+  --size-image-width: 35rem;          /* 560px - NFC card image width */
+  --size-container-max: 87.5rem;      /* 1400px - Maximum container width */
+  --size-perspective: 62.5rem;        /* 1000px - 3D perspective value */
+  --size-track-icon: 3rem;                /* 48px - Track icon size */
+  --size-track-icon-inner: 1.5rem;        /* 24px - Inner track icon size */
+  --size-play-icon: 1rem;                 /* 16px - Play instruction icon size */
+  --size-btn-min-width: 10rem;            /* 160px - Minimum button width */
   
-  /* Border Radius */
-  --borderRadius-none: 0;
-  --borderRadius-sm: 0.125rem;
-  --borderRadius-base: 0.25rem;
-  --borderRadius-md: 0.375rem;
-  --borderRadius-lg: 0.5rem;
-  --borderRadius-xl: 0.75rem;
-  --borderRadius-2xl: 1rem;
-  --borderRadius-3xl: 1.5rem;
-  --borderRadius-full: 9999px;
+  /* Transform values */
+  --transform-3d-hover: translateZ(1.25rem) scale(1.02);  /* 20px translateZ */
+  --transform-indicator-offset: translateX(-50%) translateY(-0.313rem);  /* -5px translateY */
+  --transform-hover-lift-sm: translateY(-0.188rem);  /* -3px translateY */
+  --transform-hover-lift-xs: translateY(-0.063rem);  /* -1px translateY */
+  --transform-hover-lift-xxs: translateY(-0.125rem);  /* -2px translateY */
   
   /* Animation */
   --animation-duration-fast: 150ms;
@@ -165,6 +176,31 @@
   --a11y-focus-style: solid;
   --a11y-focus-color: var(--colors-border-focus);
   --a11y-focus-offset: 2px;
+  
+  /* Additional spacing for fine-tuned layouts */
+  --spacing-border-focus: 0.125rem;       /* 2px - Focus border width */
+  
+  /* Breakpoint tokens */
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  
+  /* Mobile-specific sizing tokens */
+  --size-image-height-tablet: 31.25rem;   /* 500px - Tablet image height */
+  --size-image-width-tablet: 20rem;       /* 320px - Tablet image width */
+  --size-image-height-mobile: 28.125rem;  /* 450px - Mobile image height */
+  --size-image-width-mobile: 17.5rem;     /* 280px - Mobile image width */
+  --size-nav-arrow-mobile: 2.5rem;        /* 40px - Mobile nav arrow size */
+  --size-icon-mobile: 1.125rem;           /* 18px - Mobile icon size */
+  --size-nfc-badge-mobile: 4.375rem;      /* 70px - Mobile NFC badge size */
+  --size-icon-mobile-lg: 2rem;            /* 32px - Mobile large icon size */
+  
+  /* Mobile spacing tokens */
+  --spacing-mobile-xs: 0.375rem;          /* 6px - Extra small mobile spacing */
+  --spacing-mobile-sm: 0.625rem;          /* 10px - Small mobile spacing */
+  --spacing-mobile-md: 1.25rem;           /* 20px - Medium mobile spacing */
 }
 
 /* Component Token Classes */

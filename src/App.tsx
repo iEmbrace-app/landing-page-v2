@@ -4,7 +4,7 @@ import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
 import { ImmerseIntroSection } from './components/sections/ImmerseIntroSection'
 import { ImmerseSectionContainer } from './components/sections/ImmerseSectionContainer'
-import { TabSection, HoldMeditateSection, TestimonialSection, ComponentLoadingFallback } from './components/LazyComponents'
+import { TabSection, HoldMeditateSection, NFCPlayerSection, TestimonialSection, ComponentLoadingFallback } from './components/LazyComponents'
 import { ScrollProgressIndicator } from './components/ui/ScrollProgressIndicator'
 import { useScreenSize } from './hooks/useScreenSize'
 
@@ -73,6 +73,13 @@ function App() {
         <section id="how-it-works" aria-label="How it works - Hold and meditate practice">
           <Suspense fallback={<ComponentLoadingFallback />}>
             <HoldMeditateSection isMobile={isMobile} />
+          </Suspense>
+        </section>
+        
+        {/* NFC Soundscapes Section */}
+        <section id="nfc-soundscapes" aria-label="NFC Soundscapes - Experience tranquil audio">
+          <Suspense fallback={<ComponentLoadingFallback />}>
+            <NFCPlayerSection isMobile={isMobile} />
           </Suspense>
         </section>
         
