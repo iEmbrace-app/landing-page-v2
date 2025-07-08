@@ -89,109 +89,117 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
     )
   }
     return (
-    <div className={`${styles.section} ${isMobile ? styles.mobile : ''}`}>      
-      {/* Header Section */}
-      <div className={`${styles.headerSection} ${styles.headerSectionWithMargin} ${isMobile ? styles.mobile : ''}`}>            
-        <div className={`gradient-text-primary ${styles.gradientTextPrimary} ${isMobile ? styles.mobile : ''}`}>
-          Measure how deeply you're grounding
-        </div>        
-        <div className={`${styles.description} ${styles.descriptionWithMargin} ${isMobile ? styles.mobile : ''}`}>
-          Root captures your emotional and sensory engagement in real time combining audio, haptics, and AI-curated calm to give you a single, personalized Mental Immersion Score.
+    <div className={`${styles.section} ${isMobile ? styles.mobile : ''}`}>
+      <div className={`${styles.sectionContent} ${isMobile ? styles.mobile : ''}`}>
+        {/* Header Section */}
+        <div className={`${styles.headerSection} ${isMobile ? styles.mobile : ''}`}>
+          <div className={`gradient-text-primary ${styles.gradientTextPrimary} ${isMobile ? styles.mobile : ''}`}>
+            Measure how deeply you're grounding
+          </div>        
+          <div className={`${styles.description} ${styles.descriptionWithMargin} ${isMobile ? styles.mobile : ''}`}>
+            Root captures your emotional and sensory engagement in real time combining audio, haptics, and AI-curated calm to give you a single, personalized Mental Immersion Score.
+          </div>
         </div>
-      </div>        {/* Tab and Content Section */}
-      <div className={styles.tabContentWrapper}>          {/* Tab Buttons - Desktop horizontal layout, Mobile dropdown */}
-        {isMobile ? (
-          <div className={`${styles.dropdownWrapper} ${styles.mobile}`} ref={dropdownRef}>
-            <button 
-              className={`${styles.dropdownButton} ${isDropdownOpen ? styles.open : ''}`}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              aria-expanded={isDropdownOpen}
-              aria-haspopup="listbox"
-            >
-              <span className={styles.dropdownButtonText}>
-                {TAB_CONFIG.find(tab => tab.key === activeTab)?.label}
-              </span>
-              <svg 
-                className={`${styles.dropdownChevron} ${isDropdownOpen ? styles.rotated : ''}`}
-                width="16" 
-                height="16" 
-                viewBox="0 0 16 16" 
-                fill="none"
-                aria-hidden="true"
-              >
-                <path 
-                  d="M4 6L8 10L12 6" 
-                  stroke="currentColor" 
-                  strokeWidth="1.5" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            {isDropdownOpen && (
-              <div className={styles.dropdownMenu} role="listbox">
-                {TAB_CONFIG.map(({ key, label }) => (
-                  <button
-                    key={key}
-                    className={`${styles.dropdownOption} ${activeTab === key ? styles.active : ''}`}
-                    onClick={() => handleTabClick(key)}
-                    role="option"
-                    aria-selected={activeTab === key}
+        
+        {/* Tab Content Section */}
+        <div className={`${styles.tabContentSection} ${isMobile ? styles.mobile : ''}`}>
+          {/* Tab Buttons */}
+          <div className={`${styles.tabButtonsContainer} ${isMobile ? styles.mobile : ''}`}>
+            {isMobile ? (
+              <div className={`${styles.dropdownWrapper} ${styles.mobile}`} ref={dropdownRef}>
+                <button 
+                  className={`${styles.dropdownButton} ${isDropdownOpen ? styles.open : ''}`}
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  aria-expanded={isDropdownOpen}
+                  aria-haspopup="listbox"
+                >
+                  <span className={styles.dropdownButtonText}>
+                    {TAB_CONFIG.find(tab => tab.key === activeTab)?.label}
+                  </span>
+                  <svg 
+                    className={`${styles.dropdownChevron} ${isDropdownOpen ? styles.rotated : ''}`}
+                    width="16" 
+                    height="16" 
+                    viewBox="0 0 16 16" 
+                    fill="none"
+                    aria-hidden="true"
                   >
-                    {label}
-                  </button>
-                ))}
+                    <path 
+                      d="M4 6L8 10L12 6" 
+                      stroke="currentColor" 
+                      strokeWidth="1.5" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                {isDropdownOpen && (
+                  <div className={styles.dropdownMenu} role="listbox">
+                    {TAB_CONFIG.map(({ key, label }) => (
+                      <button
+                        key={key}
+                        className={`${styles.dropdownOption} ${activeTab === key ? styles.active : ''}`}
+                        onClick={() => handleTabClick(key)}
+                        role="option"
+                        aria-selected={activeTab === key}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
+            ) : (
+              <>
+                {TAB_CONFIG.map(({ key, label }) => (
+                  <TabButton
+                    key={key}
+                    tabKey={key}
+                    label={label}
+                    isActive={activeTab === key}
+                    isMobile={isMobile}
+                    onClick={handleTabClick}
+                  />
+                ))}
+              </>
             )}
           </div>
-        ) : (
-          <div className={`${styles.tabButtonsWrapper}`}>
-            {TAB_CONFIG.map(({ key, label }) => (
-              <TabButton
-                key={key}
-                tabKey={key}
-                label={label}
-                isActive={activeTab === key}
-                isMobile={isMobile}
-                onClick={handleTabClick}
+          
+          {/* Content Grid */}
+          <div className={`${styles.contentGrid} ${isMobile ? styles.mobile : ''}`}>
+            {/* Left content with expandable items - Columns 1-6 */}
+            <div className={`${styles.leftContentColumn} ${isMobile ? styles.mobile : ''}`}>
+              {/* Dynamic expandable content */}
+              {renderExpandableItem(
+                mindfulnessIcon,
+                (tabContent as any)[activeTab].features[0],
+                "Let rhythmic sensations and guided breath redirect racing thoughts—helping your mind slow down and return to calm, one pulse at a time.",
+                `${activeTab}-feature-1`
+              )}
+
+              {renderExpandableItem(
+                rippleIcon,
+                (tabContent as any)[activeTab].features[1],
+                "Experience deeper states of mindfulness through synchronized breathing patterns and gentle haptic feedback that guide your nervous system into relaxation.",
+                `${activeTab}-feature-2`
+              )}
+
+              {renderExpandableItem(
+                sineIcon,
+                (tabContent as any)[activeTab].description,
+                "Advanced biometric sensors track your heart rate variability and breathing patterns to provide real-time feedback on your meditation depth and emotional state.",
+                `${activeTab}-feature-3`
+              )}
+            </div>          
+            {/* Right image - Columns 7-12 */}
+            <div className={`${styles.rightImageColumn} ${isMobile ? styles.mobile : ''}`}>
+              <img 
+                src="https://embrace-website-images.s3.us-east-2.amazonaws.com/mindful.jpeg"
+                alt="Mindful meditation and wellness"
+                className={styles.tabImage}
+                loading="eager"
               />
-            ))}
-          </div>
-        )}
-        {/* Content section with 12-column grid */}
-        <div className={`grid-container ${styles.gridContainer} ${isMobile ? '' : ''}`}>
-          {/* Left content with expandable items - Columns 1-6 */}
-          <div className={`col-12 md:col-6 ${styles.leftContentColumn} ${isMobile ? styles.mobile : ''}`}>
-            {/* Dynamic expandable content */}
-            {renderExpandableItem(
-              mindfulnessIcon,
-              (tabContent as any)[activeTab].features[0],
-              "Let rhythmic sensations and guided breath redirect racing thoughts—helping your mind slow down and return to calm, one pulse at a time.",
-              `${activeTab}-feature-1`
-            )}
-
-            {renderExpandableItem(
-              rippleIcon,
-              (tabContent as any)[activeTab].features[1],
-              "Experience deeper states of mindfulness through synchronized breathing patterns and gentle haptic feedback that guide your nervous system into relaxation.",
-              `${activeTab}-feature-2`
-            )}
-
-            {renderExpandableItem(
-              sineIcon,
-              (tabContent as any)[activeTab].description,
-              "Advanced biometric sensors track your heart rate variability and breathing patterns to provide real-time feedback on your meditation depth and emotional state.",
-              `${activeTab}-feature-3`
-            )}
-          </div>          
-          {/* Right image - Columns 7-12 */}
-          <div className={`col-12 md:col-6 ${styles.rightImageColumn} ${isMobile ? styles.mobile : ''}`}>
-            <img 
-              src="https://embrace-website-images.s3.us-east-2.amazonaws.com/mindful.jpeg"
-              alt="Mindful meditation and wellness"
-              className={styles.tabImage}
-              loading="eager"
-            />
+            </div>
           </div>
         </div>
       </div>

@@ -37,7 +37,7 @@
   --testimonial-z-modal: 999;
 }
 
-/* Testimonial Section - Customer Reviews */
+/* Testimonial Section - 12-column grid system */
 .testimonialSection {
   min-height: 100vh;
   background: linear-gradient(
@@ -47,19 +47,25 @@
     rgba(248, 250, 252, 1) 50%,
     var(--testimonial-bg-section) 100%
   );
-  display: flex;
+  display: grid;
+  grid-template-columns: var(--grid-template-standard);
+  gap: var(--grid-gap);
   align-items: center;
   justify-content: center;
   overflow: hidden;
   position: relative;
-  padding: var(--testimonial-spacing-xl) var(--testimonial-spacing-md);
+  padding: 0 var(--grid-container-padding);
+  padding-top: var(--testimonial-spacing-xl);
+  padding-bottom: 160px;
+  max-width: var(--grid-max-width);
+  margin: 0 auto;
+  width: 100%;
   /* Performance optimizations */
   contain: layout style paint;
-  padding-bottom: 160px;
 }
 
 .container {
-  max-width: 1400px;
+  grid-column: 1 / 13;
   width: 100%;
   /* Performance optimizations */
   contain: layout style;
@@ -440,6 +446,62 @@
   }
   50% {
     transform: scale(1.1) translateY(-2px);
+  }
+}
+
+/* ===== RESPONSIVE GRID LAYOUTS ===== */
+
+/* Desktop - 1024px+ */
+@media (min-width: 1024px) {
+  .testimonialSection {
+    padding: 0 var(--grid-container-padding);
+    padding-top: var(--testimonial-spacing-xl);
+    padding-bottom: 160px;
+    grid-template-columns: var(--grid-template-standard);
+  }
+  
+  .container {
+    grid-column: 1 / 13;
+  }
+}
+
+/* Tablet - 768px to 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .testimonialSection {
+    padding: 0 var(--grid-container-padding-tablet);
+    padding-top: var(--testimonial-spacing-lg);
+    padding-bottom: 120px;
+    grid-template-columns: var(--grid-section-tablet);
+  }
+  
+  .container {
+    grid-column: 1 / 9;
+  }
+}
+
+/* Mobile - up to 767px */
+@media (max-width: 767px) {
+  .testimonialSection {
+    padding: 0 var(--grid-container-padding-mobile);
+    padding-top: var(--testimonial-spacing-md);
+    padding-bottom: 80px;
+    grid-template-columns: var(--grid-section-mobile);
+  }
+  
+  .container {
+    grid-column: 1 / 5;
+  }
+}
+
+/* Small Mobile - up to 479px */
+@media (max-width: 479px) {
+  .testimonialSection {
+    padding: 0 var(--grid-container-padding-mobile);
+    grid-template-columns: 1fr;
+  }
+  
+  .container {
+    grid-column: 1;
   }
 }
 

@@ -201,6 +201,59 @@
   --spacing-mobile-xs: 0.375rem;          /* 6px - Extra small mobile spacing */
   --spacing-mobile-sm: 0.625rem;          /* 10px - Small mobile spacing */
   --spacing-mobile-md: 1.25rem;           /* 20px - Medium mobile spacing */
+  
+  --spacing-container-mobile: 1rem;       /* 16px - Mobile container padding */
+  --spacing-element-mobile: 1rem;         /* 16px - Mobile element gap */
+  --spacing-component-mobile: 0.75rem;    /* 12px - Mobile component gap */
+  --spacing-section-mobile: 2rem;         /* 32px - Mobile section gap */
+  --spacing-section-padding-mobile: 1.5rem; /* 24px - Mobile section padding */
+  
+  /* ===== 12-COLUMN GRID SYSTEM ===== */
+  
+  /* Grid Container - Common settings for all sections */
+  --grid-columns: 12;
+  --grid-max-width: 1400px;
+  --grid-gap: 1.5rem;                     /* 24px - Gap between grid columns */
+  --grid-gap-mobile: 1rem;                /* 16px - Mobile grid gap */
+  --grid-container-padding: 5rem;         /* 80px - Desktop container padding */
+  --grid-container-padding-tablet: 3rem;  /* 48px - Tablet container padding */
+  --grid-container-padding-mobile: 1.25rem; /* 20px - Mobile container padding */
+  
+  /* Grid Column Widths - Individual column spans */
+  --grid-col-1: calc(1/12 * 100%);
+  --grid-col-2: calc(2/12 * 100%);
+  --grid-col-3: calc(3/12 * 100%);
+  --grid-col-4: calc(4/12 * 100%);
+  --grid-col-5: calc(5/12 * 100%);
+  --grid-col-6: calc(6/12 * 100%);
+  --grid-col-7: calc(7/12 * 100%);
+  --grid-col-8: calc(8/12 * 100%);
+  --grid-col-9: calc(9/12 * 100%);
+  --grid-col-10: calc(10/12 * 100%);
+  --grid-col-11: calc(11/12 * 100%);
+  --grid-col-12: calc(12/12 * 100%);
+  
+  /* Grid Template Areas - For semantic layout */
+  --grid-template-standard: repeat(12, 1fr);
+  --grid-template-hero: repeat(12, 1fr);
+  --grid-template-nav: auto 1fr auto;
+  --grid-template-content: repeat(12, 1fr);
+  
+  /* Grid Breakpoints - When to switch layouts */
+  --grid-breakpoint-mobile: 480px;
+  --grid-breakpoint-tablet: 768px;
+  --grid-breakpoint-desktop: 1024px;
+  --grid-breakpoint-large: 1280px;
+  
+  /* Section-specific Grid Configurations */
+  --grid-section-desktop: repeat(12, 1fr);
+  --grid-section-tablet: repeat(8, 1fr);
+  --grid-section-mobile: repeat(4, 1fr);
+  
+  /* Content Width Constraints - For text readability */
+  --grid-content-max-width: 65ch;         /* Maximum text line length */
+  --grid-content-optimal-width: 55ch;     /* Optimal text line length */
+  --grid-content-narrow-width: 45ch;      /* Narrow text line length */
 }
 
 /* Component Token Classes */

@@ -1,49 +1,63 @@
-/* Hold Meditate Section - CSS Module */
+/* Hold Meditate Section - 12-column grid system */
 
 .section {
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
   min-height: 100vh;
   background: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  box-sizing: border-box;
   position: relative;
+  box-sizing: border-box;
 }
 
-.sectionDesktop {
-  padding-left: 80px;
-  padding-right: 80px;
-  padding-top: 80px;
-  padding-bottom: 80px;
-}
-
-.sectionMobile {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 80px;
-  padding-bottom: 0px;
-}
-
-.topSection {
+/* Main content wrapper using 12-column grid system */
+.sectionContent {
+  max-width: var(--grid-max-width);
+  margin: 0 auto;
+  padding: 80px var(--grid-container-padding);
+  display: grid;
+  grid-template-columns: var(--grid-template-standard);
+  gap: var(--grid-gap);
+  align-items: start;
   width: 100%;
+  grid-template-rows: auto auto;
+  row-gap: 80px;
 }
 
-.topSectionDesktop {
-  margin-bottom: 80px;
-}
-
-.topSectionMobile {
-  margin-bottom: 60px;
-}
-
-.headerContent {
+/* Header section - spans right columns (7-12) */
+.headerSection {
+  grid-column: 7 / -1; /* Right half of the grid */
   display: flex;
   flex-direction: column;
   gap: 40px;
+}
+
+/* Bottom section - spans full width */
+.bottomSection {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: var(--grid-template-standard);
+  gap: var(--grid-gap);
+  align-items: start;
+}
+
+/* Column styling - each spans 4 columns (1-4, 5-8, 9-12) */
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-6);
+}
+
+.column:nth-child(1) {
+  grid-column: 1 / 5; /* Columns 1-4 */
+}
+
+.column:nth-child(2) {
+  grid-column: 5 / 9; /* Columns 5-8 */
+}
+
+.column:nth-child(3) {
+  grid-column: 9 / 13; /* Columns 9-12 */
 }
 
 .mainTitle {
@@ -73,16 +87,31 @@
 }
 
 .bottomSection {
-  width: 100%;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: var(--grid-template-standard);
+  gap: var(--grid-gap);
+  align-items: start;
 }
 
 .column {
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 40px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  gap: var(--spacing-6);
+}
+
+.column:nth-child(1) {
+  grid-column: 1 / 5; /* Columns 1-4 */
+}
+
+.column:nth-child(2) {
+  grid-column: 5 / 9; /* Columns 5-8 */
+}
+
+.column:nth-child(3) {
+  grid-column: 9 / 13; /* Columns 9-12 */
 }
 
 .columnTitle {
@@ -95,8 +124,8 @@
   word-wrap: break-word;
 }
 
-.circle {
-  border-radius: 50%;
+.phoneFrame {
+  border-radius: 36px;
   background-color: #f8f8f8;
   border: 1px solid #eee;
   position: relative;
@@ -108,37 +137,37 @@
   cursor: pointer;
 }
 
-.circleDesktop {
-  width: 280px;
-  height: 280px;
+.phoneFrameDesktop {
+  width: 300px;
+  height: 600px;
 }
 
-.circleMobile {
-  width: 180px;
-  height: 180px;
+.phoneFrameMobile {
+  width: 133px;
+  height: 200px;
 }
 
-.circle:hover {
+.phoneFrame:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   border-color: #ddd;
 }
 
-.circle:focus-visible {
+.phoneFrame:focus-visible {
   outline: 2px solid #6865BF;
   outline-offset: 2px;
 }
 
-.circleImage {
+.phoneScreen {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  border-radius: 50%;
+  border-radius: 32px;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.circleImage:hover {
+.phoneScreen:hover {
   transform: scale(1.05);
   filter: brightness(1.04);
 }
@@ -154,95 +183,132 @@
   padding-bottom: 120px;
 }
 
-/* Media Queries - Only for responsive behavior, keeping desktop layout intact */
+/* ===== RESPONSIVE GRID LAYOUTS ===== */
 
-/* Tablet (768px - 1023px) */
-@media (max-width: 1023px) and (min-width: 768px) {
-  .sectionDesktop {
-    padding: 60px;
+/* Large Desktop - 1440px+ */
+@media (min-width: 1440px) {
+  .sectionContent {
+    padding: 80px var(--grid-container-padding);
+  }
+}
+
+/* Desktop - 1024px to 1439px */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .sectionContent {
+    padding: 60px var(--grid-container-padding-tablet);
+  }
+}
+
+/* Tablet - 768px to 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .sectionContent {
+    padding: 60px var(--grid-container-padding-tablet);
+    grid-template-columns: var(--grid-section-tablet);
+  }
+  
+  .headerSection {
+    grid-column: 5 / -1; /* Adjust for 8-column tablet grid */
+  }
+  
+  .bottomSection {
+    grid-template-columns: var(--grid-section-tablet);
+  }
+  
+  .column:nth-child(1) {
+    grid-column: 1 / 3; /* First 2 columns */
+  }
+
+  .column:nth-child(2) {
+    grid-column: 3 / 5; /* Middle 2 columns */
+  }
+
+  .column:nth-child(3) {
+    grid-column: 5 / 7; /* Last 2 columns */
   }
   
   .mainTitleDesktop {
     font-size: 42px;
   }
   
-  .circleDesktop {
-    width: 240px;
-    height: 240px;
-  }
-  
-  .columnDescription {
-    padding-bottom: 80px;
+  .phoneFrameDesktop {
+    width: 170px;
+    height: 255px;
   }
 }
 
-/* Mobile Landscape (481px - 767px) */
-@media (max-width: 767px) and (min-width: 481px) {
-  /* Force mobile styles in this range */
-  .sectionDesktop {
-    padding: 40px 30px;
+/* Mobile - up to 767px */
+@media (max-width: 767px) {
+  .sectionContent {
+    padding: 60px var(--grid-container-padding-mobile);
+    grid-template-columns: 1fr;
+    row-gap: 40px;
   }
   
-  .topSectionDesktop {
-    margin-bottom: 50px;
+  .headerSection {
+    grid-column: 1 / -1;
+  }
+  
+  .bottomSection {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .column {
+    grid-column: 1 / -1;
+    gap: 24px;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
   }
   
   .mainTitleDesktop {
     font-size: 36px;
   }
   
-  .circleDesktop {
-    width: 200px;
-    height: 200px;
-  }
-  
-  .column {
-    gap: 30px;
+  .phoneFrameDesktop {
+    width: 140px;
+    height: 210px;
   }
   
   .columnDescription {
-    padding-bottom: 60px;
+    padding-bottom: 0;
   }
 }
 
-/* Mobile Portrait (up to 480px) */
+/* Small Mobile - up to 480px */
 @media (max-width: 480px) {
-  .mainTitleMobile {
+  .sectionContent {
+    padding: 40px var(--grid-container-padding-mobile);
+    row-gap: 32px;
+  }
+  
+  .mainTitleDesktop {
     font-size: 28px;
   }
   
-  .description {
-    font-size: 15px;
+  .phoneFrameDesktop {
+    width: 120px;
+    height: 180px;
   }
   
-  .columnTitle {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-  
-  .circleMobile {
-    width: 160px;
-    height: 160px;
-  }
-  
-  .columnDescription {
-    font-size: 15px;
-    padding-bottom: 80px;
+  .column {
+    max-width: 240px;
+    gap: 20px;
   }
 }
 
 /* Accessibility - Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .circle,
-  .circleImage {
+  .phoneFrame,
+  .phoneScreen {
     transition: none;
   }
   
-  .circle:hover {
+  .phoneFrame:hover {
     transform: none;
   }
   
-  .circleImage:hover {
+  .phoneScreen:hover {
     transform: none;
     filter: none;
   }
@@ -250,7 +316,7 @@
 
 /* High contrast mode */
 @media (prefers-contrast: high) {
-  .circle {
+  .phoneFrame {
     border: 2px solid currentColor;
   }
   
@@ -266,18 +332,18 @@
 
 /* Touch device optimizations */
 @media (hover: none) and (pointer: coarse) {
-  .circle:hover {
+  .phoneFrame:hover {
     transform: none;
     box-shadow: none;
   }
   
-  .circleImage:hover {
+  .phoneScreen:hover {
     transform: none;
     filter: none;
   }
   
   /* Add tap feedback */
-  .circle:active {
+  .phoneFrame:active {
     transform: scale(0.98);
   }
 }
@@ -293,7 +359,7 @@
     padding-bottom: 20px;
   }
   
-  .circle {
+  .phoneFrame {
     border: 1px solid #000;
     page-break-inside: avoid;
   }

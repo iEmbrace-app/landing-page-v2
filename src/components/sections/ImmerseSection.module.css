@@ -1,15 +1,15 @@
-/* Immerse Section - Separate from Hero with Enhanced Features */
+/* Immerse Section - Full viewport coverage */
 .immerseSection {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 120vh;
-  min-height: 700px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-content: center;
   
   /* Fallback gradient background when videos aren't loaded */
   background: linear-gradient(
@@ -88,13 +88,14 @@
   pointer-events: none;
 }
 
-/* Content Container */
+/* Content Container - Full viewport */
 .content {
   position: relative;
   z-index: 10;
   color: white;
+  grid-column: 1;
   width: 100%;
-  height: 100vh;
+  height: 120vh;
   padding: 0;
   animation: fadeInUp 1s ease-out;
   display: flex;
@@ -119,6 +120,8 @@
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
+  margin-top: 56px;
+  margin-right: 80px;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   z-index: 20;
@@ -139,6 +142,8 @@
   margin: 0;
   white-space: nowrap;
   z-index: 20;
+  padding-top: 80px;
+  padding-right: 80px;
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   line-height: 1;
@@ -581,318 +586,64 @@
   transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Responsive Design - Consolidated Breakpoints */
+/* ===== RESPONSIVE GRID LAYOUTS ===== */
 
-/* Desktop layout (756px+) - No changes as requested */
-@media (min-width: 756px) {
-  .content {
-    justify-content: space-between;
-    align-items: center;
+/* All screen sizes - Full viewport */
+@media (min-width: 1024px) {
+  .immerseSection {
+    width: 100vw;
+    height: 120vh;
+    margin: 0;
     padding: 0;
+    grid-template-columns: 1fr;
   }
   
-  .textContent {
-    padding-bottom: 15vh;
-    margin-bottom: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    width: 100%;
-    max-width: none;
-    padding-left: 8vw;
-    padding-right: 8vw;
-    gap: 4rem;
-  }
-  
-  .subtitle {
-    font-size: clamp(1rem, 3vw, 1.2rem);
-    margin-bottom: 0;
-    order: 2;
-    flex: 1;
-    text-align: right;
-    max-width: none;
-    margin-left: auto;
-  }
-  
-  .videoNavigationBoxes {
-    position: absolute;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 0;
+  .content {
+    grid-column: 1;
   }
 }
 
-/* Tablet landscape (769px - 1024px) */
-@media (max-width: 1024px) and (min-width: 769px) {
+/* Tablet - 768px to 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
   .immerseSection {
-    height: 100vh;
-    min-height: 600px;
+    width: 100vw;
+    height: 120vh;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: 1fr;
   }
   
-  .title {
-    font-size: clamp(1rem, 6vw, 1.3rem);
-    letter-spacing: 18px;
-  }
-  
-  .subtitle {
-    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-  }
-  
-  .videoNavigationBoxes {
-    bottom: 60px;
+  .content {
+    grid-column: 1;
   }
 }
 
-/* Tablet portrait (481px - 768px) */
-@media (max-width: 768px) and (min-width: 481px) {
+/* Mobile - up to 767px */
+@media (max-width: 767px) {
   .immerseSection {
-    height: 100vh;
-    min-height: 600px;
+    width: 100vw;
+    height: 120vh;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: 1fr;
   }
   
-  .title {
-    font-size: clamp(0.9rem, 5vw, 1.2rem);
-    letter-spacing: 12px;
-    margin-bottom: 1.2rem;
-  }
-  
-  .subtitle {
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-    letter-spacing: 1px;
-    line-height: 1.3;
-    max-width: 85%;
-    margin: 0 auto;
-  }
-  
-  .textContent {
-    padding-bottom: 18vh;
-  }
-  
-  .audioToggle {
-    top: 20px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
-    font-size: 1.1rem;
-  }
-  
-  .headphonesText {
-    top: 20px;
-    right: 70px;
-    font-size: 0.9rem;
-  }
-  
-  .videoNavigationBoxes {
-    bottom: 10vh;
-    gap: 1.2rem;
-  }
-  
-  .navigationBox {
-    width: 60px;
-    height: 60px;
-    border-radius: 14px;
-  }
-  
-  .iconContainer {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .iconContainer svg {
-    width: 22px;
-    height: 22px;
-  }
-  
-  .buttonTitle {
-    font-size: 7px;
+  .content {
+    grid-column: 1;
   }
 }
 
-/* Mobile (up to 480px) */
-@media (max-width: 480px) {
+/* Small Mobile - up to 479px */
+@media (max-width: 479px) {
   .immerseSection {
-    height: 100vh;
-    min-height: 600px;
+    width: 100vw;
+    height: 120vh;
+    margin: 0;
+    padding: 0;
+    grid-template-columns: 1fr;
   }
   
-  .title {
-    font-size: clamp(0.8rem, 4.5vw, 1rem);
-    letter-spacing: 8px;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0;
-  }
-  
-  .subtitle {
-    font-size: clamp(0.85rem, 3vw, 1rem);
-    letter-spacing: 0.5px;
-    line-height: 1.4;
-    max-width: 90%;
-    margin: 0 auto;
-  }
-  
-  .textContent {
-    padding-bottom: 20vh;
-  }
-  
-  .audioToggle {
-    top: 15px;
-    right: 15px;
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
-  }
-  
-  .headphonesText {
-    display: none; /* Hide on mobile for space */
-  }
-  
-  .videoNavigationBoxes {
-    gap: 1rem;
-    bottom: 8vh;
-    flex-wrap: wrap;
-    max-width: 90vw;
-    justify-content: center;
-  }
-  
-  .navigationBox {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
-    /* Enhanced glassmorphism on mobile */
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(25px) saturate(130%);
-    -webkit-backdrop-filter: blur(25px) saturate(130%);
-    border: 2px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 
-      0 8px 32px rgba(0, 0, 0, 0.3),
-      0 4px 16px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-  }
-  
-  .iconContainer {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .iconContainer svg {
-    width: 24px;
-    height: 24px;
-  }
-  
-  .navigationBox:hover .iconContainer,
-  .navigationBox:active .iconContainer {
-    transform: translateY(-3px);
-  }
-  
-  .buttonTitle {
-    font-size: 7px;
-    bottom: 5px;
-    letter-spacing: 0.5px;
-  }
-  
-  .navigationBox.active .buttonTitle {
-    opacity: 1;
-  }
-  
-  .navigationBox.active::before {
-    padding: 2px;
-  }
-  
-  /* Mobile-specific hover effects */
-  .navigationBox:active {
-    transform: scale(0.95);
-    background: rgba(255, 255, 255, 0.15);
-  }
-}
-
-/* Very small mobile (up to 360px) */
-@media (max-width: 360px) {
-  .title {
-    font-size: clamp(0.7rem, 4vw, 0.9rem);
-    letter-spacing: 6px;
-    margin-bottom: 1rem;
-  }
-  
-  .subtitle {
-    font-size: clamp(0.8rem, 3.5vw, 0.9rem);
-    letter-spacing: 0.3px;
-    line-height: 1.3;
-    max-width: 95%;
-  }
-  
-  .textContent {
-    padding-bottom: 18vh;
-  }
-  
-  .videoNavigationBoxes {
-    gap: 0.8rem;
-    bottom: 6vh;
-  }
-  
-  .navigationBox {
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-  }
-  
-  .iconContainer {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .iconContainer svg {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .buttonTitle {
-    font-size: 6px;
-    bottom: 4px;
-    letter-spacing: 0.3px;
-  }
-}
-
-/* Touch-friendly mobile enhancements */
-@media (hover: none) and (pointer: coarse) {
-  /* Mobile devices with touch */
-  .navigationBox {
-    /* Larger touch targets */
-    min-width: 64px;
-    min-height: 64px;
-    /* Better visual feedback for touch */
-    transition: all 0.2s ease;
-  }
-  
-  .navigationBox:active {
-    transform: scale(0.95);
-    background: rgba(255, 255, 255, 0.18);
-  }
-  
-  .navigationBox.active:active {
-    transform: scale(0.95);
-  }
-  
-  /* Always show button titles on mobile */
-  .buttonTitle {
-    opacity: 1;
-  }
-  
-  .iconContainer {
-    transform: translateY(-2px);
-  }
-}
-
-/* High-DPI displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .navigationBox {
-    /* Crisper borders on retina displays */
-    border-width: 1px;
-  }
-  
-  .navigationBox.active::before {
-    padding: 1px;
+  .content {
+    grid-column: 1;
   }
 }
