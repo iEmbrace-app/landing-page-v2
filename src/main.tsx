@@ -12,7 +12,7 @@ async function registerServiceWorker() {
         scope: '/'
       })
       
-      console.log('[SW] Service Worker registered successfully:', registration.scope)
+      // Service Worker registered successfully: ${registration.scope}
       
       // Handle updates
       registration.addEventListener('updatefound', () => {
@@ -21,7 +21,7 @@ async function registerServiceWorker() {
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
               // New service worker available, prompt user to refresh
-              console.log('[SW] New service worker available - consider refreshing')
+              // New service worker available - consider refreshing
             }
           })
         }
@@ -43,7 +43,7 @@ async function registerServiceWorker() {
       console.warn('[SW] Service Worker registration failed:', error)
     }
   } else if (!import.meta.env.PROD) {
-    console.log('[SW] Service Worker skipped in development mode')
+    // Service Worker skipped in development mode
   }
 }
 

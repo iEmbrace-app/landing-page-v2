@@ -79,7 +79,7 @@ class VideoServiceState {
 
   private async loadVideosFromSource(): Promise<Video[]> {
     try {
-      console.log('🎥 Loading videos from AWS S3...')
+      // Loading videos from AWS S3...
       
       const videos: Video[] = []
 
@@ -88,7 +88,7 @@ class VideoServiceState {
         const videoUrl = videoUrls[video.file_path as keyof typeof videoUrls]
         const audioUrl = audioUrls[video.file_path as keyof typeof audioUrls]
         if (videoUrl && audioUrl) {
-          console.log(`✅ Using AWS S3 URLs for ${video.file_path}`)
+          // Using AWS S3 URLs for ${video.file_path}
 
           const videoObject: Video = {
             id: video.file_path,
@@ -111,7 +111,7 @@ class VideoServiceState {
         return aIndex - bIndex
       })
 
-      console.log(`✅ Successfully loaded ${videos.length} videos from AWS S3`)
+      // Successfully loaded ${videos.length} videos from AWS S3
       return videos
     } catch (error) {
       console.error('❌ Error loading videos:', error)
@@ -126,7 +126,7 @@ const videoServiceState = VideoServiceState.getInstance()
 // Main VideoService class - simplified for AWS S3 direct URLs
 export class VideoService {
   static async fetchVideos(): Promise<Video[]> {
-    console.log('🎥 Using AWS S3 video service...')
+    // Using AWS S3 video service...
     return videoServiceState.getVideos()
   }
 

@@ -4,7 +4,6 @@ import { lazy } from 'react'
 export const TabSection = lazy(() => import('./sections/TabSection').then(module => ({ default: module.TabSection })))
 export const HoldMeditateSection = lazy(() => import('./sections/HoldMeditateSection').then(module => ({ default: module.HoldMeditateSection })))
 export const ImmerseSection = lazy(() => import('./sections/ImmerseSection').then(module => ({ default: module.ImmerseSection })))
-export const NFCPlayerSection = lazy(() => import('./sections/NFCPlayerSection').then(module => ({ default: module.NFCPlayerSection })))
 export const TestimonialSection = lazy(() => import('./sections/TestimonialSection').then(module => ({ default: module.TestimonialSection })))
 
 // Loading fallback component

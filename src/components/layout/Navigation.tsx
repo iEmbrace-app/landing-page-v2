@@ -28,7 +28,7 @@ export function Navigation() {
       }
       
       // Debug logging (remove in production)
-      console.log('Active section:', newActiveSection, 'Scroll position:', scrollPosition)
+
       
       // Only update if actually different
       setActiveSection(prev => prev !== newActiveSection ? newActiveSection : prev)
@@ -149,7 +149,6 @@ export function Navigation() {
             aria-label="Purchase iEmbrace device"
             onClick={() => {
               // Add purchase logic here
-              console.log('Purchase clicked!')
             }}
           >
             Try for free
@@ -220,7 +219,7 @@ export function Navigation() {
                 aria-label="Purchase iEmbrace device"
                 onClick={() => {
                   closeMobileMenu()
-                  console.log('Purchase clicked!')
+                  // Add purchase logic here
                 }}
               >
                 Buy iEmbrace

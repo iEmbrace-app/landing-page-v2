@@ -64,12 +64,12 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
   const toggleMute = useCallback(() => {
     setIsMuted(prev => {
       const newMutedState = !prev
-      console.log(`Audio ${newMutedState ? 'muted' : 'unmuted'}`)
+      // Audio ${newMutedState ? 'muted' : 'unmuted'}
       
       // Update audio elements with better error handling
       if (audio1Ref.current) {
         audio1Ref.current.muted = newMutedState
-        console.log('Audio 1 muted state:', audio1Ref.current.muted, 'src:', audio1Ref.current.src)
+        
         // Try to play if unmuting and this is the active video
         if (!newMutedState && audio1Ref.current.src && (video1Ref.current?.style.opacity === '1' || video1Ref.current?.style.opacity === '')) {
           // Ensure audio is properly looped and ready
@@ -87,7 +87,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
       }
       if (audio2Ref.current) {
         audio2Ref.current.muted = newMutedState
-        console.log('Audio 2 muted state:', audio2Ref.current.muted, 'src:', audio2Ref.current.src)
+        
         // Try to play if unmuting and this is the active video
         if (!newMutedState && audio2Ref.current.src && video2Ref.current?.style.opacity === '1') {
           // Ensure audio is properly looped and ready
@@ -137,10 +137,10 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
               
               // Add event listeners for better audio handling
               audio1Ref.current.addEventListener('canplaythrough', () => {
-                console.log('Audio 1 ready to play continuously')
+                
               })
               audio1Ref.current.addEventListener('ended', () => {
-                console.log('Audio 1 ended - this should not happen with loop=true')
+                
                 // Force restart if loop fails
                 if (audio1Ref.current && !audio1Ref.current.muted) {
                   audio1Ref.current.currentTime = 0
@@ -485,7 +485,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
               video1Ref.current.play().catch(console.warn)
               // Also start audio if this is the active video and audio is loaded
               if (audio1Ref.current && audio1Ref.current.src) {
-                console.log('Starting audio 1:', audio1Ref.current.src)
+                
                 audio1Ref.current.play().catch(console.warn)
               }
             }
@@ -497,7 +497,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
             }
             // Ensure audio plays with video
             if (audio1Ref.current && audio1Ref.current.paused && audio1Ref.current.src) {
-              console.log('Video 1 playing, starting audio 1:', audio1Ref.current.src)
+              
               audio1Ref.current.play().catch(console.warn)
             }
           }}
@@ -524,7 +524,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
             }
             // Ensure audio plays with video
             if (audio2Ref.current && audio2Ref.current.paused && audio2Ref.current.src) {
-              console.log('Video 2 playing, starting audio 2:', audio2Ref.current.src)
+              
               audio2Ref.current.play().catch(console.warn)
             }
           }}
@@ -541,20 +541,20 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
           muted={isMuted}
           preload="auto"
           onCanPlay={() => {
-            console.log('Audio 1 can play:', videos[currentIndex]?.audioUrl)
+            
             // Ensure it starts playing if it's the active audio and not muted
             if (audio1Ref.current && !audio1Ref.current.muted && activeVideoRef === 'video1') {
               audio1Ref.current.play().catch(console.warn)
             }
           }}
           onPlay={() => {
-            console.log('Audio 1 started playing')
+            
           }}
           onPause={() => {
-            console.log('Audio 1 paused')
+            
           }}
           onEnded={() => {
-            console.log('Audio 1 ended - restarting due to loop failure')
+            
             // This should not happen with loop=true, but handle it as fallback
             if (audio1Ref.current && !audio1Ref.current.muted) {
               audio1Ref.current.currentTime = 0
@@ -565,10 +565,10 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
             console.error(`Audio 1 ${videos[currentIndex]?.filename} failed to load:`, e)
           }}
           onLoadStart={() => {
-            console.log('Audio 1 loading started')
+            
           }}
           onLoadedData={() => {
-            console.log('Audio 1 loaded data')
+            
           }}
         />
 
@@ -578,20 +578,20 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
           muted={isMuted}
           preload="auto"
           onCanPlay={() => {
-            console.log('Audio 2 can play')
+            
             // Ensure it starts playing if it's the active audio and not muted
             if (audio2Ref.current && !audio2Ref.current.muted && activeVideoRef === 'video2') {
               audio2Ref.current.play().catch(console.warn)
             }
           }}
           onPlay={() => {
-            console.log('Audio 2 started playing')
+            
           }}
           onPause={() => {
-            console.log('Audio 2 paused')
+            
           }}
           onEnded={() => {
-            console.log('Audio 2 ended - restarting due to loop failure')
+            
             // This should not happen with loop=true, but handle it as fallback
             if (audio2Ref.current && !audio2Ref.current.muted) {
               audio2Ref.current.currentTime = 0
@@ -602,10 +602,10 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
             console.error(`Audio 2 failed to load:`, e)
           }}
           onLoadStart={() => {
-            console.log('Audio 2 loading started')
+            
           }}
           onLoadedData={() => {
-            console.log('Audio 2 loaded data')
+            
           }}
         />
         
