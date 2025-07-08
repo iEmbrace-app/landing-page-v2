@@ -29,6 +29,9 @@ export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
             <div className={styles.columnTitle}>
               SELECT
             </div>
+            <div className={styles.columnDescription}>
+            Choose a scene to begin your session
+            </div>
             <div className={`${styles.phoneFrame} ${isMobile ? styles.phoneFrameMobile : styles.phoneFrameDesktop}`}>
               <img 
                 src="https://embrace-website-images.s3.us-east-2.amazonaws.com/select.png" 
@@ -37,15 +40,15 @@ export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
                 loading="eager"
               />
             </div>
-            <div className={styles.columnDescription}>
-            Choose a scene to begin your session
-            </div>
           </div>
 
           {/* Breathe Column */}
           <div className={styles.column}>
             <div className={styles.columnTitle}>
               IMMERSE
+            </div>
+            <div className={styles.columnDescription}>
+            Feel the immersive view and haptics guide your breath
             </div>
             <div className={`${styles.phoneFrame} ${isMobile ? styles.phoneFrameMobile : styles.phoneFrameDesktop}`}>
               <img 
@@ -55,15 +58,15 @@ export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
                 loading="eager"
               />
             </div>
-            <div className={styles.columnDescription}>
-            Feel the immersive view and haptics guide your breath
-            </div>
           </div>
 
           {/* Connect Column */}
           <div className={styles.column}>
             <div className={styles.columnTitle}>
               JOURNAL
+            </div>
+            <div className={styles.columnDescription}>
+              Reflect and save your thoughts post-session
             </div>
             <div className={`${styles.phoneFrame} ${isMobile ? styles.phoneFrameMobile : styles.phoneFrameDesktop}`}>
               <img 
@@ -72,9 +75,6 @@ export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
                 className={styles.phoneScreen}
                 loading="eager"
               />
-            </div>
-            <div className={styles.columnDescription}>
-              Reflect and save your thoughts post-session
             </div>
           </div>
         </div>
