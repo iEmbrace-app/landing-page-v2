@@ -48,7 +48,7 @@ export function ImmerseIntroSection({
           Discover Tranquility for Your Inner Journey
         </h2>
         <p className={styles.subtitle}>
-          Step into immersive environments with guided journeys designed to calm your mind, nurture your emotions, and help you reconnect with yourself.
+          Step into immersive environments with guided journeys designed to calm your mind, nurture emotions, and help you reconnect with yourself.
         </p>
       </motion.div>
     </section>

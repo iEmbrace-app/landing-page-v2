@@ -46,7 +46,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 24px;
+  gap: 40px;
 }
 
 .column:nth-child(1) {
