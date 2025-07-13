@@ -233,15 +233,18 @@
 
 /* App buttons bottom right column */
 .appButtonsColumn {
-  position: absolute;
-  bottom: 32px;
-  right: 32px;
+  grid-column: 11 / 13; /* Place in last 2 columns of 12-column grid */
+  grid-row: 1; /* Align with first row */
   display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  z-index: 15;
+  flex-direction: row;
+  gap: 1.6rem;
   align-items: flex-end;
-}
+  justify-self: end; /* Push to right edge of grid cell */
+  align-self: center; /* Vertically center */
+  width: auto;
+  margin-top: 100px;
+  z-index: 10;
+} 
 
 /* Typography - Optimized */
 .rootTitle {

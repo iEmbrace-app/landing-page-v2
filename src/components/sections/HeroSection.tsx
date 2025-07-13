@@ -73,7 +73,7 @@ export function HeroSection({ isMobile }: { isMobile: boolean }) {
               {/* App Store Buttons - bottom right column */}
               <div className={styles.appButtonsColumn}>
                 <a 
-                  href="https://apps.apple.com/app/embraceland" 
+                  href="https://apps.apple.com/us/app/iembraceland/id6740446690" 
                   className={styles.appButton}
                   aria-label="Download on the App Store"
                   rel="noopener noreferrer"
