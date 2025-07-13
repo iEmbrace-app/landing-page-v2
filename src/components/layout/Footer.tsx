@@ -8,7 +8,6 @@ export const Footer = () => {
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (email.trim()) {
-      // Simulate email subscription
       setIsSubscribed(true)
       setEmail('')
       setTimeout(() => setIsSubscribed(false), 3000)
@@ -17,103 +16,101 @@ export const Footer = () => {
 
   return (
     <footer className={styles.footer} role="contentinfo">
+      {/* Decorative border line */}
+      <div className={styles.borderLine} />
+
       <div className={styles.container}>
-        {/* Main Footer Content */}
-        <div className={styles.footerMain}>
-          {/* Logo Section */}
-          <div className={styles.logoSection}>
-            <div className={styles.logo}>
-              <span className={styles.logoText}>ROOT</span>
-            </div>
-            <p className={styles.tagline}>
-              Find your center through mindful meditation
-            </p>
-          </div>
-
-          {/* Join the Community Section */}
-          <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Join the Community</h3>
-            <ul className={styles.linkList}>
-              <li><a href="#discord" className={styles.link}>Discord Server</a></li>
-              <li><a href="#reddit" className={styles.link}>Reddit Community</a></li>
-              <li><a href="#facebook" className={styles.link}>Facebook Group</a></li>
-              <li><a href="#instagram" className={styles.link}>Instagram</a></li>
-              <li><a href="#youtube" className={styles.link}>YouTube Channel</a></li>
+        <div className={styles.mainContent}>
+          {/* Services Section */}
+          <div className={styles.servicesSection}>
+            <h3 className={styles.sectionHeader}>SERVICES</h3>
+            <ul className={styles.servicesList}>
+              <li><a href="#guides" className={styles.serviceLink}>Meditation Guides</a></li>
+              <li><a href="#sessions" className={styles.serviceLink}>Live Sessions</a></li>
+              <li><a href="#programs" className={styles.serviceLink}>Programs</a></li>
+              <li><a href="#community" className={styles.serviceLink}>Community</a></li>
+              <li><a href="#resources" className={styles.serviceLink}>Resources</a></li>
             </ul>
           </div>
 
-          {/* Contact Section */}
-          <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Contact</h3>
-            <ul className={styles.linkList}>
-              <li><a href="mailto:hello@root-meditate.com" className={styles.link}>hello@root-meditate.com</a></li>
-              <li><a href="#support" className={styles.link}>Support Center</a></li>
-              <li><a href="#feedback" className={styles.link}>Send Feedback</a></li>
-              <li><a href="#press" className={styles.link}>Press Inquiries</a></li>
-              <li><a href="#partnerships" className={styles.link}>Partnerships</a></li>
-            </ul>
-          </div>
-
-          {/* Learn Section */}
-          <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Learn</h3>
-            <ul className={styles.linkList}>
-              <li><a href="#guides" className={styles.link}>Meditation Guides</a></li>
-              <li><a href="#blog" className={styles.link}>Blog</a></li>
-              <li><a href="#tutorials" className={styles.link}>Video Tutorials</a></li>
-              <li><a href="#research" className={styles.link}>Research</a></li>
-              <li><a href="#faq" className={styles.link}>FAQ</a></li>
-            </ul>
-          </div>
-
-          {/* Email Signup Section */}
-          <div className={styles.section}>
-            <h3 className={styles.sectionTitle}>Stay Updated</h3>
-            <p className={styles.signupDescription}>
-              Get meditation tips and updates delivered to your inbox
-            </p>
-            <form onSubmit={handleEmailSubmit} className={styles.emailForm}>
-              <div className={styles.emailInputWrapper}>
+          {/* Newsletter Section */}
+          <div className={styles.newsletterSection}>
+            <h3 className={styles.sectionHeader}>SIGN UP TO OUR NEWSLETTER</h3>
+            <form onSubmit={handleEmailSubmit} className={styles.newsletterForm}>
+              <div className={styles.inputWrapper}>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder="Enter your email address"
                   className={styles.emailInput}
                   required
-                  aria-label="Email address for newsletter signup"
+                  aria-label="Email address for newsletter"
                 />
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className={styles.submitButton}
                   aria-label="Subscribe to newsletter"
                 >
-                  Subscribe
+                  <svg className={styles.arrow} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
                 </button>
               </div>
               {isSubscribed && (
                 <p className={styles.successMessage} role="status">
-                  ✨ Thanks for subscribing! Check your email for confirmation.
+                  ✓ Subscribed successfully
                 </p>
               )}
             </form>
           </div>
+
+          {/* Sitemap Section */}
+          <div className={styles.sitemapSection}>
+            <h3 className={styles.sectionHeader}>SITEMAP</h3>
+            <ul className={styles.sitemapList}>
+              <li><a href="#home" className={styles.sitemapLink}>Home</a></li>
+              <li><a href="#about" className={styles.sitemapLink}>About</a></li>
+              <li><a href="#sessions" className={styles.sitemapLink}>Sessions</a></li>
+              <li><a href="#blog" className={styles.sitemapLink}>Blog</a></li>
+              <li><a href="#contact" className={styles.sitemapLink}>Contact</a></li>
+            </ul>
+          </div>
         </div>
 
-        {/* Footer Bottom */}
-        <div className={styles.footerBottom}>
-          <div className={styles.bottomLeft}>
-            <p className={styles.copyright}>
-              © 2024 ROOT Meditation. All rights reserved.
-            </p>
-          </div>
-          <div className={styles.bottomRight}>
-            <nav className={styles.legalNav} aria-label="Legal navigation">
-              <a href="#privacy" className={styles.legalLink}>Privacy Policy</a>
-              <a href="#terms" className={styles.legalLink}>Terms of Service</a>
-              <a href="#cookies" className={styles.legalLink}>Cookie Policy</a>
-              <a href="#accessibility" className={styles.legalLink}>Accessibility</a>
-            </nav>
+        {/* Bottom Section */}
+        <div className={styles.bottomSection}>
+          <div className={styles.bottomContent}>
+            {/* Logo */}
+            <div className={styles.logoSection}>
+              <div className={styles.logo}>
+                <img 
+                  src="https://embrace-website-images.s3.us-east-2.amazonaws.com/logo.png"
+                  alt="Embraceland logo"
+                  className={styles.logoImage}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+                <span className={styles.logoText}>Embraceland</span>
+              </div>
+              <p className={styles.copyright}>EMBRACELAND 2025. ALL RIGHTS RESERVED</p>
+            </div>
+
+            {/* Credits and Legal */}
+            <div className={styles.bottomRight}>
+              <div className={styles.support}>
+                <span>DEV SUPPORT</span>
+                <a href="#contact" className={styles.creditLink}>CONTACT US</a>
+              </div>
+
+              <nav className={styles.legalLinks} aria-label="Legal navigation">
+                <a href="#privacy" className={styles.legalLink}>PRIVACY</a>
+                <a href="#cookie" className={styles.legalLink}>COOKIE</a>
+                <a href="#terms" className={styles.legalLink}>TERMS</a>
+              </nav>
+            </div>
           </div>
         </div>
       </div>

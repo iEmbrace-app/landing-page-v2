@@ -859,32 +859,42 @@
     order: 2;
     padding-left: 0;
     margin-top: var(--spacing-8);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Ensure phone is centered */
+    width: 100%;
   }
 
   .rootTitle {
     font-size: 2.5rem;
     animation: none;
+    text-align: center; /* Ensure title is centered */
+    margin: 0 auto; /* Center with auto margins */
   }
 
   .rootSubtitle {
     font-size: 1.1rem;
     animation: none;
+    text-align: center; /* Ensure subtitle is centered */
+    margin: 0 auto; /* Center with auto margins */
   }
 
   .description {
     order: 4;
-    margin: 1rem 0;
+    margin: 1rem auto; /* Center with auto margins */
     max-width: 90%;
     font-size: 1rem;
     animation: none;
+    text-align: center;
   }
 
   /* iPhone Mockup Mobile */
   .iphoneMockup {
     order: 2;
     transform: scale(0.85);
-    margin: 1rem 0;
+    margin: 1rem auto; /* Center with auto margins */
     animation: none;
+    display: block; /* Ensure block display */
   }
 
   .phoneFrame {
@@ -976,10 +986,16 @@
   /* CTA Button Mobile */
   .ctaButton {
     order: 3;
-    margin: 1rem 0;
-    padding: 12px 36px;
+    margin: 1.5rem auto; /* Center the button with auto margins */
+    padding: 18px 36px; /* Increased height with more vertical padding */
     font-size: 1rem;
     animation: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    max-width: 280px; /* Limit width for better mobile appearance */
+    min-height: 56px; /* Ensure minimum touch target height */
   }
 
   /* App Buttons Mobile */
@@ -1012,20 +1028,33 @@
 @media (max-width: 480px) {
   .rootTitle {
     font-size: 2rem;
+    text-align: center;
+    margin: 0 auto;
   }
 
   .rootSubtitle {
     font-size: 1rem;
+    text-align: center;
+    margin: 0 auto;
   }
 
   .iphoneMockup {
     transform: scale(0.75);
-    margin: 0;
+    margin: 0 auto; /* Ensure centering with auto margins */
+    display: block;
   }
 
   .phoneFrame {
     width: 280px;
     height: 560px;
+  }
+
+  /* CTA Button for small mobile */
+  .ctaButton {
+    padding: 20px 64px; /* Slightly smaller but still tall */
+    font-size: 0.9rem;
+    max-width: 260px; /* Slightly smaller max width */
+    min-height: 52px; /* Maintain good touch target */
   }
 
   .breathingOrb {
@@ -1061,11 +1090,21 @@
 @media (max-width: 375px) {
   .iphoneMockup {
     transform: scale(0.7);
+    margin: 0 auto; /* Ensure centering */
+    display: block;
   }
 
   .phoneFrame {
     width: 260px;
     height: 520px;
+  }
+
+  /* CTA Button for very small mobile */
+  .ctaButton {
+    padding: 14px 28px; /* Compact but still tall enough */
+    font-size: 0.85rem;
+    max-width: 240px; /* Smaller max width for very small screens */
+    min-height: 48px; /* Minimum touch target for accessibility */
   }
 }
 

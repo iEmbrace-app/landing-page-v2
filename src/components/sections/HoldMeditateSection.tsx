@@ -11,56 +11,59 @@ export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
       className={styles.section}
     >
       <div className={styles.sectionContent}>
-        {/* Header Section - positioned on right side (columns 7-12) */}
-        <div className={styles.headerSection}>
-          <div className={`gradient-text-primary ${styles.mainTitle} ${isMobile ? styles.mainTitleMobile : styles.mainTitleDesktop}`}>
-            All you need to do is hold it and meditate
-          </div>
-          
-          <div className={styles.description}>
-            Root responds to your presence with dynamic sensory feedback designed to calm the nervous system. It creates a meditative space that adapts to your body — no screens, just pure immersion.
+        {/* Header Row - contains the header positioned on right */}
+        <div className={styles.headerRow}>
+          {/* Header Section - positioned on right side (columns 7-12) */}
+          <div className={styles.headerSection}>
+            <div className={`gradient-text-primary ${styles.mainTitle} ${isMobile ? styles.mainTitleMobile : styles.mainTitleDesktop}`}>
+              All you need to do is hold it and meditate
+            </div>
+            
+            <div className={styles.description}>
+              Root responds to your presence with dynamic sensory feedback designed to calm the nervous system. It creates a meditative space that adapts to your body — no screens, just pure immersion.
+            </div>
           </div>
         </div>
 
         {/* Bottom Section - Three columns */}
         <div className={styles.bottomSection}>
-          {/* Hold Column */}
+          {/* Select Column */}
           <div className={styles.column}>
             <div className={styles.columnTitle}>
               SELECT
             </div>
             <div className={styles.columnDescription}>
-            Choose a scene to begin your session
+              Choose a scene to begin your session
             </div>
             <div className={`${styles.phoneFrame} ${isMobile ? styles.phoneFrameMobile : styles.phoneFrameDesktop}`}>
               <img 
                 src="https://embrace-website-images.s3.us-east-2.amazonaws.com/select.png" 
-                alt="Hold - Touch activated lights"
+                alt="Select - Choose a scene interface"
                 className={styles.phoneScreen}
                 loading="eager"
               />
             </div>
           </div>
 
-          {/* Breathe Column */}
+          {/* Immerse Column */}
           <div className={styles.column}>
             <div className={styles.columnTitle}>
               IMMERSE
             </div>
             <div className={styles.columnDescription}>
-            Feel the immersive view and haptics guide your breath
+              Feel the immersive view and haptics guide your breath
             </div>
             <div className={`${styles.phoneFrame} ${isMobile ? styles.phoneFrameMobile : styles.phoneFrameDesktop}`}>
               <img 
                 src="https://embrace-website-images.s3.us-east-2.amazonaws.com/immerse.png" 
-                alt="Breathe - Emotional vibration patterns"
+                alt="Immerse - Guided breathing with haptic feedback"
                 className={styles.phoneScreen}
                 loading="eager"
               />
             </div>
           </div>
 
-          {/* Connect Column */}
+          {/* Journal Column */}
           <div className={styles.column}>
             <div className={styles.columnTitle}>
               JOURNAL
@@ -71,7 +74,7 @@ export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
             <div className={`${styles.phoneFrame} ${isMobile ? styles.phoneFrameMobile : styles.phoneFrameDesktop}`}>
               <img 
                 src="https://embrace-website-images.s3.us-east-2.amazonaws.com/journal.png" 
-                alt="Connect - iEmbrace app reflection and tracking"
+                alt="Journal - Post-session reflection and tracking"
                 className={styles.phoneScreen}
                 loading="eager"
               />
