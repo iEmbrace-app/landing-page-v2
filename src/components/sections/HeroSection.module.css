@@ -206,7 +206,7 @@
 /* New main title style for subtitle */
 .mainTitle {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(2rem, 8vw, 3.6rem);
+  font-size: clamp(1.6rem, 8vw, 2.8rem);
   font-weight: 100;
   line-height: 1.2;
   margin: 0;
@@ -215,7 +215,7 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   will-change: auto;
-  max-width: 560px;
+  max-width: 400px;
   text-align: center;
 }
 

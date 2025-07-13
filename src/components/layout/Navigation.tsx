@@ -154,7 +154,7 @@ export function Navigation() {
               // Add purchase logic here
             }}
           >
-            Try for free
+            Start Free Today
           </Button>
 
           {/* Mobile Menu Button */}
