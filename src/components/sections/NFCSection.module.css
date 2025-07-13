@@ -136,13 +136,15 @@
 
 .subDescription {
   font-family: var(--typography-fontFamily-primary);
-  font-size: var(--typography-fontSize-medium);
-  font-weight: var(--typography-fontWeight-medium);
+  font-size: var(--typography-fontSize-sm);
+  font-weight: var(--typography-fontWeight-normal);
   color: var(--colors-text-tertiary);
   margin: 0 0 var(--spacing-4) 0;
+  letter-spacing: 1.2px;
   max-width: 500px;
   word-wrap: break-word;
   text-align: left;
+  text-transform: uppercase;
 }
 
 .subDescription.mobile {
