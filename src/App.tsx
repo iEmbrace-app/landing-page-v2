@@ -4,9 +4,9 @@ import { Footer } from './components/layout/Footer'
 import { HeroSection } from './components/sections/HeroSection'
 import { ImmerseIntroSection } from './components/sections/ImmerseIntroSection'
 import { ImmerseSectionContainer } from './components/sections/ImmerseSectionContainer'
+import { NFCSection } from './components/sections/NFCSection'
 import { TabSection, HoldMeditateSection, TestimonialSection, ComponentLoadingFallback } from './components/LazyComponents'
 import { ScrollProgressIndicator } from './components/ui/ScrollProgressIndicator'
-import { NewNFCPopup } from './components/popup/NewNFCPopup'
 import { useScreenSize } from './hooks/useScreenSize'
 
 import { tabContent } from './data/tabContent'
@@ -83,10 +83,12 @@ function App() {
             <TestimonialSection isMobile={isMobile} />
           </Suspense>
         </section>
+
+        {/* NFC Soundscapes Section */}
+        <section id="nfc" aria-label="NFC Soundscapes Experience">
+          <NFCSection isMobile={isMobile} />
+        </section>
       </main>
-      
-      {/* NFC Player Popup */}
-      <NewNFCPopup />
       
       <Footer />
     </>

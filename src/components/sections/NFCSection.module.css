@@ -1,0 +1,422 @@
+/* NFCSection.module.css */
+
+.section {
+  background: var(--colors-background-primary);
+  padding: 2rem 2rem;
+  position: relative;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backgroundDots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(1px 1px at 20px 30px, rgba(147, 51, 234, 0.08), transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(147, 51, 234, 0.06), transparent),
+    radial-gradient(0.5px 0.5px at 90px 40px, rgba(147, 51, 234, 0.08), transparent),
+    radial-gradient(0.5px 0.5px at 130px 80px, rgba(147, 51, 234, 0.04), transparent),
+    radial-gradient(1px 1px at 160px 30px, rgba(147, 51, 234, 0.06), transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  opacity: 0.3;
+  animation: twinkle 6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.backgroundBlurTop {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(242, 228, 238, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.backgroundBlurBottom {
+  position: absolute;
+  bottom: 20%;
+  left: 5%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(211, 189, 242, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.container {
+  max-width: 1400px;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.mainCard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+  background: var(--colors-background-glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--colors-border-light);
+  border-radius: 2rem;
+  padding: 3rem 5rem 4rem 5rem;
+  box-shadow: 0 8px 16px rgba(147, 51, 234, 0.06);
+}
+
+.mainCard.mobile {
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  padding: 3rem;
+}
+
+.leftContent {
+  color: var(--colors-text-primary);
+  text-align: left;
+}
+
+.leftContent.mobile {
+  text-align: center;
+}
+
+.heading {
+  font-family: var(--typography-fontFamily-primary);
+  font-size: var(--typography-fontSize-4xl);
+  font-weight: 100;
+  line-height: var(--typography-lineHeight-tight);
+  margin: 0 0 var(--spacing-6) 0;
+  background: linear-gradient(135deg, #6865BF, #A496D9, #D3BDF2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+.heading.mobile {
+  font-size: var(--typography-fontSize-2xl);
+  line-height: var(--typography-lineHeight-normal);
+  text-align: center;
+}
+
+.headingAccent {
+  color: var(--colors-text-accent);
+  font-weight: var(--typography-fontWeight-normal);
+}
+
+.description {
+  font-family: var(--typography-fontFamily-primary);
+  font-size: var(--typography-fontSize-base);
+  font-weight: var(--typography-fontWeight-light);
+  line-height: var(--typography-lineHeight-relaxed);
+  color: var(--colors-text-muted);
+  margin:  24px 0 80px 0;
+  max-width: 480px;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+.description.mobile {
+  margin: 0 auto 1.5rem auto;
+  text-align: center;
+}
+
+.subDescription {
+  font-family: var(--typography-fontFamily-primary);
+  font-size: var(--typography-fontSize-medium);
+  font-weight: var(--typography-fontWeight-medium);
+  color: var(--colors-text-tertiary);
+  margin: 0 0 var(--spacing-4) 0;
+  max-width: 500px;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+.subDescription.mobile {
+  margin: 0 auto 2rem auto;
+  text-align: center;
+}
+
+.ctaButton {
+  font-family: var(--typography-fontFamily-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  background: linear-gradient(135deg, var(--colors-primary-500) 0%, var(--colors-primary-600) 100%);
+  color: var(--colors-text-inverse);
+  padding: var(--spacing-4) var(--spacing-8);
+  border-radius: 50px;
+  font-size: var(--typography-fontSize-base);
+  font-weight: var(--typography-fontWeight-semibold);
+  letter-spacing: var(--typography-letterSpacing-wide);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(147, 51, 234, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.ctaButton.mobile {
+  margin: 0 auto;
+  display: flex;
+}
+
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.ctaButton:hover::before {
+  left: 100%;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(147, 51, 234, 0.4);
+}
+
+.ctaArrow {
+  font-size: var(--typography-fontSize-base);
+}
+
+/* Fixed: Changed from fixed height to min-height to accommodate card info */
+.rightContent {
+  position: relative;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 70px 0;
+}
+
+.rightContent.mobile {
+  min-height: 350px;
+  padding: 20px 0;
+}
+
+.cardsContainer {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  perspective: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardsContainer.mobile {
+  perspective: 800px;
+  height: 300px;
+}
+
+.cardWrapper {
+  position: absolute;
+  width: 180px;
+  height: 280px;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
+}
+
+.cardWrapper.mobile {
+  width: 160px;
+  height: 240px;
+}
+
+/* Desktop card positions */
+.cardWrapper.card0 {
+  transform: translate(-50%, -60%) translateX(-80px) translateZ(-100px) rotateY(-15deg);
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.cardWrapper.card1 {
+  transform: translate(-50%, -60%) translateZ(0) scale(1.1);
+  z-index: 3;
+  opacity: 1;
+}
+
+.cardWrapper.card2 {
+  transform: translate(-50%, -60%) translateX(80px) translateZ(-100px) rotateY(15deg);
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.cardWrapper.active {
+  transform: translate(-50%, -60%) translateZ(50px) scale(1.15) !important;
+  z-index: 5 !important;
+  opacity: 1 !important;
+}
+
+.cardWrapper:hover:not(.active) {
+  opacity: 0.85;
+}
+
+/* Mobile-specific card positions - override desktop styles */
+.cardWrapper.mobile.card0,
+.cardWrapper.mobile.card2 {
+  display: none !important;
+}
+
+.cardWrapper.mobile.card1 {
+  transform: translate(-50%, -50%) translateZ(0) scale(1) !important;
+  opacity: 1 !important;
+  z-index: 3 !important;
+  display: block !important;
+}
+
+.cardWrapper.mobile.card1.active {
+  transform: translate(-50%, -50%) translateZ(30px) scale(1.05) !important;
+  z-index: 5 !important;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18);
+  transition: all 0.3s ease;
+  object-fit: cover;
+  border: 1px solid var(--colors-border-light);
+}
+
+.cardWrapper.active .cardImage {
+  box-shadow: 0 0 32px rgba(147, 51, 234, 0.18), 0 8px 16px rgba(0, 0, 0, 0.18);
+  border: 2px solid var(--colors-primary-500);
+}
+
+.nfcIcon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  animation: nfcPulse 2s infinite;
+  color: var(--colors-primary-500);
+  font-size: 16px;
+}
+
+.cardInfo {
+  position: absolute;
+  bottom: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  padding-top: 20px;
+}
+
+.cardWrapper.active .cardInfo {
+  opacity: 1;
+}
+
+.cardTitle {
+  font-family: var(--typography-fontFamily-primary);
+  font-size: var(--typography-fontSize-lg);
+  font-weight: var(--typography-fontWeight-semibold);
+  margin: 0;
+  color: var(--colors-text-accent);
+  letter-spacing: var(--typography-letterSpacing-tight);
+  word-wrap: break-word;
+}
+
+.cardArtist {
+  font-family: var(--typography-fontFamily-primary);
+  font-size: var(--typography-fontSize-sm);
+  font-weight: var(--typography-fontWeight-light);
+  color: var(--colors-text-muted);
+  margin: 0;
+  word-wrap: break-word;
+}
+
+/* Mobile-specific card info adjustments */
+.cardWrapper.mobile .cardInfo {
+  bottom: -50px;
+  padding-top: 10px;
+}
+
+.cardWrapper.mobile .cardTitle {
+  font-size: 1rem;
+}
+
+.cardWrapper.mobile .cardArtist {
+  font-size: 0.875rem;
+}
+
+/* Animations */
+@keyframes nfcPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(147, 51, 234, 0.5);
+  }
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+}
+
+/* Responsive design - Simplified media query */
+@media (max-width: 640px) {
+  .section {
+    padding: 2rem 1rem;
+    min-height: auto;
+  }
+
+  .mainCard {
+    padding: 2rem;
+    gap: 3rem;
+  }
+
+  .heading {
+    font-size: 2rem;
+  }
+}
