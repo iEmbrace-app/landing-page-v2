@@ -4,7 +4,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   // Serve from root for development
-  base: '/',
+  base: '/landing-page-v2/',
 
   plugins: [
     react(),
