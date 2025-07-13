@@ -24,10 +24,27 @@
 
 /* Performance optimizations for reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+}
+
+/* Performance optimization: Disable heavy animations on mobile */
+@media (max-width: 768px) {
+  .auroraBackground,
+  .auroraEffect,
+  .auroraOverlay {
+    display: none !important;
+  }
+  
+  .heroContent,
+  .rootTitle,
+  .rootSubtitle,
+  .description {
+    animation: none !important;
   }
 }
 
@@ -36,15 +53,58 @@
   position: relative;
   width: 100%;
   height: auto;
-  min-height: 110vh;
+  min-height: 100vh;
   overflow: visible;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: -80px 0 0 0;
-  padding: 160px 0 120px 0;
-  background: #ffffff;
+  margin: 0; /* Changed from -40px 0 0 0 */
+  padding-top: 24px; /* Changed from 100px 0 60px 0 */
+  background: transparent;
   contain: layout style;
+}
+
+/* Background Image Container - Full image with fade transitions */
+.backgroundImageContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.backgroundImage {
+  position: absolute;
+  inset: 0;
+  background: url('https://embrace-website-images.s3.us-east-2.amazonaws.com/background.jpeg') center 60%/cover no-repeat;
+  background-size: cover;
+  background-position: center 1%;
+  opacity: 0.85;
+  /* Performance optimizations */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: auto;
+  /* Optimize for mobile */
+  background-attachment: scroll;
+}
+
+.gradientOverlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 300px; /* Fixed height gradient at bottom */
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 40%,
+    rgba(255,255,255,0.1) 50%,
+    rgba(255,255,255,0.3) 60%,
+    rgba(255,255,255,0.5) 70%,
+    rgba(255,255,255,0.7) 80%,
+    rgba(255,255,255,0.9) 90%,
+    rgba(255,255,255,1) 100%
+  );
+  pointer-events: none;
 }
 
 /* Simplified gradient animations */
@@ -62,25 +122,25 @@
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  z-index: 3;
+  z-index: 4;
 }
 
 .auroraEffect {
   position: absolute;
   inset: 0;
-  opacity: 0.4;
-  filter: blur(8px);
-  will-change: transform, opacity;
+  opacity: 0.3;
+  filter: blur(6px);
+  will-change: auto;
   background: linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(248, 248, 255, 0.8) 25%,
-    rgba(240, 235, 255, 0.7) 50%,
-    rgba(250, 250, 255, 0.8) 75%,
-    rgba(255, 255, 255, 0.9) 100%
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(248, 248, 255, 0.5) 25%,
+    rgba(240, 235, 255, 0.4) 50%,
+    rgba(250, 250, 255, 0.5) 75%,
+    rgba(255, 255, 255, 0.6) 100%
   );
-  background-size: 400% 400%;
-  animation: aurora 25s ease-in-out infinite;
+  background-size: 200% 200%;
+  animation: aurora 35s ease-in-out infinite;
 }
 
 .auroraOverlay {
@@ -89,48 +149,98 @@
   mix-blend-mode: soft-light;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(250, 248, 255, 0.3) 30%,
-    rgba(240, 235, 255, 0.2) 60%,
-    rgba(255, 255, 255, 0.4) 100%
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(250, 248, 255, 0.15) 30%,
+    rgba(240, 235, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0.2) 100%
   );
-  background-size: 300% 300%;
-  opacity: 0.6;
-  animation: aurora 30s ease-in-out infinite reverse;
+  background-size: 200% 200%;
+  opacity: 0.4;
+  animation: aurora 40s ease-in-out infinite reverse;
 }
 
-/* Gradient background */
+/* Gradient background - Subtle overlay */
 .gradientBackground {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    178deg,
-    #f8f8ff 0%,
-    #f0ebff 0%,
-    #faf4ff 20%,
-    #efe8fe 45%,
-    #f9edff 60%,
-    #f8f8ff 80%,
-    #ffffff 100%
+    180deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(250, 248, 255, 0.6) 25%,
+    rgba(245, 243, 255, 0.4) 50%,
+    rgba(240, 235, 255, 0.2) 75%,
+    transparent 100%
   );
   transition: opacity 1s ease-in-out;
   z-index: 2;
 }
 
-/* Content Container - 12-column grid system */
+/* Content Container - Centered layout */
 .heroContent {
   position: relative;
   z-index: 10;
   width: 100%;
   max-width: var(--grid-max-width);
-  margin: 0 auto;
-  padding: 0 var(--grid-container-padding);
-  display: grid;
-  grid-template-columns: var(--grid-template-standard);
-  gap: var(--grid-gap);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  animation: gentleFloat 8s ease-in-out infinite;
-  will-change: transform;
+  min-height: 72vh;
+  will-change: auto;
+}
+
+/* Centered Content Container */
+.centeredContent {
+  grid-column: 1 / -1; /* Full width */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  text-align: center; /* Center text */
+  gap: var(--spacing-componentGap, 24px);
+  max-width: 800px;
+  margin: 0;
+  padding: 0;
+}
+
+/* New main title style for subtitle */
+.mainTitle {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(2rem, 8vw, 3.6rem);
+  font-weight: 100;
+  line-height: 1.2;
+  margin: 0;
+  background: linear-gradient(135deg, #6865BF, #A496D9, #D3BDF2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  will-change: auto;
+  max-width: 560px;
+  text-align: center;
+}
+
+.mainSubtitle {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(0.8rem, 1.6vw, 0.7rem);
+  font-weight: 300;
+  margin: 0;
+  letter-spacing: 1.2px;
+  margin-bottom: 24px;
+  color: var(--colors-text-secondary, #666);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* App buttons bottom right column */
+.appButtonsColumn {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  z-index: 15;
+  align-items: flex-end;
 }
 
 /* Typography - Optimized */
@@ -144,8 +254,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gentleFloat 8s ease-in-out infinite, fadeInUp 1s ease-out;
-  will-change: transform, opacity;
+  will-change: auto;
 }
 
 .rootSubtitle {
@@ -155,7 +264,6 @@
   margin: 0;
   margin-bottom: 24px;
   color: var(--colors-text-secondary, #666);
-  animation: gentleFloat 6s ease-in-out infinite;
 }
 
 .description {
@@ -163,10 +271,9 @@
   font-size: clamp(1rem, 2vw, 1.1rem);
   font-weight: 100;
   margin: 0;
-  max-width: 1px;
+  max-width: 600px;
   line-height: 1.6;
   color: var(--colors-text-tertiary, #777);
-  animation: gentleFloat 8s ease-in-out infinite;
 }
 
 /* CTA Button - Optimized */
@@ -204,12 +311,8 @@
 
 /* App Store Buttons */
 .appButtons {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  margin-top: 0.8rem;
-  position: relative;
-  z-index: 15;
+  /* Deprecated for new layout, use .appButtonsColumn instead */
+  display: none;
 }
 
 .appButton {
@@ -301,502 +404,7 @@
   width: 100%;
 }
 
-/* Phone Frame Container - Last 3 columns */
-.phoneContainer {
-  grid-column: 10 / 13; /* Last 3 columns */
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Center the phone frame within the 3 columns */
-  padding-left: var(--spacing-8); /* Add spacing from text content */
-}
-
-/* iPhone Mockup Design - Black Edition */
-.iphoneMockup {
-  position: relative;
-  display: inline-block;
-  transform-origin: center;
-  animation: phoneFloat 12s ease-in-out infinite;
-}
-
-/* Phone Frame - Black Style */
-.phoneFrame {
-  width: 360px; /* ~5.5 inch screen width */
-  height: 640px; /* Proper iPhone ratio */
-  background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #000000 100%);
-  border-radius: 40px;
-  padding: 12px; /* Increased from 10px to create gap */
-  box-shadow: 
-    0 20px 50px rgba(0, 0, 0, 0.5),
-    0 10px 20px rgba(0, 0, 0, 0.3),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 0 0 0 2px #1a1a1a;
-  position: relative;
-}
-
-/* Hardware Buttons */
-.powerButton {
-  position: absolute;
-  right: -3px;
-  top: 110px;
-  width: 3px;
-  height: 70px;
-  background: #1a1a1a;
-  border-radius: 0 3px 3px 0;
-}
-
-.volumeUp {
-  position: absolute;
-  left: -3px;
-  top: 90px;
-  width: 3px;
-  height: 45px;
-  background: #1a1a1a;
-  border-radius: 3px 0 0 3px;
-}
-
-.volumeDown {
-  position: absolute;
-  left: -3px;
-  top: 145px;
-  width: 3px;
-  height: 45px;
-  background: #1a1a1a;
-  border-radius: 3px 0 0 3px;
-}
-
-.silentSwitch {
-  position: absolute;
-  left: -3px;
-  top: 60px;
-  width: 3px;
-  height: 20px;
-  background: #1a1a1a;
-  border-radius: 3px 0 0 3px;
-}
-
-/* Screen Container */
-.screenContainer {
-  width: 100%;
-  height: 100%;
-  border-radius: 30px;
-  overflow: hidden;
-  position: relative;
-  background: #000;
-}
-
-/* Dynamic Island */
-.dynamicIsland {
-  position: absolute;
-  top: 8px; /* Added gap from top */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 110px;
-  height: 26px;
-  background: #000;
-  border-radius: 14px;
-  z-index: 100;
-}
-
-/* Phone Screen */
-.phoneScreen {
-  width: 100%;
-  height: 100%;
-  background: #FFFFFF;
-  position: relative;
-  overflow: hidden;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* Status Bar */
-.statusBar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
-  padding: 0 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 90;
-  background: rgba(255, 255, 255, 0.98);
-}
-
-.time {
-  font-size: 14px;
-  font-weight: 600;
-  color: #000;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-.statusIcons {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  color: #000;
-}
-
-.statusIcons svg {
-  height: 11px;
-}
-
-/* App Content */
-.appContent {
-  padding: 45px 16px 16px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%);
-}
-
-/* App Header */
-.appHeader {
-  text-align: center;
-  margin-bottom: 15px;
-  margin-top: 10px; /* Added top margin for space from camera */
-}
-
-.appTitle {
-  font-size: 26px;
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 4px;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  letter-spacing: -0.5px;
-}
-
-.appTagline {
-  font-size: 13px;
-  font-weight: 400;
-  color: #666;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  opacity: 0.8;
-  margin-bottom: 0;
-}
-
-/* Breathing Section */
-.breathingSection {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Start from top */
-  position: relative;
-  margin: 0;
-  padding-top: 40px; /* Add top padding */
-  min-height: 280px;
-}
-
-/* Breathing Orb */
-.breathingOrb {
-  width: 160px;
-  height: 160px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 60px; /* Add space below orb for counter */
-}
-
-/* Orb Rings */
-.orbRing {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  border: 2px solid rgba(147, 112, 219, 0.2);
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-
-.orbRing[data-ring="1"] {
-  width: 100%;
-  height: 100%;
-}
-
-.orbRing[data-ring="2"] {
-  width: 70%;
-  height: 70%;
-}
-
-.orbRing[data-ring="3"] {
-  width: 40%;
-  height: 40%;
-}
-
-/* Breathing animation */
-.breathingOrb.breathing .orbRing {
-  animation: ringPulse 4s ease-in-out infinite;
-}
-
-.breathingOrb.breathing .orbRing[data-ring="1"] {
-  animation-delay: 0s;
-}
-
-.breathingOrb.breathing .orbRing[data-ring="2"] {
-  animation-delay: 0.15s;
-}
-
-.breathingOrb.breathing .orbRing[data-ring="3"] {
-  animation-delay: 0.3s;
-}
-
-@keyframes ringPulse {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.3;
-    border-color: rgba(147, 112, 219, 0.2);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.15);
-    opacity: 1;
-    border-color: rgba(147, 112, 219, 0.6);
-  }
-}
-
-/* Breath Button */
-.breathButton {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
-  border: none;
-  color: #FFFFFF;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  z-index: 10;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 
-    0 4px 15px rgba(0, 0, 0, 0.3),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.breathButton:hover {
-  transform: scale(1.05);
-  box-shadow: 
-    0 6px 20px rgba(0, 0, 0, 0.4),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.breathButton:active {
-  transform: scale(0.98);
-}
-
-/* Breath Counter */
-.breathCounter {
-  position: relative;
-  left: auto;
-  bottom: auto;
-  top: auto;
-  transform: none;
-  text-align: center;
-  margin: -40px auto 0 auto; /* Pull up closer to orb, but below it */
-  width: max-content;
-  min-width: 60px;
-  z-index: 2;
-}
-
-@media (max-width: 768px) {
-  .breathCounter {
-    margin: -30px auto 0 auto;
-    min-width: 50px;
-  }
-}
-
-/* Stats Section - Centered */
-.statsSection {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  padding: 24px;
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: 16px;
-  margin: 0 16px 20px;
-}
-
-.countNumber{
-  font-size: 36px;
-  font-weight: 700;
-  color: #000;
-  margin: 0
-}
-
-.countLabel{
-  font-size: 12px;
-  font-weight: 500;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.statItem {
-  text-align: center;
-}
-
-.statNumber {
-  display: block;
-  font-size: 36px;
-  font-weight: 700;
-  color: #000;
-  line-height: 1;
-  margin-bottom: 6px;
-}
-
-.statLabel {
-  display: block;
-  font-size: 12px;
-  font-weight: 500;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.statDivider {
-  width: 1px;
-  height: 40px;
-  background: rgba(0, 0, 0, 0.1);
-}
-
-/* Warp Overlay Effect - Dark Theme */
-.warpOverlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 200;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.warpOverlay.active {
-  opacity: 1;
-}
-
-/* Expanding Circle - Dark warp effect */
-.expandingCircle {
-  position: absolute;
-  bottom: 50%;
-  left: 50%;
-  transform: translate(-50%, 50%);
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 70%);
-  filter: blur(8px);
-  opacity: 0;
-  animation: none;
-}
-
-.warpOverlay.active .expandingCircle {
-  animation: expandWarp 1.2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-}
-
-@keyframes expandWarp {
-  0% {
-    transform: translate(-50%, 50%) scale(0);
-    opacity: 1;
-    filter: blur(0px);
-  }
-  50% {
-    opacity: 0.8;
-    filter: blur(15px);
-  }
-  100% {
-    transform: translate(-50%, 50%) scale(20);
-    opacity: 0;
-    filter: blur(30px);
-  }
-}
-
-/* Gradient Circles for ambient effect - Dark */
-.gradientCircle {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(50px);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  will-change: transform, opacity;
-}
-
-.warpOverlay.active .gradientCircle {
-  opacity: 0.4;
-}
-
-.gradientCircle[data-position="top-left"] {
-  width: 250px;
-  height: 250px;
-  top: -80px;
-  left: -80px;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 0%, transparent 70%);
-  animation: breatheGradient 4s ease-in-out infinite;
-}
-
-.gradientCircle[data-position="bottom-right"] {
-  width: 200px;
-  height: 200px;
-  bottom: -80px;
-  right: -80px;
-  background: radial-gradient(circle, rgba(26, 26, 26, 0.4) 0%, transparent 70%);
-  animation: breatheGradient 4s ease-in-out infinite;
-  animation-delay: 2s;
-}
-
-@keyframes breatheGradient {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.3);
-  }
-}
-
 /* Key Animations */
-@keyframes breathe {
-  0%, 100% { 
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  50% { 
-    transform: scale(1.15);
-    opacity: 1;
-  }
-}
-
-@keyframes glow {
-  0%, 100% { 
-    opacity: 0.4;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% { 
-    opacity: 0.8;
-    transform: translate(-50%, -50%) scale(1.2);
-  }
-}
-
-@keyframes warpEffect {
-  0% {
-    transform: perspective(1000px) rotateX(0deg) translateZ(0);
-  }
-  20% {
-    transform: perspective(1000px) rotateX(-3deg) translateZ(50px);
-  }
-  80% {
-    transform: perspective(1000px) rotateX(-3deg) translateZ(50px);
-  }
-  100% {
-    transform: perspective(1000px) rotateX(0deg) translateZ(0);
-  }
-}
-
 @keyframes gentleFloat {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-3px); }
@@ -811,12 +419,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes phoneFloat {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33% { transform: translateY(-5px) rotate(0.5deg); }
-  66% { transform: translateY(3px) rotate(-0.5deg); }
 }
 
 /* Mobile-first responsive design */
@@ -854,17 +456,6 @@
     gap: 0.5rem;
   }
 
-  .phoneContainer {
-    grid-column: 1 / -1; /* Full width on mobile */
-    order: 2;
-    padding-left: 0;
-    margin-top: var(--spacing-8);
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Ensure phone is centered */
-    width: 100%;
-  }
-
   .rootTitle {
     font-size: 2.5rem;
     animation: none;
@@ -888,101 +479,6 @@
     text-align: center;
   }
 
-  /* iPhone Mockup Mobile */
-  .iphoneMockup {
-    order: 2;
-    transform: scale(0.85);
-    margin: 1rem auto; /* Center with auto margins */
-    animation: none;
-    display: block; /* Ensure block display */
-  }
-
-  .phoneFrame {
-    width: 300px;
-    height: 600px;
-    padding: 10px;
-    border-radius: 35px;
-  }
-
-  .screenContainer {
-    border-radius: 25px;
-  }
-
-  .dynamicIsland {
-    width: 90px;
-    height: 24px;
-    top: 5px;
-  }
-
-  .appContent {
-    padding: 40px 12px 12px;
-  }
-
-  .appHeader {
-    margin-bottom: 10px;
-    margin-top: 5px;
-  }
-
-  .appTitle {
-    font-size: 22px;
-  }
-
-  .appTagline {
-    font-size: 12px;
-    margin-bottom: 20px;
-  }
-
-  .breathingSection {
-    min-height: 240px;
-    padding-top: 20px;
-    padding-bottom: 60px;
-  }
-
-  .breathingOrb {
-    width: 140px;
-    height: 140px;
-    margin-bottom: 50px;
-  }
-
-  .breathButton {
-    width: 60px;
-    height: 60px;
-    font-size: 9px;
-  }
-
-  .breathCounter {
-    margin: -30px auto 0 auto;
-    min-width: 50px;
-  }
-
-  .countNumber {
-    font-size: 36px;
-    font-weight: 700;
-    color: #000;
-  }
-
-  .countLabel {
-    font-size: 11px;
-  }
-
-  .statsSection {
-    gap: 24px;
-    padding: 16px;
-    margin: 0 8px 12px;
-  }
-
-  .statNumber {
-    font-size: 28px;
-  }
-
-  .statLabel {
-    font-size: 10px;
-  }
-
-  .statDivider {
-    height: 32px;
-  }
-
   /* CTA Button Mobile */
   .ctaButton {
     order: 3;
@@ -999,13 +495,14 @@
   }
 
   /* App Buttons Mobile */
-  .appButtons {
-    order: 5;
+  .appButtonsColumn {
+    position: static;
+    right: auto;
+    bottom: auto;
     margin-top: 1rem;
-    flex-direction: column;
-    gap: 0.8rem;
     width: 100%;
     align-items: center;
+    gap: 0.8rem;
   }
 
   .appButton {
@@ -1038,17 +535,6 @@
     margin: 0 auto;
   }
 
-  .iphoneMockup {
-    transform: scale(0.75);
-    margin: 0 auto; /* Ensure centering with auto margins */
-    display: block;
-  }
-
-  .phoneFrame {
-    width: 280px;
-    height: 560px;
-  }
-
   /* CTA Button for small mobile */
   .ctaButton {
     padding: 20px 64px; /* Slightly smaller but still tall */
@@ -1056,49 +542,10 @@
     max-width: 260px; /* Slightly smaller max width */
     min-height: 52px; /* Maintain good touch target */
   }
-
-  .breathingOrb {
-    width: 120px;
-    height: 120px;
-  }
-
-  .breathButton {
-    width: 55px;
-    height: 55px;
-    font-size: 8px;
-  }
-
-  .breathCounter {
-    top: 140px;
-  }
-
-  .countNumber {
-    font-size: 24px;
-  }
-
-  .statsSection {
-    gap: 20px;
-    padding: 14px;
-  }
-
-  .statNumber {
-    font-size: 24px;
-  }
 }
 
 /* Very small mobile (iPhone SE, etc) */
 @media (max-width: 375px) {
-  .iphoneMockup {
-    transform: scale(0.7);
-    margin: 0 auto; /* Ensure centering */
-    display: block;
-  }
-
-  .phoneFrame {
-    width: 260px;
-    height: 520px;
-  }
-
   /* CTA Button for very small mobile */
   .ctaButton {
     padding: 14px 28px; /* Compact but still tall enough */
@@ -1127,10 +574,6 @@
     align-items: flex-start;
     text-align: left;
   }
-  
-  .phoneContainer {
-    grid-column: 10 / 13; /* Last 3 columns */
-  }
 }
 
 /* Tablet - 768px to 1023px */
@@ -1144,10 +587,6 @@
     grid-column: 1 / 6; /* First 5 columns for better balance on tablet */
     align-items: flex-start;
     text-align: left;
-  }
-  
-  .phoneContainer {
-    grid-column: 6 / 9; /* Last 3 columns */
   }
 }
 
@@ -1210,7 +649,7 @@
     width: 24px;
     height: 36px;
     opacity: 0.5;
-    animation: gentleFloat 3s ease-in-out infinite;
+    /* Disabled for performance - animation: gentleFloat 3s ease-in-out infinite; */
   }
   
   .scrollIndicator svg {
@@ -1240,10 +679,6 @@
     text-align: left;
   }
   
-  .phoneContainer {
-    grid-column: 10 / 13; /* Last 3 columns - UPDATED */
-  }
-  
   .description {
     text-align: left;
     max-width: 500px; /* Remove max-width constraint */
@@ -1271,10 +706,6 @@
     text-align: center;
   }
   
-  .phoneContainer {
-    grid-column: 1 / 2;
-  }
-  
   .description {
     text-align: center;
   }
@@ -1282,4 +713,28 @@
   .appButtons {
     justify-content: center;
   }
+}
+
+/* Centered Content Container */
+.centeredContent {
+  grid-column: 1 / -1; /* Full width */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  text-align: center; /* Center text */
+  gap: var(--spacing-componentGap, 24px);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-8);
+}
+
+/* Update title group for centered layout */
+.centeredContent .titleGroup {
+  align-items: center;
+  text-align: center;
+}
+
+/* Update description max-width for centered layout */
+.centeredContent .description {
+  max-width: 600px;
 }

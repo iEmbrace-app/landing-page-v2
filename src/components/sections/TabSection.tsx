@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { TabKey, TabContentData } from '../../types'
 import { TabButton } from '../ui/TabButton'
+import { Button } from '../ui'
 import mindfulnessIcon from '../../assets/icons/mindfulness 1.svg'
 import rippleIcon from '../../assets/icons/ripple.svg'
 import sineIcon from '../../assets/icons/sine.svg'
@@ -107,11 +108,15 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
           <div className={`${styles.tabButtonsContainer} ${isMobile ? styles.mobile : ''}`}>
             {isMobile ? (
               <div className={`${styles.dropdownWrapper} ${styles.mobile}`} ref={dropdownRef}>
-                <button 
+                <Button 
+                  variant="ghost"
+                  size="medium"
                   className={`${styles.dropdownButton} ${isDropdownOpen ? styles.open : ''}`}
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   aria-expanded={isDropdownOpen}
                   aria-haspopup="listbox"
+                  enableTextAnimation={false}
+                  enableRipple={false}
                 >
                   <span className={styles.dropdownButtonText}>
                     {TAB_CONFIG.find(tab => tab.key === activeTab)?.label}
@@ -132,19 +137,23 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </button>
+                </Button>
                 {isDropdownOpen && (
                   <div className={styles.dropdownMenu} role="listbox">
                     {TAB_CONFIG.map(({ key, label }) => (
-                      <button
+                      <Button
+                        variant="ghost"
+                        size="small"
                         key={key}
                         className={`${styles.dropdownOption} ${activeTab === key ? styles.active : ''}`}
                         onClick={() => handleTabClick(key)}
                         role="option"
                         aria-selected={activeTab === key}
+                        enableTextAnimation={false}
+                        enableRipple={false}
                       >
                         {label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 )}

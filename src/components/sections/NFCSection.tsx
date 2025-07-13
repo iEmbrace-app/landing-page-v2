@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { TbNfc } from 'react-icons/tb'
+import { Button } from '../ui'
 import styles from './NFCSection.module.css'
 
 interface NFCSectionProps {
@@ -98,10 +99,13 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
             </p>
 
             {/* CTA Button */}
-            <button className={`${styles.ctaButton} ${isMobile ? styles.mobile : ''}`}>
-              Explore NFC Cards
-              <span className={styles.ctaArrow}>→</span>
-            </button>
+            <Button 
+              variant="cta" 
+              size={isMobile ? "medium" : "large"}
+              isMobile={isMobile}
+            >
+              Explore NFC Cards →
+            </Button>
           </div>
 
           {/* Right Side - NFC Card Showcase */}

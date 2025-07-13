@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Button } from '../ui'
 import styles from './Navigation.module.css'
 
 export function Navigation() {
@@ -144,7 +145,9 @@ export function Navigation() {
           </ul>
 
           {/* CTA Button - Right */}
-          <button 
+          <Button 
+            variant="cta"
+            size="medium"
             className={styles.ctaButton}
             aria-label="Purchase iEmbrace device"
             onClick={() => {
@@ -152,21 +155,24 @@ export function Navigation() {
             }}
           >
             Try for free
-          </button>
+          </Button>
 
           {/* Mobile Menu Button */}
-          <button 
+          <Button
+            variant="ghost"
+            size="medium"
             className={styles.mobileMenuButton}
             onClick={toggleMobileMenu}
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isMobileMenuOpen}
+            iconOnly
           >
             <div className={`${styles.hamburger} ${isMobileMenuOpen ? styles.hamburgerOpen : ''}`}>
               <span className={styles.hamburgerLine}></span>
               <span className={styles.hamburgerLine}></span>
               <span className={styles.hamburgerLine}></span>
             </div>
-          </button>
+          </Button>
         </div>
 
         {/* Mobile Navigation Menu */}
@@ -214,16 +220,19 @@ export function Navigation() {
               </a>
             </li>
             <li>
-              <button 
+              <Button 
+                variant="cta"
+                size="large"
                 className={styles.mobileCta}
                 aria-label="Purchase iEmbrace device"
                 onClick={() => {
                   closeMobileMenu()
                   // Add purchase logic here
                 }}
+                isMobile={true}
               >
                 Buy iEmbrace
-              </button>
+              </Button>
             </li>
           </ul>
         </div>

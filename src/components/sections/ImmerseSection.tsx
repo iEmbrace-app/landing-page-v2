@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
 import { motion } from 'framer-motion'
+import { Button } from '../ui'
 import styles from './ImmerseSection.module.css'
 import { VideoService } from '../../services/videoService'
 import { Video } from '../../services/videoService'
@@ -619,24 +620,33 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
       >
         {/* Audio Control */}
         <p className={styles.headphonesText}>use headphones for better experience</p>
-        <button 
+        <Button 
+          variant="ghost"
+          size="medium"
           className={styles.audioToggle}
           onClick={toggleMute}
           aria-label={isMuted ? 'Unmute audio' : 'Mute audio'}
+          iconOnly={true}
+          enableTextAnimation={false}
+          enableRipple={false}
         >
           {isMuted ? <HiVolumeOff /> : <HiVolumeUp />}
-        </button>
+        </Button>
 
         {/* Video Navigation Boxes - Simple and clean */}
         <div className={styles.videoNavigationBoxes}>
           {videos.map((video, index) => (
-            <button
+            <Button
               key={index}
+              variant="ghost"
+              size="large"
               className={`${styles.navigationBox} ${
                 index === currentIndex ? styles.active : ''
               }`}
               onClick={() => goToIndex(index)}
               aria-label={`Switch to ${video.title}`}
+              enableTextAnimation={false}
+              enableRipple={false}
             >
               <div className={styles.iconContainer}>
                 {getIcon(index)}
@@ -644,7 +654,7 @@ export function ImmerseSection({ isMobile: _ }: ImmerseSectionProps) {
               <div className={styles.buttonTitle}>
                 {video.title}
               </div>
-            </button>
+            </Button>
           ))}
         </div>
       </motion.div>

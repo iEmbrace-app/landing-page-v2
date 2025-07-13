@@ -3,6 +3,7 @@
 .section {
   background: var(--colors-background-primary);
   padding: 1rem 2rem;
+  margin-bottom: 120px;
   position: relative;
   overflow: hidden;
   min-height: 100vh;
@@ -66,13 +67,15 @@
   grid-template-columns: 1fr 1fr;
   gap: 6rem;
   align-items: center;
-  background: var(--colors-background-glass);
+  /* 60 % opacity while still using the variable */
+  background: color-mix(in srgb, var(--colors-background-glass) 60%, transparent);
   backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--colors-border-light);
   border-radius: 2rem;
-  padding: 2rem 4rem 3rem 6rem;
+  padding: 1rem 4rem 1rem 6rem;
   box-shadow: 0 8px 16px rgba(147, 51, 234, 0.06);
 }
+
 
 .mainCard.mobile {
   grid-template-columns: 1fr;

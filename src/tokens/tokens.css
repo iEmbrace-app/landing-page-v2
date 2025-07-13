@@ -2,45 +2,45 @@
 /* Apple-inspired Wellness Color System with 95% White Space */
 
 :root {
-  /* Colors - Primary - Apple-inspired Purple Scale */
+  /* Colors - Primary - Updated Purple Palette */
   --colors-primary-50: #ffffff;    /* Pure white */
   --colors-primary-100: #fdfcff;   /* Barely perceptible purple */
-  --colors-primary-200: #fbfaff;   /* Ultra light lavender */
-  --colors-primary-300: #f9f7ff;   /* Soft lavender white */
-  --colors-primary-400: #f7f4ff;   /* Light lavender */
-  --colors-primary-500: #9333ea;   /* Purple accent (minimal use) */
-  --colors-primary-600: #7e22ce;   /* Deep purple (very minimal) */
-  --colors-primary-700: #6b21a8;   /* Darker purple (rare) */
-  --colors-primary-800: #581c87;   /* Very dark purple (rare) */
-  --colors-primary-900: #3b0764;   /* Ultra dark purple (rare) */
-  --colors-primary-950: #1d1d1f;   /* Apple charcoal (text only) */    /* Colors - Text System (Optimized for white background) */
+  --colors-primary-200: #f9f7ff;   /* Ultra light lavender */
+  --colors-primary-300: #D6C9F2;   /* Light lavender from palette */
+  --colors-primary-400: #CCBBF2;   /* Very light lavender from palette */
+  --colors-primary-500: #BF82D9;   /* Light purple from palette */
+  --colors-primary-600: #834EA6;   /* Medium purple from palette */
+  --colors-primary-700: #4F2C73;   /* Dark purple from palette */
+  --colors-primary-800: #3d2159;   /* Darker variation */
+  --colors-primary-900: #2b1640;   /* Darkest variation */
+  --colors-primary-950: #1a0f28;   /* Near black purple */    /* Colors - Text System (Optimized for white background) */
   --colors-text-primary: #1a1a1a;     /* Very dark gray for primary text (excellent contrast on white) */
   --colors-text-secondary: #4a4a4a;   /* Medium gray for secondary text */
   --colors-text-tertiary: #6b6b6b;    /* Light gray for tertiary text */
   --colors-text-inverse: #ffffff;     /* White text */
   --colors-text-muted: #8a8a8a;       /* Muted gray for less important text */
-  --colors-text-accent: #6A1B9A;      /* Purple accent text */
+  --colors-text-accent: #834EA6;      /* Medium purple from palette */
   
   /* Colors - Semantic */
   --colors-semantic-success: #30d158;  /* Apple green */
   --colors-semantic-warning: #ff9f0a;  /* Apple orange */
   --colors-semantic-error: #ff453a;    /* Apple red */
-  --colors-semantic-info: #007aff;     /* Apple blue */    /* Colors - Background - Clean white base */
+  --colors-semantic-info: #007aff;     /* Apple blue */    /* Colors - Background - Updated with new palette */
   --colors-background-primary: #ffffff;          /* Pure white background */
   --colors-background-secondary: #ffffff;        /* Pure white */
   --colors-background-tertiary: #ffffff;         /* Pure white */
   --colors-background-elevated: #ffffff;         /* Pure white for elevated components */
-  --colors-background-overlay: rgba(242, 228, 238, 0.15);   /* Lavender overlay */
-  --colors-background-glass: rgba(242, 216, 238, 0.25);     /* Lavender glassmorphism */
-  --colors-background-gradient: linear-gradient(135deg, #F2E4EE 0%, #F2D8EE 50%, #D3BDF2 100%);
+  --colors-background-overlay: rgba(214, 201, 242, 0.15);   /* Light lavender overlay */
+  --colors-background-glass: rgba(204, 187, 242, 0.25);     /* Very light lavender glassmorphism */
+  --colors-background-gradient: linear-gradient(135deg, #D6C9F2 0%, #CCBBF2 50%, #BF82D9 100%);
   
-  /* Colors - Border - Apple-inspired Minimal */
-  --colors-border-light: rgba(147, 51, 234, 0.1);   /* Ultra light purple */
-  --colors-border-medium: rgba(147, 51, 234, 0.15); /* Light purple */
-  --colors-border-strong: rgba(147, 51, 234, 0.25); /* Medium purple */
-  --colors-border-dark: #A496D9;
-  --colors-border-focus: #6865BF;
-  --colors-border-gradient: linear-gradient(135deg, #D3BDF2, #A496D9, #6865BF);
+  /* Colors - Border - Updated with new palette */
+  --colors-border-light: rgba(191, 130, 217, 0.1);   /* Ultra light purple */
+  --colors-border-medium: rgba(191, 130, 217, 0.15); /* Light purple */
+  --colors-border-strong: rgba(191, 130, 217, 0.25); /* Medium purple */
+  --colors-border-dark: #834EA6;
+  --colors-border-focus: #BF82D9;
+  --colors-border-gradient: linear-gradient(135deg, #D6C9F2, #BF82D9, #834EA6);
   
   /* Typography */
   --typography-fontFamily-primary: "Source Sans Pro", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -151,7 +151,7 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.06);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.12);
-  --shadow-wellness: 0 4px 30px rgba(147, 51, 234, 0.04);  /* New wellness shadow */
+  --shadow-wellness: 0 4px 30px rgba(191, 130, 217, 0.04);  /* Updated wellness shadow with new palette */
   --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
   
   /* Z-Index */
@@ -256,13 +256,13 @@
   --grid-content-narrow-width: 45ch;      /* Narrow text line length */
 }
 
-/* Component Token Classes */
+/* Component Token Classes - Updated with new palette */
 .btn-primary {
-  background: rgba(147, 51, 234, 0.08);  /* Very light purple glass */
+  background: rgba(191, 130, 217, 0.08);  /* Very light purple glass */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(147, 51, 234, 0.12);
-  color: #9333ea;  /* Purple text */
+  border: 1px solid rgba(191, 130, 217, 0.12);
+  color: #834EA6;  /* Medium purple text */
   padding: var(--spacing-3) var(--spacing-6);
   border-radius: var(--borderRadius-xl);
   font-size: var(--typography-fontSize-base);
@@ -271,11 +271,11 @@
 }
 
 .btn-primary:hover {
-  background: #9333ea;  /* Solid purple on hover */
-  border-color: #9333ea;
+  background: #834EA6;  /* Medium purple on hover */
+  border-color: #834EA6;
   color: #ffffff;
   transform: scale(1.05);
-  box-shadow: 0 4px 30px rgba(147, 51, 234, 0.15);
+  box-shadow: 0 4px 30px rgba(131, 78, 166, 0.15);
 }
 
 .btn-secondary {
@@ -292,8 +292,8 @@
 }
 
 .btn-secondary:hover {
-  background: rgba(147, 51, 234, 0.04);
-  border-color: rgba(147, 51, 234, 0.08);
+  background: rgba(191, 130, 217, 0.04);
+  border-color: rgba(191, 130, 217, 0.08);
 }
 
 .card {
@@ -317,7 +317,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: var(--borderRadius-2xl);
   padding: var(--spacing-6);
-  box-shadow: 0 4px 30px rgba(147, 51, 234, 0.04);
+  box-shadow: 0 4px 30px rgba(191, 130, 217, 0.04);
 }
 
 /* Typography Classes */

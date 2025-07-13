@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { HiArrowRight } from 'react-icons/hi2'
+import { Button } from '../ui'
 import styles from './TestimonialSection.module.css'
 
 // Types
@@ -525,13 +526,16 @@ function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick, 
             </div>
             
             {isActive && (
-              <button 
+              <Button 
+                variant="ghost"
+                size="small"
                 className={styles.readMoreBtn}
                 aria-label={`Read more about ${testimonial.author.name}'s testimonial`}
+                enableTextAnimation={false}
               >
                 Read more
                 <HiArrowRight className={styles.readMoreIcon} aria-hidden="true" />
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -573,7 +577,9 @@ function NavigationSection({
               const testimonial = testimonials[companyIndex]
               
               return (
-                <button
+                <Button
+                  variant="ghost"
+                  size="medium"
                   key={company}
                   onClick={() => onCardClick(companyIndex)}
                   className={`${styles.companyLogo} ${
@@ -583,13 +589,15 @@ function NavigationSection({
                   aria-selected={isActive}
                   aria-controls={`testimonial-${companyIndex}`}
                   aria-label={`View ${testimonial.company} testimonial from ${testimonial.author.name}`}
+                  enableTextAnimation={false}
+                  enableRipple={false}
                   tabIndex={isActive ? 0 : -1}
                 >
                   {CompanyLogos[company]({ 
                     isActive, 
                     color: isActive ? testimonial.logoColor : 'text-gray-400' 
                   })}
-                </button>
+                </Button>
               )
             })}
           </div>

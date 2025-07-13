@@ -6,13 +6,10 @@
   left: 0;
   right: 0;
   z-index: 1000; /* Higher z-index to ensure it stays above content */
-  /* Pure glassmorphism - no background, just blur effect to show hero gradient behind */
-  background: rgba(255, 255, 255, 0.85); /* Add slight background for better visibility */
-  backdrop-filter: blur(20px) saturate(120%); /* Enhanced blur for glassmorphism */
-  -webkit-backdrop-filter: blur(20px) saturate(120%); /* Safari support */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Very subtle shadow */
-  padding: 0.84rem 0; /* Reduced by 16% from 1rem */
+  background: rgba(255, 255, 255, 0.9); /* White with transparency */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%); /* Soft shadow with slight blue tint */
+  padding: 0.84rem 0;
   transition: all var(--animation-duration-normal) var(--animation-easing-ease);
 }
 
@@ -152,22 +149,11 @@
 /* Mobile hamburger menu button - hidden by default */
 .mobileMenuButton {
   display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.75rem;
   z-index: 1002; /* Higher than mobile menu */
-  border-radius: 8px;
-  transition: background-color 0.2s ease;
-}
-
-.mobileMenuButton:hover {
-  background: rgba(186, 148, 255, 0.1);
-}
-
-.mobileMenuButton:focus {
-  outline: 2px solid var(--colors-primary-300);
-  outline-offset: 2px;
+  /* Remove conflicting styles since Button component handles these */
+  min-width: 44px !important; /* Override Button component min-width */
+  padding: 0.75rem !important; /* Override Button component padding */
+  border-radius: 8px !important; /* Override Button component border-radius */
 }
 
 /* Hamburger icon (css.gg inspired) */
@@ -276,68 +262,16 @@
   font-weight: var(--typography-fontWeight-semibold);
 }
 
-/* CTA Button - Desktop - Clean design */
+/* CTA Button - Desktop - Layout only, styling handled by Button component */
 .ctaButton {
   grid-column: 10 / 13;
   justify-self: end;
-  font-family: var(--typography-fontFamily-primary);
-  background: var(--colors-primary-600);
-  color: white;
-  border: none;
-  padding: var(--spacing-3) var(--spacing-6);
-  border-radius: var(--borderRadius-lg);
-  font-size: var(--typography-fontSize-sm);
-  font-weight: var(--typography-fontWeight-semibold);
-  letter-spacing: var(--typography-letterSpacing-wide);
-  cursor: pointer;
-  transition: all var(--animation-duration-normal) var(--animation-easing-ease);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  white-space: nowrap;
 }
 
-.ctaButton:hover {
-  background: var(--colors-primary-700); /* Darker on hover */
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
-}
-
-.ctaButton:focus {
-  outline: 2px solid var(--colors-primary-300);
-  outline-offset: 2px;
-}
-
-.ctaButton:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Mobile CTA Button - Clean design */
+/* Mobile CTA Button - Layout only, styling handled by Button component */
 .mobileCta {
-  font-family: var(--typography-fontFamily-primary);
-  background: var(--colors-primary-600); /* Solid color instead of gradient */
-  color: white;
-  border: none;
-  padding: var(--spacing-4) var(--spacing-6);
   margin: var(--spacing-4) var(--spacing-6);
-  border-radius: var(--borderRadius-lg);
-  font-size: var(--typography-fontSize-base);
-  font-weight: var(--typography-fontWeight-semibold);
-  letter-spacing: var(--typography-letterSpacing-wide);
-  cursor: pointer;
-  transition: all var(--animation-duration-normal) var(--animation-easing-ease);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   width: calc(100% - var(--spacing-12));
-  text-align: center;
-}
-
-.mobileCta:hover {
-  background: var(--colors-primary-700); /* Darker on hover */
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* Subtle shadow */
-}
-
-.mobileCta:focus {
-  outline: 2px solid rgba(186, 148, 255, 0.8);
-  outline-offset: 2px;
 }
 
 /* ============================================
@@ -490,8 +424,7 @@
   
   .ctaButton {
     grid-column: 10 / 13;
-    padding: 0.625rem 1.25rem;
-    font-size: 0.875rem;
+    /* Removed padding and font-size overrides to let Button component handle styling */
   }
   
   .navLink {
