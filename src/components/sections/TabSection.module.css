@@ -174,7 +174,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-8);
-  padding-right: 40 px;
+  padding-right: 40px;
 }
 
 .leftContentColumn.mobile {
@@ -200,19 +200,100 @@
   height: 280px;
 }
 
+/* ===== NEW IMAGE OPTIMIZATION STYLES ===== */
+
+/* Image container for loading states */
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--colors-background-secondary);
+}
+
+/* Placeholder shown during loading or error states */
+.imagePlaceholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, 
+    var(--colors-background-secondary) 0%, 
+    var(--colors-background-overlay) 50%, 
+    var(--colors-background-secondary) 100%);
+  background-size: 200% 200%;
+  animation: shimmer 2s ease-in-out infinite;
+  z-index: 1;
+}
+
+/* Shimmer animation for loading placeholder */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Loading spinner styles */
+.loadingSpinner {
+  color: var(--colors-text-tertiary);
+  font-size: 14px;
+  font-family: var(--typography-fontFamily-primary);
+  font-weight: var(--typography-fontWeight-normal);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.loadingSpinner::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--colors-border-light);
+  border-top: 2px solid var(--colors-text-tertiary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error message styles */
+.errorMessage {
+  color: var(--colors-text-muted);
+  font-size: 12px;
+  font-family: var(--typography-fontFamily-primary);
+  text-align: center;
+  padding: var(--spacing-4);
+}
+
+/* Updated tab image styles with loading states */
 .tabImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   border-radius: 16px;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease, filter 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.tabImage.loaded {
+  opacity: 1;
 }
 
 .tabImage:hover {
   transform: scale(1.02);
   filter: brightness(1.05);
 }
+
+/* ===== END IMAGE OPTIMIZATION STYLES ===== */
 
 .expandableItemWrapper {
   width: 100%;
@@ -453,7 +534,7 @@
   }
   
   .leftContentColumn {
-    padding-right: 40px
+    padding-right: 40px;
   }
   
   .rightImageColumn {
@@ -534,6 +615,16 @@
   .expandableItemContent {
     font-size: var(--typography-fontSize-base);
   }
+  
+  /* Mobile loading states */
+  .loadingSpinner {
+    font-size: 12px;
+  }
+  
+  .loadingSpinner::before {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 /* Small Mobile - up to 480px */
@@ -593,6 +684,12 @@
     filter: none;
   }
   
+  /* Disable animations for reduced motion */
+  .shimmer,
+  .loadingSpinner::before {
+    animation: none !important;
+  }
+  
   @keyframes dropdownSlide {
     from { opacity: 1; transform: none; }
     to { opacity: 1; transform: none; }
@@ -622,6 +719,16 @@
   .expandableItemSeparator {
     outline-width: 1px;
     outline-color: currentColor;
+  }
+  
+  /* High contrast loading states */
+  .imagePlaceholder {
+    background: var(--colors-background-primary);
+    border: 2px solid var(--colors-border-light);
+  }
+  
+  .loadingSpinner {
+    color: var(--colors-text-primary);
   }
 }
 
@@ -672,5 +779,15 @@
   
   .rightImageColumn {
     page-break-inside: avoid;
+  }
+  
+  /* Hide loading states in print */
+  .imagePlaceholder,
+  .loadingSpinner {
+    display: none !important;
+  }
+  
+  .tabImage {
+    opacity: 1 !important;
   }
 }

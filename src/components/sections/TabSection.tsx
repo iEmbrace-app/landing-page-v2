@@ -20,11 +20,77 @@ const TAB_CONFIG = [
   { key: 'practice-stillness' as TabKey, label: 'Practice Stillness' }
 ]
 
+// Use existing JPEG images for now - can add WebP later when available
+const TAB_IMAGES: Record<TabKey, string> = {
+  'anchor-focus': 'https://embrace-website-images.s3.us-east-2.amazonaws.com/mindful.jpeg',
+  'release-stress': 'https://embrace-website-images.s3.us-east-2.amazonaws.com/stress.jpeg',
+  'enhance-sleep': 'https://embrace-website-images.s3.us-east-2.amazonaws.com/sleep.jpeg',
+  'sync-mind-body': 'https://embrace-website-images.s3.us-east-2.amazonaws.com/sync.jpeg',
+  'practice-stillness': 'https://embrace-website-images.s3.us-east-2.amazonaws.com/stillness.jpeg'
+}
+
+const TAB_IMAGE_ALTS: Record<TabKey, string> = {
+  'anchor-focus': 'Mindful meditation and wellness',
+  'release-stress': 'Stress relief and relaxation techniques',
+  'enhance-sleep': 'Sleep enhancement and restful meditation',
+  'sync-mind-body': 'Mind-body synchronization and balance',
+  'practice-stillness': 'Stillness practice and deep meditation'
+}
+
 export function TabSection({ isMobile, tabContent }: TabSectionProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('anchor-focus')
   const [expandedItem, setExpandedItem] = useState<string | null>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [imageLoadStates, setImageLoadStates] = useState<Record<TabKey, 'loading' | 'loaded' | 'error'>>({
+    'anchor-focus': 'loading',
+    'release-stress': 'loading',
+    'enhance-sleep': 'loading',
+    'sync-mind-body': 'loading',
+    'practice-stillness': 'loading',
+  })
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const preloadedImagesRef = useRef<Set<TabKey>>(new Set())
+
+  // Initialize loading state for active tab
+  useEffect(() => {
+    if (!imageLoadStates[activeTab]) {
+      setImageLoadStates(prev => ({ ...prev, [activeTab]: 'loading' }))
+    }
+  }, [activeTab, imageLoadStates])
+
+  // Preload images only once on mount
+  useEffect(() => {
+    const preloadImage = (src: string): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        const img = new Image()
+        img.onload = () => resolve()
+        img.onerror = reject
+        img.src = src
+      })
+    }
+
+    const preloadAllImages = async () => {
+      // Preload all images in the background
+      for (const { key } of TAB_CONFIG) {
+        if (!preloadedImagesRef.current.has(key)) {
+          try {
+            await preloadImage(TAB_IMAGES[key])
+            preloadedImagesRef.current.add(key)
+            setImageLoadStates(prev => ({ ...prev, [key]: 'loaded' }))
+          } catch {
+            setImageLoadStates(prev => ({ ...prev, [key]: 'error' }))
+          }
+        }
+      }
+    }
+
+    // Use requestIdleCallback to preload images when browser is idle
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(preloadAllImages)
+    } else {
+      setTimeout(preloadAllImages, 100)
+    }
+  }, []) // Only run once on mount
 
   // Reset expanded item when tab changes
   useEffect(() => {
@@ -51,14 +117,14 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
   const handleTabClick = (tabKey: TabKey) => {
     setActiveTab(tabKey)
     if (isMobile) {
-      setIsDropdownOpen(false) // Close dropdown when tab is selected on mobile
+      setIsDropdownOpen(false)
     }
-    // Remove the immediate setExpandedItem(null) since useEffect handles it
   }
   
   const toggleExpanded = (itemKey: string) => {
     setExpandedItem(prev => prev === itemKey ? null : itemKey)
   }
+  
   const renderExpandableItem = (
     iconSrc: string,
     title: string,
@@ -89,7 +155,43 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
       </div>
     )
   }
+
+  // Simplified image component - no preloading logic here
+  const OptimizedImage = ({ tabKey }: { tabKey: TabKey }) => {
+    const loadState = imageLoadStates[tabKey] || 'loading'
+    
     return (
+      <div className={styles.imageContainer}>
+        {loadState === 'loading' && (
+          <div className={styles.imagePlaceholder}>
+            <div className={styles.loadingSpinner}>Loading...</div>
+          </div>
+        )}
+        
+        {loadState === 'error' && (
+          <div className={styles.imagePlaceholder}>
+            <div className={styles.errorMessage}>Failed to load image</div>
+          </div>
+        )}
+        
+        <img 
+          key={tabKey} // Force re-render when tab changes
+          src={TAB_IMAGES[tabKey]}
+          alt={TAB_IMAGE_ALTS[tabKey]}
+          className={`${styles.tabImage} ${loadState === 'loaded' ? styles.loaded : ''}`}
+          loading="eager"
+          decoding="async"
+          onLoad={() => {
+            setImageLoadStates(prev => ({ ...prev, [tabKey]: 'loaded' }))
+            preloadedImagesRef.current.add(tabKey)
+          }}
+          onError={() => setImageLoadStates(prev => ({ ...prev, [tabKey]: 'error' }))}
+        />
+      </div>
+    )
+  }
+
+  return (
     <div className={`${styles.section} ${isMobile ? styles.mobile : ''}`}>
       <div className={`${styles.sectionContent} ${isMobile ? styles.mobile : ''}`}>
         {/* Header Section */}
@@ -202,12 +304,7 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
             </div>          
             {/* Right image - Columns 7-12 */}
             <div className={`${styles.rightImageColumn} ${isMobile ? styles.mobile : ''}`}>
-              <img 
-                src="https://embrace-website-images.s3.us-east-2.amazonaws.com/mindful.jpeg"
-                alt="Mindful meditation and wellness"
-                className={styles.tabImage}
-                loading="eager"
-              />
+              <OptimizedImage tabKey={activeTab} />
             </div>
           </div>
         </div>
