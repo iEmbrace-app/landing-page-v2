@@ -29,7 +29,7 @@ const testimonials: Testimonial[] = [
     id: 'sarah',
     quote: "This application is saving my life. The body scan brought awareness to tension I didn't realize I was holding.",
     author: {
-      name: 'Clinical Psychologist, Stanford University'
+      name: 'Social Worker'
     },
     accentColor: 'from-violet-600 to-purple-600'
   },
@@ -37,7 +37,7 @@ const testimonials: Testimonial[] = [
     id: 'david',
     quote: "I felt transported to each place. The vivid narration and perfectly-timed vibrations kept me completely immersed in the moment.",
     author: {
-      name: 'Neuroscience Researcher, MIT'
+      name: 'Harvard iLab Security Guard'
     },
     accentColor: 'from-orange-500 to-amber-500'
   },
@@ -45,7 +45,7 @@ const testimonials: Testimonial[] = [
     id: 'emma',
     quote: "After just 2 minutes, I felt noticeably more relaxed. The forest soundscape created an instant sense of calm.",
     author: {
-      name: 'Behavioral Therapist, Johns Hopkins'
+      name: 'Hardware Engineer'
     },
     accentColor: 'from-slate-600 to-zinc-700'
   },
@@ -53,7 +53,7 @@ const testimonials: Testimonial[] = [
     id: 'michael',
     quote: "Fantastic experience! The balance of background sounds with clear guidance creates the perfect meditation environment.",
     author: {
-      name: 'Mindfulness Coach, UCLA'
+      name: 'Harvard PhD Students'
     },
     accentColor: 'from-gray-900 to-black'
   },
@@ -61,7 +61,7 @@ const testimonials: Testimonial[] = [
     id: 'jessica',
     quote: "Amazing how quickly this brings awareness to physical tension. It's become an essential part of my daily practice.",
     author: {
-      name: 'Wellness Director, Columbia University'
+      name: 'Neuroscientist, Harvard University'
     },
     accentColor: 'from-blue-600 to-indigo-600'
   },
@@ -69,7 +69,7 @@ const testimonials: Testimonial[] = [
     id: 'alex',
     quote: "This app transformed how I experience mindfulness. The immersive elements and guided sessions are truly life-changing.",
     author: {
-      name: 'PhD Researcher, Harvard'
+      name: 'Anonymous user'
     },
     accentColor: 'from-indigo-600 to-purple-600'
   },
@@ -77,7 +77,7 @@ const testimonials: Testimonial[] = [
     id: 'maria',
     quote: "The perfect integration of sensory elements. Vibrations, sounds, and visuals work together to create deep meditative states.",
     author: {
-      name: 'Cognitive Scientist, Yale'
+      name: 'Anonymous user'
     },
     accentColor: 'from-emerald-600 to-teal-600'
   },
@@ -85,7 +85,7 @@ const testimonials: Testimonial[] = [
     id: 'robert',
     quote: "Incredible for stress relief. The forest meditation and body scan sessions have revolutionized my approach to wellness.",
     author: {
-      name: 'Psychology Professor, Princeton'
+      name: 'Stressed professional'
     },
     accentColor: 'from-purple-600 to-pink-600'
   }
@@ -196,7 +196,7 @@ export function TestimonialSection({ isMobile }: TestimonialSectionProps) {
           <p className={styles.subtitle} role="text">Trusted by wellness professionals</p>
           <h2 className={styles.title}>What our users are saying</h2>
           <p className={styles.description} role="text">
-            Discover how mindfulness transforms lives through our immersive meditation experience
+            Discover how mindfulness transforms lives through our immersive experience
           </p>
         </header>
 

@@ -14,22 +14,22 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
     {
       id: 1,
       image: "https://embrace-website-images.s3.us-east-2.amazonaws.com/nfc-card-one.png",
-      title: "Gentle Rain & Thunder",
-      artist: "Peaceful Nature Collection",
+      title: "Meditate with Aliens",
+      artist: "Feel Beyond Limitations",
       description: "Immerse yourself in the calming sounds of gentle rainfall and distant thunder"
     },
     {
       id: 2,
       image: "https://embrace-website-images.s3.us-east-2.amazonaws.com/nfc-card-two.png",
-      title: "Forest Meditation",
-      artist: "Woodland Serenity Series",
+      title: "Facing Uncertainty",
+      artist: "Open your heart to the unknown",
       description: "Deep forest ambience with birds chirping and rustling leaves"
     },
     {
       id: 3,
       image: "https://embrace-website-images.s3.us-east-2.amazonaws.com/nfc-card-three.png",
-      title: "Ocean Waves",
-      artist: "Coastal Mindfulness",
+      title: "Mindful Walking",
+      artist: "Feel Each Step",
       description: "Rhythmic ocean waves meeting the shore for ultimate relaxation"
     }
   ]
@@ -85,13 +85,13 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
           {/* Left Side - Content */}
           <div className={`${styles.leftContent} ${isMobile ? styles.mobile : ''}`}>
             <h1 className={`${styles.heading} ${isMobile ? styles.mobile : ''}`}>
-              Experience. See what all the
+              Mindful Gifts for Beloved:
               <br />
-              <span className={styles.headingAccent}>meditation is about!</span>
+              <span className={styles.headingAccent}>Gift Your Mindfulness!</span>
             </h1>
             
             <p className={`${styles.description} ${isMobile ? styles.mobile : ''}`}>
-              We believe the mindfulness community is truly special, made up of talented individuals constantly sharing peaceful soundscapes and meditation techniques.
+              We believe mindfulness can be shared with your loved ones! Each NFC Mindful Card is a physical gateway to a digital moment of peace. Simply tap your phone to the card, watch as a personalized scene launches, and experience mindfulness together — no searching, no setup.
             </p>
 
             <p className={`${styles.subDescription} ${isMobile ? styles.mobile : ''}`}>
@@ -99,13 +99,20 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
             </p>
 
             {/* CTA Button */}
-            <Button 
-              variant="cta" 
-              size={isMobile ? "medium" : "large"}
-              isMobile={isMobile}
+            <a 
+              href="https://n66bxs-8y.myshopify.com/products/mindfulness-nfc-postcard-floating-in-space?utm_source=copyToPasteBoard&utm_medium=product-links&utm_content=web" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none' }}
             >
-              Explore NFC Cards →
-            </Button>
+              <Button 
+                variant="cta" 
+                size={isMobile ? "medium" : "large"}
+                isMobile={isMobile}
+              >
+                Explore NFC Cards →
+              </Button>
+            </a>
           </div>
 
           {/* Right Side - NFC Card Showcase */}

@@ -120,9 +120,15 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
         </div>
 
         {/* Desktop CTA Button */}
-        <button className={styles['cta-button']}>
+        <a
+          href="https://apps.apple.com/us/app/iembraceland/id6740446690"
+          className={styles['cta-button']}
+          aria-label="Download on the App Store"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           <span style={{ position: 'relative', zIndex: 10 }}>Start Free Today</span>
-        </button>
+        </a>
 
         {/* Mobile Hamburger Button */}
         <button

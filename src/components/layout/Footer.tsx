@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import styles from './Footer.module.css'
+import instagramIcon from '../../assets/icons/instagram.png'
 
 export const Footer = () => {
   const [email, setEmail] = useState('')
@@ -63,6 +64,25 @@ export const Footer = () => {
                 </p>
               )}
             </form>
+            <div className={styles.instagramSection}>
+              <span className={styles.instagramText}>Follow us on Instagram</span>
+              <a 
+                href="https://instagram.com/_iembrace_" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className={styles.instagramLink}
+                aria-label="Follow us on Instagram"
+              >
+                <img 
+                  src={instagramIcon} 
+                  alt="Instagram" 
+                  className={styles.instagramIcon} 
+                  width={24} 
+                  height={24} 
+                  style={{ display: 'inline-block' }}
+                />
+              </a>
+            </div>
           </div>
 
           {/* Sitemap Section */}
@@ -95,7 +115,7 @@ export const Footer = () => {
                 />
                 <span className={styles.logoText}>Embraceland</span>
               </div>
-              <p className={styles.copyright}>EMBRACELAND 2025. ALL RIGHTS RESERVED</p>
+              <p className={styles.copyright}>iEMBRACE 2025. ALL RIGHTS RESERVED</p>
             </div>
 
             {/* Credits and Legal */}

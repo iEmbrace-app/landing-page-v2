@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Footer } from './components/layout/Footer'
 import { FloatingNav } from './components/layout/FloatingNav'
 import { HeroSection } from './components/sections/HeroSection'
@@ -14,6 +14,11 @@ import './App.css'
 
 function App() {
   const { isMobile } = useScreenSize()
+
+  // Set browser tab title
+  useEffect(() => {
+    document.title = "Calming Place - The Pause you Deserve";
+  }, []);
 
   // Navigation items for the floating navbar
   const navItems = [

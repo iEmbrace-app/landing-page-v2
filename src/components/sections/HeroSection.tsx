@@ -50,26 +50,33 @@ export function HeroSection({ isMobile }: { isMobile: boolean }) {
             <div className={styles.centeredContent}>
               {/* Main Title */}
               <h1 className={styles.mainTitle}>
-                Companion for Emotional Embracing
+                Your Space for Calm and Care
               </h1>
               {/* Subtitle */}
               <p className={styles.mainSubtitle}>
-                The Stone Elf offers a quiet space to welcome, understand, and grow with every feeling.
+                Here you don't have to do. Just be.
               </p>
               {/* CTA Button */}
-              <Button 
-                variant="cta"
-                size="large"
-                aria-label="Start your wellness journey"
-                enableMotion={true}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.7, duration: 0.4, ease: "easeOut" }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <a 
+                href="https://apps.apple.com/us/app/iembraceland/id6740446690" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none' }}
               >
-                Explore Meditations
-              </Button>
+                <Button 
+                  variant="cta"
+                  size="large"
+                  aria-label="Start your wellness journey"
+                  enableMotion={true}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.7, duration: 0.4, ease: "easeOut" }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Explore Here
+                </Button>
+              </a>
               {/* App Store Buttons - bottom right column */}
               <div className={styles.appButtonsColumn}>
                 <a 
@@ -88,11 +95,14 @@ export function HeroSection({ isMobile }: { isMobile: boolean }) {
                     </div>
                   </div>
                 </a>
-                <a 
-                  href="https://play.google.com/store/apps/details?id=com.embraceland" 
+                <button
+                  type="button"
                   className={styles.appButton}
-                  aria-label="Get it on Google Play"
-                  rel="noopener noreferrer"
+                  aria-label="Google Play coming soon"
+                  title="Coming soon"
+                  tabIndex={0}
+                  style={{ cursor: 'pointer', opacity: 0.6 }}
+                  onClick={e => e.preventDefault()}
                 >
                   <div className={styles.appButtonContent}>
                     <svg className={styles.appIcon} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -103,7 +113,7 @@ export function HeroSection({ isMobile }: { isMobile: boolean }) {
                       <span className={styles.storeText}>Google Play</span>
                     </div>
                   </div>
-                </a>
+                </button>
               </div>
             </div>
           </>
@@ -113,26 +123,33 @@ export function HeroSection({ isMobile }: { isMobile: boolean }) {
             <div className={styles.centeredContent}>
               {/* Main Title */}
               <h1 className={styles.mainTitle}>
-                Companion for Emotional Embracing
+                Your Space for Calm and Care
               </h1>
               {/* Subtitle */}
               <p className={styles.mainSubtitle}>
-                The Stone Elf offers a quiet space to welcome, understand, and grow with every feeling.
+                Here you don't have to do. Just be.
               </p>
               {/* CTA Button */}
-              <Button 
-                variant="cta"
-                size="large"
-                aria-label="Start your wellness journey"
-                enableMotion={true}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.8, duration: 0.4, ease: "easeOut" }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <a 
+                href="https://apps.apple.com/us/app/iembraceland/id6740446690" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none' }}
               >
-                Explore Meditations
-              </Button>
+                <Button 
+                  variant="cta"
+                  size="large"
+                  aria-label="Start your wellness journey"
+                  enableMotion={true}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.8, duration: 0.4, ease: "easeOut" }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Explore Here
+                </Button>
+              </a>
               {/* App Store Buttons - bottom right column */}
               <div className={styles.appButtonsColumn}>
                 <a 

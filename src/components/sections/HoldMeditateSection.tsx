@@ -16,11 +16,11 @@ export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
           {/* Header Section - positioned on right side (columns 7-12) */}
           <div className={styles.headerSection}>
             <div className={`gradient-text-primary ${styles.mainTitle} ${isMobile ? styles.mainTitleMobile : styles.mainTitleDesktop}`}>
-              All you need to do is hold it and meditate
+              Just hold it and let yourself feel
             </div>
             
             <div className={styles.description}>
-              Root responds to your presence with dynamic sensory feedback designed to calm the nervous system. It creates a meditative space that adapts to your body — no screens, just pure immersion.
+              iEmbraceland provides soothing haptic feedback that helps you reconnect with calm, one vibration at a time
             </div>
           </div>
         </div>
