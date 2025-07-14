@@ -1,20 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { HiArrowRight } from 'react-icons/hi2'
-import { Button } from '../ui'
 import styles from './TestimonialSection.module.css'
 
 // Types
 interface Testimonial {
   id: string
-  company: string
   quote: string
   author: {
     name: string
-    role: string
-    avatar: string
   }
   accentColor: string
-  logoColor: string
 }
 
 interface TestimonialSectionProps {
@@ -25,7 +19,7 @@ interface TestimonialSectionProps {
 const CAROUSEL_SETTINGS = {
   AUTO_PLAY_INTERVAL: 6000,
   PAUSE_DURATION: 10000,
-  DEFAULT_ACTIVE_INDEX: 3, // Start with Dr. Michael Park
+  DEFAULT_ACTIVE_INDEX: 3,
   CARDS_PER_VIEW: 5
 }
 
@@ -33,231 +27,69 @@ const CAROUSEL_SETTINGS = {
 const testimonials: Testimonial[] = [
   {
     id: 'sarah',
-    company: 'Mindful Corp',
-    quote: "This meditation app transformed our workplace wellness program. Employee stress levels decreased by 40% and productivity soared. The guided breathing exercises are phenomenal.",
+    quote: "This application is saving my life. The body scan brought awareness to tension I didn't realize I was holding.",
     author: {
-      name: 'Sarah Mitchell',
-      role: 'Wellness Director',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sarah&backgroundColor=e9d5ff&mouth=smile&eyebrows=default&eyes=happy'
+      name: 'Clinical Psychologist, Stanford University'
     },
-    accentColor: 'from-violet-600 to-purple-600',
-    logoColor: 'text-violet-600'
+    accentColor: 'from-violet-600 to-purple-600'
   },
   {
     id: 'david',
-    company: 'Zen Studios',
-    quote: "I've tried countless meditation apps, but this one truly understands mindfulness. The ASMR elements and nature sounds create the perfect atmosphere for deep meditation sessions.",
+    quote: "I felt transported to each place. The vivid narration and perfectly-timed vibrations kept me completely immersed in the moment.",
     author: {
-      name: 'David Chen',
-      role: 'Meditation Instructor',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=david&backgroundColor=fed7aa&mouth=smile&eyebrows=default&eyes=happy'
+      name: 'Neuroscience Researcher, MIT'
     },
-    accentColor: 'from-orange-500 to-amber-500',
-    logoColor: 'text-orange-600'
+    accentColor: 'from-orange-500 to-amber-500'
   },
   {
     id: 'emma',
-    company: 'Wellness First',
-    quote: "The hold and meditate feature is revolutionary. My anxiety has significantly reduced, and I sleep better than I have in years. This app is a game-changer for mental health.",
+    quote: "After just 2 minutes, I felt noticeably more relaxed. The forest soundscape created an instant sense of calm.",
     author: {
-      name: 'Emma Rodriguez',
-      role: 'Therapist & Life Coach',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=emma&backgroundColor=e0e7ff&mouth=smile&eyebrows=default&eyes=happy'
+      name: 'Behavioral Therapist, Johns Hopkins'
     },
-    accentColor: 'from-slate-600 to-zinc-700',
-    logoColor: 'text-slate-700'
+    accentColor: 'from-slate-600 to-zinc-700'
   },
   {
     id: 'michael',
-    company: 'Balance Health',
-    quote: "As a healthcare professional, I recommend this app to all my patients. The science-backed breathing techniques and calming environments deliver real therapeutic benefits.",
+    quote: "Fantastic experience! The balance of background sounds with clear guidance creates the perfect meditation environment.",
     author: {
-      name: 'Dr. Michael Park',
-      role: 'Clinical Psychologist',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=michael&backgroundColor=f3f4f6&mouth=smile&eyebrows=default&eyes=happy'
+      name: 'Mindfulness Coach, UCLA'
     },
-    accentColor: 'from-gray-900 to-black',
-    logoColor: 'text-black'
+    accentColor: 'from-gray-900 to-black'
   },
   {
     id: 'jessica',
-    company: 'Inner Peace Co',
-    quote: "The immersive video backgrounds transport me to tranquil places instantly. Combined with the ambient sounds, it's like having a personal retreat center in my pocket.",
+    quote: "Amazing how quickly this brings awareness to physical tension. It's become an essential part of my daily practice.",
     author: {
-      name: 'Jessica Kumar',
-      role: 'Mindfulness Coach',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=jessica&backgroundColor=dbeafe&mouth=smile&eyebrows=default&eyes=happy'
+      name: 'Wellness Director, Columbia University'
     },
-    accentColor: 'from-blue-600 to-indigo-600',
-    logoColor: 'text-blue-600'
+    accentColor: 'from-blue-600 to-indigo-600'
   },
   {
     id: 'alex',
-    company: 'Calm Collective',
-    quote: "This app helped me establish a consistent meditation practice. The gentle guidance and beautiful visuals make mindfulness accessible to everyone, regardless of experience level.",
+    quote: "This app transformed how I experience mindfulness. The immersive elements and guided sessions are truly life-changing.",
     author: {
-      name: 'Alex Thompson',
-      role: 'Corporate Trainer',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=alex&backgroundColor=c7d2fe&mouth=smile&eyebrows=default&eyes=happy'
+      name: 'PhD Researcher, Harvard'
     },
-    accentColor: 'from-indigo-600 to-purple-600',
-    logoColor: 'text-indigo-600'
+    accentColor: 'from-indigo-600 to-purple-600'
   },
   {
     id: 'maria',
-    company: 'Serenity Labs',
-    quote: "The integration of technology and mindfulness is seamless. My clients love the app's intuitive design and the profound sense of calm it brings to their daily routines.",
+    quote: "The perfect integration of sensory elements. Vibrations, sounds, and visuals work together to create deep meditative states.",
     author: {
-      name: 'Maria Santos',
-      role: 'UX Researcher',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=maria&backgroundColor=a7f3d0&mouth=smile&eyebrows=default&eyes=happy'
+      name: 'Cognitive Scientist, Yale'
     },
-    accentColor: 'from-emerald-600 to-teal-600',
-    logoColor: 'text-emerald-600'
+    accentColor: 'from-emerald-600 to-teal-600'
   },
   {
     id: 'robert',
-    company: 'Mindspace',
-    quote: "After years of high-stress work, this app taught me how to find moments of peace throughout my day. The breathing exercises are scientifically sound and incredibly effective.",
+    quote: "Incredible for stress relief. The forest meditation and body scan sessions have revolutionized my approach to wellness.",
     author: {
-      name: 'Robert Lee',
-      role: 'Executive & Entrepreneur',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=robert&backgroundColor=fde68a&mouth=smile&eyebrows=default&eyes=happy'
+      name: 'Psychology Professor, Princeton'
     },
-    accentColor: 'from-purple-600 to-pink-600',
-    logoColor: 'text-purple-600'
+    accentColor: 'from-purple-600 to-pink-600'
   }
 ]
-
-// Company navigation logos
-const CompanyLogos: Record<string, (props: { isActive?: boolean; color?: string }) => JSX.Element> = {
-  sarah: ({ color = 'text-gray-400' }) => (
-    <span className={`${color} font-medium tracking-[0.08em] text-[13px] transition-all duration-500`} style={{ fontFamily: 'Source Sans Pro, -apple-system, BlinkMacSystemFont, sans-serif' }}>
-      Mindful Corp
-    </span>
-  ),
-  david: ({ color = 'text-gray-400' }) => (
-    <div className="flex items-center gap-1.5">
-      <div className="flex gap-[3px]">
-        {[1, 2, 3].map((i) => (
-          <div 
-            key={i} 
-            className={`w-1 h-1 rounded-full ${color === 'text-gray-400' ? 'bg-gray-400' : 'bg-orange-500'} transition-all duration-500`}
-          />
-        ))}
-      </div>
-      <span className={`${color} font-medium text-[13px] transition-all duration-500`} style={{ fontFamily: 'Source Sans Pro, -apple-system, BlinkMacSystemFont, sans-serif' }}>
-        Zen Studios
-      </span>
-    </div>
-  ),
-  emma: ({ color = 'text-gray-400' }) => (
-    <span className={`${color} font-light text-[13px] tracking-wide transition-all duration-500`} style={{ fontFamily: 'Source Sans Pro, -apple-system, BlinkMacSystemFont, sans-serif' }}>
-      Wellness First
-    </span>
-  ),
-  michael: ({ color = 'text-gray-400' }) => (
-    <div className="flex items-center gap-1.5">
-      <div className={`w-3 h-3 rounded-full ${color === 'text-gray-400' ? 'bg-gray-400' : 'bg-gray-900'} transition-all duration-500`} />
-      <span className={`${color} font-medium text-[13px] transition-all duration-500`} style={{ fontFamily: 'Source Sans Pro, -apple-system, BlinkMacSystemFont, sans-serif' }}>
-        Balance Health
-      </span>
-    </div>
-  ),
-  jessica: ({ color = 'text-gray-400' }) => (
-    <div className="flex items-center gap-1">
-      <span className={`${color === 'text-gray-400' ? 'text-gray-400' : 'text-blue-600'} font-bold text-[15px] transition-all duration-500`} style={{ fontFamily: 'Source Sans Pro, -apple-system, BlinkMacSystemFont, sans-serif' }}>
-        ○
-      </span>
-      <span className={`${color} font-medium text-[13px] transition-all duration-500`} style={{ fontFamily: 'Source Sans Pro, -apple-system, BlinkMacSystemFont, sans-serif' }}>
-        Inner Peace Co
-      </span>
-    </div>
-  ),
-  alex: ({ color = 'text-gray-400' }) => (
-    <span className={`${color} font-medium tracking-[0.08em] text-[13px] transition-all duration-500`} style={{ fontFamily: 'Source Sans Pro, -apple-system, BlinkMacSystemFont, sans-serif' }}>
-      Calm Collective
-    </span>
-  ),
-  maria: ({ color = 'text-gray-400' }) => (
-    <span className={`${color} font-medium text-[13px] transition-all duration-500`} style={{ fontFamily: 'Source Sans Pro, -apple-system, BlinkMacSystemFont, sans-serif' }}>
-      Serenity Labs
-    </span>
-  ),
-  robert: ({ color = 'text-gray-400' }) => (
-    <span className={`${color} font-medium text-[13px] tracking-wide transition-all duration-500`} style={{ fontFamily: 'Source Sans Pro, -apple-system, BlinkMacSystemFont, sans-serif' }}>
-      Mindspace
-    </span>
-  )
-}
-
-// Card logos with elegant styling
-const CardLogo = ({ company }: { company: string }) => {
-  const logos: Record<string, JSX.Element> = {
-    sarah: (
-      <span className="text-[28px] font-semibold tracking-[0.02em] text-gray-900">
-        MINDFUL CORP
-      </span>
-    ),
-    david: (
-      <div className="flex items-center gap-2.5">
-        <div className="flex gap-1.5">
-          {[1, 2, 3].map((i) => (
-            <div 
-              key={i} 
-              className="w-2 h-2 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full" 
-            />
-          ))}
-        </div>
-        <span className="text-[28px] font-semibold text-gray-900 tracking-tight">
-          Zen Studios
-        </span>
-      </div>
-    ),
-    emma: (
-      <span className="text-[28px] font-light text-gray-900 tracking-wide">
-        Wellness First
-      </span>
-    ),
-    michael: (
-      <div className="flex items-center gap-2.5">
-        <div className="w-7 h-7 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full" />
-        <span className="text-[28px] font-semibold text-gray-900 tracking-tight">
-          Balance Health
-        </span>
-      </div>
-    ),
-    jessica: (
-      <div className="flex items-center gap-2">
-        <span className="text-[32px] font-bold text-blue-600">○</span>
-        <span className="text-[28px] font-semibold text-gray-900 tracking-tight">
-          Inner Peace Co
-        </span>
-      </div>
-    ),
-    alex: (
-      <span className="text-[28px] font-semibold tracking-[0.04em] text-gray-900">
-        CALM COLLECTIVE
-      </span>
-    ),
-    maria: (
-      <span className="text-[28px] font-semibold text-gray-900 tracking-tight">
-        Serenity Labs
-      </span>
-    ),
-    robert: (
-      <span className="text-[28px] font-semibold text-gray-900 tracking-tight">
-        Mindspace
-      </span>
-    )
-  }
-  
-  return logos[company.toLowerCase()] || (
-    <span className="text-[28px] font-semibold text-gray-900">
-      {company}
-    </span>
-  )
-}
 
 export function TestimonialSection({ isMobile }: TestimonialSectionProps) {
   const [activeIndex, setActiveIndex] = useState(CAROUSEL_SETTINGS.DEFAULT_ACTIVE_INDEX)
@@ -303,31 +135,6 @@ export function TestimonialSection({ isMobile }: TestimonialSectionProps) {
       setTimeout(() => setIsPaused(false), CAROUSEL_SETTINGS.PAUSE_DURATION)
     }
   }, [activeIndex])
-  
-  // Get visible companies for navigation - always center the active company
-  const getVisibleCompanies = () => {
-    const allCompanies = testimonials.map(t => t.id)
-    const totalCompanies = allCompanies.length
-    const cardsPerView = CAROUSEL_SETTINGS.CARDS_PER_VIEW
-    const centerOffset = Math.floor(cardsPerView / 2) // This will be 2 for 5 cards
-    
-    // Calculate start position to center the active company
-    let start = activeIndex - centerOffset
-    let end = start + cardsPerView
-    
-    // Handle edge cases - if we're at the beginning or end
-    if (start < 0) {
-      start = 0
-      end = Math.min(cardsPerView, totalCompanies)
-    } else if (end > totalCompanies) {
-      end = totalCompanies
-      start = Math.max(0, end - cardsPerView)
-    }
-    
-    return allCompanies.slice(start, end)
-  }
-
-  const visibleCompanies = getVisibleCompanies()
 
   // Calculate 3D card positioning and styling
   const getCardStyle = (index: number) => {
@@ -422,11 +229,9 @@ export function TestimonialSection({ isMobile }: TestimonialSectionProps) {
 
         {/* Navigation */}
         <NavigationSection
-          testimonials={testimonials}
           activeIndex={activeIndex}
-          visibleCompanies={visibleCompanies}
-          isMobile={isMobile}
-          onCardClick={handleCardClick}
+          totalCount={testimonials.length}
+          onDotClick={handleCardClick}
         />
       </div>
     </section>
@@ -444,12 +249,6 @@ interface TestimonialCardProps {
 }
 
 function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick, cardIndex }: TestimonialCardProps) {
-  const [imageError, setImageError] = useState(false)
-  
-  const handleImageError = () => {
-    setImageError(true)
-  }
-  
   return (
     <article
       className={`${styles.card} ${cardStyle.className}`}
@@ -462,7 +261,7 @@ function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick, 
       }}
       role="tabpanel"
       id={`testimonial-${cardIndex}`}
-      aria-label={`Testimonial from ${testimonial.author.name} at ${testimonial.company}`}
+      aria-label={`Testimonial ${cardIndex + 1}`}
     >
       <div 
         className={`${styles.cardContent} ${
@@ -483,11 +282,6 @@ function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick, 
         <div className={`${styles.cardAccent} bg-gradient-to-r ${testimonial.accentColor}`} aria-hidden="true" />
         
         <div className={styles.cardBody}>
-          {/* Company Logo */}
-          <div className={styles.logoContainer}>
-            <CardLogo company={testimonial.id} />
-          </div>
-
           {/* Quote */}
           <blockquote className={styles.quote}>
             "{testimonial.quote}"
@@ -495,48 +289,7 @@ function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick, 
 
           {/* Author section */}
           <div className={styles.authorSection}>
-            <div className={styles.authorInfo}>
-              <div className={styles.avatarContainer}>
-                {!imageError ? (
-                  <img 
-                    src={testimonial.author.avatar}
-                    alt={`Profile photo of ${testimonial.author.name}`}
-                    className={styles.avatar}
-                    loading="lazy"
-                    decoding="async"
-                    onError={handleImageError}
-                  />
-                ) : (
-                  <div 
-                    className={styles.avatar}
-                    style={{ backgroundColor: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                    aria-label={`Profile photo of ${testimonial.author.name} (unavailable)`}
-                  >
-                    <span style={{ fontSize: '18px', color: '#9ca3af' }}>
-                      {testimonial.author.name.charAt(0)}
-                    </span>
-                  </div>
-                )}
-                <div className={styles.avatarRing} aria-hidden="true" />
-              </div>
-              <div className={styles.authorDetails}>
-                <p className={styles.authorName}>{testimonial.author.name}</p>
-                <p className={styles.authorRole}>{testimonial.author.role}</p>
-              </div>
-            </div>
-            
-            {isActive && (
-              <Button 
-                variant="ghost"
-                size="small"
-                className={styles.readMoreBtn}
-                aria-label={`Read more about ${testimonial.author.name}'s testimonial`}
-                enableTextAnimation={false}
-              >
-                Read more
-                <HiArrowRight className={styles.readMoreIcon} aria-hidden="true" />
-              </Button>
-            )}
+            <p className={styles.authorName}>— {testimonial.author.name}</p>
           </div>
         </div>
       </div>
@@ -546,63 +299,40 @@ function TestimonialCard({ testimonial, cardStyle, isActive, isMobile, onClick, 
 
 // Navigation Section Component
 interface NavigationSectionProps {
-  testimonials: Testimonial[]
   activeIndex: number
-  visibleCompanies: string[]
-  isMobile?: boolean
-  onCardClick: (index: number) => void
+  totalCount: number
+  onDotClick: (index: number) => void
 }
 
 function NavigationSection({ 
-  testimonials, 
   activeIndex, 
-  visibleCompanies, 
-  isMobile, 
-  onCardClick 
+  totalCount,
+  onDotClick 
 }: NavigationSectionProps) {
   return (
     <nav className={styles.navigation} role="tablist" aria-label="Testimonial navigation">
-      {!isMobile && (
-        <>
-          {/* Company logos */}
-          <div className={styles.companyLogos}>
-            {/* Left fade overlay */}
-            <div className={styles.fadeOverlayLeft} aria-hidden="true"></div>
-            {/* Right fade overlay */}
-            <div className={styles.fadeOverlayRight} aria-hidden="true"></div>
-            
-            {visibleCompanies.map((company) => {
-              const companyIndex = testimonials.findIndex(t => t.id === company)
-              const isActive = companyIndex === activeIndex
-              const testimonial = testimonials[companyIndex]
-              
-              return (
-                <Button
-                  variant="ghost"
-                  size="medium"
-                  key={company}
-                  onClick={() => onCardClick(companyIndex)}
-                  className={`${styles.companyLogo} ${
-                    isActive ? styles.companyLogoActive : styles.companyLogoInactive
-                  }`}
-                  role="tab"
-                  aria-selected={isActive}
-                  aria-controls={`testimonial-${companyIndex}`}
-                  aria-label={`View ${testimonial.company} testimonial from ${testimonial.author.name}`}
-                  enableTextAnimation={false}
-                  enableRipple={false}
-                  tabIndex={isActive ? 0 : -1}
-                >
-                  {CompanyLogos[company]({ 
-                    isActive, 
-                    color: isActive ? testimonial.logoColor : 'text-gray-400' 
-                  })}
-                </Button>
-              )
-            })}
-          </div>
-        </>
-      )}
+      {/* Dot navigation */}
+      <div className={styles.dotNavigation}>
+        {Array.from({ length: totalCount }).map((_, index) => {
+          const isActive = index === activeIndex
+          
+          return (
+            <button
+              key={index}
+              onClick={() => onDotClick(index)}
+              className={`${styles.dot} ${
+                isActive ? styles.dotActive : styles.dotInactive
+              }`}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls={`testimonial-${index}`}
+              aria-label={`Go to testimonial ${index + 1}`}
+              tabIndex={isActive ? 0 : -1}
+            >
+            </button>
+          )
+        })}
+      </div>
     </nav>
   )
 }
