@@ -3,13 +3,13 @@
 
 /* Floating Navigation */
 .floating-nav {
-  /* Transparent background with glassmorphism */
-  background: transparent;
+  /* White background with glassmorphism */
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   
-  /* Purple gradient border with proper border-radius support */
-  border: 2px solid transparent;
+  /* Purple gradient border */
+  border: 2px solid rgba(131, 78, 166, 0.2);
   border-radius: 50px;
   
   /* Fixed positioning */
@@ -34,10 +34,10 @@
   /* Default visible state */
   opacity: 1;
   
-  /* Minimal shadow */
+  /* Purple shadow */
   box-shadow: 
-    0 1px 2px 0 rgba(0, 0, 0, 0.03),
-    0 4px 30px rgba(191, 130, 217, 0.04);
+    0 1px 2px 0 rgba(131, 78, 166, 0.1),
+    0 4px 30px rgba(191, 130, 217, 0.15);
 }
 
 /* Animation States */
@@ -53,11 +53,12 @@
 
 /* Enhanced state on scroll */
 .floating-nav.scrolled {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(131, 78, 166, 0.3);
   box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.06),
-    0 2px 4px -2px rgba(0, 0, 0, 0.06),
-    0 4px 30px rgba(191, 130, 217, 0.06);
+    0 4px 6px -1px rgba(131, 78, 166, 0.1),
+    0 2px 4px -2px rgba(131, 78, 166, 0.1),
+    0 4px 30px rgba(191, 130, 217, 0.2);
 }
 
 /* Logo Styles */
@@ -118,8 +119,8 @@
 }
 
 .nav-item:hover {
-  color: #4F2C73;
-  background: rgba(191, 130, 217, 0.08);
+  color: #834EA6;
+  background: rgba(191, 130, 217, 0.1);
   transform: translateY(-1px);
 }
 
@@ -133,11 +134,11 @@
   margin-left: 32px;
   padding: 10px 24px;
   border-radius: 30px;
-  background: rgba(191, 130, 217, 0.08);
+  background: rgba(191, 130, 217, 0.1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(191, 130, 217, 0.15);
-  color: #6865BF;
+  border: 1px solid rgba(191, 130, 217, 0.2);
+  color: #834EA6;
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 500;
   font-size: 14px;
@@ -158,7 +159,7 @@
   border-color: #834EA6;
   color: white;
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(131, 78, 166, 0.15);
+  box-shadow: 0 4px 20px rgba(131, 78, 166, 0.2);
 }
 
 /* Hamburger Menu Button - Hidden by default */
@@ -224,15 +225,16 @@
   width: 80%;
   max-width: 400px;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-left: 2px solid;
-  border-image: linear-gradient(135deg, #D6C9F2, #CCBBF2, #BF82D9, #834EA6) 1;
+  border-left: 2px solid rgba(131, 78, 166, 0.2);
   z-index: 1001;
   transition: right 0.3s ease;
   padding: 80px 20px 20px 20px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .mobile-menu.open {
@@ -261,19 +263,19 @@
 }
 
 .mobile-menu-item:hover {
-  background: rgba(191, 130, 217, 0.08);
-  border-color: rgba(191, 130, 217, 0.15);
-  color: #4F2C73;
+  background: rgba(191, 130, 217, 0.1);
+  border-color: rgba(191, 130, 217, 0.2);
+  color: #6865BF;
 }
 
 .mobile-cta-button {
   width: 100%;
   padding: 16px 24px;
   border-radius: 25px;
-  background: rgba(191, 130, 217, 0.08);
+  background: rgba(191, 130, 217, 0.1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(191, 130, 217, 0.15);
+  border: 1px solid rgba(191, 130, 217, 0.2);
   color: #834EA6;
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 500;
@@ -284,6 +286,7 @@
   text-align: center;
   text-decoration: none;
   display: block;
+  margin-bottom: 40px;
 }
 
 .mobile-cta-button:hover {
@@ -291,7 +294,43 @@
   border-color: #834EA6;
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(131, 78, 166, 0.15);
+  box-shadow: 0 4px 20px rgba(131, 78, 166, 0.2);
+}
+
+/* Mobile Menu Footer */
+.mobile-menu-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid rgba(191, 130, 217, 0.2);
+}
+
+.mobile-menu-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.mobile-menu-company-name {
+  color: #834EA6;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.mobile-menu-tagline {
+  color: #6865BF;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  opacity: 0.8;
 }
 
 /* Tablet Styles (768px - 1024px) */
@@ -321,9 +360,8 @@
 @media (max-width: 768px) {
   .floating-nav {
     padding: 8px 20px;
-    width: calc(100vw - 24px);
+    width: calc(100vw - 40px);
     max-width: none;
-    margin: 0 12px;
     border-radius: 40px;
   }
   
@@ -358,8 +396,7 @@
 @media (max-width: 480px) {
   .floating-nav {
     padding: 6px 16px;
-    width: calc(100vw - 20px);
-    margin: 0 10px;
+    width: calc(100vw - 32px);
     border-radius: 30px;
   }
   
@@ -386,73 +423,12 @@
     padding: 14px 20px;
     font-size: 15px;
   }
-}
-
-/* Dark Theme Support */
-@media (prefers-color-scheme: dark) {
-  .floating-nav {
-    background: transparent;
-    box-shadow: 
-      0 1px 2px 0 rgba(0, 0, 0, 0.3),
-      0 4px 30px rgba(191, 130, 217, 0.1);
+  
+  .mobile-menu-company-name {
+    font-size: 18px;
   }
   
-  .floating-nav.scrolled {
-    background: rgba(0, 0, 0, 0.05);
-  }
-  
-  .logo-text,
-  .nav-item {
-    color: #6865BF;
-  }
-  
-  .logo-icon {
-    color: #6865BF;
-  }
-  
-  .nav-item:hover {
-    color: #6865BF;
-    background: rgba(191, 130, 217, 0.1);
-  }
-  
-  .cta-button {
-    background: rgba(191, 130, 217, 0.15);
-    border-color: rgba(191, 130, 217, 0.25);
-    color: #6865BF;
-  }
-  
-  .cta-button:hover {
-    background: #BF82D9;
-    border-color: #BF82D9;
-    color: #1a1a1a;
-  }
-  
-  .hamburger-line {
-    background-color: #BF82D9;
-  }
-  
-  .mobile-menu {
-    background: rgba(20, 20, 20, 0.95);
-  }
-  
-  .mobile-menu-item {
-    color: #BF82D9;
-  }
-  
-  .mobile-menu-item:hover {
-    color: #D6C9F2;
-    background: rgba(191, 130, 217, 0.1);
-  }
-  
-  .mobile-cta-button {
-    background: rgba(191, 130, 217, 0.15);
-    border-color: rgba(191, 130, 217, 0.25);
-    color: #BF82D9;
-  }
-  
-  .mobile-cta-button:hover {
-    background: #BF82D9;
-    border-color: #BF82D9;
-    color: #1a1a1a;
+  .mobile-menu-tagline {
+    font-size: 13px;
   }
 }

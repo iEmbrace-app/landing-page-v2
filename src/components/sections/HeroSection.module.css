@@ -199,8 +199,8 @@
   text-align: center; /* Center text */
   gap: var(--spacing-componentGap, 24px);
   max-width: 800px;
-  margin: 0;
-  padding: 0;
+  margin: 0 auto;
+  padding: 0 var(--spacing-8);
 }
 
 /* New main title style for subtitle */
@@ -281,30 +281,37 @@
 
 /* CTA Button - Optimized */
 .ctaButton {
-  background: var(--colors-background-elevated, #fff);
-  border: 4px solid rgba(180, 160, 220, 0.6);
-  box-shadow: none;
-  color: var(--colors-text-primary, #333);
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(106, 76, 147, 0.3);
+  box-shadow: 0 4px 20px rgba(106, 76, 147, 0.1);
+  color: #6A4C93;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
   padding: var(--spacing-4, 16px) var(--spacing-12, 48px);
   border-radius: 50px;
   cursor: pointer;
   letter-spacing: 0px;
-  transition: letter-spacing 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              border-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   margin: 0 0 40px 0;
   position: relative;
   overflow: hidden;
   min-width: 44px;
   min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
 }
 
 .ctaButton:hover {
-  border-color: rgba(151, 134, 185, 0.8);
+  background: rgba(106, 76, 147, 0.9);
+  border-color: rgba(106, 76, 147, 0.8);
+  color: white;
   letter-spacing: 1.2px;
-  color: rgba(70, 50, 90, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(106, 76, 147, 0.2);
 }
 
 .ctaButton:focus {
@@ -364,27 +371,30 @@
 .appIcon {
   width: 24px;
   height: 24px;
-  color: rgba(120, 105, 135, 0.85);
+  color: #6A4C93;
+  opacity: 0.8;
 }
 
 .appButtonText {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  color: rgba(120, 105, 135, 0.85);
+  color: #6A4C93;
 }
 
 .downloadText {
   font-size: 0.75rem;
   font-weight: 400;
-  opacity: 0.8;
+  opacity: 0.7;
   line-height: 1;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .storeText {
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.2;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 /* Layout Components - Using 12-column grid */
@@ -482,36 +492,112 @@
     text-align: center;
   }
 
-  /* CTA Button Mobile */
+  /* CTA Button Mobile - Fixed styling */
   .ctaButton {
     order: 3;
-    margin: 1.5rem auto; /* Center the button with auto margins */
-    padding: 18px 36px; /* Increased height with more vertical padding */
-    font-size: 1rem;
+    margin: 2rem auto 1.5rem auto; /* Center the button with auto margins */
+    padding: 20px 24px; /* Further reduced horizontal padding */
+    font-size: 0.9rem; /* Smaller font to fit text */
+    font-weight: 600;
     animation: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: auto;
-    max-width: 280px; /* Limit width for better mobile appearance */
-    min-height: 56px; /* Ensure minimum touch target height */
+    width: auto; 
+    min-width: 220px; /* Ensure minimum width for full text */
+    min-height: 60px; /* Consistent height */
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid rgba(106, 76, 147, 0.3);
+    box-shadow: 0 4px 20px rgba(106, 76, 147, 0.15);
+    color: #6A4C93;
+    backdrop-filter: blur(10px);
+    letter-spacing: 0px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    white-space: nowrap;
+    overflow: hidden;
   }
 
-  /* App Buttons Mobile */
+  .ctaButton:hover {
+    background: rgba(106, 76, 147, 0.9);
+    border-color: rgba(106, 76, 147, 0.8);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(106, 76, 147, 0.2);
+  }
+
+  /* App Buttons Mobile - Fixed styling with glassmorphism */
   .appButtonsColumn {
     position: static;
     right: auto;
     bottom: auto;
     margin-top: 1rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.8rem;
+    gap: 1rem;
+    grid-column: 1 / -1;
   }
 
   .appButton {
-    width: 90%;
-    max-width: 280px;
-    padding: 0.8rem 1.2rem;
+    width: 100%;
+    max-width: 300px; /* Match CTA button width */
+    min-height: 56px; /* Consistent height */
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(240, 235, 255, 0.1) 50%,
+      rgba(230, 220, 255, 0.12) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .appButton:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .appButtonContent {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    justify-content: center;
+  }
+
+  .appIcon {
+    width: 28px;
+    height: 28px;
+    color: rgba(120, 105, 135, 0.85);
+  }
+
+  .appButtonText {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: rgba(120, 105, 135, 0.85);
+  }
+
+  .downloadText {
+    font-size: 0.8rem;
+    font-weight: 400;
+    opacity: 0.7;
+    line-height: 1;
+  }
+
+  .storeText {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.2;
   }
 
   /* Remove floating animations on mobile */
@@ -540,10 +626,40 @@
 
   /* CTA Button for small mobile */
   .ctaButton {
-    padding: 20px 64px; /* Slightly smaller but still tall */
-    font-size: 0.9rem;
-    max-width: 260px; /* Slightly smaller max width */
-    min-height: 52px; /* Maintain good touch target */
+    padding: 18px 20px; /* Further reduced padding */
+    font-size: 0.85rem; /* Smaller font for longer text */
+    max-width: 280px; /* Adequate width for full text */
+    min-width: 200px; /* Ensure minimum width for full text */
+    min-height: 56px;
+  }
+
+  /* App Buttons for small mobile */
+  .appButton {
+    max-width: 280px;
+    min-height: 52px;
+    padding: 0.875rem 1.25rem;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(240, 235, 255, 0.1) 50%,
+      rgba(230, 220, 255, 0.12) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  .appIcon {
+    width: 26px;
+    height: 26px;
+    color: rgba(120, 105, 135, 0.85);
+  }
+
+  .downloadText {
+    font-size: 0.75rem;
+  }
+
+  .storeText {
+    font-size: 1rem;
   }
 }
 
@@ -551,10 +667,40 @@
 @media (max-width: 375px) {
   /* CTA Button for very small mobile */
   .ctaButton {
-    padding: 14px 28px; /* Compact but still tall enough */
-    font-size: 0.85rem;
-    max-width: 240px; /* Smaller max width for very small screens */
-    min-height: 48px; /* Minimum touch target for accessibility */
+    padding: 16px 18px; /* Minimal padding */
+    font-size: 0.8rem; /* Smaller font for very small screens */
+    max-width: 260px; /* Adequate width for full text */
+    min-width: 180px; /* Ensure minimum width for full text */
+    min-height: 52px;
+  }
+
+  /* App Buttons for very small mobile */
+  .appButton {
+    max-width: 260px;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(240, 235, 255, 0.1) 50%,
+      rgba(230, 220, 255, 0.12) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  .appIcon {
+    width: 24px;
+    height: 24px;
+    color: rgba(120, 105, 135, 0.85);
+  }
+
+  .downloadText {
+    font-size: 0.7rem;
+  }
+
+  .storeText {
+    font-size: 0.95rem;
   }
 }
 
@@ -716,19 +862,6 @@
   .appButtons {
     justify-content: center;
   }
-}
-
-/* Centered Content Container */
-.centeredContent {
-  grid-column: 1 / -1; /* Full width */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center horizontally */
-  text-align: center; /* Center text */
-  gap: var(--spacing-componentGap, 24px);
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-8);
 }
 
 /* Update title group for centered layout */

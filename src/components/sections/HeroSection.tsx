@@ -68,7 +68,7 @@ export function HeroSection({ isMobile }: { isMobile: boolean }) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Explore a Meditation
+                Explore Meditations
               </Button>
               {/* App Store Buttons - bottom right column */}
               <div className={styles.appButtonsColumn}>
@@ -131,7 +131,7 @@ export function HeroSection({ isMobile }: { isMobile: boolean }) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Explore a Meditation
+                Explore Meditations
               </Button>
               {/* App Store Buttons - bottom right column */}
               <div className={styles.appButtonsColumn}>

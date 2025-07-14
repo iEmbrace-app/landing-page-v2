@@ -188,6 +188,26 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
               >
                 Start Free Today
               </motion.button>
+
+              {/* Mobile Menu Footer */}
+              <motion.div
+                className={styles['mobile-menu-footer']}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navItems.length * 0.1 + 0.4 }}
+              >
+                <img
+                  src="https://embrace-website-images.s3.us-east-2.amazonaws.com/logo.png"
+                  alt="Embraceland Logo"
+                  className={styles['mobile-menu-logo']}
+                />
+                <div className={styles['mobile-menu-company-name']}>
+                  Embraceland
+                </div>
+                <div className={styles['mobile-menu-tagline']}>
+                  Where connections flourish
+                </div>
+              </motion.div>
             </motion.div>
           </>
         )}
