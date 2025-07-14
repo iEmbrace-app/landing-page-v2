@@ -59,7 +59,7 @@
   align-items: center;
   justify-content: center;
   margin: 0; /* Changed from -40px 0 0 0 */
-  padding-top: 24px; /* Changed from 100px 0 60px 0 */
+  padding-top: 80px; /* Changed from 100px 0 60px 0 */
   background: transparent;
   contain: layout style;
 }
