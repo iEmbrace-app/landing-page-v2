@@ -115,10 +115,10 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
         {/* Header Section */}
         <div className={`${styles.headerSection} ${isMobile ? styles.mobile : ''}`}>
           <div className={`gradient-text-primary ${styles.gradientTextPrimary} ${isMobile ? styles.mobile : ''}`}>
-            Measure how deeply you're grounding
+            Designed for Moments That Matter
           </div>        
           <div className={`${styles.description} ${styles.descriptionWithMargin} ${isMobile ? styles.mobile : ''}`}>
-            Root captures your emotional and sensory engagement in real time combining audio, haptics, and AI-curated calm to give you a single, personalized Mental Immersion Score.
+          Morning routines, midday resets, nighttime wind-downs, and everything between.
           </div>
         </div>
         

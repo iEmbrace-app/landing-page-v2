@@ -65,13 +65,13 @@
 .mainCard {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6rem;
+  gap: 8rem;
   align-items: center;
   background: color-mix(in srgb, var(--colors-background-glass) 60%, transparent);
   backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid var(--colors-border-light);
   border-radius: 2rem;
-  padding: 5rem 4rem 5rem 6rem;
+  padding: 1rem 6rem 3rem 6rem;
   box-shadow: 0 8px 16px rgba(147, 51, 234, 0.06);
 }
 
@@ -137,7 +137,7 @@
   font-size: var(--typography-fontSize-sm);
   font-weight: var(--typography-fontWeight-normal);
   color: var(--colors-text-tertiary);
-  margin: 0 0 2rem 0;
+  margin: 0 0 1rem 0;
   letter-spacing: 1.2px;
   max-width: 500px;
   word-wrap: break-word;
@@ -340,7 +340,6 @@
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
-  padding-top: 30px;
 }
 
 .cardWrapper.active .cardInfo {
@@ -362,8 +361,11 @@
   font-size: var(--typography-fontSize-sm);
   font-weight: var(--typography-fontWeight-light);
   color: var(--colors-text-muted);
-  margin: 0;
-  word-wrap: break-word;
+  margin: 0 auto; /* Added auto margins to center the element */
+  white-space: nowrap;
+  text-align: center;
+  display: block;
+  width: max-content;
 }
 
 /* Mobile-specific card info adjustments */
