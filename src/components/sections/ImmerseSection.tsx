@@ -11,7 +11,6 @@ import { HiVolumeUp, HiVolumeOff } from "react-icons/hi"
 
 // Constants
 const FIXED_VIDEO_DURATION = 10000 // ms
-const TRANSITION_DURATION = 400 // ms
 const ICONS = [PiPlantFill, CgTrees, BiWater, SlFire]
 
 interface VideoPlayerProps {
