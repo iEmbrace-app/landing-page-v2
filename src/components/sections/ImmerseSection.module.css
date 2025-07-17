@@ -1,4 +1,4 @@
-/* Immerse Section - Full viewport coverage */
+/* Immerse Section - Full viewport */
 .immerseSection {
   position: relative;
   width: 100vw;
@@ -6,18 +6,15 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
   align-items: center;
   justify-content: center;
   
-  /* Fallback gradient background when videos aren't loaded */
+  /* Fallback gradient */
   background: linear-gradient(
     135deg,
     #667eea 0%,
-    #764ba2 25%,
-    #f093fb 50%,
-    #f5576c 75%,
+    #764ba2 50%,
     #4facfe 100%
   );
   background-size: 400% 400%;
@@ -26,58 +23,36 @@
 
 .videoContainer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 1;
   overflow: hidden;
   contain: layout style paint;
-  /* Performance optimizations */
-  transform: translateZ(0);
-  will-change: auto;
 }
 
-/* Background Video Styles - Optimized for industry-standard smooth cross-fade */
+/* Background Video */
 .backgroundVideo {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center;
   z-index: 1;
-  /* Advanced hardware acceleration for smooth transitions */
-  transform: translateZ(0) scale3d(1, 1, 1);
-  backface-visibility: hidden;
-  perspective: 1000px;
-  will-change: opacity;
-  /* Optimized transition timing for industry-standard smoothness */
   transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  /* Ensure smooth playback */
-  image-rendering: optimizeSpeed;
-  image-rendering: -webkit-optimize-contrast;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
-/* Video Filter Overlay for Better Text Readability */
+/* Video Filter Overlay */
 .videoFilter {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: 
-    /* Stronger purple overlay for better theme integration */
     linear-gradient(
       135deg,
       rgba(106, 76, 147, 0.35) 0%,
-      rgba(142, 107, 184, 0.28) 25%,
-      rgba(200, 180, 255, 0.20) 50%,
-      rgba(106, 76, 147, 0.30) 75%,
-      rgba(80, 60, 120, 0.40) 100%
+      rgba(142, 107, 184, 0.28) 50%,
+      rgba(106, 76, 147, 0.30) 100%
     ),
-    /* Enhanced vignette for focus */
     radial-gradient(
       ellipse at center,
       transparent 20%,
@@ -88,27 +63,24 @@
   pointer-events: none;
 }
 
-/* Content Container - Full viewport */
+/* Content Container */
 .content {
   position: relative;
   z-index: 10;
-  color: white;
-  grid-column: 1;
   width: 100%;
-  height: 120vh;
-  padding: 0;
-  animation: fadeInUp 1s ease-out;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding: 0;
 }
 
-/* Audio Toggle Button */
+/* Audio Controls */
 .audioToggle {
   position: absolute;
-  top: 8px;
-  right: 30px;
+  top: 80px;
+  right: 110px;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
@@ -120,33 +92,8 @@
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
-  margin-top: 56px;
-  margin-right: 80px;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
-  z-index: 20;
-}
-
-/* Headphones text - positioned beside the mute button */
-.headphonesText {
-  position: absolute;
-  top: 8px;
-  right: 90px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  color: white;
-  font-weight: 100;
-  opacity: 0.8;
-  font-size: 1rem;
-  margin: 0;
-  white-space: nowrap;
-  z-index: 20;
-  padding-top: 80px;
-  padding-right: 80px;
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  line-height: 1;
 }
 
 .audioToggle:hover {
@@ -155,58 +102,21 @@
   transform: scale(1.05);
 }
 
-.audioToggle:active {
-  transform: scale(0.95);
-}
-
-/* Text Content Container */
-.textContent {
-  text-align: center;
-  max-width: 800px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  flex: 1;
-  padding-bottom: 15vh;
-}
-
-/* Title with Capital Letters and Character Spacing */
-.title {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(1.2rem, 8vw, 1.4rem);
+.headphonesText {
+  position: absolute;
+  top: 88px;
+  right: 170px;
+  color: white;
   font-weight: 100;
-  line-height: 1.1;
-  letter-spacing: 24px;
+  opacity: 0.8;
+  font-size: 1rem;
   margin: 0;
-  padding-bottom: 24px;
-  text-transform: uppercase;
-  color: #ffffff; 
-  text-shadow: 
-    0 2px 8px rgba(0, 0, 0, 0.3),
-    0 4px 16px rgba(106, 76, 147, 0.2);
-  animation: gentleFloat 8s ease-in-out infinite;
-  text-align: center;
-  max-width: 100%;
-}
-
-/* Subtitle */
-.subtitle {
+  white-space: nowrap;
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(1rem, 3vw, 1.2rem);
-  font-weight: 100;
-  line-height: 1.3;
-  letter-spacing: 1px;
-  margin: 0;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  max-width: 100%;
-  margin: 0 auto;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* Video Navigation Boxes - Glass morphism with icons - Positioned at bottom */
+/* Video Navigation */
 .videoNavigationBoxes {
   position: absolute;
   bottom: 80px;
@@ -216,49 +126,44 @@
   gap: 1.5rem;
   align-items: center;
   justify-content: center;
-  pointer-events: auto;
-  z-index: 20;
 }
 
-/* Individual Navigation Box - Enhanced Glassmorphism styling */
+/* Navigation Box */
 .navigationBox {
   position: relative;
   width: 70px;
   height: 70px;
   border-radius: 16px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
-  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* Enhanced Glassmorphism background */
+  /* Glassmorphism */
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(24px) saturate(120%);
-  -webkit-backdrop-filter: blur(25px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
   box-shadow: 
     0 1px 2px rgba(0, 0, 0, 0.08),
-    0 1px 2px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
   
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  
-  /* Ensure glassmorphism works */
   overflow: hidden;
-  
-  /* Subtle breathing animation for ASMR effect */
-  animation: gentleBreathing 4s ease-in-out infinite;
+  isolation: isolate;
 }
 
-/* Progressive Border for Active Video - NEW IMPLEMENTATION */
+.navigationBox:hover {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(30px) saturate(130%);
+  -webkit-backdrop-filter: blur(30px) saturate(130%);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Active state with progress border */
 .navigationBox.active {
-  position: relative;
-  overflow: visible;
-  /* Base border hidden for active state */
-  border: 1.6px solid transparent;
-  /* Keep glassmorphism background */
   background: linear-gradient(
     135deg,
     rgba(186, 148, 255, 0.15) 0%,
@@ -266,9 +171,11 @@
   );
   backdrop-filter: blur(35px) saturate(140%);
   -webkit-backdrop-filter: blur(35px) saturate(140%);
+  border: 1px solid transparent;
+  overflow: visible;
 }
 
-/* Progressive border using pseudo-elements */
+/* Progress border */
 .navigationBox.active::before {
   content: '';
   position: absolute;
@@ -276,18 +183,15 @@
   left: -2px;
   right: -2px;
   bottom: -2px;
-  border-radius: 16px;
+  border-radius: 18px;
   background: conic-gradient(
     from -90deg at 50% 50%,
-    /* Matte purple laser effect */
-    rgba(186, 148, 255, 0.9) 0deg,
-    rgba(220, 200, 255, 1) calc(var(--progress, 0) * 0.5),
-    rgba(186, 148, 255, 0.9) var(--progress, 0deg),
-    /* Unfilled portion */
+    rgba(186, 148, 255, 1) 0deg,
+    rgba(186, 148, 255, 1) var(--progress, 0deg),
     rgba(255, 255, 255, 0.2) var(--progress, 0deg),
     rgba(255, 255, 255, 0.2) 360deg
   );
-  /* Create border effect by masking center */
+  /* Create border by masking center */
   mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
@@ -297,82 +201,8 @@
   mask-composite: exclude;
   -webkit-mask-composite: xor;
   padding: 2px;
-  /* Laser glow effect */
-  filter: drop-shadow(0 0 3px rgba(186, 148, 255, 0.6)) 
-          drop-shadow(0 0 6px rgba(186, 148, 255, 0.3));
-  pointer-events: none;
   z-index: -1;
-  /* Smooth transition for the entire pseudo-element */
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* Enhanced laser effect on hover */
-.navigationBox.active:hover::before {
-  filter: drop-shadow(0 0 4px rgba(220, 200, 255, 0.8)) 
-          drop-shadow(0 0 8px rgba(186, 148, 255, 0.5))
-          drop-shadow(0 0 12px rgba(186, 148, 255, 0.3));
-  background: conic-gradient(
-    from -90deg at 50% 50%,
-    rgba(220, 200, 255, 1) 0deg,
-    rgba(255, 255, 255, 0.9) calc(var(--progress, 0) * 0.5),
-    rgba(220, 200, 255, 1) var(--progress, 0deg),
-    rgba(255, 255, 255, 0.3) var(--progress, 0deg),
-    rgba(255, 255, 255, 0.3) 360deg
-  );
-}
-
-/* Gentle breathing animation */
-@keyframes gentleBreathing {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.95;
-  }
-  50% {
-    transform: scale(1.01);
-    opacity: 1;
-  }
-}
-
-/* Hover and active states should not change size */
-.navigationBox:hover {
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(30px) saturate(130%);
-  -webkit-backdrop-filter: blur(30px) saturate(130%);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: none;
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.15),
-    0 1px 4px rgba(0, 0, 0, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 0 8px rgba(255, 255, 255, 0.05);
-}
-
-.navigationBox:active {
-  transform: none;
-}
-
-.navigationBox:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Active Navigation Box hover state */
-.navigationBox.active:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(186, 148, 255, 0.18) 0%,
-    rgba(255, 255, 255, 0.12) 100%
-  );
-  backdrop-filter: blur(40px) saturate(145%);
-  -webkit-backdrop-filter: blur(40px) saturate(145%);
-  transform: translateY(-2px) scale(1.07);
-  box-shadow: 
-    0 8px 24px rgba(186, 148, 255, 0.18),
-    0 4px 12px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 0 rgba(186, 148, 255, 0.1),
-    0 0 16px rgba(186, 148, 255, 0.12);
+  pointer-events: none;
 }
 
 /* Icon Container */
@@ -380,13 +210,10 @@
   width: 40px;
   height: 40px;
   color: rgba(255, 255, 255, 0.9);
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  transform: translateY(0);
+  transition: transform 0.15s ease;
 }
 
 .iconContainer svg {
@@ -394,7 +221,7 @@
   height: 24px;
 }
 
-/* Title inside button - positioned at bottom with reduced gap */
+/* Button Title */
 .buttonTitle {
   position: absolute;
   bottom: 6px;
@@ -408,39 +235,30 @@
   letter-spacing: 0.5px;
   opacity: 0;
   transform: translateY(2px);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.15s ease;
   pointer-events: none;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-  line-height: 1;
 }
 
-/* Hover effects - Icon moves up to make space for title with reduced gap */
 .navigationBox:hover .iconContainer {
   transform: translateY(-4px);
 }
 
-.navigationBox:hover .buttonTitle {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.navigationBox.active .iconContainer {
-  color: rgba(255, 255, 255, 1);
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
-  transform: scale(1.05) translateY(-4px);
-}
-
+.navigationBox:hover .buttonTitle,
 .navigationBox.active .buttonTitle {
   opacity: 1;
   transform: translateY(0);
 }
 
-.navigationBox.active:hover .iconContainer {
-  transform: scale(1.05) translateY(-4px);
+.navigationBox.active .iconContainer {
+  color: white;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+  transform: translateY(-4px);
 }
 
-/* Loading and Error States */
-.loadingContainer {
+/* Loading/Error States */
+.loadingContainer,
+.errorContainer {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -448,19 +266,6 @@
   text-align: center;
   color: white;
   z-index: 20;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.loadingContainer p {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 300;
-  margin: 0;
-  opacity: 0.9;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .spinner {
@@ -470,255 +275,77 @@
   border-top: 3px solid rgba(186, 148, 255, 0.8);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 @keyframes spin {
-  0% { 
-    transform: rotate(0deg); 
-  }
-  100% { 
-    transform: rotate(360deg); 
-  }
-}
-
-.errorContainer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-  z-index: 20;
-  max-width: 600px;
-  padding: 2rem;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.errorContainer p {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 1rem;
-  font-weight: 300;
-  margin: 0.5rem 0;
-  line-height: 1.5;
-}
-
-/* Performance optimizations for video elements */
-.transitioning {
-  will-change: opacity;
-}
-
-/* Animations */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes gentleFloat {
-  0%, 100% { 
-    transform: translateY(0px);
-  }
-  50% { 
-    transform: translateY(-3px);
-  }
+  to { transform: rotate(360deg); }
 }
 
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
+  0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
-/* Video Status Indicators - Simple states without progress rings */
-
-/* Loading state */
-.navigationBox.loading {
-  opacity: 0.7;
-  border-color: rgba(255, 255, 255, 0.4);
-  animation: loadingPulse 1.5s ease-in-out infinite;
-}
-
-@keyframes loadingPulse {
-  0%, 100% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-/* Buffering state */
-.navigationBox.buffering {
-  opacity: 0.8;
-  border-color: rgba(255, 200, 100, 0.5);
-}
-
-/* Paused state */
-.navigationBox.paused {
-  opacity: 0.6;
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Error state */
-.navigationBox.error {
-  opacity: 0.5;
-  cursor: not-allowed;
-  border-color: rgba(255, 100, 100, 0.5);
-}
-
-/* Complete state */
-.navigationBox.complete {
-  opacity: 1;
-  border-color: rgba(100, 255, 150, 0.6);
-}
-
-/* Transition state for smooth switching */
-.navigationBox.transitioning {
-  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* ===== RESPONSIVE GRID LAYOUTS ===== */
-
-/* Desktop - 1024px and up */
-@media (min-width: 1024px) {
+/* Responsive Design */
+@media (max-width: 768px) {
   .immerseSection {
-    width: 100vw;
-    height: 120vh;
-    margin: 0;
-    padding: 0;
-    grid-template-columns: 1fr;
-  }
-  
-  .content {
-    grid-column: 1;
-  }
-}
-
-/* Tablet - 768px to 1023px */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .immerseSection {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    grid-template-columns: 1fr;
-  }
-  
-  .content {
-    grid-column: 1;
     height: 100vh;
   }
 
-  /* Adjust audio toggle position */
+  .content {
+    padding: 0;
+  }
+
   .audioToggle {
-    margin-top: 20px;
-    margin-right: 20px;
-  }
-
-  /* Adjust headphones text */
-  .headphonesText {
-    right: 80px;
-    padding-top: 44px;
-    padding-right: 20px;
-    font-size: 0.9rem;
-  }
-
-  /* Adjust navigation boxes position */
-  .videoNavigationBoxes {
-    bottom: 40px;
-    gap: 1rem;
-  }
-
-  /* Slightly smaller buttons on tablet */
-  .navigationBox {
-    width: 65px;
-    height: 65px;
-  }
-}
-
-/* Mobile - up to 767px */
-@media (max-width: 767px) {
-  .immerseSection {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    grid-template-columns: 1fr;
-  }
-  
-  .content {
-    grid-column: 1;
-    height: 100vh;
-    padding: 0 20px;
-  }
-
-  /* Audio toggle adjustments */
-  .audioToggle {
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
     width: 45px;
     height: 45px;
-    margin-top: 10px;
-    margin-right: 10px;
-    font-size: 1.1rem;
   }
 
-  /* Headphones text adjustments */
   .headphonesText {
-    top: 10px;
-    right: 70px;
-    padding-top: 20px;
-    padding-right: 0;
+    top: 28px;
+    right: 75px;
     font-size: 0.85rem;
   }
 
-  /* Title adjustments */
-  .title {
-    font-size: clamp(1rem, 6vw, 1.2rem);
-    letter-spacing: 16px;
-    padding-bottom: 16px;
-  }
-
-  /* Subtitle adjustments */
-  .subtitle {
-    font-size: clamp(0.9rem, 2.5vw, 1rem);
-    padding: 0 20px;
-  }
-
-  /* 2x2 Grid for navigation boxes on mobile */
+  /* 2x2 Grid for mobile */
   .videoNavigationBoxes {
-    position: absolute;
     bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
     gap: 1rem;
     width: 160px;
-    max-width: calc(100vw - 40px);
   }
 
-  /* Smaller buttons for mobile */
   .navigationBox {
     width: 70px;
     height: 70px;
-    border-radius: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .audioToggle {
+    top: 60px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
   }
 
-  /* Adjust icon size */
-  .iconContainer {
-    width: 35px;
-    height: 35px;
+  .headphonesText {
+    display: none;
+  }
+
+  .videoNavigationBoxes {
+    bottom: 40px;
+    width: 140px;
+    gap: 0.75rem;
+  }
+
+  .navigationBox {
+    width: 60px;
+    height: 60px;
   }
 
   .iconContainer svg {
@@ -726,148 +353,29 @@
     height: 20px;
   }
 
-  /* Adjust button title */
-  .buttonTitle {
-    font-size: 10px;
-    bottom: 4px;
-  }
-
-  /* Adjust text content positioning */
-  .textContent {
-    padding-bottom: 200px; /* Make room for 2x2 grid */
-  }
-}
-
-/* Small Mobile - up to 478px */
-@media (max-width: 478px) {
-  .immerseSection {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    grid-template-columns: 1fr;
-  }
-  
-  .content {
-    grid-column: 1;
-    height: 100vh;
-    padding: 0 15px;
-  }
-
-  /* Further audio toggle adjustments */
-  .audioToggle {
-    top: 5px;
-    right: 5px;
-    width: 40px;
-    height: 40px;
-    margin-top: 24px;
-    margin-right: 40px;
-    font-size: 1rem;
-  }
-
-  /* Hide headphones text on very small screens */
-  .headphonesText {
-    display: none;
-  }
-
-  /* Further title adjustments */
-  .title {
-    font-size: clamp(0.9rem, 5vw, 1.1rem);
-    letter-spacing: 12px;
-    padding-bottom: 12px;
-  }
-
-  /* Further subtitle adjustments */
-  .subtitle {
-    font-size: clamp(0.8rem, 2vw, 0.9rem);
-    padding: 0 15px;
-  }
-
-  /* Keep 2x2 grid but with smaller spacing */
-  .videoNavigationBoxes {
-    bottom: 20px;
-    gap: 0.75rem;
-    width: 140px;
-  }
-
-  /* Even smaller buttons for small mobile */
-  .navigationBox {
-    width: 60px;
-    height: 60px;
-    border-radius: 12px;
-  }
-
-  /* Smaller icons */
-  .iconContainer {
-    width: 30px;
-    height: 30px;
-  }
-
-  .iconContainer svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  /* Smaller button title */
   .buttonTitle {
     font-size: 9px;
-    letter-spacing: 0.3px;
-  }
-
-  /* Adjust text content for smaller screens */
-  .textContent {
-    padding-bottom: 180px;
   }
 }
 
-/* Ultra small screens - up to 374px (iPhone SE, etc.) */
-@media (max-width: 374px) {
-  /* Hide both audio toggle and headphones text to save space */
-  .audioToggle,
-  .headphonesText {
+@media (max-width: 375px) {
+  .audioToggle {
     display: none;
   }
 
-  /* Further reduce title size and spacing */
-  .title {
-    font-size: 0.85rem;
-    letter-spacing: 8px;
-    padding-bottom: 10px;
-  }
-
-  /* Smaller subtitle */
-  .subtitle {
-    font-size: 0.75rem;
-  }
-
-  /* Compact 2x2 grid */
   .videoNavigationBoxes {
     bottom: 15px;
-    gap: 0.5rem;
     width: 120px;
+    gap: 0.5rem;
   }
 
-  /* Minimal button size */
   .navigationBox {
     width: 55px;
     height: 55px;
-    border-radius: 10px;
   }
 
-  /* Always show button titles on ultra small screens for clarity */
   .buttonTitle {
     opacity: 1;
     transform: translateY(0);
-    font-size: 8px;
-  }
-
-  /* No hover effect for icon on ultra small screens */
-  .navigationBox:hover .iconContainer {
-    transform: translateY(0);
-  }
-
-  /* Adjust text content */
-  .textContent {
-    padding-bottom: 160px;
   }
 }
