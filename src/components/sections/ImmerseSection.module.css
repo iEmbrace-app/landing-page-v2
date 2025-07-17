@@ -738,8 +738,8 @@
   }
 }
 
-/* Small Mobile - up to 479px */
-@media (max-width: 479px) {
+/* Small Mobile - up to 478px */
+@media (max-width: 478px) {
   .immerseSection {
     width: 100vw;
     height: 100vh;
@@ -760,8 +760,8 @@
     right: 5px;
     width: 40px;
     height: 40px;
-    margin-top: 5px;
-    margin-right: 5px;
+    margin-top: 24px;
+    margin-right: 40px;
     font-size: 1rem;
   }
 
