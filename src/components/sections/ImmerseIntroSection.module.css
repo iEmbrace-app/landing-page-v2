@@ -3,7 +3,7 @@
   --intro-gradient-start: #6865BF;
   --intro-gradient-mid: #A496D9;
   --intro-gradient-end: #D3BDF2;
-  --intro-text-secondary: #4b5563; /* Improved contrast from #6b7280 */
+  --intro-text-secondary: #6b6b6b;
 }
 
 /* Respect reduced motion preferences */
@@ -19,27 +19,37 @@
 .immerseIntroSection {
   position: relative;
   width: 100%;
-  max-width: var(--grid-max-width);
+  max-width: var(--grid-max-width, 1400px);
   margin: 0 auto;
-  min-height: 60vh;
+  min-height: 50vh;
   background: #ffffff;
   display: grid;
-  grid-template-columns: var(--grid-template-standard);
-  gap: var(--grid-gap);
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap, 24px);
   align-items: center;
-  justify-content: center;
-  padding: 0 var(--grid-container-padding);
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding: 40px var(--grid-container-padding-mobile, 20px);
   overflow: hidden;
   contain: layout style;
+}
+
+/* Optional decorative background */
+.immerseIntroSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(248, 248, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
 }
 
 .content {
   position: relative;
   z-index: 10;
-  text-align: left; /* Changed from center to left */
-  grid-column: 7 / 13; /* Changed to last 6 columns for more width */
+  text-align: center;
   width: 100%;
   margin: 0;
 }
@@ -47,12 +57,11 @@
 /* Title with optimized gradient */
 .title {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(1.8rem, 4vw + 0.75rem, 3.6rem); /* Better mobile scaling */
-  font-weight: 200; /* Slightly heavier for readability */
-  line-height: 1.35; /* Better line height for mobile */
-  margin: 0 0 1.25rem 0; /* Tighter margin for mobile */
-  text-align: left; /* Left aligned */
-  padding: 0; /* Removed padding since we're left aligning */
+  font-size: clamp(1.75rem, 4vw + 0.5rem, 3.6rem);
+  font-weight: 200;
+  line-height: 1.35;
+  margin: 0 0 1rem 0;
+  padding: 0 0.5rem;
   
   /* Purple gradient text */
   background: linear-gradient(
@@ -70,29 +79,28 @@
   filter: drop-shadow(0 2px 4px rgba(164, 150, 217, 0.1));
   
   /* Performance optimization */
-  will-change: background-position;
   transform: translateZ(0);
 }
 
 /* Conditional gradient animation */
 .title.animateGradient {
   animation: gradientShift 8s ease-in-out infinite;
+  will-change: background-position;
 }
 
-/* Subtitle with HoldMeditateSection description styling */
+/* Subtitle styling */
 .subtitle {
-  color: #6b6b6b;
-  font-size: 19px;
+  color: var(--intro-text-secondary);
+  font-size: 1rem;
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 300;
   line-height: 1.6;
-  text-align: left; /* Changed from center to left */
   margin: 0;
   word-wrap: break-word;
-  padding: 0; /* Removed padding since we're left aligning */
+  padding: 0 0.5rem;
 }
 
-/* Gradient animation - only when needed */
+/* Gradient animation */
 @keyframes gradientShift {
   0%, 100% {
     background-position: 0% 50%;
@@ -102,79 +110,59 @@
   }
 }
 
-/* ===== RESPONSIVE GRID LAYOUTS ===== */
-
-/* Mobile - up to 767px */
-@media (max-width: 767px) {
-  .immerseIntroSection {
-    padding: 0 var(--grid-container-padding-mobile);
-    padding-top: 40px;
-    padding-bottom: 40px;
-    grid-template-columns: var(--grid-section-mobile);
-    min-height: 50vh;
-  }
-  
-  .content {
-    grid-column: 1 / 5; /* Full width on mobile */
-    text-align: center; /* Center on mobile for better appearance */
-  }
-  
-  .title {
-    font-size: 1.75rem;
-    margin-bottom: 1rem;
-    text-align: center; /* Center on mobile */
-    padding: 0 0.5rem; /* Add padding back for mobile */
-  }
-  
-  .subtitle {
-    font-size: 1rem;
-    text-align: center; /* Center on mobile */
-    padding: 0 0.5rem; /* Add padding back for mobile */
-  }
+/* Focus styles for keyboard navigation */
+.title:focus-visible,
+.subtitle:focus-visible {
+  outline: 2px solid var(--intro-gradient-mid);
+  outline-offset: 4px;
+  border-radius: 4px;
 }
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
 
 /* Small Mobile - up to 479px */
-@media (max-width: 479px) {
+@media (min-width: 480px) {
   .immerseIntroSection {
-    padding: 0 var(--grid-container-padding-mobile);
-    padding-top: 40px;
-    padding-bottom: 40px;
-    grid-template-columns: 1fr;
+    grid-template-columns: var(--grid-section-mobile, repeat(4, 1fr));
   }
   
   .content {
-    grid-column: 1;
+    grid-column: 1 / -1;
   }
 }
 
-/* Tablet - 768px to 1023px */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* Tablet - 768px+ */
+@media (min-width: 768px) {
   .immerseIntroSection {
-    padding: 0 var(--grid-container-padding-tablet);
-    padding-top: 60px;
-    padding-bottom: 60px;
-    grid-template-columns: var(--grid-section-tablet);
+    padding: 60px var(--grid-container-padding-tablet, 32px);
+    grid-template-columns: var(--grid-section-tablet, repeat(8, 1fr));
     min-height: 60vh;
   }
   
   .content {
-    grid-column: 4 / 9; /* Right aligned on tablet (last 5 of 8 columns) */
+    grid-column: 4 / -1;
+    text-align: left;
+  }
+  
+  .title,
+  .subtitle {
+    text-align: left;
+    padding: 0;
   }
   
   .title {
     margin-bottom: 2rem;
-    padding: 0;
     font-weight: 100;
   }
   
   .subtitle {
-    padding: 0;
+    font-size: 1.1875rem;
   }
   
   .immerseIntroSection::before {
     background: linear-gradient(
       180deg,
-      rgba(248, 248, 255, 0.5) 0%, /* Full opacity on larger screens */
+      rgba(248, 248, 255, 0.5) 0%,
       rgba(255, 255, 255, 0) 100%
     );
   }
@@ -183,45 +171,18 @@
 /* Desktop - 1024px+ */
 @media (min-width: 1024px) {
   .immerseIntroSection {
-    padding: 0 var(--grid-container-padding);
-    padding-top: 80px;
-    padding-bottom: 80px;
-    grid-template-columns: var(--grid-template-standard);
+    padding: 80px var(--grid-container-padding, 40px);
+    grid-template-columns: var(--grid-template-standard, repeat(12, 1fr));
   }
   
   .content {
-    grid-column: 7 / 13; /* Last 6 columns on desktop */
+    grid-column: 7 / -1;
   }
 }
 
 /* Large screens */
 @media (min-width: 1440px) {
   .immerseIntroSection {
-    padding: 120px var(--grid-container-padding);
+    padding: 120px var(--grid-container-padding, 40px);
   }
-}
-
-/* Optional decorative background - more subtle on mobile */
-.immerseIntroSection::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(248, 248, 255, 0.3) 0%, /* Less opacity on mobile */
-    rgba(255, 255, 255, 0) 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Focus styles for keyboard navigation */
-.title:focus-visible,
-.subtitle:focus-visible {
-  outline: 2px solid var(--intro-gradient-mid);
-  outline-offset: 4px;
-  border-radius: 4px;
 }

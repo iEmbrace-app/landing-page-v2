@@ -1,49 +1,48 @@
-import { useRef, useEffect, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useInView, useReducedMotion, Variants } from 'framer-motion'
 import styles from './ImmerseIntroSection.module.css'
 
 interface ImmerseIntroSectionProps {
   className?: string
 }
 
+const animationVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: 'easeOut'
+    }
+  }
+}
+
 export function ImmerseIntroSection({ 
   className = '' 
 }: ImmerseIntroSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
-  const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-
-  // Check for reduced motion preference
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches)
-    }
-
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [])
+  const isInView = useInView(sectionRef, { 
+    once: true, 
+    margin: '-10%' // More responsive margin
+  })
+  const prefersReducedMotion = useReducedMotion() // Framer Motion's built-in hook
 
   return (
     <section 
       ref={sectionRef}
-      className={`${styles.immerseIntroSection} ${className}`}
+      className={`${styles.immerseIntroSection} ${className}`.trim()}
       aria-labelledby="immerse-intro-heading"
     >
       <motion.div 
         className={styles.content}
-        initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-        transition={{
-          duration: 0.8,
-          ease: 'easeOut'
-        }}
+        initial={prefersReducedMotion ? "visible" : "hidden"}
+        animate={isInView ? "visible" : "hidden"}
+        variants={animationVariants}
       >
         <h2 
           id="immerse-intro-heading"
-          className={`${styles.title} ${!prefersReducedMotion && isInView ? styles.animateGradient : ''}`}
+          className={`${styles.title} ${(!prefersReducedMotion && isInView) ? styles.animateGradient : ''}`}
         >
           Discover Tranquility for Your Inner Journey
         </h2>

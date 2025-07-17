@@ -1,18 +1,5 @@
 /* CSS Variables for consistent theming */
 :root {
-  /* iOS Native Dark Theme Colors */
-  --ios-purple: #5856D6;
-  --ios-purple-light: #787AFF;
-  --ios-purple-dark: #3634A3;
-  --ios-background: #000000;
-  --ios-surface: #1C1C1E;
-  --ios-surface-2: #2C2C2E;
-  --ios-surface-3: #3A3A3C;
-  --ios-text-primary: #FFFFFF;
-  --ios-text-secondary: #8E8E93;
-  --ios-text-tertiary: #48484A;
-  --ios-separator: #38383A;
-  
   /* Original Theme Colors for Hero Section */
   --meditation-primary: rgba(106, 76, 147, 1);
   --meditation-secondary: rgba(186, 148, 255, 1);
@@ -41,9 +28,8 @@
   }
   
   .heroContent,
-  .rootTitle,
-  .rootSubtitle,
-  .description {
+  .mainTitle,
+  .mainSubtitle {
     animation: none !important;
   }
 }
@@ -58,13 +44,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0; /* Changed from -40px 0 0 0 */
-  padding-top: 80px; /* Changed from 100px 0 60px 0 */
+  margin: 0;
+  padding-top: 80px;
   background: transparent;
   contain: layout style;
 }
 
-/* Background Image Container - Full image with fade transitions */
+/* Background Image Container */
 .backgroundImageContainer {
   position: absolute;
   inset: 0;
@@ -75,16 +61,11 @@
 .backgroundImage {
   position: absolute;
   inset: 0;
-  background: url('https://embrace-website-images.s3.us-east-2.amazonaws.com/background.jpeg') center 60%/cover no-repeat;
-  background-size: cover;
-  background-position: center 1%;
+  background: url('https://embrace-website-images.s3.us-east-2.amazonaws.com/background.jpeg') center 1%/cover no-repeat;
   opacity: 0.85;
-  /* Performance optimizations */
   transform: translateZ(0);
   backface-visibility: hidden;
   will-change: auto;
-  /* Optimize for mobile */
-  background-attachment: scroll;
 }
 
 .gradientOverlay {
@@ -92,7 +73,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 300px; /* Fixed height gradient at bottom */
+  height: 300px;
   background: linear-gradient(
     to bottom,
     transparent 0%,
@@ -107,7 +88,7 @@
   pointer-events: none;
 }
 
-/* Simplified gradient animations */
+/* Aurora animations - Desktop only */
 @keyframes aurora {
   0%, 100% {
     background-position: 0% 50%, 50% 50%;
@@ -159,7 +140,7 @@
   animation: aurora 40s ease-in-out infinite reverse;
 }
 
-/* Gradient background - Subtle overlay */
+/* Gradient background overlay */
 .gradientBackground {
   position: absolute;
   inset: 0;
@@ -175,12 +156,12 @@
   z-index: 2;
 }
 
-/* Content Container - Centered layout */
+/* Hero Content Container */
 .heroContent {
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: var(--grid-max-width);
+  max-width: var(--grid-max-width, 1400px);
   margin: 0;
   padding: 0;
   display: flex;
@@ -192,18 +173,17 @@
 
 /* Centered Content Container */
 .centeredContent {
-  grid-column: 1 / -1; /* Full width */
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center horizontally */
-  text-align: center; /* Center text */
-  gap: var(--spacing-componentGap, 24px);
+  align-items: center;
+  text-align: center;
+  gap: 24px;
   max-width: 800px;
   margin: 0 auto;
-  padding: 0 var(--spacing-8);
+  padding: 0 32px;
 }
 
-/* New main title style for subtitle */
+/* Typography */
 .mainTitle {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(1.6rem, 8vw, 2.8rem);
@@ -223,111 +203,30 @@
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: clamp(0.8rem, 1.6vw, 0.7rem);
   font-weight: 300;
-  margin: 0;
+  margin: 0 0 24px 0;
   letter-spacing: 1.2px;
-  margin-bottom: 24px;
-  color: var(--colors-text-secondary, #666);
+  color: #666;
   text-align: center;
   text-transform: uppercase;
 }
 
-/* App buttons bottom right column */
+/* App Store Buttons Container */
 .appButtonsColumn {
-  grid-column: 11 / 13; /* Place in last 2 columns of 12-column grid */
-  grid-row: 1; /* Align with first row */
   display: flex;
   flex-direction: row;
   gap: 1.6rem;
-  align-items: flex-end;
-  justify-self: end; /* Push to right edge of grid cell */
-  align-self: center; /* Vertically center */
+  align-items: center;
+  justify-content: center;
   width: auto;
   margin-top: 64px;
   z-index: 10;
-} 
-
-/* Typography - Optimized */
-.rootTitle {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(2rem, 8vw, 4.8rem);
-  font-weight: 100;
-  line-height: 1;
-  margin: 0;
-  background: linear-gradient(135deg, #6865BF, #A496D9, #D3BDF2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  will-change: auto;
 }
 
-.rootSubtitle {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  font-weight: 300;
-  margin: 0;
-  margin-bottom: 24px;
-  color: var(--colors-text-secondary, #666);
-}
-
-.description {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: clamp(1rem, 2vw, 1.1rem);
-  font-weight: 100;
-  margin: 0;
-  max-width: 600px;
-  line-height: 1.6;
-  color: var(--colors-text-tertiary, #777);
-}
-
-/* CTA Button - Optimized */
-.ctaButton {
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid rgba(106, 76, 147, 0.3);
-  box-shadow: 0 4px 20px rgba(106, 76, 147, 0.1);
-  color: #6A4C93;
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding: var(--spacing-4, 16px) var(--spacing-12, 40px);
-  border-radius: 50px;
-  cursor: pointer;
-  letter-spacing: 0px;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  margin: 0 0 40px 0;
-  position: relative;
-  overflow: hidden;
-  min-width: 44px;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  backdrop-filter: blur(10px);
-}
-
-.ctaButton:hover {
-  background: rgba(106, 76, 147, 0.9);
-  border-color: rgba(106, 76, 147, 0.8);
-  color: white;
-  letter-spacing: 1.2px;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(106, 76, 147, 0.2);
-}
-
-.ctaButton:focus {
-  outline: 2px solid rgba(106, 76, 147, 0.5);
-  outline-offset: 2px;
-}
-
-/* App Store Buttons */
-.appButtons {
-  /* Deprecated for new layout, use .appButtonsColumn instead */
-  display: none;
-}
-
+/* App Store Button Styles */
 .appButton {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   padding: 1rem 1.6rem;
   border-radius: 12px;
   text-decoration: none;
@@ -363,6 +262,7 @@
 .appButtonContent {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
   position: relative;
   z-index: 1;
@@ -378,7 +278,7 @@
 .appButtonText {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   color: #6A4C93;
 }
 
@@ -397,369 +297,29 @@
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Layout Components - Using 12-column grid */
-.heroTextContent {
-  grid-column: 1 / 10; /* First 9 columns */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* Left-aligned content */
-  text-align: left; /* Left-aligned text */
-  gap: var(--spacing-componentGap, 16px);
-  padding-right: var(--spacing-8); /* Add spacing from phone frame */
+/* Scroll indicator for desktop */
+.scrollIndicator {
+  display: none;
 }
 
-.titleGroup {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* Left-aligned titles */
-  text-align: left; /* Left-aligned text */
-  gap: var(--spacing-4, 16px);
-  width: 100%;
-}
-
-/* Key Animations */
-@keyframes gentleFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-3px); }
-}
-
-@keyframes fadeInUp {
-  from { 
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Mobile-first responsive design */
-/* Base mobile styles */
-@media (max-width: 768px) {
-  .heroWrapper {
-    min-height: 100vh;
-    padding: 80px var(--grid-container-padding-mobile) 0 var(--grid-container-padding-mobile); /* Add extra top padding for mobile */
-    margin: 0;
-  }
-
-  .heroContent {
-    grid-template-columns: 1fr; /* Single column on mobile */
-    padding: 0 var(--grid-container-padding-mobile);
-    gap: var(--spacing-8);
-    align-items: center;
-    text-align: center;
-    animation: none;
-  }
-
-  .heroTextContent {
-    grid-column: 1 / -1; /* Full width on mobile */
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    gap: var(--spacing-6);
-    padding-right: 0;
-  }
-
-  .titleGroup {
-    order: 1;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 1rem;
-    gap: 0.5rem;
-  }
-
-  .rootTitle {
-    font-size: 2.5rem;
-    animation: none;
-    text-align: center; /* Ensure title is centered */
-    margin: 0 auto; /* Center with auto margins */
-  }
-
-  .rootSubtitle {
-    font-size: 1.1rem;
-    animation: none;
-    text-align: center; /* Ensure subtitle is centered */
-    margin: 0 auto; /* Center with auto margins */
-  }
-
-  .description {
-    order: 4;
-    margin: 1rem auto; /* Center with auto margins */
-    max-width: 90%;
-    font-size: 1rem;
-    animation: none;
-    text-align: center;
-  }
-
-  /* CTA Button Mobile - Fixed styling */
-  .ctaButton {
-    order: 3;
-    margin: 2rem auto 1.5rem auto; /* Center the button with auto margins */
-    padding: 20px 24px; /* Further reduced horizontal padding */
-    font-size: 0.9rem; /* Smaller font to fit text */
-    font-weight: 600;
-    animation: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: auto; 
-    min-width: 220px; /* Ensure minimum width for full text */
-    min-height: 60px; /* Consistent height */
-    border-radius: 50px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 2px solid rgba(106, 76, 147, 0.3);
-    box-shadow: 0 4px 20px rgba(106, 76, 147, 0.15);
-    color: #6A4C93;
-    backdrop-filter: blur(10px);
-    letter-spacing: 0px;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .ctaButton:hover {
-    background: rgba(106, 76, 147, 0.9);
-    border-color: rgba(106, 76, 147, 0.8);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(106, 76, 147, 0.2);
-  }
-
-  /* App Buttons Mobile - Fixed styling with glassmorphism */
-  .appButtonsColumn {
-    position: static;
-    right: auto;
-    bottom: auto;
-    margin-top: 8rem; /* Increased from 1rem to add more space from CTA button */
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    grid-column: 1 / -1;
-  }
-
-  .appButton {
-    width: 100%;
-    max-width: 300px; /* Match CTA button width */
-    min-height: 56px; /* Consistent height */
-    padding: 1.25rem 1.5rem; /* Increased from 1rem to 1.25rem for more top/bottom padding */
-    border-radius: 12px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(240, 235, 255, 0.1) 50%,
-      rgba(230, 220, 255, 0.12) 100%
-    );
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    box-shadow: none;
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .appButton:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.35);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .appButtonContent {
-    display: flex;
-    align-items: center;
-    gap: 0.875rem;
-    justify-content: center;
-  }
-
-  .appIcon {
-    width: 28px;
-    height: 28px;
-    color: rgba(120, 105, 135, 0.85);
-  }
-
-  .appButtonText {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    color: rgba(120, 105, 135, 0.85);
-  }
-
-  .downloadText {
-    font-size: 0.8rem;
-    font-weight: 400;
-    opacity: 0.7;
-    line-height: 1;
-  }
-
-  .storeText {
-    font-size: 1.1rem;
-    font-weight: 600;
-    line-height: 1.2;
-  }
-
-  /* Remove floating animations on mobile */
-  .auroraBackground {
-    display: none;
-  }
-
-  .gradientBackground {
+@media (min-width: 1025px) {
+  .scrollIndicator {
+    display: block;
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 36px;
     opacity: 0.5;
   }
-}
-
-/* Small mobile adjustments */
-@media (max-width: 480px) {
-  .rootTitle {
-    font-size: 2rem;
-    text-align: center;
-    margin: 0 auto;
-  }
-
-  .rootSubtitle {
-    font-size: 1rem;
-    text-align: center;
-    margin: 0 auto;
-  }
-
-  /* CTA Button for small mobile */
-  .ctaButton {
-    padding: 18px 20px; /* Further reduced padding */
-    font-size: 0.85rem; /* Smaller font for longer text */
-    max-width: 280px; /* Adequate width for full text */
-    min-width: 200px; /* Ensure minimum width for full text */
-    min-height: 56px;
-  }
-
-  /* App Buttons for small mobile */
-  .appButton {
-    max-width: 280px;
-    min-height: 52px;
-    padding: 1.5rem 1.25rem; /* Increased from 0.875rem to 1.125rem for more top/bottom padding */
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(240, 235, 255, 0.1) 50%,
-      rgba(230, 220, 255, 0.12) 100%
-    );
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-  }
-
-  .appIcon {
-    width: 26px;
-    height: 26px;
-    color: rgba(120, 105, 135, 0.85);
-  }
-
-  .downloadText {
-    font-size: 0.75rem;
-  }
-
-  .storeText {
-    font-size: 1rem;
-  }
-}
-
-/* Very small mobile (iPhone SE, etc) */
-@media (max-width: 375px) {
-  /* CTA Button for very small mobile */
-  .ctaButton {
-    padding: 16px 18px; /* Minimal padding */
-    font-size: 0.8rem; /* Smaller font for very small screens */
-    max-width: 260px; /* Adequate width for full text */
-    min-width: 180px; /* Ensure minimum width for full text */
-    min-height: 52px;
-  }
-
-  /* App Buttons for very small mobile */
-  .appButton {
-    max-width: 260px;
-    min-height: 48px;
-    padding: 1rem 1rem; /* Increased from 0.75rem to 1rem for more top/bottom padding */
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(240, 235, 255, 0.1) 50%,
-      rgba(230, 220, 255, 0.12) 100%
-    );
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-  }
-
-  .appIcon {
-    width: 24px;
-    height: 24px;
-    color: rgba(120, 105, 135, 0.85);
-  }
-
-  .downloadText {
-    font-size: 0.7rem;
-  }
-
-  .storeText {
-    font-size: 0.95rem;
-  }
-}
-
-/* Large screen alignment */
-@media (min-width: 1440px) {
-  .heroContent {
-    max-width: 1400px;
-    padding: 0 5rem;
-  }
-}
-
-/* Desktop - 1024px+ */
-@media (min-width: 1024px) {
-  .heroContent {
-    grid-template-columns: var(--grid-template-standard);
-  }
   
-  .heroTextContent {
-    grid-column: 1 / 10; /* First 9 columns */
-    align-items: flex-start;
-    text-align: left;
-  }
-}
-
-/* Tablet - 768px to 1023px */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .heroContent {
-    padding: 0 var(--grid-container-padding-tablet);
-    grid-template-columns: var(--grid-section-tablet);
-  }
-  
-  .heroTextContent {
-    grid-column: 1 / 6; /* First 5 columns for better balance on tablet */
-    align-items: flex-start;
-    text-align: left;
-  }
-}
-
-/* Mobile - 480px to 767px */
-@media (min-width: 480px) and (max-width: 767px) {
-  .heroContent {
-    padding: 0 var(--grid-container-padding-mobile);
-    grid-template-columns: var(--grid-section-mobile);
-  }
-  
-  .heroTextContent {
-    grid-column: 1 / 5;
-  }
-}
-
-/* Small Mobile - up to 479px */
-@media (max-width: 479px) {
-  .heroContent {
-    padding: 0 var(--grid-container-padding-mobile);
-    grid-template-columns: 1fr;
-  }
-  
-  .heroTextContent {
-    grid-column: 1;
+  .scrollIndicator svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--meditation-text-tertiary);
+    stroke-width: 2;
+    fill: none;
   }
 }
 
@@ -783,94 +343,128 @@
   pointer-events: none;
 }
 
-/* Scroll indicator for desktop only */
-.scrollIndicator {
-  display: none;
-}
-
-@media (min-width: 1025px) {
-  .scrollIndicator {
-    display: block;
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 24px;
-    height: 36px;
-    opacity: 0.5;
-    /* Disabled for performance - animation: gentleFloat 3s ease-in-out infinite; */
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .heroWrapper {
+    min-height: 100vh;
+    padding: 80px 20px 0 20px;
   }
-  
-  .scrollIndicator svg {
+
+  .heroContent {
+    padding: 0 20px;
+    gap: 32px;
+    align-items: center;
+    text-align: center;
+    animation: none;
+  }
+
+  .centeredContent {
+    gap: 24px;
+    padding: 0;
+  }
+
+  .mainTitle {
+    font-size: 2.5rem;
+    animation: none;
+  }
+
+  .mainSubtitle {
+    font-size: 1.1rem;
+    animation: none;
+  }
+
+  /* App Buttons Mobile Layout */
+  .appButtonsColumn {
+    position: static;
     width: 100%;
-    height: 100%;
-    stroke: var(--meditation-text-tertiary);
-    stroke-width: 2;
-    fill: none;
-  }
-}
-
-/* ===== DEFAULT DESKTOP LAYOUT (1025px+) ===== */
-@media (min-width: 1025px) {
-  .heroContent {
-    grid-template-columns: var(--grid-template-standard);
-    padding: 0 var(--grid-container-padding);
-  }
-  
-  .heroTextContent {
-    grid-column: 1 / 10; /* First 9 columns - UPDATED */
-    align-items: flex-start;
-    text-align: left;
-  }
-  
-  .titleGroup {
-    align-items: flex-start;
-    text-align: left;
-  }
-  
-  .description {
-    text-align: left;
-    max-width: 500px; /* Remove max-width constraint */
-  }
-  
-  .appButtons {
-    justify-content: flex-start; /* Left-align app buttons */
-  }
-}
-
-/* ===== DEFAULT MOBILE LAYOUT (up to 767px) ===== */
-@media (max-width: 767px) {
-  .heroContent {
-    grid-template-columns: 1fr;
-  }
-  
-  .heroTextContent {
-    grid-column: 1 / 2;
+    flex-direction: column;
     align-items: center;
-    text-align: center;
+    gap: 1rem;
+    margin-top: 8rem;
   }
-  
-  .titleGroup {
-    align-items: center;
-    text-align: center;
+
+  .appButton {
+    width: 100%;
+    max-width: 300px;
+    min-height: 56px;
+    padding: 1.25rem 1.5rem;
   }
-  
-  .description {
-    text-align: center;
+
+  .appIcon {
+    width: 28px;
+    height: 28px;
+    color: rgba(120, 105, 135, 0.85);
   }
-  
-  .appButtons {
-    justify-content: center;
+
+  .downloadText {
+    font-size: 0.8rem;
+  }
+
+  .storeText {
+    font-size: 1.1rem;
+  }
+
+  .gradientBackground {
+    opacity: 0.5;
   }
 }
 
-/* Update title group for centered layout */
-.centeredContent .titleGroup {
-  align-items: center;
-  text-align: center;
+/* Small mobile adjustments */
+@media (max-width: 480px) {
+  .mainTitle {
+    font-size: 2rem;
+  }
+
+  .mainSubtitle {
+    font-size: 1rem;
+  }
+
+  .appButton {
+    max-width: 280px;
+    min-height: 52px;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .appIcon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .downloadText {
+    font-size: 0.75rem;
+  }
+
+  .storeText {
+    font-size: 1rem;
+  }
 }
 
-/* Update description max-width for centered layout */
-.centeredContent .description {
-  max-width: 600px;
+/* Very small mobile (iPhone SE, etc) */
+@media (max-width: 375px) {
+  .appButton {
+    max-width: 260px;
+    min-height: 48px;
+    padding: 1rem 1rem;
+  }
+
+  .appIcon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .downloadText {
+    font-size: 0.7rem;
+  }
+
+  .storeText {
+    font-size: 0.95rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1440px) {
+  .heroContent {
+    max-width: 1400px;
+    padding: 0 5rem;
+  }
 }

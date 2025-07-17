@@ -1,87 +1,89 @@
 import styles from './HoldMeditateSection.module.css'
 
+// Define the column data to reduce repetition
+const columns = [
+  {
+    id: 'select',
+    title: 'SELECT',
+    description: 'Choose a scene to begin your session',
+    image: 'https://embrace-website-images.s3.us-east-2.amazonaws.com/select.png',
+    alt: 'Select - Choose a scene interface'
+  },
+  {
+    id: 'immerse',
+    title: 'IMMERSE',
+    description: 'Feel the immersive view and haptics guide your breath',
+    image: 'https://embrace-website-images.s3.us-east-2.amazonaws.com/immerse.png',
+    alt: 'Immerse - Guided breathing with haptic feedback'
+  },
+  {
+    id: 'journal',
+    title: 'JOURNAL',
+    description: 'Reflect and save your thoughts post-session',
+    image: 'https://embrace-website-images.s3.us-east-2.amazonaws.com/journal.png',
+    alt: 'Journal - Post-session reflection and tracking'
+  }
+]
+
 interface HoldMeditateSectionProps {
-  isMobile: boolean
+  isMobile?: boolean;
 }
 
-export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
+export function HoldMeditateSection({ isMobile: _isMobile }: HoldMeditateSectionProps) {
+  // You can now use isMobile inside this component if needed
   return (
-    <div 
+    <section 
       id="hold-meditate-section"
       className={styles.section}
+      aria-labelledby="hold-meditate-title"
     >
       <div className={styles.sectionContent}>
-        {/* Header Row - contains the header positioned on right */}
+        {/* Header Row */}
         <div className={styles.headerRow}>
-          {/* Header Section - positioned on right side (columns 7-12) */}
-          <div className={styles.headerSection}>
-            <div className={`gradient-text-primary ${styles.mainTitle} ${isMobile ? styles.mainTitleMobile : styles.mainTitleDesktop}`}>
+          {/* Header Section - positioned on right side */}
+          <header className={styles.headerSection}>
+            <h2 id="hold-meditate-title" className={styles.mainTitle}>
               Just hold it and let yourself feel
-            </div>
+            </h2>
             
-            <div className={styles.description}>
+            <p className={styles.description}>
               iEmbraceland provides soothing haptic feedback that helps you reconnect with calm, one vibration at a time
-            </div>
-          </div>
+            </p>
+          </header>
         </div>
 
         {/* Bottom Section - Three columns */}
-        <div className={styles.bottomSection}>
-          {/* Select Column */}
-          <div className={styles.column}>
-            <div className={styles.columnTitle}>
-              SELECT
-            </div>
-            <div className={styles.columnDescription}>
-              Choose a scene to begin your session
-            </div>
-            <div className={`${styles.phoneFrame} ${isMobile ? styles.phoneFrameMobile : styles.phoneFrameDesktop}`}>
-              <img 
-                src="https://embrace-website-images.s3.us-east-2.amazonaws.com/select.png" 
-                alt="Select - Choose a scene interface"
-                className={styles.phoneScreen}
-                loading="eager"
-              />
-            </div>
-          </div>
-
-          {/* Immerse Column */}
-          <div className={styles.column}>
-            <div className={styles.columnTitle}>
-              IMMERSE
-            </div>
-            <div className={styles.columnDescription}>
-              Feel the immersive view and haptics guide your breath
-            </div>
-            <div className={`${styles.phoneFrame} ${isMobile ? styles.phoneFrameMobile : styles.phoneFrameDesktop}`}>
-              <img 
-                src="https://embrace-website-images.s3.us-east-2.amazonaws.com/immerse.png" 
-                alt="Immerse - Guided breathing with haptic feedback"
-                className={styles.phoneScreen}
-                loading="eager"
-              />
-            </div>
-          </div>
-
-          {/* Journal Column */}
-          <div className={styles.column}>
-            <div className={styles.columnTitle}>
-              JOURNAL
-            </div>
-            <div className={styles.columnDescription}>
-              Reflect and save your thoughts post-session
-            </div>
-            <div className={`${styles.phoneFrame} ${isMobile ? styles.phoneFrameMobile : styles.phoneFrameDesktop}`}>
-              <img 
-                src="https://embrace-website-images.s3.us-east-2.amazonaws.com/journal.png" 
-                alt="Journal - Post-session reflection and tracking"
-                className={styles.phoneScreen}
-                loading="eager"
-              />
-            </div>
-          </div>
+        <div className={styles.bottomSection} role="list">
+          {columns.map((column) => (
+            <article 
+              key={column.id} 
+              className={styles.column}
+              role="listitem"
+            >
+              <h3 className={styles.columnTitle}>
+                {column.title}
+              </h3>
+              <p className={styles.columnDescription}>
+                {column.description}
+              </p>
+              <div 
+                className={styles.phoneFrame}
+                role="img"
+                aria-label={column.alt}
+              >
+                <img 
+                  src={column.image} 
+                  alt={column.alt}
+                  className={styles.phoneScreen}
+                  loading="lazy"
+                  width="300"
+                  height="600"
+                />
+              </div>
+            </article>
+          ))}
         </div>
       </div>
-    </div>
+    </section>
   )
 }
