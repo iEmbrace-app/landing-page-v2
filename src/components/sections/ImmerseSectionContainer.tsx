@@ -1,74 +1,111 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import { ComponentLoadingFallback } from '../LazyComponents'
 
 interface ImmerseSectionContainerProps {
   isMobile?: boolean
 }
 
-// Lazy load the ImmerseSection only when it's about to be visible
-const LazyImmerseSection = () => import('./ImmerseSection').then(module => ({ default: module.ImmerseSection }))
+// Properly type the lazy component
+const LazyImmerseSection = lazy(() => 
+  import('./ImmerseSection').then(module => ({ 
+    default: module.ImmerseSection 
+  }))
+) as React.LazyExoticComponent<React.ComponentType<{ isMobile?: boolean }>>
 
 export function ImmerseSectionContainer({ isMobile }: ImmerseSectionContainerProps) {
-  const [Component, setComponent] = useState<React.ComponentType<{ isMobile?: boolean }> | null>(null)
-  const [isVisible, setIsVisible] = useState(false)
+  const [shouldLoad, setShouldLoad] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const hasLoadedRef = useRef(false)
 
   useEffect(() => {
+    // Prevent re-running if already loaded
+    if (hasLoadedRef.current) return
+
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !isVisible) {
-            setIsVisible(true)
-            
-            // Load the component when it's about to become visible
-            LazyImmerseSection().then((module) => {
-              setComponent(() => module.default)
-            })
-          }
-        })
+        const [entry] = entries
+        if (entry.isIntersecting && !hasLoadedRef.current) {
+          setShouldLoad(true)
+          hasLoadedRef.current = true
+          observer.disconnect() // Stop observing once loaded
+        }
       },
       { 
-        // Load when the element is 50% visible or 200px before it becomes visible
-        rootMargin: '200px 0px',
-        threshold: 0.1
+        // Preload slightly before visible
+        rootMargin: '100px 0px',
+        threshold: 0
       }
     )
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current)
+    const currentRef = containerRef.current
+    if (currentRef) {
+      observer.observe(currentRef)
     }
 
     return () => {
       observer.disconnect()
     }
-  }, [isVisible])
+  }, [])
 
   return (
-    <div ref={containerRef} style={{ minHeight: '100vh' }}>
-      {Component ? (
-        <Component isMobile={isMobile} />
-      ) : isVisible ? (
-        <ComponentLoadingFallback />
+    <div 
+      ref={containerRef} 
+      style={{ 
+        minHeight: '120vh', // Match the ImmerseSection height
+        position: 'relative'
+      }}
+    >
+      {shouldLoad ? (
+        <Suspense fallback={<ComponentLoadingFallback />}>
+          <LazyImmerseSection isMobile={isMobile} />
+        </Suspense>
       ) : (
-        // Placeholder while not visible with explicit dimensions
+        // Placeholder with matching height and theme
         <div style={{ 
-          height: '100vh', 
+          height: '120vh',
           width: '100%',
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #a8e6cf, #dda0dd)',
-          color: '#003b5e',
-          minHeight: '600px', // Prevent shifts on small screens
-          position: 'relative'
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #4facfe 100%)',
+          backgroundSize: '400% 400%',
+          animation: 'gradientShift 15s ease-in-out infinite',
+          color: 'white',
+          position: 'relative',
+          overflow: 'hidden'
         }}>
+          {/* Optional subtle loading indicator */}
           <div style={{ 
-            textAlign: 'center',
-            maxWidth: '500px',
-            padding: '2rem'
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.3)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}>
-            <h2 style={{ margin: '0 0 1rem 0', fontSize: '2rem' }}>Immerse Yourself</h2>
-            <p style={{ margin: '0', fontSize: '1.1rem' }}>Scroll down to explore tranquil environments</p>
+            <div style={{ 
+              textAlign: 'center',
+              maxWidth: '500px',
+              padding: '2rem'
+            }}>
+              <h2 style={{ 
+                margin: '0 0 1rem 0', 
+                fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+                fontWeight: 300,
+                fontFamily: "'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif"
+              }}>
+                Immerse Yourself
+              </h2>
+              <p style={{ 
+                margin: '0', 
+                fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+                fontWeight: 300,
+                opacity: 0.9,
+                fontFamily: "'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif"
+              }}>
+                Tranquil environments await
+              </p>
+            </div>
           </div>
         </div>
       )}
