@@ -1,34 +1,190 @@
-.footer {
-  background: 
-    /* Soft purple gradient - maintaining the lilac theme */
-    linear-gradient(
-      135deg,
-      #faf8ff 0%,      /* Ultra light lilac */
-      #f5f2ff 20%,     /* Very light lilac */
-      #f0ebff 40%,     /* Soft light lilac */
-      #ebe4ff 60%,     /* Light lilac */
-      #e6ddff 80%,     /* Gentle lilac */
-      #e1d6ff 100%     /* Soft lilac */
-    );
-  margin-top: 5rem;
-  position: relative;
-  overflow: hidden;
+/* CSS Variables for consistent theming - matching hero section */
+:root {
+  /* Original Theme Colors for Hero Section */
+  --meditation-primary: rgba(106, 76, 147, 1);
+  --meditation-secondary: rgba(186, 148, 255, 1);
+  --meditation-glow: rgba(255, 255, 255, 0.9);
+  --meditation-text-primary: rgba(80, 60, 100, 0.9);
+  --meditation-text-secondary: rgba(80, 60, 100, 0.7);
+  --meditation-text-tertiary: rgba(80, 60, 100, 0.6);
+  
+  /* Footer specific variables */
+  --footer-gradient-primary: rgba(230, 220, 255, 0.4);
+  --footer-gradient-secondary: rgba(245, 240, 255, 0.3);
+  --footer-gradient-tertiary: rgba(255, 255, 255, 0.2);
 }
 
-/* Decorative dashed border */
-.borderLine {
+/* Performance optimizations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .footer *,
+  .footer *::before,
+  .footer *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+}
+
+/* Performance optimization: Disable heavy animations on mobile */
+@media (max-width: 768px) {
+  .footerAurora,
+  .footerAuroraOverlay {
+    display: none !important;
+  }
+}
+
+/* Enhanced aurora animations - More dynamic like hero */
+@keyframes footerAurora {
+  0%, 100% {
+    background-position: 0% 50%, 50% 50%;
+  }
+  50% {
+    background-position: 100% 50%, 75% 25%;
+  }
+}
+
+@keyframes footerGlow {
+  0%, 100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 0.4;
+  }
+  33% {
+    transform: translateY(-8px) scale(1.03) rotate(1deg);
+    opacity: 0.7;
+  }
+  66% {
+    transform: translateY(-4px) scale(0.98) rotate(-0.5deg);
+    opacity: 0.5;
+  }
+}
+
+.footer {
+  position: relative;
+  margin-top: 0;
+  overflow: hidden;
+  min-height: 600px;
+  
+  /* Remove the harsh gradient - let the background image blend naturally */
+  background: transparent;
+  
+  /* Enhanced backdrop filter for depth */
+  backdrop-filter: blur(40px) saturate(1.2);
+  -webkit-backdrop-filter: blur(40px) saturate(1.2);
+}
+
+/* Footer Background Image - Matches hero section approach */
+.footerImageSection {
   position: absolute;
-  top: 0;
-  left: 2rem;
-  right: 2rem;
-  height: 1px;
-  border-top: 2px dashed rgba(106, 90, 122, 0.3);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.footerImageContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.footerBackgroundImage {
+  position: absolute;
+  inset: 0;
+  background: url('https://embrace-website-images.s3.us-east-2.amazonaws.com/footer.jpeg') center/cover no-repeat;
+  opacity: 0.85;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  filter: saturate(1.1) contrast(1.05);
+}
+
+/* Matching hero's gradient overlay style - WITH TOP FADE */
+.footerGradientOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.98) 5%,
+    rgba(250, 248, 255, 0.9) 10%,
+    rgba(245, 243, 255, 0.8) 20%,
+    rgba(240, 235, 255, 0.6) 40%,
+    rgba(235, 228, 255, 0.4) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Soft gradient background overlay - matching hero */
+.gradientBackground {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(250, 248, 255, 0.6) 25%,
+    rgba(245, 243, 255, 0.4) 50%,
+    rgba(240, 235, 255, 0.2) 75%,
+    transparent 100%
+  );
+  z-index: 3;
+}
+
+/* Aurora effect - matching hero */
+.footerAurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.auroraEffect {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  filter: blur(6px);
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(248, 248, 255, 0.5) 25%,
+    rgba(240, 235, 255, 0.4) 50%,
+    rgba(250, 250, 255, 0.5) 75%,
+    rgba(255, 255, 255, 0.6) 100%
+  );
+  background-size: 200% 200%;
+  animation: footerAurora 35s ease-in-out infinite;
+}
+
+.footerAuroraOverlay {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: soft-light;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(250, 248, 255, 0.15) 30%,
+    rgba(240, 235, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+  background-size: 200% 200%;
+  opacity: 0.4;
+  animation: footerAurora 40s ease-in-out infinite reverse;
+}
+
+/* Remove the harsh border line */
+.borderLine {
+  display: none;
 }
 
 .container {
+  position: relative;
+  z-index: 10;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 4rem 2rem 2rem;
+  padding: 6rem 2rem 3rem;
 }
 
 .mainContent {
@@ -39,14 +195,16 @@
   justify-items: start;
 }
 
-/* Section Headers */
+/* Section Headers - Matching hero's subtle style */
 .sectionHeader {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
+  font-weight: 400;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: rgba(74, 58, 90, 0.6);
+  color: rgba(60, 45, 80, 0.8);
   margin-bottom: 1.5rem;
+  position: relative;
 }
 
 /* Services Section */
@@ -61,23 +219,28 @@
 }
 
 .servicesList li {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .serviceLink {
-  font-size: 1.75rem;
-  font-weight: 500;
-  color: rgba(74, 58, 90, 0.9);
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--meditation-text-primary);
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: inline-block;
+  position: relative;
+  opacity: 0.9;
 }
 
 .serviceLink:hover {
-  opacity: 0.7;
+  opacity: 1;
+  transform: translateX(5px);
+  color: var(--meditation-primary);
 }
 
-/* Newsletter Section */
+/* Newsletter Section - Matching hero's glass morphism */
 .newsletterSection {
   grid-column: 2 / 3;
   justify-self: center;
@@ -89,71 +252,121 @@
 
 .inputWrapper {
   position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50px;
+  backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 
+    0 8px 32px rgba(106, 76, 147, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.inputWrapper:focus-within {
+  transform: translateY(-1px);
+  border-color: rgba(186, 148, 255, 0.4);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    0 12px 40px rgba(106, 76, 147, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 3px rgba(186, 148, 255, 0.1);
 }
 
 .emailInput {
-  width: 480px;
+  width: 400px;
   background: transparent;
   border: none;
-  border-bottom: 2px dotted rgba(106, 90, 122, 0.4);
-  padding: 0.5rem 4rem 0.5rem 0;
+  padding: 1.25rem 4.25rem 1.25rem 2rem;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 1rem;
-  color: rgba(74, 58, 90, 0.9);
+  color: var(--meditation-text-primary);
   outline: none;
-  transition: border-color 0.2s ease;
 }
 
 .emailInput::placeholder {
-  color: rgba(74, 58, 90, 0.5);
+  color: rgba(80, 60, 100, 0.5);
+  font-weight: 400;
+  transition: all 0.3s ease;
 }
 
-.emailInput:focus {
-  border-color: rgba(74, 58, 90, 0.8);
+.emailInput:focus::placeholder {
+  opacity: 0.7;
 }
 
 .submitButton {
   position: absolute;
-  right: 0;
-  top: 0;
-  background: none;
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #6865BF 0%, #A496D9 100%);
   border: none;
-  padding: 0.5rem;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 4px 12px rgba(106, 76, 147, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .submitButton:hover {
-  opacity: 0.7;
+  transform: translateY(-50%) scale(1.08);
+  box-shadow: 
+    0 6px 20px rgba(106, 76, 147, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, #7875CF 0%, #B4A6E9 100%);
+}
+
+.submitButton:active {
+  transform: translateY(-50%) scale(0.96);
+  box-shadow: 
+    0 2px 8px rgba(106, 76, 147, 0.2),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .arrow {
   width: 1.5rem;
   height: 1.5rem;
-  color: rgba(74, 58, 90, 0.9);
+  color: white;
+  stroke-width: 2.5;
+  transform: translateX(1px);
+  transition: transform 0.3s ease;
+}
+
+.submitButton:hover .arrow {
+  transform: translateX(3px);
 }
 
 .successMessage {
   position: absolute;
-  top: 2.5rem;
+  top: 3.5rem;
   left: 0;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 0.875rem;
-  color: #10b981;
+  color: var(--meditation-primary);
   margin: 0;
+  font-weight: 300;
 }
 
-/* Instagram Section */
+/* Instagram Section - Cleaner integration */
 .instagramSection {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px dotted rgba(106, 90, 122, 0.2);
 }
 
 .instagramText {
-  font-size: 0.875rem;
-  color: rgba(74, 58, 90, 0.6);
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.75rem;
+  color: var(--meditation-text-secondary);
   font-weight: 400;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -163,28 +376,33 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: rgba(142, 111, 199, 0.08);
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  color: rgba(142, 111, 199, 0.7);
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(240, 235, 255, 0.1) 50%,
+    rgba(230, 220, 255, 0.12) 100%
+  );
+  border-radius: 10px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  color: var(--meditation-primary);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  opacity: 0.8;
 }
 
 .instagramLink:hover {
-  background: rgba(142, 111, 199, 0.15);
-  transform: translateY(-1px);
-  color: rgba(142, 111, 199, 0.9);
+  opacity: 1;
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .instagramIcon {
   width: 18px;
   height: 18px;
   transition: transform 0.3s ease;
-}
-
-.instagramLink:hover .instagramIcon {
-  transform: scale(1.1);
 }
 
 /* Sitemap Section */
@@ -200,27 +418,31 @@
 }
 
 .sitemapList li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .sitemapLink {
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 1rem;
-  color: rgba(74, 58, 90, 0.9);
+  color: var(--meditation-text-primary);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   position: relative;
+  font-weight: 400;
+  opacity: 0.9;
 }
 
 .sitemapLink:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  opacity: 1;
+  color: var(--meditation-primary);
 }
 
-/* Bottom Section */
+/* Bottom Section - Simplified and elegant */
 .bottomSection {
-  border-top: 1px solid rgba(106, 90, 122, 0.2);
+  border-top: 1px solid rgba(106, 76, 147, 0.1);
   padding-top: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
+  position: relative;
 }
 
 .bottomContent {
@@ -231,7 +453,7 @@
   gap: 2rem;
 }
 
-/* Logo */
+/* Logo - Matching hero's gradient text */
 .logoSection {
   flex: 0 0 auto;
 }
@@ -247,26 +469,37 @@
   height: 48px;
   width: auto;
   object-fit: contain;
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
+  opacity: 0.9;
 }
 
 .logoImage:hover {
   transform: scale(1.05);
+  opacity: 1;
 }
 
 .logoText {
-  font-size: 3rem;
-  font-weight: 900;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 2.8rem;
+  font-weight: 300;
   letter-spacing: -0.05em;
-  color: rgba(74, 58, 90, 0.9);
   display: inline-block;
+  
+  /* Gradient text matching hero */
+  background: linear-gradient(135deg, #6865BF, #A496D9, #D3BDF2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .copyright {
-  font-size: 0.75rem;
-  color: rgba(74, 58, 90, 0.5);
-  letter-spacing: 0.1em;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.7rem;
+  color: rgba(60, 45, 80, 0.7);
+  letter-spacing: 1.2px;
   margin: 0;
+  font-weight: 400;
+  text-transform: uppercase;
 }
 
 /* Bottom Right Section */
@@ -279,23 +512,29 @@
 
 .credits,
 .support {
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: rgba(74, 58, 90, 0.5);
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 1.2px;
+  color: rgba(60, 45, 80, 0.7);
   display: flex;
   align-items: center;
   gap: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
 }
 
 .creditLink {
-  font-weight: 500;
-  color: rgba(74, 58, 90, 0.9);
+  font-weight: 400;
+  color: var(--meditation-text-primary);
   text-decoration: none;
-  transition: text-decoration 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  opacity: 0.8;
 }
 
 .creditLink:hover {
-  text-decoration: underline;
+  opacity: 1;
+  color: var(--meditation-primary);
 }
 
 .legalLinks {
@@ -304,23 +543,47 @@
 }
 
 .legalLink {
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: rgba(74, 58, 90, 0.5);
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 1.2px;
+  color: rgba(60, 45, 80, 0.7);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  font-weight: 400;
+  text-transform: uppercase;
+  opacity: 0.9;
 }
 
 .legalLink:hover {
-  color: rgba(74, 58, 90, 0.9);
+  opacity: 1;
+  color: var(--meditation-primary);
 }
 
-/* Responsive Design */
+/* Premium gradient overlay - matching hero */
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(230, 220, 255, 0.08) 0%,
+    rgba(235, 225, 255, 0.06) 25%,
+    rgba(245, 240, 255, 0.04) 50%,
+    rgba(250, 248, 255, 0.02) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
 
-/* Large tablets and small laptops - 1200px and below */
+/* Responsive adjustments */
 @media (max-width: 1200px) {
   .container {
-    padding: 3.5rem 1.5rem 2rem;
+    padding: 5rem 1.5rem 2.5rem;
   }
   
   .mainContent {
@@ -328,14 +591,13 @@
   }
   
   .emailInput {
-    width: 400px;
+    width: 350px;
   }
 }
 
-/* Tablets - 1024px and below */
 @media (max-width: 1024px) {
   .container {
-    padding: 3rem 1.5rem 1.5rem;
+    padding: 4rem 1.5rem 2rem;
   }
   
   .mainContent {
@@ -352,7 +614,7 @@
   }
   
   .emailInput {
-    width: 350px;
+    width: 320px;
   }
 
   .instagramSection {
@@ -378,15 +640,10 @@
   }
 }
 
-/* Small tablets - 768px and below */
+/* Mobile responsive newsletter input */
 @media (max-width: 768px) {
   .container {
-    padding: 2.5rem 1rem 1.5rem;
-  }
-
-  .borderLine {
-    left: 1rem;
-    right: 1rem;
+    padding: 3rem 1rem 1.5rem;
   }
   
   .mainContent {
@@ -394,21 +651,30 @@
   }
 
   .serviceLink {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+  }
+  
+  .inputWrapper {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
   }
   
   .emailInput {
     width: 100%;
-    max-width: 300px;
+    padding: 1.25rem 3.5rem 1.25rem 1.75rem;
+    font-size: 1rem;
   }
 
-  .instagramSection {
-    margin-top: 1.5rem;
-    padding-top: 1.25rem;
+  .submitButton {
+    width: 48px;
+    height: 48px;
+    right: 3px;
   }
 
-  .instagramText {
-    font-size: 0.8125rem;
+  .arrow {
+    width: 1.3rem;
+    height: 1.3rem;
   }
 
   .logoText {
@@ -421,36 +687,25 @@
   }
 }
 
-/* Large mobile phones - 640px and below */
 @media (max-width: 640px) {
-  .container {
-    padding: 2rem 1rem 1rem;
+  .serviceLink {
+    font-size: 1.2rem;
   }
   
-  .mainContent {
-    gap: 2rem;
-  }
-
-  .serviceLink {
-    font-size: 1.25rem;
+  .inputWrapper {
+    max-width: 300px;
   }
   
   .emailInput {
-    width: 100%;
-    max-width: 280px;
-    font-size: 0.9rem;
-  }
-
-  .instagramLink {
-    width: 28px;
-    height: 28px;
-  }
-
-  .instagramIcon {
-    width: 16px;
-    height: 16px;
+    font-size: 0.95rem;
+    padding: 1.15rem 3.25rem 1.15rem 1.5rem;
   }
   
+  .submitButton {
+    width: 46px;
+    height: 46px;
+  }
+
   .logoText {
     font-size: 1.75rem;
   }
@@ -458,95 +713,43 @@
   .logoImage {
     height: 40px;
   }
-  
-  .bottomRight {
-    gap: 1rem;
-  }
-  
-  .legalLinks {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
 }
 
-/* Small mobile phones - 480px and below */
 @media (max-width: 480px) {
   .container {
-    padding: 1.5rem 0.75rem 1rem;
-  }
-  
-  .mainContent {
-    gap: 1.5rem;
+    padding: 2.5rem 0.75rem 1rem;
   }
 
   .serviceLink {
     font-size: 1.1rem;
   }
   
+  .inputWrapper {
+    max-width: 280px;
+  }
+  
   .emailInput {
-    width: 100%;
-    max-width: 250px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    padding: 1.1rem 3.25rem 1.1rem 1.25rem;
   }
-
-  .instagramSection {
-    margin-top: 1.25rem;
-    padding-top: 1rem;
-    gap: 0.5rem;
+  
+  .submitButton {
+    width: 44px;
+    height: 44px;
+    right: 3px;
   }
-
-  .instagramText {
-    font-size: 0.75rem;
-  }
-
-  .logo {
-    gap: 8px;
-  }
-
-  .logoImage {
-    height: 32px;
+  
+  .arrow {
+    width: 1.2rem;
+    height: 1.2rem;
   }
 
   .logoText {
     font-size: 1.5rem;
-    letter-spacing: -0.02em;
   }
 
-  .legalLinks {
-    gap: 0.75rem;
-  }
-
-  .sectionHeader {
-    font-size: 0.65rem;
-  }
-}
-
-/* Extra small screens - 375px and below */
-@media (max-width: 375px) {
-  .container {
-    padding: 1rem 0.5rem 0.75rem;
-  }
-  
-  .serviceLink {
-    font-size: 1rem;
-  }
-  
-  .emailInput {
-    max-width: 220px;
-    font-size: 0.8rem;
-  }
-  
-  .logoText {
-    font-size: 1.25rem;
-  }
-  
   .logoImage {
-    height: 28px;
-  }
-  
-  .sectionHeader {
-    font-size: 0.6rem;
+    height: 32px;
   }
 }
 
@@ -557,25 +760,21 @@
   .submitButton,
   .creditLink,
   .legalLink,
-  .instagramLink {
+  .instagramLink,
+  .logoImage {
     transition: none;
   }
 }
 
-/* High contrast mode */
 @media (prefers-contrast: high) {
   .footer {
-    background: #f0ebff;
-  }
-
-  .borderLine {
-    border-color: rgba(74, 58, 90, 0.6);
+    background: linear-gradient(180deg, #f5f2ff 0%, #e6ddff 100%);
   }
 
   .serviceLink,
   .sitemapLink,
   .emailInput,
-  .logo {
+  .logoText {
     color: rgba(74, 58, 90, 1);
   }
 
@@ -584,6 +783,6 @@
   .credits,
   .support,
   .legalLink {
-    color: rgba(74, 58, 90, 0.7);
+    color: rgba(74, 58, 90, 0.8);
   }
 }

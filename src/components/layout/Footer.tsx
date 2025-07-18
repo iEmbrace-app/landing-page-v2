@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import styles from './Footer.module.css'
-import instagramIcon from '../../assets/icons/instagram.png'
 
 export const Footer = () => {
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(false)
 
-  const handleEmailSubmit = (e: React.FormEvent) => {
+  const handleEmailSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (email.trim()) {
       setIsSubscribed(true)
@@ -17,8 +16,22 @@ export const Footer = () => {
 
   return (
     <footer className={styles.footer} role="contentinfo">
-      {/* Decorative border line */}
-      <div className={styles.borderLine} />
+      {/* Footer Background Image - Matching hero section approach */}
+      <div className={styles.footerImageSection}>
+        <div className={styles.footerImageContainer}>
+          <div className={styles.footerBackgroundImage} />
+          <div className={styles.footerGradientOverlay} />
+        </div>
+      </div>
+      
+      {/* Soft gradient background overlay */}
+      <div className={styles.gradientBackground} />
+      
+      {/* Aurora effects - matching hero section */}
+      <div className={styles.footerAurora}>
+        <div className={styles.auroraEffect} />
+        <div className={styles.footerAuroraOverlay} />
+      </div>
 
       <div className={styles.container}>
         <div className={styles.mainContent}>
@@ -37,7 +50,7 @@ export const Footer = () => {
           {/* Newsletter Section */}
           <div className={styles.newsletterSection}>
             <h3 className={styles.sectionHeader}>SIGN UP TO OUR NEWSLETTER</h3>
-            <form onSubmit={handleEmailSubmit} className={styles.newsletterForm}>
+            <div className={styles.newsletterForm}>
               <div className={styles.inputWrapper}>
                 <input
                   type="email"
@@ -49,7 +62,7 @@ export const Footer = () => {
                   aria-label="Email address for newsletter"
                 />
                 <button
-                  type="submit"
+                  onClick={handleEmailSubmit}
                   className={styles.submitButton}
                   aria-label="Subscribe to newsletter"
                 >
@@ -63,7 +76,7 @@ export const Footer = () => {
                   ✓ Subscribed successfully
                 </p>
               )}
-            </form>
+            </div>
             <div className={styles.instagramSection}>
               <span className={styles.instagramText}>Follow us on Instagram</span>
               <a 
@@ -73,14 +86,9 @@ export const Footer = () => {
                 className={styles.instagramLink}
                 aria-label="Follow us on Instagram"
               >
-                <img 
-                  src={instagramIcon} 
-                  alt="Instagram" 
-                  className={styles.instagramIcon} 
-                  width={24} 
-                  height={24} 
-                  style={{ display: 'inline-block' }}
-                />
+                <svg className={styles.instagramIcon} fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
               </a>
             </div>
           </div>
@@ -136,4 +144,4 @@ export const Footer = () => {
       </div>
     </footer>
   )
-}
+} 
