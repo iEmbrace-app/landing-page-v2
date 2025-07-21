@@ -14,6 +14,32 @@
       gtag('js', new Date());
       gtag('config', 'G-VY0EX2XX5P');
     </script>
+
+    <!-- Custom Analytics Helpers -->
+    <script>
+      // Global analytics helper
+      window.trackEvent = function(eventName, parameters) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', eventName, parameters);
+        }
+      };
+
+      // Track visibility of sections
+      window.trackSectionView = function(sectionName) {
+        window.trackEvent('section_view', {
+          section_name: sectionName,
+          page_location: window.location.href
+        });
+      };
+
+      // Track engagement time
+      window.trackEngagementTime = function(sectionName, timeSpent) {
+        window.trackEvent('section_engagement', {
+          section_name: sectionName,
+          engagement_time_seconds: timeSpent
+        });
+      };
+    </script>
     
     <!-- Cache control for static assets -->
     <meta http-equiv="Cache-Control" content="public, max-age=31536000">

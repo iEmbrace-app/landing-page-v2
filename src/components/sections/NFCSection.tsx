@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { TbNfc } from 'react-icons/tb'
 import { Button } from '../ui'
+import { useAnalytics } from '../../hooks/useAnalytics'
 import styles from './NFCSection.module.css'
 
 interface NFCSectionProps {
@@ -9,6 +10,11 @@ interface NFCSectionProps {
 
 export function NFCSection({ isMobile = false }: NFCSectionProps) {
   const [currentCardIndex, setCurrentCardIndex] = useState(1) // Start with middle card active
+  
+  // Analytics tracking
+  const { trackEvent, sectionRef } = useAnalytics({ 
+    sectionName: 'nfc_section' 
+  })
 
   const nfcCards = [
     {
@@ -34,14 +40,36 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
     }
   ]
 
+  // Track card changes
+  const handleCardChange = (newIndex: number, interactionType: 'manual_click' | 'auto_rotation') => {
+    setCurrentCardIndex(newIndex)
+    trackEvent('nfc_card_view', {
+      card_name: nfcCards[newIndex].title,
+      card_index: newIndex,
+      interaction_type: interactionType,
+      is_mobile: isMobile
+    })
+  }
+
+  // Track CTA click
+  const handleExploreClick = () => {
+    trackEvent('cta_click', {
+      button_text: 'Explore NFC Cards',
+      button_location: 'nfc_section',
+      destination: 'shopify_store',
+      current_card: nfcCards[currentCardIndex].title
+    })
+  }
+
   // Auto-rotate cards every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentCardIndex(prev => (prev + 1) % nfcCards.length)
+      const newIndex = (currentCardIndex + 1) % nfcCards.length
+      handleCardChange(newIndex, 'auto_rotation')
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [nfcCards.length])
+  }, [currentCardIndex, nfcCards.length])
 
   const getCardPositionClass = (index: number) => {
     // Don't apply position classes on mobile - let CSS handle it
@@ -70,6 +98,7 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
 
   return (
     <section 
+      ref={sectionRef}
       id="nfc-soundscapes"
       aria-label="NFC Soundscapes Experience"
       className={styles.section}
@@ -104,6 +133,7 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
               target="_blank" 
               rel="noopener noreferrer"
               style={{ textDecoration: 'none' }}
+              onClick={handleExploreClick}
             >
               <Button 
                 variant="cta" 
@@ -144,8 +174,8 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
                       })
                     }}
                     onClick={() => {
-                      if (!isMobile) {
-                        setCurrentCardIndex(index)
+                      if (!isMobile && index !== currentCardIndex) {
+                        handleCardChange(index, 'manual_click')
                       }
                     }}
                   >

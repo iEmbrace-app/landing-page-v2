@@ -14,6 +14,32 @@
       gtag('js', new Date());
       gtag('config', 'G-VY0EX2XX5P');
     </script>
+
+    <!-- Custom Analytics Helpers -->
+    <script>
+      // Global analytics helper
+      window.trackEvent = function(eventName, parameters) {
+        if (typeof gtag !== 'undefined') {
+          gtag('event', eventName, parameters);
+        }
+      };
+
+      // Track visibility of sections
+      window.trackSectionView = function(sectionName) {
+        window.trackEvent('section_view', {
+          section_name: sectionName,
+          page_location: window.location.href
+        });
+      };
+
+      // Track engagement time
+      window.trackEngagementTime = function(sectionName, timeSpent) {
+        window.trackEvent('section_engagement', {
+          section_name: sectionName,
+          engagement_time_seconds: timeSpent
+        });
+      };
+    </script>
     
     <!-- Cache control for static assets -->
     <meta http-equiv="Cache-Control" content="public, max-age=31536000">
@@ -111,7 +137,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
     <title>Calming Place - The Pause you Deserve</title>
-    <script type="module" crossorigin src="/assets/index-CUobt2ki.js"></script>
+    <script type="module" crossorigin src="/assets/index-B00mBjYK.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-DFd6LVBd.js">
     <link rel="modulepreload" crossorigin href="/assets/motion-CCatt6lk.js">
     <link rel="modulepreload" crossorigin href="/assets/icons-D_GUJwYN.js">

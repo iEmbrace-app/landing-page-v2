@@ -1,21 +1,52 @@
 import { useState } from 'react'
+import { useAnalytics } from '../../hooks/useAnalytics'
 import styles from './Footer.module.css'
 
 export const Footer = () => {
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(false)
 
+  // Analytics tracking
+  const { trackEvent, sectionRef } = useAnalytics({ 
+    sectionName: 'footer',
+    trackEngagement: false // Footer doesn't need engagement time tracking
+  })
+
   const handleEmailSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (email.trim()) {
+      // Track newsletter signup
+      trackEvent('newsletter_signup', {
+        signup_location: 'footer',
+        email_domain: email.split('@')[1] || 'invalid' // Track domain only for privacy
+      })
+      
       setIsSubscribed(true)
       setEmail('')
       setTimeout(() => setIsSubscribed(false), 3000)
     }
   }
 
+  // Track footer link clicks
+  const handleFooterLinkClick = (linkType: string, linkText: string, linkHref: string) => {
+    trackEvent('footer_link_click', {
+      link_type: linkType,
+      link_text: linkText,
+      link_destination: linkHref
+    })
+  }
+
+  // Track social media clicks
+  const handleSocialClick = (platform: string, url: string) => {
+    trackEvent('social_media_click', {
+      platform: platform,
+      link_location: 'footer',
+      destination_url: url
+    })
+  }
+
   return (
-    <footer className={styles.footer} role="contentinfo">
+    <footer ref={sectionRef as React.RefObject<HTMLElement>} className={styles.footer} role="contentinfo">
       {/* Footer Background Image - Matching hero section approach */}
       <div className={styles.footerImageSection}>
         <div className={styles.footerImageContainer}>
@@ -39,11 +70,51 @@ export const Footer = () => {
           <div className={styles.servicesSection}>
             <h3 className={styles.sectionHeader}>SERVICES</h3>
             <ul className={styles.servicesList}>
-              <li><a href="#guides" className={styles.serviceLink}>Meditation Guides</a></li>
-              <li><a href="#sessions" className={styles.serviceLink}>Live Sessions</a></li>
-              <li><a href="#programs" className={styles.serviceLink}>Programs</a></li>
-              <li><a href="#community" className={styles.serviceLink}>Community</a></li>
-              <li><a href="#resources" className={styles.serviceLink}>Resources</a></li>
+              <li>
+                <a 
+                  href="#guides" 
+                  className={styles.serviceLink}
+                  onClick={() => handleFooterLinkClick('service', 'Meditation Guides', '#guides')}
+                >
+                  Meditation Guides
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#sessions" 
+                  className={styles.serviceLink}
+                  onClick={() => handleFooterLinkClick('service', 'Live Sessions', '#sessions')}
+                >
+                  Live Sessions
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#programs" 
+                  className={styles.serviceLink}
+                  onClick={() => handleFooterLinkClick('service', 'Programs', '#programs')}
+                >
+                  Programs
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#community" 
+                  className={styles.serviceLink}
+                  onClick={() => handleFooterLinkClick('service', 'Community', '#community')}
+                >
+                  Community
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#resources" 
+                  className={styles.serviceLink}
+                  onClick={() => handleFooterLinkClick('service', 'Resources', '#resources')}
+                >
+                  Resources
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -85,6 +156,7 @@ export const Footer = () => {
                 rel="noopener noreferrer" 
                 className={styles.instagramLink}
                 aria-label="Follow us on Instagram"
+                onClick={() => handleSocialClick('instagram', 'https://instagram.com/_iembrace_')}
               >
                 <svg className={styles.instagramIcon} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -97,11 +169,51 @@ export const Footer = () => {
           <div className={styles.sitemapSection}>
             <h3 className={styles.sectionHeader}>SITEMAP</h3>
             <ul className={styles.sitemapList}>
-              <li><a href="#home" className={styles.sitemapLink}>Home</a></li>
-              <li><a href="#about" className={styles.sitemapLink}>About</a></li>
-              <li><a href="#sessions" className={styles.sitemapLink}>Sessions</a></li>
-              <li><a href="#blog" className={styles.sitemapLink}>Blog</a></li>
-              <li><a href="#contact" className={styles.sitemapLink}>Contact</a></li>
+              <li>
+                <a 
+                  href="#home" 
+                  className={styles.sitemapLink}
+                  onClick={() => handleFooterLinkClick('sitemap', 'Home', '#home')}
+                >
+                  Home
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#about" 
+                  className={styles.sitemapLink}
+                  onClick={() => handleFooterLinkClick('sitemap', 'About', '#about')}
+                >
+                  About
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#sessions" 
+                  className={styles.sitemapLink}
+                  onClick={() => handleFooterLinkClick('sitemap', 'Sessions', '#sessions')}
+                >
+                  Sessions
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#blog" 
+                  className={styles.sitemapLink}
+                  onClick={() => handleFooterLinkClick('sitemap', 'Blog', '#blog')}
+                >
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#contact" 
+                  className={styles.sitemapLink}
+                  onClick={() => handleFooterLinkClick('sitemap', 'Contact', '#contact')}
+                >
+                  Contact
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -130,13 +242,37 @@ export const Footer = () => {
             <div className={styles.bottomRight}>
               <div className={styles.support}>
                 <span>DEV SUPPORT</span>
-                <a href="#contact" className={styles.creditLink}>CONTACT US</a>
+                <a 
+                  href="#contact" 
+                  className={styles.creditLink}
+                  onClick={() => handleFooterLinkClick('support', 'Contact Us', '#contact')}
+                >
+                  CONTACT US
+                </a>
               </div>
 
               <nav className={styles.legalLinks} aria-label="Legal navigation">
-                <a href="#privacy" className={styles.legalLink}>PRIVACY</a>
-                <a href="#cookie" className={styles.legalLink}>COOKIE</a>
-                <a href="#terms" className={styles.legalLink}>TERMS</a>
+                <a 
+                  href="#privacy" 
+                  className={styles.legalLink}
+                  onClick={() => handleFooterLinkClick('legal', 'Privacy', '#privacy')}
+                >
+                  PRIVACY
+                </a>
+                <a 
+                  href="#cookie" 
+                  className={styles.legalLink}
+                  onClick={() => handleFooterLinkClick('legal', 'Cookie', '#cookie')}
+                >
+                  COOKIE
+                </a>
+                <a 
+                  href="#terms" 
+                  className={styles.legalLink}
+                  onClick={() => handleFooterLinkClick('legal', 'Terms', '#terms')}
+                >
+                  TERMS
+                </a>
               </nav>
             </div>
           </div>
@@ -144,4 +280,4 @@ export const Footer = () => {
       </div>
     </footer>
   )
-} 
+}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import styles from "./FloatingNav.module.css";
 
@@ -22,6 +22,40 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Track navigation clicks
+  const handleNavClick = useCallback((itemName: string, itemLink: string, location: 'desktop' | 'mobile') => {
+    if (window.trackEvent) {
+      window.trackEvent('navigation_click', {
+        nav_item: itemName,
+        nav_link: itemLink,
+        nav_location: location === 'desktop' ? 'floating_nav' : 'mobile_menu',
+        is_mobile: location === 'mobile'
+      });
+    }
+  }, []);
+
+  // Track CTA clicks
+  const handleCTAClick = useCallback((location: 'desktop' | 'mobile') => {
+    if (window.trackEvent) {
+      window.trackEvent('cta_click', {
+        button_text: 'Start Free Today',
+        button_location: location === 'desktop' ? 'floating_nav' : 'mobile_menu',
+        destination: 'app_store',
+        is_mobile: location === 'mobile'
+      });
+    }
+  }, []);
+
+  // Track mobile menu interactions
+  const handleMobileMenuToggle = useCallback((action: 'open' | 'close') => {
+    if (window.trackEvent) {
+      window.trackEvent('mobile_menu_toggle', {
+        action: action,
+        menu_location: 'floating_nav'
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,7 +93,7 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       if (isMobileMenuOpen && !target.closest(`.${styles['mobile-menu']}`)) {
-        setIsMobileMenuOpen(false);
+        closeMobileMenu();
       }
     };
 
@@ -78,11 +112,14 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
   }, [isMobileMenuOpen]);
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    const newState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(newState);
+    handleMobileMenuToggle(newState ? 'open' : 'close');
   };
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+    handleMobileMenuToggle('close');
   };
 
   return (
@@ -108,6 +145,7 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
               key={index}
               href={item.link}
               className={styles['nav-item']}
+              onClick={() => handleNavClick(item.name, item.link, 'desktop')}
             >
               {item.icon && (
                 <span className={styles['nav-item-icon']}>
@@ -126,6 +164,7 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
           aria-label="Download on the App Store"
           rel="noopener noreferrer"
           target="_blank"
+          onClick={() => handleCTAClick('desktop')}
         >
           <span style={{ position: 'relative', zIndex: 10 }}>Start Free Today</span>
         </a>
@@ -174,7 +213,10 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
                     key={index}
                     href={item.link}
                     className={styles['mobile-menu-item']}
-                    onClick={closeMobileMenu}
+                    onClick={() => {
+                      handleNavClick(item.name, item.link, 'mobile');
+                      closeMobileMenu();
+                    }}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 + 0.2 }}
@@ -185,15 +227,21 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
               </div>
 
               {/* Mobile CTA Button */}
-              <motion.button
+              <motion.a
+                href="https://apps.apple.com/us/app/iembraceland/id6740446690"
                 className={styles['mobile-cta-button']}
-                onClick={closeMobileMenu}
+                onClick={() => {
+                  handleCTAClick('mobile');
+                  closeMobileMenu();
+                }}
+                rel="noopener noreferrer"
+                target="_blank"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navItems.length * 0.1 + 0.3 }}
               >
                 Start Free Today
-              </motion.button>
+              </motion.a>
 
               {/* Mobile Menu Footer */}
               <motion.div

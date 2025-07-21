@@ -1,3 +1,4 @@
+import { useAnalytics } from '../../hooks/useAnalytics'
 import styles from './HoldMeditateSection.module.css'
 
 // Define the column data to reduce repetition
@@ -29,10 +30,25 @@ interface HoldMeditateSectionProps {
   isMobile?: boolean;
 }
 
-export function HoldMeditateSection({ isMobile: _isMobile }: HoldMeditateSectionProps) {
-  // You can now use isMobile inside this component if needed
+export function HoldMeditateSection({ isMobile }: HoldMeditateSectionProps) {
+  // Analytics tracking
+  const { trackEvent, sectionRef } = useAnalytics({ 
+    sectionName: 'hold_meditate_section' 
+  })
+
+  // Track column interactions
+  const handleColumnInteraction = (columnId: string, columnTitle: string) => {
+    trackEvent('feature_column_view', {
+      column_id: columnId,
+      column_title: columnTitle,
+      section: 'hold_meditate',
+      is_mobile: isMobile
+    })
+  }
+
   return (
     <section 
+      ref={sectionRef as React.RefObject<HTMLElement>}
       id="hold-meditate-section"
       className={styles.section}
       aria-labelledby="hold-meditate-title"
@@ -59,6 +75,14 @@ export function HoldMeditateSection({ isMobile: _isMobile }: HoldMeditateSection
               key={column.id} 
               className={styles.column}
               role="listitem"
+              onClick={() => handleColumnInteraction(column.id, column.title)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  handleColumnInteraction(column.id, column.title)
+                }
+              }}
+              tabIndex={0}
+              style={{ cursor: 'pointer' }}
             >
               <h3 className={styles.columnTitle}>
                 {column.title}

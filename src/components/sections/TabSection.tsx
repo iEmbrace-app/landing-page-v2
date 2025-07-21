@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { TabKey, TabContentData } from '../../types'
 import { TabButton } from '../ui/TabButton'
 import { Button } from '../ui'
+import { useAnalytics } from '../../hooks/useAnalytics'
 import mindfulnessIcon from '../../assets/icons/mindfulness 1.svg'
 import rippleIcon from '../../assets/icons/ripple.svg'
 import sineIcon from '../../assets/icons/sine.svg'
@@ -43,6 +44,12 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
   const [expandedItem, setExpandedItem] = useState<string | null>(null)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const previousTabRef = useRef<TabKey>(activeTab)
+
+  // Analytics tracking - sectionRef is the actual ref we'll use
+  const { trackEvent, sectionRef } = useAnalytics({ 
+    sectionName: 'features_section' 
+  })
 
   // Reset expanded item when tab changes
   useEffect(() => {
@@ -67,15 +74,50 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
   }, [isDropdownOpen])
 
   const handleTabClick = (tabKey: TabKey) => {
+    // Track tab change
+    trackEvent('feature_tab_click', {
+      tab_name: TAB_CONFIG.find(t => t.key === tabKey)?.label,
+      tab_key: tabKey,
+      previous_tab: previousTabRef.current,
+      previous_tab_name: TAB_CONFIG.find(t => t.key === previousTabRef.current)?.label,
+      is_mobile: isMobile
+    })
+
+    previousTabRef.current = tabKey
     setActiveTab(tabKey)
+    
     if (isMobile) {
       setIsDropdownOpen(false) // Close dropdown when tab is selected on mobile
     }
-    // Remove the immediate setExpandedItem(null) since useEffect handles it
   }
   
   const toggleExpanded = (itemKey: string) => {
+    const isExpanding = expandedItem !== itemKey
+    const itemType = itemKey.includes('feature-1') ? 'feature_1' : 
+                    itemKey.includes('feature-2') ? 'feature_2' : 'description'
+    
+    // Track feature item expansion/collapse
+    trackEvent('feature_item_toggle', {
+      item_key: itemKey,
+      item_type: itemType,
+      action: isExpanding ? 'expand' : 'collapse',
+      active_tab: activeTab,
+      active_tab_name: TAB_CONFIG.find(t => t.key === activeTab)?.label,
+      is_mobile: isMobile
+    })
+
     setExpandedItem(prev => prev === itemKey ? null : itemKey)
+  }
+
+  // Track dropdown interactions
+  const handleDropdownToggle = () => {
+    const newState = !isDropdownOpen
+    trackEvent('feature_dropdown_toggle', {
+      action: newState ? 'open' : 'close',
+      current_tab: activeTab,
+      is_mobile: isMobile
+    })
+    setIsDropdownOpen(newState)
   }
   
   const renderExpandableItem = (
@@ -110,7 +152,7 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
   }
 
   return (
-    <div className={`${styles.section} ${isMobile ? styles.mobile : ''}`}>
+    <div ref={sectionRef as React.RefObject<HTMLDivElement>} className={`${styles.section} ${isMobile ? styles.mobile : ''}`}>
       <div className={`${styles.sectionContent} ${isMobile ? styles.mobile : ''}`}>
         {/* Header Section */}
         <div className={`${styles.headerSection} ${isMobile ? styles.mobile : ''}`}>
@@ -132,7 +174,7 @@ export function TabSection({ isMobile, tabContent }: TabSectionProps) {
                   variant="ghost"
                   size="medium"
                   className={`${styles.dropdownButton} ${isDropdownOpen ? styles.open : ''}`}
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  onClick={handleDropdownToggle}
                   aria-expanded={isDropdownOpen}
                   aria-haspopup="listbox"
                   enableTextAnimation={false}
