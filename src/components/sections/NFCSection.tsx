@@ -40,13 +40,12 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
     }
   ]
 
-  // Track card changes
-  const handleCardChange = (newIndex: number, interactionType: 'manual_click' | 'auto_rotation') => {
+  // Track ONLY manual card clicks
+  const handleManualCardChange = (newIndex: number) => {
     setCurrentCardIndex(newIndex)
-    trackEvent('nfc_card_view', {
+    trackEvent('nfc_card_click', {
       card_name: nfcCards[newIndex].title,
       card_index: newIndex,
-      interaction_type: interactionType,
       is_mobile: isMobile
     })
   }
@@ -61,15 +60,14 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
     })
   }
 
-  // Auto-rotate cards every 5 seconds
+  // Auto-rotate cards every 5 seconds (NO TRACKING)
   useEffect(() => {
     const interval = setInterval(() => {
-      const newIndex = (currentCardIndex + 1) % nfcCards.length
-      handleCardChange(newIndex, 'auto_rotation')
+      setCurrentCardIndex(prev => (prev + 1) % nfcCards.length)
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [currentCardIndex, nfcCards.length])
+  }, [nfcCards.length])
 
   const getCardPositionClass = (index: number) => {
     // Don't apply position classes on mobile - let CSS handle it
@@ -98,7 +96,7 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
 
   return (
     <section 
-      ref={sectionRef}
+      ref={sectionRef as React.RefObject<HTMLElement>}
       id="nfc-soundscapes"
       aria-label="NFC Soundscapes Experience"
       className={styles.section}
@@ -175,7 +173,7 @@ export function NFCSection({ isMobile = false }: NFCSectionProps) {
                     }}
                     onClick={() => {
                       if (!isMobile && index !== currentCardIndex) {
-                        handleCardChange(index, 'manual_click')
+                        handleManualCardChange(index)
                       }
                     }}
                   >
