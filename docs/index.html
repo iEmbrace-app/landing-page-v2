@@ -17,8 +17,14 @@
 
     <!-- Custom Analytics Helpers -->
     <script>
-      // Global analytics helper
+      // Global analytics helper with filtering
       window.trackEvent = function(eventName, parameters) {
+        // Block old/unwanted events
+        if (eventName === 'nfc_card_view') {
+          console.warn('Blocked deprecated nfc_card_view event');
+          return; // Don't track this event
+        }
+        
         if (typeof gtag !== 'undefined') {
           gtag('event', eventName, parameters);
         }
@@ -137,7 +143,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
     <title>Calming Place - The Pause you Deserve</title>
-    <script type="module" crossorigin src="/assets/index-B00mBjYK.js"></script>
+    <script type="module" crossorigin src="/assets/index-BoxXUQPq.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/vendor-DFd6LVBd.js">
     <link rel="modulepreload" crossorigin href="/assets/motion-CCatt6lk.js">
     <link rel="modulepreload" crossorigin href="/assets/icons-D_GUJwYN.js">

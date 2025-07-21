@@ -17,8 +17,14 @@
 
     <!-- Custom Analytics Helpers -->
     <script>
-      // Global analytics helper
+      // Global analytics helper with filtering
       window.trackEvent = function(eventName, parameters) {
+        // Block old/unwanted events
+        if (eventName === 'nfc_card_view') {
+          console.warn('Blocked deprecated nfc_card_view event');
+          return; // Don't track this event
+        }
+        
         if (typeof gtag !== 'undefined') {
           gtag('event', eventName, parameters);
         }
