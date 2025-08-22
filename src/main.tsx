@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import { ErrorBoundary } from './components/ErrorBoundary.tsx'
 import './index.css'
+import Privacy from './pages/Privacy'
 
 // Service Worker Registration for Performance Optimization
 async function registerServiceWorker() {
@@ -47,10 +48,31 @@ async function registerServiceWorker() {
   }
 }
 
+function Router() {
+  const [hash, setHash] = useState<string>(window.location.hash)
+
+  useEffect(() => {
+    const onHashChange = () => setHash(window.location.hash)
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
+  // Treat hashes with "#/" as routed pages; otherwise render the landing sections app
+  const routePath = hash.startsWith('#/') ? hash.slice(2) : ''
+  const base = routePath.split(/[?#]/)[0]
+
+  switch (base) {
+    case 'privacy':
+      return <Privacy />
+    default:
+      return <App />
+  }
+}
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <App />
+      <Router />
     </ErrorBoundary>
   </React.StrictMode>,
 )

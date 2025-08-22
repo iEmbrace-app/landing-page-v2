@@ -1,0 +1,272 @@
+/* Privacy Page Styles - Clean, professional legal document styling */
+
+/* Root wrapper to scope styles to the Privacy page */
+#privacy-root {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #374151;
+  padding: 64px 24px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Center the content like a document */
+#privacy-root .privacy-card {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* Top bar with back link */
+#privacy-root .privacy-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+}
+
+#privacy-root .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #3030F1;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  font-weight: 600;
+}
+
+#privacy-root .back-link:hover {
+  text-decoration: underline;
+}
+
+#privacy-root .back-link svg {
+  color: currentColor;
+}
+
+/* Logo/Badge at top */
+#privacy-root .privacy-logo {
+  display: block;
+  margin: 0 auto 50px;
+  width: 178px;
+  height: 38px;
+}
+
+/* Typography - Headings */
+#privacy-root .privacy-title,
+#privacy-root .heading-1,
+#privacy-root h1,
+#privacy-root h2 {
+  font-family: Arial, sans-serif;
+  font-size: 26px;
+  color: #000000;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+#privacy-root .privacy-title {
+  text-align: center;
+  margin-top: 0;
+}
+
+#privacy-root .heading-2,
+#privacy-root h3 {
+  font-family: Arial, sans-serif;
+  font-size: 17px;
+  color: #000000;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+#privacy-root .privacy-subtitle {
+  font-family: Arial, sans-serif;
+  color: #595959;
+  font-size: 15px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+/* Body Text */
+#privacy-root .body-text,
+#privacy-root p,
+#privacy-root li,
+#privacy-root td {
+  color: #595959;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+/* Links */
+#privacy-root .privacy-link,
+#privacy-root a {
+  color: #3030F1;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  word-break: break-word;
+  text-decoration: none;
+}
+
+#privacy-root .privacy-link:hover,
+#privacy-root a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+#privacy-root ul,
+#privacy-root ol {
+  padding-left: 20px;
+  margin: 15px 0;
+  list-style-type: square;
+}
+
+#privacy-root ol {
+  list-style-type: decimal;
+}
+
+#privacy-root li {
+  margin: 8px 0;
+  padding-left: 5px;
+}
+
+#privacy-root ul ul {
+  list-style-type: circle;
+}
+
+#privacy-root ul ul ul {
+  list-style-type: square;
+}
+
+/* Sections */
+#privacy-root .privacy-section {
+  margin: 40px 0;
+  padding-top: 20px;
+}
+
+#privacy-root .privacy-intro,
+#privacy-root .privacy-summary,
+#privacy-root .summary-points {
+  margin: 30px 0;
+}
+
+#privacy-root .privacy-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+/* Table of Contents */
+#privacy-root .privacy-toc {
+  margin: 40px 0;
+  padding: 20px 0;
+}
+
+#privacy-root .toc-list {
+  padding-left: 25px;
+}
+
+#privacy-root .toc-list li {
+  margin: 10px 0;
+}
+
+/* Tables */
+#privacy-root .privacy-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #000000;
+  margin: 20px 0;
+}
+
+#privacy-root .privacy-table thead {
+  background-color: #f9fafb;
+}
+
+#privacy-root .privacy-table th,
+#privacy-root .privacy-table td {
+  border: 1px solid #000000;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #595959;
+}
+
+#privacy-root .privacy-table th {
+  font-weight: bold;
+  color: #000000;
+}
+
+#privacy-root .privacy-table .text-center {
+  text-align: center;
+}
+
+/* Contact Address */
+#privacy-root .contact-address {
+  margin: 20px 0;
+  padding: 15px 0;
+}
+
+/* Make in-page anchor jumps stop below any sticky nav */
+#privacy-root [id] {
+  scroll-margin-top: 80px;
+}
+
+/* Strong text */
+#privacy-root strong {
+  font-weight: bold;
+  color: inherit;
+}
+
+/* Emphasis text */
+#privacy-root em {
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #privacy-root {
+    padding: 32px 16px;
+  }
+
+  #privacy-root .privacy-title,
+  #privacy-root .heading-1,
+  #privacy-root h1,
+  #privacy-root h2 {
+    font-size: 22px;
+  }
+
+  #privacy-root .heading-2,
+  #privacy-root h3 {
+    font-size: 16px;
+  }
+
+  #privacy-root .privacy-table {
+    font-size: 12px;
+  }
+
+  #privacy-root .privacy-table th,
+  #privacy-root .privacy-table td {
+    padding: 6px;
+  }
+}
+
+/* Print styles */
+@media print {
+  #privacy-root {
+    padding: 20px;
+  }
+
+  #privacy-root .privacy-link,
+  #privacy-root a {
+    color: #000000;
+    text-decoration: none;
+  }
+}

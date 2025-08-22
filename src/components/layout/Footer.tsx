@@ -253,9 +253,9 @@ export const Footer = () => {
 
               <nav className={styles.legalLinks} aria-label="Legal navigation">
                 <a 
-                  href="#privacy" 
+                  href="#/privacy" 
                   className={styles.legalLink}
-                  onClick={() => handleFooterLinkClick('legal', 'Privacy', '#privacy')}
+                  onClick={() => handleFooterLinkClick('legal', 'Privacy', '#/privacy')}
                 >
                   PRIVACY
                 </a>
