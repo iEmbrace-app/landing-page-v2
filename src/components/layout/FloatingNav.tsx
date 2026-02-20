@@ -130,7 +130,7 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
         {/* Logo */}
         <div className={styles['logo-container']}>
           <img
-            src="https://embrace-website-images.s3.us-east-2.amazonaws.com/logo.png"
+            src="https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/logo.png"
             alt="Embraceland Logo"
             className={styles['logo-icon']}
             style={{ width: 32, height: 32, marginRight: 8 }}
@@ -251,7 +251,7 @@ export const FloatingNav: React.FC<FloatingNavProps> = ({
                 transition={{ delay: navItems.length * 0.1 + 0.4 }}
               >
                 <img
-                  src="https://embrace-website-images.s3.us-east-2.amazonaws.com/logo.png"
+                  src="https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/logo.png"
                   alt="Embraceland Logo"
                   className={styles['mobile-menu-logo']}
                 />

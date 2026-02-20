@@ -14,21 +14,21 @@ export function SimpleModal({ isOpen, onClose }: SimpleModalProps) {
   const nfcCards = [
     {
       id: 1,
-      image: "https://embrace-website-images.s3.us-east-2.amazonaws.com/nfc-card-one.png",
+      image: "https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/nfc-card-one.png",
       title: "Gentle Rain & Thunder",
       artist: "Peaceful Nature Collection",
       description: "Immerse yourself in the calming sounds of gentle rainfall and distant thunder"
     },
     {
       id: 2,
-      image: "https://embrace-website-images.s3.us-east-2.amazonaws.com/nfc-card-two.png",
+      image: "https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/nfc-card-two.png",
       title: "Forest Meditation",
       artist: "Woodland Serenity Series",
       description: "Deep forest ambience with birds chirping and rustling leaves"
     },
     {
       id: 3,
-      image: "https://embrace-website-images.s3.us-east-2.amazonaws.com/nfc-card-three.png",
+      image: "https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/nfc-card-three.png",
       title: "Ocean Waves",
       artist: "Coastal Mindfulness",
       description: "Rhythmic ocean waves meeting the shore for ultimate relaxation"

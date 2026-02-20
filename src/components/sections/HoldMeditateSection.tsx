@@ -7,21 +7,21 @@ const columns = [
     id: 'select',
     title: 'SELECT',
     description: 'Choose a scene to begin your session',
-    image: 'https://embrace-website-images.s3.us-east-2.amazonaws.com/select.png',
+    image: 'https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/select.png',
     alt: 'Select - Choose a scene interface'
   },
   {
     id: 'immerse',
     title: 'IMMERSE',
     description: 'Feel the immersive view and haptics guide your breath',
-    image: 'https://embrace-website-images.s3.us-east-2.amazonaws.com/immerse.png',
+    image: 'https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/immerse.png',
     alt: 'Immerse - Guided breathing with haptic feedback'
   },
   {
     id: 'journal',
     title: 'JOURNAL',
     description: 'Reflect and save your thoughts post-session',
-    image: 'https://embrace-website-images.s3.us-east-2.amazonaws.com/journal.png',
+    image: 'https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/journal.png',
     alt: 'Journal - Post-session reflection and tracking'
   }
 ]

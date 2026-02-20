@@ -225,7 +225,7 @@ export const Footer = () => {
             <div className={styles.logoSection}>
               <div className={styles.logo}>
                 <img 
-                  src="https://embrace-website-images.s3.us-east-2.amazonaws.com/logo.png"
+                  src="https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/logo.png"
                   alt="Embraceland logo"
                   className={styles.logoImage}
                   loading="lazy"

@@ -23,11 +23,11 @@ const TAB_CONFIG = [
 
 // Map each tab to its corresponding image
 const TAB_IMAGES: Record<TabKey, string> = {
-  'anchor-focus': 'https://embrace-website-images.s3.us-east-2.amazonaws.com/mindful.jpeg',
-  'release-stress': 'https://embrace-website-images.s3.us-east-2.amazonaws.com/stress.jpeg',
-  'enhance-sleep': 'https://embrace-website-images.s3.us-east-2.amazonaws.com/sleep.jpeg',
-  'sync-mind-body': 'https://embrace-website-images.s3.us-east-2.amazonaws.com/sync.jpeg',
-  'practice-stillness': 'https://embrace-website-images.s3.us-east-2.amazonaws.com/stillness.jpeg'
+  'anchor-focus': 'https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/mindful.jpeg',
+  'release-stress': 'https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/stress.jpeg',
+  'enhance-sleep': 'https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/sleep.jpeg',
+  'sync-mind-body': 'https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/sync.jpeg',
+  'practice-stillness': 'https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/stillness.jpeg'
 }
 
 // Alt text descriptions for each tab image

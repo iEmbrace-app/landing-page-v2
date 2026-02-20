@@ -61,7 +61,7 @@
 .backgroundImage {
   position: absolute;
   inset: 0;
-  background: url('https://embrace-website-images.s3.us-east-2.amazonaws.com/background.jpeg') center 1%/cover no-repeat;
+  background: url('https://embrace-website-images-dst.s3.us-east-2.amazonaws.com/background.jpeg') center 1%/cover no-repeat;
   opacity: 0.85;
   transform: translateZ(0);
   backface-visibility: hidden;
