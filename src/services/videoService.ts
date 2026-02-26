@@ -1,17 +1,17 @@
 // Direct AWS S3 video URLs - all videos now hosted on AWS S3
 const videoUrls = {
-  'zen.mp4': 'https://iembrace-website-videos.s3.us-east-2.amazonaws.com/zen.mp4',
-  'forest.mp4': 'https://iembrace-website-videos.s3.us-east-2.amazonaws.com/forest.mp4',
-  'lake.mp4': 'https://iembrace-website-videos.s3.us-east-2.amazonaws.com/lake.mp4',
-  'campfire.mp4': 'https://iembrace-website-videos.s3.us-east-2.amazonaws.com/campfire.mp4'
+  'zen.mp4': 'https://iembrace-website-videos-dst.s3.us-east-2.amazonaws.com/zen.mp4',
+  'forest.mp4': 'https://iembrace-website-videos-dst.s3.us-east-2.amazonaws.com/forest.mp4',
+  'lake.mp4': 'https://iembrace-website-videos-dst.s3.us-east-2.amazonaws.com/lake.mp4',
+  'campfire.mp4': 'https://iembrace-website-videos-dst.s3.us-east-2.amazonaws.com/campfire.mp4'
 }
 
 // Direct AWS S3 audio URLs
 const audioUrls = {
-  'zen.mp4': 'https://embrace-website-audio.s3.us-east-2.amazonaws.com/zengarden.mp3',
-  'forest.mp4': 'https://embrace-website-audio.s3.us-east-2.amazonaws.com/forest.mp3',
-  'lake.mp4': 'https://embrace-website-audio.s3.us-east-2.amazonaws.com/lake.mp3',
-  'campfire.mp4': 'https://embrace-website-audio.s3.us-east-2.amazonaws.com/campfire.mp3'
+  'zen.mp4': 'https://embrace-website-audio-dst.s3.us-east-2.amazonaws.com/zengarden.mp3',
+  'forest.mp4': 'https://embrace-website-audio-dst.s3.us-east-2.amazonaws.com/forest.mp3',
+  'lake.mp4': 'https://embrace-website-audio-dst.s3.us-east-2.amazonaws.com/lake.mp3',
+  'campfire.mp4': 'https://embrace-website-audio-dst.s3.us-east-2.amazonaws.com/campfire.mp3'
 }
 
 // Video interface
